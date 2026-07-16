@@ -7,12 +7,13 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const FRAME_COUNT = 18;
+const FRAME_COUNT = 50;
 
 /** Images are `image-1.png` .. `image-18.png` under /public. */
-const getFrameSrc = (index: number): string =>
-  `/assets/images/hero/image-${index + 1}.png`;
-
+const getFrameSrc = (index: number): string => {
+  const frameNumber = (index + 1).toString().padStart(3, "0");
+  return `/assets/images/hero_2/frame_${frameNumber}.jpg`;
+};
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
