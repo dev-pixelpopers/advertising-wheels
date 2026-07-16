@@ -84,11 +84,14 @@ export default function Hero() {
       window.addEventListener('resize', resizeCanvas);
 
       // Scrub the frame index across the tall parent's scroll progress (no pin).
+      // A numeric scrub (0.5) eases the playhead toward the scroll position so
+      // frames blend with momentum like a video rather than snapping instantly.
+      // No `snap` on the value: we let the eased number flow and only repaint
+      // when the rounded frame actually changes (skips redundant drawImage calls).
       const frameState = { frame: 0 };
       gsap.to(frameState, {
         frame: FRAME_COUNT - 1,
         ease: 'none',
-        snap: { frame: 1 },
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
@@ -97,8 +100,10 @@ export default function Hero() {
         },
         onUpdate: () => {
           const frame = Math.round(frameState.frame);
-          currentFrameRef.current = frame;
-          renderFrame(frame);
+          if (frame !== currentFrameRef.current) {
+            currentFrameRef.current = frame;
+            renderFrame(frame);
+          }
         },
       });
 

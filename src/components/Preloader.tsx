@@ -26,17 +26,23 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       const timeline = gsap.timeline();
 
       timeline
-        .from('.preloader-word', {
-          xPercent: 120,
-          autoAlpha: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          stagger: 0.18,
-        })
+        // fromTo (not from) so the end state is explicit: the words are hidden
+        // in CSS to avoid a pre-hydration flash, and GSAP drives them to visible.
+        .fromTo(
+          '.preloader-word',
+          { xPercent: 120, autoAlpha: 0 },
+          {
+            xPercent: 0,
+            autoAlpha: 1,
+            duration: 1.5,
+            ease: 'power3.out',
+            stagger: 0.5,
+          },
+        )
         // Hold on the finished phrase for a beat before exiting.
         .to(containerRef.current, {
           yPercent: -100,
-          duration: 0.9,
+          duration: 1,
           ease: 'power4.inOut',
           delay: 0.6,
           onComplete: () => {
@@ -63,13 +69,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           {LEAD_WORDS.map((word) => (
             <span
               key={word}
-              className="preloader-word font-tommy-bold text-5xl leading-none md:text-7xl lg:text-8xl"
+              className="preloader-word font-tommy-bold text-5xl leading-none opacity-0 md:text-7xl lg:text-8xl"
             >
               {word}
             </span>
           ))}
         </div>
-        <span className="preloader-word font-tommy-bold text-5xl leading-none md:text-7xl lg:text-8xl">
+        <span className="preloader-word font-tommy-bold text-5xl leading-none opacity-0 md:text-7xl lg:text-8xl">
           {FINAL_WORD}
         </span>
       </div>
