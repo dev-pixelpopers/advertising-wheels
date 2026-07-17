@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
@@ -17,6 +17,21 @@ interface PreloaderProps {
 
 export default function Preloader({ onComplete }: PreloaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isTextDone, setIsTextDone] = useState(false);
+
+  // The slide-off exit must also wait for the page (heavy assets like the
+  // Hero video included) to finish loading, not just the text sequence.
+  useEffect(() => {
+    if (document.readyState === 'complete') {
+      setIsPageLoaded(true);
+      return;
+    }
+    const handleLoad = () => setIsPageLoaded(true);
+    window.addEventListener('load', handleLoad);
+    return () => window.removeEventListener('load', handleLoad);
+  }, []);
 
   useGSAP(
     () => {
@@ -24,6 +39,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       document.body.style.overflow = 'hidden';
 
       const timeline = gsap.timeline();
+      timelineRef.current = timeline;
 
       timeline
         // fromTo (not from) so the end state is explicit: the words are hidden
@@ -56,6 +72,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             ease: 'power3.out',
           },
         )
+        // Hold right before the slide-off; the effect below resumes the
+        // timeline once the window 'load' event has also fired.
+        .call(() => setIsTextDone(true))
+        .addPause()
         .to(containerRef.current, {
           yPercent: -100,
           duration: 1,
@@ -73,6 +93,14 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     },
     { scope: containerRef },
   );
+
+  // Release the pause only when both the text sequence and the page load
+  // are complete, in whichever order they happen.
+  useEffect(() => {
+    if (isTextDone && isPageLoaded) {
+      timelineRef.current?.play();
+    }
+  }, [isTextDone, isPageLoaded]);
 
   return (
     <div

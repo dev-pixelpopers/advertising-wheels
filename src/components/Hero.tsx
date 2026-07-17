@@ -7,12 +7,11 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const FRAME_COUNT = 50;
+const FRAME_COUNT = 151;
 
-/** Images are `image-1.png` .. `image-18.png` under /public. */
 const getFrameSrc = (index: number): string => {
-  const frameNumber = (index + 1).toString().padStart(3, "0");
-  return `/assets/images/hero_2/frame_${frameNumber}.jpg`;
+  const frameNumber = (index + 1).toString().padStart(4, "0");
+  return `/assets/images/hero_4/frame_${frameNumber}.webp`;
 };
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -27,7 +26,6 @@ export default function Hero() {
       const context = canvas?.getContext('2d');
       if (!canvas || !context) return;
 
-      // Draw an image so it fully covers the canvas (object-fit: cover).
       const drawCover = (image: HTMLImageElement): void => {
         const cw = canvas.width;
         const ch = canvas.height;
@@ -109,21 +107,21 @@ export default function Hero() {
       });
 
       // Reveal the headline as the sequence lands on its final frame.
-      gsap.fromTo(
-        textRef.current,
-        { autoAlpha: 0, x: -60 },
-        {
-          autoAlpha: 1,
-          x: 0,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: '85% bottom',
-            end: 'bottom bottom',
-            scrub: true,
-          },
-        },
-      );
+      // gsap.fromTo(
+      //   textRef.current,
+      //   { autoAlpha: 0, x: -60 },
+      //   {
+      //     autoAlpha: 1,
+      //     x: 0,
+      //     ease: 'power2.out',
+      //     scrollTrigger: {
+      //       trigger: containerRef.current,
+      //       start: '85% bottom',
+      //       end: 'bottom bottom',
+      //       scrub: 1,
+      //     },
+      //   },
+      // );
 
       return () => window.removeEventListener('resize', resizeCanvas);
     },
