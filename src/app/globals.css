@@ -51,3 +51,7 @@ body {
   scrollbar-width: none;
   /* Firefox */
 }
+
+.preloader-word {
+  transform: translateX(120%);
+}
