@@ -7,11 +7,11 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const FRAME_COUNT = 151;
+const FRAME_COUNT = 208;
 
 const getFrameSrc = (index: number): string => {
   const frameNumber = (index + 1).toString().padStart(4, "0");
-  return `/assets/images/hero_4/frame_${frameNumber}.webp`;
+  return `/assets/images/hero_7/frame_${frameNumber}.png`;
 };
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -130,7 +130,7 @@ export default function Hero() {
 
   return (
     <section ref={containerRef} className="relative h-[300vh] w-[100vw]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#1A1917]">
         <canvas ref={canvasRef} className="block h-full w-full" style={{
           width: "100%"
         }} />
