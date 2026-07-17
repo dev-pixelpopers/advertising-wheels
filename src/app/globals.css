@@ -10,11 +10,17 @@
   src: url("/assets/fonts/MADE-TOMMY-Regular-PERSONAL.otf") format('opentype');
 }
 
+@font-face {
+  font-family: 'MADE-TOMMY-MEDIUM';
+  src: url("/assets/fonts/MADE-TOMMY-Medium-PERSONAL.otf") format('opentype');
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --font-tommy-bold: 'MADE-TOMMY-BOLD', sans-serif;
   --font-tommy-regular: 'MADE-TOMMY-REGULAR', sans-serif;
+  --font-tommy-medium: 'MADE-TOMMY-MEDIUM', sans-serif;
 }
 
 @theme inline {
@@ -24,6 +30,7 @@
   --font-mono: var(--font-geist-mono);
   --font-tommy-bold: var(--font-tommy-bold);
   --font-tommy-regular: var(--font-tommy-regular);
+  --font-tommy-medium: var(--font-tommy-medium);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,41 +1,55 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import Header from '@/components/Header';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const FRAME_COUNT = 208;
 
 const getFrameSrc = (index: number): string => {
-  const frameNumber = (index + 1).toString().padStart(4, "0");
+  const frameNumber = (index + 1).toString().padStart(4, '0');
   return `/assets/images/hero_7/frame_${frameNumber}.png`;
 };
-export default function Hero() {
+
+interface HeroProps {
+  isReady: boolean;
+}
+
+export default function Hero({ isReady }: HeroProps) {
   const containerRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef<number>(0);
+  const divRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLDivElement>(null);
 
+  // 1. CANVAS PRELOADING & SCROLL SCRUBBING
   useGSAP(
     () => {
       const canvas = canvasRef.current;
       const context = canvas?.getContext('2d');
       if (!canvas || !context) return;
 
-      const drawCover = (image: HTMLImageElement): void => {
+      const drawCover = (image: HTMLImageElement, index: number): void => {
+        let height = image.naturalHeight;
+        let width = image.naturalWidth;
+        if (index < 50) {
+          const scale = (height - 100) / height;
+          height = height - (height * scale);
+          width = width - (width * scale);
+        }
         const cw = canvas.width;
         const ch = canvas.height;
-        const imageRatio = image.naturalWidth / image.naturalHeight;
+        const imageRatio = width / height;
         const canvasRatio = cw / ch;
 
-        let dw: number;
-        let dh: number;
-        let dx: number;
-        let dy: number;
+        let dw: number, dh: number, dx: number, dy: number;
 
         if (imageRatio > canvasRatio) {
           dh = ch;
@@ -56,7 +70,7 @@ export default function Hero() {
       const renderFrame = (index: number): void => {
         const image = imagesRef.current[index];
         if (image && image.complete && image.naturalWidth > 0) {
-          drawCover(image);
+          drawCover(image, index);
         }
       };
 
@@ -67,7 +81,7 @@ export default function Hero() {
         renderFrame(currentFrameRef.current);
       };
 
-      // Preload the full sequence; paint frame 0 as soon as it's ready.
+      // Preload image sequence
       const images: HTMLImageElement[] = [];
       for (let i = 0; i < FRAME_COUNT; i += 1) {
         const image = new Image();
@@ -82,15 +96,9 @@ export default function Hero() {
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
 
-      // Scrub the frame index across the tall parent's scroll progress (no pin).
-      // A numeric scrub (0.5) eases the playhead toward the scroll position so
-      // frames blend with momentum like a video rather than snapping instantly.
-      // No `snap` on the value: we let the eased number flow and only repaint
-      // when the rounded frame actually changes (skips redundant drawImage calls).
+      // Scroll scrubbing for the 208 frames
       const frameState = { frame: 0 };
-      gsap.to(frameState, {
-        frame: FRAME_COUNT - 1,
-        ease: 'none',
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
@@ -105,44 +113,92 @@ export default function Hero() {
           }
         },
       });
-
-      // Reveal the headline as the sequence lands on its final frame.
-      // gsap.fromTo(
-      //   textRef.current,
-      //   { autoAlpha: 0, x: -60 },
-      //   {
-      //     autoAlpha: 1,
-      //     x: 0,
-      //     ease: 'power2.out',
-      //     scrollTrigger: {
-      //       trigger: containerRef.current,
-      //       start: '85% bottom',
-      //       end: 'bottom bottom',
-      //       scrub: 1,
-      //     },
-      //   },
-      // );
+      tl.to(frameState, {
+        frame: FRAME_COUNT - 1,
+        ease: 'none'
+      });
+      tl.to(divRef.current, {
+        opacity: 1,
+        duration: 0.1
+      })
+      tl.to(canvasRef.current, {
+        opacity: 0,
+        duration: 0.5
+      })
+      tl.to(".header", {
+        transform: "translateY(0)",
+        duration: 0.5
+      }, ">")
+        .to(headingRef.current, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 0.5
+        }, ">")
+        .to(descRef.current, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 0.5
+        }, ">")
 
       return () => window.removeEventListener('resize', resizeCanvas);
     },
-    { scope: containerRef },
+    { scope: containerRef }
   );
 
-  return (
-    <section ref={containerRef} className="relative h-[300vh] w-[100vw]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#1A1917]">
-        <canvas ref={canvasRef} className="block h-full w-full" style={{
-          width: "100%"
-        }} />
+  useEffect(() => {
+    if (isReady) {
+      const tl = gsap.timeline();
+      tl.to(
+        '.hero-logo',
+        {
+          yPercent: -15,
+          width: '1864px',
+          height: '777px',
+          duration: 1
+        }
+      )
+        .to(canvasRef.current, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 0.5
+        })
+    }
+  }, [isReady])
 
-        <div className="pointer-events-none absolute left-6 top-1/2 max-w-[85%] -translate-y-1/2 md:left-16 md:max-w-[50%]">
-          <h2
-            ref={textRef}
-            className="font-tommy-bold text-4xl uppercase leading-[0.95] text-white opacity-0 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl md:text-7xl lg:text-8xl"
-          >
-            We make them look up
-          </h2>
+  return (
+    <section ref={containerRef} className="relative h-[400vh] w-[100vw] z-70">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+
+        <canvas
+          ref={canvasRef}
+          className="block relative h-full w-full object-cover opacity-100"
+          style={{
+            width: '100%',
+            clipPath: "inset(100% 0% 0% 0%)"
+          }}
+        />
+        <div ref={divRef} className='absolute inset-0 bg-[#EEE8D9] opacity-0 flex flex-col justify-between items-center px-25 py-[72px] overflow-hidden'>
+          <Header />
+          <div className='w-full flex flex-col justify-center items-start relative'>
+            <h2 ref={headingRef} className='text-[#1A1917] uppercase text-[240.774px] font-tommy-bold flex flex-col justify-center items-start gap-2 leading-[211.881px]'
+              style={{
+                clipPath: "inset(0% 100% 0% 0%)"
+              }}>
+              We
+              <span className='text-[#B1AA98]'>Make Them</span>
+              <span className='text-primary'>Look Up</span>
+            </h2>
+            <div ref={descRef} className='absolute right-0 bottom-0 max-w-[600px] flex flex-col justify-center items-start gap-[28px]'
+              style={{
+                clipPath: "inset(0% 100% 0% 0%)"
+              }}>
+              <h3 className='font-tommy-medium font-medium text-[#1A1917] text-[42px] leading-[50px]'>
+                25 Years of Moving Brands. Offline Targeting, Redefined.
+              </h3>
+              <button className='bg-[#FCD119] text-[24px] leading-[25px] font-tommy-regular text-[#1A1917] rounded-[6px] px-[54px] py-[20px]'>
+                Start a Campaign
+              </button>
+            </div>
+          </div>
         </div>
+
       </div>
     </section>
   );
