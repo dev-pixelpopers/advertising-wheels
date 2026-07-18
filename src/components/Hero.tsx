@@ -50,7 +50,7 @@ export default function Hero({ isReady }: HeroProps) {
         const canvasRatio = cw / ch;
 
         let dw: number, dh: number, dx: number, dy: number;
-
+        console.log(cw, imageRatio);
         if (imageRatio > canvasRatio) {
           dh = ch;
           dw = ch * imageRatio;
@@ -96,6 +96,21 @@ export default function Hero({ isReady }: HeroProps) {
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
 
+      // Text reveals play on their own clock once the first-section is fully visible
+      const textTl = gsap.timeline({ paused: true });
+      textTl.to('.header', {
+        transform: 'translateY(0)',
+        duration: 0.5
+      })
+        .to(headingRef.current, {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          duration: 0.5
+        })
+        .to(descRef.current, {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          duration: 0.5
+        });
+
       // Scroll scrubbing for the 208 frames
       const frameState = { frame: 0 };
       const tl = gsap.timeline({
@@ -121,22 +136,14 @@ export default function Hero({ isReady }: HeroProps) {
         opacity: 1,
         duration: 0.1
       })
+      tl.add(() => {
+        if ((tl.scrollTrigger?.direction ?? 1) > 0) textTl.play();
+        else textTl.reverse();
+      })
       tl.to(canvasRef.current, {
         opacity: 0,
         duration: 0.5
       })
-      tl.to(".header", {
-        transform: "translateY(0)",
-        duration: 0.5
-      }, ">")
-        .to(headingRef.current, {
-          clipPath: "inset(0% 0% 0% 0%)",
-          duration: 0.5
-        }, ">")
-        .to(descRef.current, {
-          clipPath: "inset(0% 0% 0% 0%)",
-          duration: 0.5
-        }, ">")
 
       return () => window.removeEventListener('resize', resizeCanvas);
     },
@@ -168,13 +175,13 @@ export default function Hero({ isReady }: HeroProps) {
 
         <canvas
           ref={canvasRef}
-          className="block relative h-full w-full object-cover opacity-100"
+          className="block relative h-[1166px] w-[2406px] object-cover opacity-100"
           style={{
             width: '100%',
             clipPath: "inset(100% 0% 0% 0%)"
           }}
         />
-        <div ref={divRef} className='absolute inset-0 bg-[#EEE8D9] opacity-0 flex flex-col justify-between items-center px-25 py-[72px] overflow-hidden'>
+        <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] opacity-0 flex flex-col justify-between items-center px-25 py-[72px] overflow-hidden'>
           <Header />
           <div className='w-full flex flex-col justify-center items-start relative'>
             <h2 ref={headingRef} className='text-[#1A1917] uppercase text-[240.774px] font-tommy-bold flex flex-col justify-center items-start gap-2 leading-[211.881px]'
