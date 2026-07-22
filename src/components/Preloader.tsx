@@ -84,8 +84,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           ease: 'power4.inOut',
           delay: 0.6,
           onComplete: () => {
+            // if (isPageLoaded) {
             document.body.style.overflow = '';
             onComplete?.();
+            // }
           },
         });
 
