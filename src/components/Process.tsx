@@ -62,8 +62,10 @@ export default function Process() {
                 defaults: { ease: 'power3.out' },
                 scrollTrigger: {
                     trigger: rootRef.current,
-                    start: 'top 70%',
-                    toggleActions: 'play none none reverse',
+                    start: 'top top',
+                    end: '+=1800',
+                    pin: true,
+                    scrub: 1,
                 },
             });
 

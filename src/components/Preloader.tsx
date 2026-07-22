@@ -36,6 +36,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   useGSAP(
     () => {
       // Block scrolling while the intro plays so the Hero can't be scrubbed early.
+      // Lock the real scroller (<html>) as well as <body>, and pin to the top.
+      window.scrollTo(0, 0);
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
 
       const timeline = gsap.timeline();
@@ -84,14 +87,14 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           ease: 'power4.inOut',
           delay: 0.6,
           onComplete: () => {
-            // if (isPageLoaded) {
+            document.documentElement.style.overflow = '';
             document.body.style.overflow = '';
             onComplete?.();
-            // }
           },
         });
 
       return () => {
+        document.documentElement.style.overflow = '';
         document.body.style.overflow = '';
       };
     },

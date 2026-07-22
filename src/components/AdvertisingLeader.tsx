@@ -40,59 +40,48 @@ export default function AdvertisingLeader() {
                 linesClass: 'leader-line',
             });
 
-            // Each line sharpens from blur → readable as it scrolls up.
-            gsap.fromTo(
-                split.lines,
-                { filter: 'blur(12px)', autoAlpha: 0.15, yPercent: 20 },
-                {
-                    filter: 'blur(0px)',
-                    autoAlpha: 1,
-                    yPercent: 0,
-                    ease: 'none',
-                    stagger: 0.5,
-                    scrollTrigger: {
-                        trigger: paraRef.current,
-                        start: 'top 80%',
-                        end: 'bottom 60%',
-                        scrub: 1,
-                    },
-                }
-            );
-
-            // Button fades up after the copy.
-            gsap.from(btnRef.current, {
-                y: 24,
-                autoAlpha: 0,
-                duration: 0.6,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: btnRef.current,
-                    start: 'top 88%',
-                    toggleActions: 'play none none reverse',
-                },
-            });
-
-            // Bottom cards clip-reveal from the bottom and rise in, staggered.
             const cardEls = cardsRef.current
                 ? (Array.from(cardsRef.current.children) as HTMLElement[])
                 : [];
-            gsap.fromTo(
-                cardEls,
-                { clipPath: 'inset(0% 0% 100% 0%)', yPercent: 18, autoAlpha: 0 },
-                {
-                    clipPath: 'inset(0% 0% 0% 0%)',
+
+            // Cards wait below, ready to float up.
+            gsap.set(cardEls, { yPercent: 60, autoAlpha: 0 });
+
+            // Pin the whole section and play the sequence across the scroll:
+            // text reveal first, then the cards float up.
+            const tl = gsap.timeline({
+                defaults: { ease: 'none' },
+                scrollTrigger: {
+                    trigger: rootRef.current,
+                    start: 'top top',
+                    end: '+=2200',
+                    pin: true,
+                    scrub: 1,
+                },
+            });
+
+            tl
+                // 1. Text reveals line by line, blur → readable.
+                .fromTo(
+                    split.lines,
+                    { filter: 'blur(12px)', autoAlpha: 0.15, yPercent: 20 },
+                    { filter: 'blur(0px)', autoAlpha: 1, yPercent: 0, stagger: 0.5, duration: 2 }
+                )
+                // 2. Button fades up.
+                .from(btnRef.current, {
+                    y: 24,
+                    autoAlpha: 0,
+                    duration: 0.6,
+                    ease: 'power3.out',
+                }, '+=0.3')
+                // 3. Cards float up into place, staggered.
+                .to(cardEls, {
                     yPercent: 0,
                     autoAlpha: 1,
-                    duration: 0.9,
+                    duration: 1.4,
                     ease: 'power3.out',
-                    stagger: 0.15,
-                    scrollTrigger: {
-                        trigger: cardsRef.current,
-                        start: 'top 82%',
-                        toggleActions: 'play none none reverse',
-                    },
-                }
-            );
+                    stagger: 0.2,
+                }, '+=0.4');
 
             // Restore the original paragraph markup on cleanup/HMR.
             return () => {

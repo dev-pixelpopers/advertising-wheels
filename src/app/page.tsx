@@ -29,7 +29,7 @@ export default function Home() {
         }
         <Hero isReady={isPreloaderDone} />
       </div >
-      <div className='relative z-[80] w-full bg-[#EEE8D9] -mt-[100vh]'>
+      <div className='relative z-[80] w-full bg-[#EEE8D9] -mt-[100vh] pt-[100px]'>
         <div className='max-w-[95%] rounded-[20px] py-[100px] px-[30px] w-full bg-white mx-auto'>
           <HomeMarquee />
           <CaseStudy />
