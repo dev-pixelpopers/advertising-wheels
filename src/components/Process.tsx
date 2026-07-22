@@ -1,3 +1,12 @@
+'use client';
+
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
 export default function Process() {
     const circles = [
         {
@@ -21,11 +30,77 @@ export default function Process() {
             description: "Receive reports and insights to measure success."
         },
     ]
+
+    const rootRef = useRef<HTMLDivElement>(null);
+    const eyebrowRef = useRef<HTMLParagraphElement>(null);
+    const headingRef = useRef<HTMLHeadingElement>(null);
+    const circlesRef = useRef<HTMLDivElement>(null);
+
+    useGSAP(
+        () => {
+            const circleEls = circlesRef.current
+                ? (Array.from(circlesRef.current.children) as HTMLElement[])
+                : [];
+
+            // Measure how far each circle must travel to sit stacked at the
+            // cluster's centre — so they can start as a deck and fan out.
+            const dx: number[] = [];
+            const dy: number[] = [];
+            const container = circlesRef.current;
+            if (container) {
+                const cRect = container.getBoundingClientRect();
+                const cx = cRect.left + cRect.width / 2;
+                const cy = cRect.top + cRect.height / 2;
+                circleEls.forEach((el) => {
+                    const r = el.getBoundingClientRect();
+                    dx.push(cx - (r.left + r.width / 2));
+                    dy.push(cy - (r.top + r.height / 2));
+                });
+            }
+
+            const tl = gsap.timeline({
+                defaults: { ease: 'power3.out' },
+                scrollTrigger: {
+                    trigger: rootRef.current,
+                    start: 'top 70%',
+                    toggleActions: 'play none none reverse',
+                },
+            });
+
+            tl
+                // 1. Heading reveals on scroll in.
+                .from(eyebrowRef.current, {
+                    y: 20,
+                    autoAlpha: 0,
+                    duration: 0.5,
+                })
+                .from(headingRef.current, {
+                    y: 70,
+                    autoAlpha: 0,
+                    duration: 1,
+                }, '-=0.2')
+                // 2 + 3. Circles start stacked (a deck) at the centre with a slight
+                //         tilt, then shuffle out to the full expanded spread.
+                .from(circleEls, {
+                    x: (i: number) => dx[i],
+                    y: (i: number) => dy[i],
+                    rotation: () => gsap.utils.random(-8, 8),
+                    scale: 0.9,
+                    autoAlpha: 0,
+                    transformOrigin: 'center center',
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    stagger: { each: 0.1, from: 'center' },
+                }, '+=0.1');
+        },
+        { scope: rootRef }
+    );
+
     return (
-        <div className="py-[150px]">
-            <p className="font-tommy-regular text-[30px] leading-[100%] text-black text-center w-full">Our Process</p>
-            <h2 className="text-[230px] leading-[226px] text-white font-tommy-bold tracking-[-11px] text-center w-full capitalize">How it Works<span className="text-[#FCD119]">.</span></h2>
-            <div className="flex flex-row mt-[20px]">
+        <div ref={rootRef} className="py-[150px]">
+            <p ref={eyebrowRef} className="font-tommy-regular text-[30px] leading-[100%] text-black text-center w-full">Our Process</p>
+            <h2 ref={headingRef} className="text-[230px] leading-[226px] text-white font-tommy-bold tracking-[-11px] text-center w-full capitalize">How it Works<span className="text-[#FCD119]">.</span></h2>
+            <div ref={circlesRef} className="flex flex-row mt-[20px]">
                 {
                     circles.map((item, index) => {
                         return (

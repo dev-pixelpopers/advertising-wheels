@@ -121,7 +121,10 @@ export default function Hero({ isReady }: HeroProps) {
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: 'bottom bottom',
+          // Animation spans 300vh of scroll and then finishes; the section is 500vh,
+          // so the sticky stays pinned for another 100vh — a "hold" on the finished
+          // Hero during which the next section rises up over it.
+          end: () => '+=' + window.innerHeight * 3,
           scrub: 0.5,
         },
       });
@@ -286,7 +289,7 @@ export default function Hero({ isReady }: HeroProps) {
   }, [isReady])
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] w-[100vw] z-70">
+    <section ref={containerRef} className="relative h-[500vh] w-[100vw] z-70">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
 
         <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] opacity-0 flex flex-col justify-between items-center px-25 py-[72px] overflow-hidden'>

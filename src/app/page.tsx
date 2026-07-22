@@ -29,15 +29,18 @@ export default function Home() {
         }
         <Hero isReady={isPreloaderDone} />
       </div >
-      <div className='max-w-[95%] rounded-[20px] py-[100px] px-[30px] w-full bg-white mx-auto mt-[20px]'>
-        <HomeMarquee />
-        <CaseStudy />
+      <div className='relative z-[80] w-full bg-[#EEE8D9] -mt-[100vh]'>
+        <div className='max-w-[95%] rounded-[20px] py-[100px] px-[30px] w-full bg-white mx-auto'>
+          <HomeMarquee />
+          <CaseStudy />
+        </div>
+        <div className='max-w-[95%] px-[60px] w-full mx-auto'>
+          <Campaigns />
+          <Process />
+        </div>
+        <AdvertisingLeader />
       </div>
-      <div className='max-w-[95%] px-[60px] w-full mx-auto'>
-        <Campaigns />
-        <Process />
-      </div>
-      <AdvertisingLeader />
+
     </div >
   );
 }
