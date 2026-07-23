@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -36,6 +36,9 @@ export default function Hero({ isReady }: HeroProps) {
   const scrimRef = useRef<HTMLDivElement>(null);
   const headingWrapRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const [hasScrolledPast, setHasScrolledPast] = useState(false);
 
   // 1. CANVAS PRELOADING & SCROLL SCRUBBING
   useGSAP(
@@ -106,11 +109,13 @@ export default function Hero({ isReady }: HeroProps) {
 
       // CTA (headline + buttons) starts hidden and pushed down; revealed in Phase 3.
       const ctaLines = ctaRef.current
-        ? Array.from(ctaRef.current.querySelectorAll('p'))
+        ? Array.from(ctaRef.current.querySelectorAll('h2, p'))
         : [];
-      gsap.set(ctaLines, { yPercent: 120, autoAlpha: 0 });
+      // gsap.set(ctaLines, { yPercent: 120, autoAlpha: 0 });
       gsap.set(ctaButtonsRef.current, { y: 40, autoAlpha: 0 });
       gsap.set(scrimRef.current, { autoAlpha: 0 });
+      // gsap.set('.second-home-section', { yPercent: 0 });
+      // gsap.set('.')
       // Header starts tucked above the viewport; it drops in during Phase 4, after the CTA.
       // Driven by a ref (not a '.header' string selector) so a Header re-render can't
       // leave it stuck at this initial value.
@@ -125,6 +130,9 @@ export default function Hero({ isReady }: HeroProps) {
           // so the sticky stays pinned for another 100vh — a "hold" on the finished
           // Hero during which the next section rises up over it.
           end: () => '+=' + window.innerHeight * 3,
+          onLeave: () => setHasScrolledPast(true),        // Scrolling DOWN past section
+          onEnter: () => setHasScrolledPast(false),
+          onEnterBack: () => setHasScrolledPast(false),
           scrub: 0.5,
         },
       });
@@ -215,31 +223,6 @@ export default function Hero({ isReady }: HeroProps) {
         '>'
       );
 
-      // ...then the CTA lines ride up from behind their masks and reveal.
-      tl.to(
-        ctaLines,
-        {
-          yPercent: 0,
-          autoAlpha: 1,
-          ease: 'power2.out',
-          duration: 0.6,
-          stagger: 0.25,
-        },
-        '<+0.15'
-      );
-
-      // ...then the buttons show up.
-      tl.to(
-        ctaButtonsRef.current,
-        {
-          y: 0,
-          autoAlpha: 1,
-          ease: 'power2.out',
-          duration: 0.5,
-        },
-        '>-0.1'
-      );
-
       // ── PHASE 4 (final) ────────────────────────────────────────────────
       // The header drops in from the top once the CTA is fully revealed.
       // fromTo owns both endpoints so it always seats at yPercent: 100.
@@ -249,12 +232,83 @@ export default function Hero({ isReady }: HeroProps) {
           yPercent: -270
         },
         {
-          yPercent: 5,
+          yPercent: 0,
           ease: 'power3.out',
           duration: 0.6,
         },
+        '>-0.1'
       );
 
+      // ...then the CTA lines ride up from behind their masks and reveal.
+      tl.to(
+        ctaLines,
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: 'power2.out',
+          duration: 2,
+          stagger: 0.25,
+        },
+        '<+0.15'
+      );
+
+
+
+      // ...then the buttons show up.
+      tl.to(
+        ctaButtonsRef.current,
+        {
+          y: 0,
+          autoAlpha: 1,
+          ease: 'power2.out',
+          duration: 0.5,
+        }
+      );
+
+
+
+      // ── PHASE 5 — two-stage hand-off ───────────────────────────────────
+      // Stage A (300vh → 400vh): the content lifts up on its own, first.
+      // gsap.fromTo(
+      //   contentRef.current,
+      //   { yPercent: 0 },
+      //   {
+      //     yPercent: -100,
+      //     ease: 'none',
+      //     scrollTrigger: {
+      //       trigger: containerRef.current,
+      //       start: () => 'top+=' + window.innerHeight * 3 + ' top',
+      //       end: () => 'top+=' + window.innerHeight * 4 + ' top',
+      //       scrub: true,
+      //     },
+      //   }
+      // );
+
+      // Stage B (400vh → 500vh): the rest of the section (photo panel + header)
+      // slides up, exactly while the bottom section rises to take its place.
+      // At a 600vh Hero the next section's -mt-[100vh] overlap enters at 400vh,
+      // so this panel move and that rise run 1:1 as one synchronized push.
+      // const tl2 = gsap.timeline({
+      //   scrollTrigger: {
+      //     trigger: containerRef.current,
+      //     start: () => 'bottom bottom',
+      //     scrub: 1,
+      //   }
+      // });
+
+      // tl
+      //   // 1. Move the current section UP and out (-100%)
+      //   .to(containerRef.current, {
+      //     yPercent: -100,
+      //     ease: 'none',
+      //   })
+      //   // 2. Move the incoming section UP from bottom (100% -> 0%) at the exact same time
+      //   .fromTo(
+      //     '.second-home-section',
+      //     { yPercent: 0 },
+      //     { yPercent: -100, ease: 'none' },
+
+      //     '<' // The '0' position parameter forces this to run concurrently with the first animation
+      //   );
       return () => window.removeEventListener('resize', resizeCanvas);
     },
     { scope: containerRef }
@@ -272,12 +326,12 @@ export default function Hero({ isReady }: HeroProps) {
       })
         // ...the logo dissolves in place (no growth): a soft upward drift + blur + fade,
         // so it hands off to the heading rather than zooming away.
-        .to('.hero-logo', {
-          autoAlpha: 0,
-          yPercent: -10,
-          filter: 'blur(8px)',
-          duration: 0.9
-        }, '<')
+        // .to('.hero-logo', {
+        //   autoAlpha: 0,
+        //   yPercent: -10,
+        //   filter: 'blur(8px)',
+        //   duration: 0.9
+        // }, '<')
         // The heading rises up into the space the logo just vacated — the two blend.
         .from(headingWrapRef.current, {
           yPercent: 12,
@@ -289,89 +343,67 @@ export default function Hero({ isReady }: HeroProps) {
   }, [isReady])
 
   return (
-    <section ref={containerRef} className="relative h-[500vh] w-[100vw] z-70">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+    <>
+      <div ref={headerRef} className='fixed z-[100] w-full left-0 py-[2%] px-[3%] top-0'>
+        <Header scrolledHero={hasScrolledPast} />
+      </div>
+      <section ref={containerRef} className="relative h-[500vh] w-[100vw] z-70">
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
 
-        <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] opacity-0 flex flex-col justify-between items-center px-25 py-[72px] overflow-hidden'>
-          {/* Canvas frame sequence — sits above the cream bg, behind the text.
+          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-25 py-[72px] overflow-hidden'>
+            {/* Canvas frame sequence — sits above the cream bg, behind the text.
               Hidden at first (only text shows); fades in blurred & scaled down as scroll begins. */}
-          <div ref={headerRef} className='relative z-10 w-full'>
-            <Header />
-          </div>
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full z-0"
-            style={{
-              opacity: 0,
-              visibility: 'hidden',
-              transform: 'scale(0.85)',
-              filter: 'blur(20px)'
-            }}
-          />
-          {/* Bottom scrim — grounds the CTA text against the photo; fades in with Phase 3. */}
-          <div
-            ref={scrimRef}
-            className="absolute inset-x-0 bottom-0 h-[55%] z-[1] pointer-events-none hidden"
-            style={{
-              opacity: 0,
-              background:
-                'linear-gradient(to top, rgba(10,9,8,0.85) 0%, rgba(10,9,8,0.45) 45%, rgba(10,9,8,0) 100%)'
-            }}
-          />
-          <div className='w-full h-full flex flex-col justify-center items-center relative z-10'>
-            {/* <h2 ref={headingRef} className='text-[#1A1917] uppercase text-[240.774px] font-tommy-bold flex flex-col justify-center items-start gap-2 leading-[211.881px]'
+            <canvas
+              ref={canvasRef}
+              className="absolute inset-0 w-full h-full z-0"
               style={{
-                clipPath: "inset(0% 100% 0% 0%)"
-              }}>
-              We
-              <span className='text-[#B1AA98]'>Make Them</span>
-              <span className='text-primary'>Look Up</span>
-            </h2> */}
+                opacity: 0,
+                visibility: 'hidden',
+                transform: 'scale(0.85)',
+                filter: 'blur(20px)'
+              }}
+            />
+            {/* Full-screen backdrop blur overlay — covers whole screen & reveals with CTA text */}
+            <div
+              ref={scrimRef}
+              className="absolute inset-0 z-[5] pointer-events-none backdrop-blur-xl bg-black/40 transition-all"
+              style={{
+                opacity: 0,
+              }}
+            />
+            <div ref={contentRef} className='w-full h-full flex flex-col justify-center items-center relative z-10'>
+              <div ref={headingWrapRef} className='flex flex-col justify-center items-center gap-[5px]'>
+                <span ref={subRef} className='text-center text-[#1A1917] dark:text-[#F5F5F5] font-tommy-bold text-[66px] capitalize transition-colors duration-300'>We’re where life</span>
+                <h1 className='text-white font-tommy-bold text-[344px] leading-[300px] flex flex-nowrap'>
+                  <span ref={hapRef} className='inline-block'>HAPP</span>
+                  <span ref={pensRef} className='inline-block'>ENS<span className='text-[#FCD119]'>.</span></span>
+                </h1>
+              </div>
 
-            <div ref={headingWrapRef} className='flex flex-col justify-center items-center gap-[5px]'>
-              <span ref={subRef} className='text-center text-[#1A1917] font-tommy-bold text-[66px] capitalize'>We’re where life</span>
-              <h1 className='text-white font-tommy-bold text-[344px] leading-[300px] flex flex-nowrap'>
-                <span ref={hapRef} className='inline-block'>HAPP</span>
-                <span ref={pensRef} className='inline-block'>ENS<span className='text-[#FCD119]'>.</span></span>
-              </h1>
-            </div>
-
-            {/* Absolute overlay pinned near the bottom so it never affects the heading's layout/centering. */}
-            <div ref={ctaRef} className='absolute inset-0 flex flex-col gap-[25px] justify-end items-center text-center drop-shadow-[0_2px_16px_rgba(0,0,0,0.5)]'>
-              <div>
-                {/* Each line rides up from behind a clipped mask for a premium reveal. */}
-                <div className='overflow-hidden'>
-                  <p className='text-white font-tommy-medium text-[42px] leading-[50px] capitalize'>Out-of-home that works like <span className='text-[#FCD119]'>online</span> — measure</p>
+              {/* Absolute overlay pinned near the bottom so it never affects the heading's layout/centering. */}
+              <div ref={ctaRef} className='absolute inset-0 flex flex-col gap-[25px] text-center items-center justify-center w-full h-full'>
+                <div className='flex flex-col gap-[10px] items-center text-center'>
+                  <h2 className='text-white font-tommy-bold text-[65px] leading-[100%] capitalize' style={{
+                    clipPath: "inset(0% 100% 0% 0%)",
+                  }}>Out-of-home that works like <span className='text-[#FCD119]'>online</span> </h2>
+                  <p className='text-white font-tommy-bold text-[65px] leading-[100%] capitalize' style={{
+                    clipPath: "inset(0% 100% 0% 0%)",
+                  }}> measure your reach, </p>
                 </div>
-                <div className='overflow-hidden'>
-                  <p className='text-white font-tommy-medium text-[42px] leading-[50px] capitalize'>your reach, then extend it <span className='text-[#FCD119]'>online</span>.</p>
+
+                <div ref={ctaButtonsRef} className='w-full flex gap-[42px] justify-center items-center'>
+                  <a className='bg-white text-[24px] leading-[25px] font-tommy-regular text-[#1A1917] rounded-[6px] px-[30px] py-[20px] cursor-pointer'>
+                    Start a Campaign
+                  </a>
+                  <a className='bg-black text-[24px] leading-[25px] font-tommy-regular text-[#FCD119] rounded-[6px] px-[30px] py-[20px] cursor-pointer'>
+                    Start a Campaign
+                  </a>
                 </div>
               </div>
-              <div ref={ctaButtonsRef} className='w-full flex gap-[42px] justify-center top-[80%]'>
-                <a className='bg-white text-[24px] leading-[25px] font-tommy-regular text-[#1A1917] rounded-[6px] px-[30px] py-[20px]'>
-                  Start a Campaign
-                </a>
-                <a className='bg-black text-[24px] leading-[25px] font-tommy-regular text-[#FCD119] rounded-[6px] px-[30px] py-[20px]'>
-                  Start a Campaign
-                </a>
-              </div>
             </div>
-
-            {/* <div ref={descRef} className='absolute right-0 bottom-0 max-w-[600px] flex flex-col justify-center items-start gap-[28px]'
-              style={{
-                clipPath: "inset(0% 100% 0% 0%)"
-              }}>
-              <h3 className='font-tommy-medium font-medium text-[#1A1917] text-[42px] leading-[50px]'>
-                25 Years of Moving Brands. Offline Targeting, Redefined.
-              </h3>
-              <button className='bg-[#FCD119] text-[24px] leading-[25px] font-tommy-regular text-[#1A1917] rounded-[6px] px-[54px] py-[20px]'>
-                Start a Campaign
-              </button>
-            </div> */}
           </div>
         </div>
-
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

@@ -131,12 +131,6 @@ export default function Process() {
                                 <path d="M43.4436 42.4436C42.8913 42.4436 42.4436 42.8913 42.4436 43.4436L42.4436 52.4436C42.4436 52.9959 42.8913 53.4436 43.4436 53.4436C43.9959 53.4436 44.4436 52.9959 44.4436 52.4436L44.4436 44.4436L52.4436 44.4436C52.9959 44.4436 53.4436 43.9959 53.4436 43.4436C53.4436 42.8913 52.9959 42.4436 52.4436 42.4436L43.4436 42.4436ZM75.5547 75.5547L76.2618 74.8476L44.1507 42.7365L43.4436 43.4436L42.7365 44.1507L74.8476 76.2618L75.5547 75.5547Z" fill="#FCD119" />
                             </svg>
                         </a>
-
-                        {/* <span className={`text-black text-[100.8px] leading-[100%] font-tommy-bold capitalize opacity-[0.03] ${index % 2 != 0 ? "order-3" : "order: 1"}`}>
-                            {item.tag}
-                        </span>
-                        <span className={`text-black text-center text-[30px] leading-[66px] capitalize font-tommy-medium ${index % 2 != 0 ? "max-w-[80%]" : " max-w-[55%]"}`}>{item.title}</span>
-                        <p className={`text-black text-[21px] leading-[30px] font-tommy-regular capitalize  ${index % 2 != 0 ? "max-w-[50%]" : "pl-[70px] max-w-[65%]"}`}>{item.description}</p> */}
                     </div>
                 </div>
             </div>

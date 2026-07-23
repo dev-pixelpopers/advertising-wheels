@@ -1,0 +1,41 @@
+.storyContainer {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.visualStage {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Position the narrative overlay box on screen */
+.narrativeSection {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    height: 160px;
+    /* Fixed height container */
+    z-index: 30;
+}
+
+/* Stack all 3 text boxes on top of each other */
+.narrativeStep {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    /* GSAP will animate opacity and Y position */
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    border-radius: 12px;
+    color: #fff;
+}

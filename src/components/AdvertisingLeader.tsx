@@ -31,6 +31,9 @@ export default function AdvertisingLeader() {
     const paraRef = useRef<HTMLParagraphElement>(null);
     const btnRef = useRef<HTMLAnchorElement>(null);
     const cardsRef = useRef<HTMLDivElement>(null);
+    const svgRef = useRef(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+
 
     useGSAP(
         () => {
@@ -47,14 +50,24 @@ export default function AdvertisingLeader() {
             // Cards wait below, ready to float up.
             gsap.set(cardEls, { yPercent: 60, autoAlpha: 0 });
 
+            // Two concentric rings — set each to its own circumference, fully hidden,
+            // so they draw on (to full) with the scroll.
+            const q = gsap.utils.selector(rootRef);
+            const ring1 = (q('.layer-1')[0] as unknown as SVGCircleElement) || null;
+            const ring2 = (q('.layer-2')[0] as unknown as SVGCircleElement) || null;
+            const len1 = ring1 ? ring1.getTotalLength() : 0;
+            const len2 = ring2 ? ring2.getTotalLength() : 0;
+            if (ring1) gsap.set(ring1, { strokeDasharray: len1, strokeDashoffset: len1 });
+            if (ring2) gsap.set(ring2, { strokeDasharray: len2, strokeDashoffset: len2 });
+
             // Pin the whole section and play the sequence across the scroll:
-            // text reveal first, then the cards float up.
+            // text → rings draw → button → cards.
             const tl = gsap.timeline({
                 defaults: { ease: 'none' },
                 scrollTrigger: {
                     trigger: rootRef.current,
                     start: 'top top',
-                    end: '+=2200',
+                    end: '+=3800',
                     pin: true,
                     scrub: 1,
                 },
@@ -67,14 +80,21 @@ export default function AdvertisingLeader() {
                     { filter: 'blur(12px)', autoAlpha: 0.15, yPercent: 20 },
                     { filter: 'blur(0px)', autoAlpha: 1, yPercent: 0, stagger: 0.5, duration: 2 }
                 )
-                // 2. Button fades up.
+                // 2. The rings draw on (to full) while the SVG rotates (scroll-bound).
+                .to(svgRef.current, { rotation: 360, transformOrigin: '50% 50%', duration: 2.4, ease: 'none' }, '+=0.2');
+
+            if (ring1) tl.to(ring1, { strokeDashoffset: 0, duration: 2.4, ease: 'power2.inOut' }, '<');
+            if (ring2) tl.to(ring2, { strokeDashoffset: 0, duration: 2, ease: 'power2.inOut' }, '<');
+
+            tl
+                // 3. Button fades up.
                 .from(btnRef.current, {
                     y: 24,
                     autoAlpha: 0,
                     duration: 0.6,
                     ease: 'power3.out',
                 }, '+=0.3')
-                // 3. Cards float up into place, staggered.
+                // 4. Cards float up into place, staggered.
                 .to(cardEls, {
                     yPercent: 0,
                     autoAlpha: 1,
@@ -82,6 +102,17 @@ export default function AdvertisingLeader() {
                     ease: 'power3.out',
                     stagger: 0.2,
                 }, '+=0.4');
+
+            // 5. Everything is shown — the rings erase (undraw).
+            if (ring1) tl.to(ring1, { strokeDashoffset: len1, duration: 1.4, ease: 'power2.inOut' }, '+=0.5');
+            if (ring2) tl.to(ring2, { strokeDashoffset: len2, duration: 1.2, ease: 'power2.inOut' }, '<');
+            // 6. The content lifts up and out — handing off to the Process section.
+            tl.to(contentRef.current, {
+                yPercent: -115,
+                autoAlpha: 0,
+                duration: 1.2,
+                ease: 'power2.in',
+            }, '<0.2');
 
             // Restore the original paragraph markup on cleanup/HMR.
             return () => {
@@ -92,34 +123,47 @@ export default function AdvertisingLeader() {
     );
 
     return (
-        <div ref={rootRef} className='max-w-[95%] rounded-[20px] py-[200px] px-[10%] w-full bg-white mx-auto mt-[20px] flex flex-col items-center relative'>
-            <div className="absolute bottom-0">
-                <img src="/assets/images/rings.png" alt="" className="w-full h-full object-cover" />
+        <div ref={rootRef} className='max-w-[95%] rounded-[20px] py-[200px] px-[10%] w-full bg-white dark:bg-[#141414] transition-colors duration-300 mx-auto mt-[20px] flex flex-col items-center relative shadow-sm dark:shadow-black/50'>
+            <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 pointer-events-none z-0">
+                <svg
+                    ref={svgRef}
+                    width="800"
+                    height="800"
+                    viewBox="0 0 895 895"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ overflow: 'visible' }}
+                >
+                    <circle className="layer-1" opacity="0.28" cx="447.5" cy="447.5" r="442.5" stroke="#EEE8D9" strokeWidth="10" />
+                    <circle className="layer-2" opacity="0.22" cx="448" cy="448" r="360" stroke="#EEE8D9" strokeWidth="10" />
+                </svg>
             </div>
-            <p ref={paraRef} className="text-[#2C2C2B] text-[36px] leading-[66px] font-tommy-medium text-center capitalize">
-                Advertising Wheels is the leader in truckside billboard advertising. For 25+ years
-                <span className="text-[#D5CCB4]"> we’ve helped national and local brands own the street with one of the largest truckside fleets in the country —</span> pairing bold, high-impact creative with GPS-tracked routing and independently verified impressions
-                <span className="text-[#D5CCB4]"> so every campaign is planned, targeted, and measurable.</span>
-            </p>
-            <a ref={btnRef} className="rounded-[6px] bg-[#282828] py-[12px] px-[50px] text-[24px] leading-[50px] text-[#FCD119] font-tommy-regular w-max mt-[50px]">More about us</a>
-            <div ref={cardsRef} className="flex flex-row justify-between w-full mt-[20px] gap-x-[37px] max-w-[90%]">
-                {
-                    cards.map((card, index) => {
-                        return (
-                            <div key={index} className={`rounded-[10px] border border-[#EBEAEA] py-[15px] flex flex-col items-center justify-between h-[350px] bg-white ${index == 1 ? 'mt-[8%]' : ''}`} style={{
-                                boxShadow: "7px 4px 15.6px -2px rgba(0, 0, 0, 0.08)",
-                            }}>
-                                <div className="rounded-[30px] border border-[#E4E4E4] bg-white px-[22px] py-[8px] flex justify-center w-max">
-                                    <span className="text-[#ACA7A7] text-center text-[16px] leading-[26px] capitalize font-tommy-regular">{card.source}</span>
+            <div ref={contentRef} className="w-full flex flex-col items-center relative z-10">
+                <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[36px] leading-[66px] font-tommy-medium text-center capitalize">
+                    Advertising Wheels is the leader in truckside billboard advertising. For 25+ years
+                    <span className="text-[#D5CCB4] dark:text-[#8C8472]"> we’ve helped national and local brands own the street with one of the largest truckside fleets in the country —</span> pairing bold, high-impact creative with GPS-tracked routing and independently verified impressions
+                    <span className="text-[#D5CCB4] dark:text-[#8C8472]"> so every campaign is planned, targeted, and measurable.</span>
+                </p>
+                <a ref={btnRef} className="rounded-[6px] bg-[#282828] dark:bg-[#FCD119] py-[12px] px-[50px] text-[24px] leading-[50px] text-[#FCD119] dark:text-black font-tommy-regular w-max mt-[50px] transition-colors duration-300 cursor-pointer">More about us</a>
+                <div ref={cardsRef} className="flex flex-row justify-between w-full mt-[20px] gap-x-[37px] max-w-[90%]">
+                    {
+                        cards.map((card, index) => {
+                            return (
+                                <div key={index} className={`rounded-[10px] border border-[#EBEAEA] dark:border-[#2A2A2A] py-[15px] flex flex-col items-center justify-between h-[350px] bg-white dark:bg-[#1E1E1E] transition-colors duration-300 ${index == 1 ? 'mt-[8%]' : ''}`} style={{
+                                    boxShadow: "7px 4px 15.6px -2px rgba(0, 0, 0, 0.08)",
+                                }}>
+                                    <div className="rounded-[30px] border border-[#E4E4E4] dark:border-[#333] bg-white dark:bg-[#282828] px-[22px] py-[8px] flex justify-center w-max transition-colors duration-300">
+                                        <span className="text-[#ACA7A7] dark:text-[#AAA] text-center text-[16px] leading-[26px] capitalize font-tommy-regular">{card.source}</span>
+                                    </div>
+                                    <span className="text-[#EEE8D9] dark:text-[#383327] text-[120px] leading-[66px] font-tommy-medium transition-colors duration-300">{card.percent}%</span>
+                                    <p className="text-black dark:text-white font-tommy-regular text-[20px] leading-[26px] capitalize text-center max-w-[85%] transition-colors duration-300">
+                                        {card.description}
+                                    </p>
                                 </div>
-                                <span className="text-[#EEE8D9] text-[120px] leading-[66px] font-tommy-medium">{card.percent}%</span>
-                                <p className="text-black font-tommy-regular text-[20px] leading-[26px] capitalize text-center max-w-[85%]">
-                                    {card.description}
-                                </p>
-                            </div>
-                        )
-                    })
-                }
+                            )
+                        })
+                    }
+                </div>
             </div>
 
         </div>
