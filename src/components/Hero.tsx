@@ -347,7 +347,7 @@ export default function Hero({ isReady }: HeroProps) {
       <div ref={headerRef} className='fixed z-[100] w-full left-0 py-[2%] px-[3%] top-0'>
         <Header scrolledHero={hasScrolledPast} />
       </div>
-      <section ref={containerRef} className="relative h-[500vh] w-[100vw] z-70">
+      <section ref={containerRef} className="relative h-[550vh] w-[100vw] z-70">
         <div className="sticky top-0 h-screen w-full overflow-hidden">
 
           <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-25 py-[72px] overflow-hidden'>
