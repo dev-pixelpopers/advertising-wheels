@@ -184,7 +184,7 @@ export default function TruckExperience() {
                     />
                 </div>
 
-                {/* 4 PINS — 1 on left side of truck, 3 on right side of truck */}
+                {/* 4 PINS — 1 on left side of truck, 3 on right side of truck aligned on the same horizontal line */}
                 {/* Pin 1: Left side of truck */}
                 <div
                     ref={(el) => { pinRefs.current[0] = el; }}
@@ -202,10 +202,10 @@ export default function TruckExperience() {
                     />
                 </div>
 
-                {/* Pin 2: Right side of truck (Upper Right) */}
+                {/* Pin 2: Right side of truck (Right - Inner) */}
                 <div
                     ref={(el) => { pinRefs.current[1] = el; }}
-                    className="absolute right-[28%] top-[24%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                    className="absolute right-[28%] top-[44%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
                 >
                     <img
                         src="/assets/images/process/circle.png"
@@ -219,10 +219,10 @@ export default function TruckExperience() {
                     />
                 </div>
 
-                {/* Pin 3: Right side of truck (Mid Right) */}
+                {/* Pin 3: Right side of truck (Right - Center) */}
                 <div
                     ref={(el) => { pinRefs.current[2] = el; }}
-                    className="absolute right-[12%] top-[46%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                    className="absolute right-[16%] top-[44%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
                 >
                     <img
                         src="/assets/images/process/circle.png"
@@ -236,10 +236,10 @@ export default function TruckExperience() {
                     />
                 </div>
 
-                {/* Pin 4: Right side of truck (Lower Right) */}
+                {/* Pin 4: Right side of truck (Right - Outer) */}
                 <div
                     ref={(el) => { pinRefs.current[3] = el; }}
-                    className="absolute right-[22%] top-[68%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                    className="absolute right-[4%] top-[44%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
                 >
                     <img
                         src="/assets/images/process/circle.png"
