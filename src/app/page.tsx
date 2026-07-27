@@ -10,6 +10,10 @@ import AdvertisingLeader from '@/components/AdvertisingLeader';
 import SecondSection from '@/components/SecondSection';
 import TruckExperience from '@/components/TruckExperience';
 import CinematicStory from '@/components/CinematicStory';
+import MarketsCoverage from '@/components/MarketsCoverage';
+import FloatingTestimonials from '@/components/FloatingTestimonials';
+import WhyChooseUs from '@/components/WhyChooseUs';
+import CtaSection from '@/components/CtaSection';
 
 export default function Home() {
   const [isPreloaderDone, setIsPreloaderDone] = useState(false);
@@ -33,6 +37,10 @@ export default function Home() {
         </div>
         <AdvertisingLeader />
         <TruckExperience />
+        <MarketsCoverage />
+        <FloatingTestimonials />
+        <WhyChooseUs />
+        <CtaSection />
         {/* <Process /> */}
         {/* <CinematicStory /> */}
 

@@ -11,8 +11,8 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const FRAME_COUNT = 208;
 
 const getFrameSrc = (index: number): string => {
-  const frameNumber = (index + 1).toString().padStart(4, '0');
-  return `/assets/images/hero_7/frame_${frameNumber}.png`;
+  const frameNumber = (index + 1).toString().padStart(3, '0');
+  return `/assets/images/hero_8/frame_${frameNumber}.jpg`;
 };
 
 interface HeroProps {
