@@ -1,5 +1,9 @@
 'use client';
 
+// Where the closing "explore all case studies" beat sends the user. '#' matches the
+// placeholder links in Header/CtaSection — swap it once the index route exists.
+const CASE_STUDIES_URL = '#';
+
 // Replicated case-study cards (the original "Fifth Third Bank" card + counters).
 const caseStudies = [
     {
@@ -43,7 +47,7 @@ const caseStudies = [
 // Animations are orchestrated by the parent SecondSection via the class hooks below.
 export default function CaseStudy() {
     return (
-        <div className="case-study w-full px-[60px] h-screen flex flex-row items-center overflow-hidden">
+        <div className="case-study relative w-full px-[60px] h-screen flex flex-row items-center overflow-hidden">
             <div className="w-[40%] shrink-0 flex justify-start">
                 <div className="cs-left flex flex-col gap-10 justify-center items-start">
                     <div className="flex flex-row gap-10 w-fit justify-start">
@@ -62,7 +66,9 @@ export default function CaseStudy() {
                     <div key={index} className="cs-card absolute inset-0 flex flex-col items-end justify-center">
                         <div className="w-[600px] rounded-[8px] border border-[#F0F0F0] dark:border-[#2D2D2D] bg-[#FFF] dark:bg-[#181818] py-[10px] px-[10px] flex flex-col gap-8 transition-colors duration-300 shadow-sm dark:shadow-black/40">
                             <div className="flex flex-row justify-between pt-[30px] pl-[15px]">
-                                <h2 className="text-[42px] font-tommy-medium leading-[45px] uppercase text-black dark:text-white transition-colors duration-300">{cs.title}</h2>
+                                <div className="overflow-hidden">
+                                    <h2 className="cs-title text-[42px] font-tommy-medium leading-[45px] uppercase text-black dark:text-white transition-colors duration-300">{cs.title}</h2>
+                                </div>
                                 <a className="group mt-[-10%] shrink-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="119" height="119" viewBox="0 0 119 119" fill="none" className="rotate-[90deg]">
                                         <circle cx="59.5" cy="59.5" r="59.5" className="fill-black dark:fill-white transition-colors duration-300" />
@@ -71,7 +77,10 @@ export default function CaseStudy() {
                                     </svg>
                                 </a>
                             </div>
-                            <img className="w-full h-[360px] object-cover rounded-[10px]" src="/assets/images/case-study-img.jpg" alt="" />
+                            {/* Wrapper contains the media's over-scale while it wipes open. */}
+                            <div className="overflow-hidden rounded-[10px]">
+                                <img className="cs-media w-full h-[360px] object-cover" src="/assets/images/case-study-img.jpg" alt="" />
+                            </div>
                         </div>
 
                         {/* Counter panel — appears once the card stops at centre. */}
@@ -93,6 +102,29 @@ export default function CaseStudy() {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            {/* Closing beat — once the last card clears, the story points at the rest of
+                the work. Revealed by SecondSection via the .cs-outro / .cs-outro-item hooks. */}
+            <div className="cs-outro absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-[60px]">
+                <span className="cs-outro-item font-tommy-medium text-[16px] tracking-[0.28em] uppercase text-[#8A857C] dark:text-[#9A968E] transition-colors duration-300">
+                    More work
+                </span>
+                <h2 className="cs-outro-item mt-[18px] font-tommy-medium text-[clamp(38px,4.4vw,72px)] leading-[1.05] capitalize text-black dark:text-white max-w-[900px] text-balance transition-colors duration-300">
+                    See how other brands own the street<span className="text-[#FCD119]">.</span>
+                </h2>
+                <p className="cs-outro-item mt-[22px] font-tommy-regular text-[21px] leading-[30px] capitalize text-black dark:text-gray-300 max-w-[620px] transition-colors duration-300">
+                    More campaigns, measured the same way — routes, impressions, and the results they moved.
+                </p>
+                <a
+                    href={CASE_STUDIES_URL}
+                    className="cs-outro-item group mt-[44px] flex items-center gap-3 rounded-full bg-black dark:bg-[#FCD119] px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] dark:text-black transition-transform duration-300 hover:scale-[1.04]"
+                >
+                    Explore All Case Studies
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:translate-x-1">
+                        <path d="M1 8 H14 M9 3 L14 8 L9 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                </a>
             </div>
         </div>
     );

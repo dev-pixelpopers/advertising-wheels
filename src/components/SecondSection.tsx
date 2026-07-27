@@ -29,10 +29,30 @@ export default function SecondSection() {
             // CaseStudy left text clipped away; cards wait off-right; counters hidden.
             gsap.set(q('.cs-left'), { clipPath: 'inset(0% 0% 0% 100%)' });
             // All cards wait off-right — none pre-shown, so the left text reveals first.
-            gsap.set(cards, { xPercent: 120, autoAlpha: 0 });
+            // They also sit angled away in depth, under-scaled and blurred, so each one
+            // swings toward the viewer as it lands rather than sliding in flat. The hinge
+            // is the right edge, the side they arrive from.
+            gsap.set(cards, {
+                xPercent: 120,
+                autoAlpha: 0,
+                scale: 0.82,
+                rotationY: -18,
+                filter: 'blur(6px)',
+                transformPerspective: 1200,
+                transformOrigin: 'right center',
+            });
+            // The closing CTA waits hidden until every card has passed through.
+            gsap.set(q('.cs-outro'), { autoAlpha: 0 });
+            gsap.set(q('.cs-outro-item'), { y: 40, autoAlpha: 0 });
             cards.forEach((c) => {
                 const s = c.querySelector('.cs-stats');
-                if (s) gsap.set(s, { autoAlpha: 0 });
+                // Counter panel waits tucked under the card, ready to slide out.
+                if (s) gsap.set(s, { autoAlpha: 0, y: 60 });
+                // Media is wiped shut from the right and held over-scale, so it opens
+                // and settles back to 1 as the card lands.
+                gsap.set(c.querySelector('.cs-media'), { clipPath: 'inset(0% 0% 0% 100%)', scale: 1.18 });
+                // Title rides up out of its mask.
+                gsap.set(c.querySelector('.cs-title'), { yPercent: 115 });
                 const values = Array.from(c.querySelectorAll('.cs-values li')) as HTMLElement[];
                 const labels = Array.from(c.querySelectorAll('.cs-labels li')) as HTMLElement[];
                 gsap.set([...values, ...labels], { autoAlpha: 0 });
@@ -51,7 +71,7 @@ export default function SecondSection() {
                 if (!stats) return;
                 const values = Array.from(stats.querySelectorAll('.cs-values li')) as HTMLElement[];
                 const labels = Array.from(stats.querySelectorAll('.cs-labels li')) as HTMLElement[];
-                tl.to(stats, { autoAlpha: 1, duration: 0.25, ease: 'power2.out' }, '+=0.05');
+                tl.to(stats, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' }, '+=0.05');
                 values.forEach((v, r) => {
                     const label = labels[r];
                     const raw = v.getAttribute('data-value') || '';
@@ -78,7 +98,7 @@ export default function SecondSection() {
                 scrollTrigger: {
                     trigger: rootRef.current,
                     start: 'top top',
-                    end: () => '+=' + window.innerHeight * (n + 3),
+                    end: () => '+=' + window.innerHeight * (n + 5),
                     pin: true,
                     scrub: 1,
                 },
@@ -101,18 +121,59 @@ export default function SecondSection() {
                 const card = cards[i];
                 const stats = card.querySelector('.cs-stats');
 
-                // Every card enters from the right and stops at centre.
-                tl.to(card, { xPercent: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' });
+                // Every card swings in from the right — angle, scale and blur all
+                // resolving together as it lands centre.
+                tl.to(card, {
+                    xPercent: 0,
+                    autoAlpha: 1,
+                    scale: 1,
+                    rotationY: 0,
+                    filter: 'blur(0px)',
+                    duration: 0.7,
+                    ease: 'power3.out',
+                })
+                    // Media wipes open and eases out of its over-scale a beat behind.
+                    .to(card.querySelector('.cs-media'), {
+                        clipPath: 'inset(0% 0% 0% 0%)',
+                        scale: 1,
+                        duration: 0.6,
+                        ease: 'power2.out',
+                    }, '<0.15')
+                    // Title clears its mask last, once the frame has settled.
+                    .to(card.querySelector('.cs-title'), {
+                        yPercent: 0,
+                        duration: 0.5,
+                        ease: 'power3.out',
+                    }, '<0.1');
 
-                // Counter panel reveals on scroll: numbers count up alongside their labels.
+                // Counter panel slides out from under the card: numbers count up
+                // alongside their labels.
                 revealStats(stats);
 
-                // Then slide the card out (last one stays).
-                if (i < n - 1) {
-                    tl.to(card, { xPercent: -170, autoAlpha: 0, duration: 0.4, ease: 'power2.in' }, '+=0.1');
-                }
+                // Then the card banks away to the left, back into depth — the last one
+                // leaves too, clearing the stage for the closing CTA.
+                tl.to(card, {
+                    xPercent: -170,
+                    autoAlpha: 0,
+                    scale: 0.82,
+                    rotationY: 18,
+                    filter: 'blur(6px)',
+                    duration: 0.6,
+                    ease: 'power2.in',
+                }, '+=0.1');
             }
-            // The last card stays centred; pin then releases → next section.
+
+            // ── Phase 5 — the story closes: the left intro wipes away and the CTA lands ──
+            tl.to(q('.cs-left'), { clipPath: 'inset(0% 100% 0% 0%)', duration: 0.5, ease: 'power2.in' }, '<0.1')
+                .to(q('.cs-outro'), { autoAlpha: 1, duration: 0.3, ease: 'power2.out' }, '+=0.1')
+                .to(q('.cs-outro-item'), {
+                    y: 0,
+                    autoAlpha: 1,
+                    duration: 0.5,
+                    ease: 'power3.out',
+                    stagger: 0.15,
+                }, '<');
+            // The CTA holds centred; pin then releases → next section.
         },
         { scope: rootRef }
     );

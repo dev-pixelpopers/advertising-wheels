@@ -184,7 +184,7 @@ export default function MarketsCoverage() {
     const cam = useRef({ ...REGION_VIEWS.NATIONAL });
     const activeRegionRef = useRef<Region>('NATIONAL');
     // Drag bookkeeping — `moved` suppresses the click that ends a drag.
-    const drag = useRef({ on: false, px: 0, py: 0, moved: 0 });
+    const drag = useRef({ on: false, px: 0, py: 0, moved: 0, id: -1, captured: false });
 
     const totals = useMemo(
         () => ({
@@ -337,12 +337,17 @@ export default function MarketsCoverage() {
         return new DOMPoint(clientX, clientY).matrixTransform(ctm.inverse());
     }, []);
 
+    /** Past this much pointer travel a press counts as a pan, not a tap. */
+    const DRAG_SLOP = 6;
+
     const onPointerDown = useCallback((e: React.PointerEvent) => {
         if (e.button !== 0) return;
         gsap.killTweensOf(cam.current);
-        drag.current = { on: true, px: e.clientX, py: e.clientY, moved: 0 };
-        setIsDragging(true);
-        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+        // NB: pointer capture is deliberately NOT taken here. Capturing on
+        // press retargets the follow-up `click` to the stage, so taps would
+        // never reach a market node and its card could never open. Capture is
+        // claimed lazily below, once the press is definitely a drag.
+        drag.current = { on: true, px: e.clientX, py: e.clientY, moved: 0, id: e.pointerId, captured: false };
     }, []);
 
     const onPointerMove = useCallback(
@@ -357,6 +362,17 @@ export default function MarketsCoverage() {
             d.moved += Math.abs(dx) + Math.abs(dy);
             d.px = e.clientX;
             d.py = e.clientY;
+            // Once it is clearly a pan, take the pointer so the drag survives
+            // the cursor leaving the stage.
+            if (!d.captured && d.moved > DRAG_SLOP) {
+                d.captured = true;
+                setIsDragging(true);
+                try {
+                    (e.currentTarget as HTMLElement).setPointerCapture(d.id);
+                } catch {
+                    /* capture unavailable — panning still works in-bounds */
+                }
+            }
             // Convert the pixel delta into map units via the live scale.
             cam.current.x -= dx / ctm.a;
             cam.current.y -= dy / ctm.d;
@@ -367,12 +383,16 @@ export default function MarketsCoverage() {
     );
 
     const onPointerUp = useCallback((e: React.PointerEvent) => {
-        drag.current.on = false;
+        const d = drag.current;
+        d.on = false;
         setIsDragging(false);
-        try {
-            (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-        } catch {
-            /* pointer already released */
+        if (d.captured) {
+            d.captured = false;
+            try {
+                (e.currentTarget as HTMLElement).releasePointerCapture(d.id);
+            } catch {
+                /* pointer already released */
+            }
         }
     }, []);
 
@@ -752,47 +772,6 @@ export default function MarketsCoverage() {
                             ))}
                         </g>
 
-                        {/* ---------- Live truck pins, one per corridor ---------- */}
-                        {TRUCKS.map((t) => (
-                            <g key={t.corridor} data-truck={t.region}>
-                                {/* This invisible circle keeps the group's bounding
-                                    box symmetric about (0,0). MotionPath's
-                                    alignOrigin snaps the bbox centre to the route,
-                                    so without it the protruding arrow would drag
-                                    the whole pin off the road. */}
-                                <circle r="26" fill="none" />
-                                {/* Every child is authored around (0,0) — the pin's
-                                    centre — so native scale/rotate pivot on it. */}
-                                <g data-truck-scale>
-                                    {/* Sonar rings radiating off the pin */}
-                                    <circle className="mc-ping" r="15" fill="none" stroke="#FCD119" strokeWidth="1.3" />
-                                    <circle className="mc-ping mc-ping--late" r="15" fill="none" stroke="#FCD119" strokeWidth="1" />
-
-                                    {/* Heading arrow — rides the ring edge so it
-                                        reads as part of the pin. Only this rotates. */}
-                                    <g data-truck-arrow>
-                                        <path
-                                            d="M 0 -25 L 5.6 -16.2 L 0 -18.6 L -5.6 -16.2 Z"
-                                            fill="#FCD119"
-                                            stroke="#12161d"
-                                            strokeWidth="0.8"
-                                            strokeLinejoin="round"
-                                        />
-                                    </g>
-
-                                    {/* Glowing halo + brushed bezel + dark face */}
-                                    <circle r="15" fill="none" stroke="#FCD119" strokeWidth="2.6" filter="url(#mc-glow)" />
-                                    <circle r="12.8" fill="none" stroke="url(#mc-bezel)" strokeWidth="2.4" />
-                                    <circle r="11.3" fill="#12161d" />
-
-                                    {/* Truck art — upright, mirrored by heading */}
-                                    <g data-truck-art>
-                                        <image href={TRUCK_SRC} x="-10" y="-3.09" width="20" height="6.18" />
-                                    </g>
-                                </g>
-                            </g>
-                        ))}
-
                         {/* Market nodes */}
                         {MARKETS.map((m) => {
                             const r = radiusOf(m);
@@ -853,6 +832,51 @@ export default function MarketsCoverage() {
                                 </g>
                             );
                         })}
+
+                        {/* ---------- Live truck pins, one per corridor ----------
+                            Painted last so a truck always rides OVER the market
+                            nodes it passes — SVG has no z-index, stacking is
+                            document order. `pointer-events: none` keeps a passing
+                            truck from swallowing clicks meant for a node. */}
+                        {TRUCKS.map((t) => (
+                            <g key={t.corridor} data-truck={t.region} className="pointer-events-none">
+                                {/* This invisible circle keeps the group's bounding
+                                    box symmetric about (0,0). MotionPath's
+                                    alignOrigin snaps the bbox centre to the route,
+                                    so without it the protruding arrow would drag
+                                    the whole pin off the road. */}
+                                <circle r="26" fill="none" />
+                                {/* Every child is authored around (0,0) — the pin's
+                                    centre — so native scale/rotate pivot on it. */}
+                                <g data-truck-scale>
+                                    {/* Sonar rings radiating off the pin */}
+                                    <circle className="mc-ping" r="15" fill="none" stroke="#FCD119" strokeWidth="1.3" />
+                                    <circle className="mc-ping mc-ping--late" r="15" fill="none" stroke="#FCD119" strokeWidth="1" />
+
+                                    {/* Heading arrow — rides the ring edge so it
+                                        reads as part of the pin. Only this rotates. */}
+                                    <g data-truck-arrow>
+                                        <path
+                                            d="M 0 -25 L 5.6 -16.2 L 0 -18.6 L -5.6 -16.2 Z"
+                                            fill="#FCD119"
+                                            stroke="#12161d"
+                                            strokeWidth="0.8"
+                                            strokeLinejoin="round"
+                                        />
+                                    </g>
+
+                                    {/* Glowing halo + brushed bezel + dark face */}
+                                    <circle r="15" fill="none" stroke="#FCD119" strokeWidth="2.6" filter="url(#mc-glow)" />
+                                    <circle r="12.8" fill="none" stroke="url(#mc-bezel)" strokeWidth="2.4" />
+                                    <circle r="11.3" fill="#12161d" />
+
+                                    {/* Truck art — upright, mirrored by heading */}
+                                    <g data-truck-art>
+                                        <image href={TRUCK_SRC} x="-10" y="-3.09" width="20" height="6.18" />
+                                    </g>
+                                </g>
+                            </g>
+                        ))}
                     </svg>
 
                     {/* ---------- Region tabs, floating over the map ---------- */}

@@ -130,7 +130,7 @@ export default function TruckExperience() {
     );
 
     return (
-        <section ref={rootRef} className="relative h-[400vh] w-full bg-[#0d0d10]">
+        <section ref={rootRef} className="relative h-[400vh] w-full bg-[#0d0d10] -mt-[100vh]">
             <style>{`
                 @keyframes aw-pulse {
                     0% { box-shadow: 0 0 0 0 rgba(252,209,25,0.55); }
