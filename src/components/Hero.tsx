@@ -344,7 +344,9 @@ export default function Hero({ isReady }: HeroProps) {
 
   return (
     <>
-      <div ref={headerRef} className='fixed z-[100] w-full left-0 py-[2%] px-[3%] top-0'>
+      {/* The bar spans the full viewport at z-100, so it must not capture clicks in
+          its empty middle — the controls inside re-enable pointer events themselves. */}
+      <div ref={headerRef} className='fixed z-[100] w-full left-0 py-[2%] px-[3%] top-0 pointer-events-none'>
         <Header scrolledHero={hasScrolledPast} />
       </div>
       <section ref={containerRef} className="relative h-[550vh] w-[100vw] z-70">

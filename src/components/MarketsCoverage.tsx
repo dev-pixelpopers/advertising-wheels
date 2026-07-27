@@ -882,9 +882,12 @@ export default function MarketsCoverage() {
                     {/* ---------- Region tabs, floating over the map ---------- */}
                     <nav
                         data-mc-ui
-                        /* On desktop the map runs full-bleed under the site's
-                           fixed header, so the tabs are dropped clear of it. */
-                        className="pointer-events-auto absolute inset-x-2.5 top-2.5 z-20 mx-auto flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-white/15 bg-black/35 p-1 backdrop-blur-md md:inset-x-3 md:top-3 md:gap-1 lg:top-[104px]"
+                        /* On desktop the map runs full-bleed under the site's fixed
+                           header, so the tabs are dropped clear of it. That header's
+                           height tracks the viewport width (its py is 2% of vw), so
+                           the offset has to as well: 50px logo + 4vw padding + 14px
+                           gap. A fixed px value only clears the header at one width. */
+                        className="pointer-events-auto absolute inset-x-2.5 top-2.5 z-20 mx-auto flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-white/15 bg-black/35 p-1 backdrop-blur-md md:inset-x-3 md:top-3 md:gap-1 lg:top-[calc(64px+4vw)]"
                         aria-label="Coverage regions"
                         onPointerDown={(e) => e.stopPropagation()}
                     >

@@ -9,7 +9,7 @@ export default function Header({ scrolledHero }: { scrolledHero: Boolean }) {
     return (
         <header className="w-full header flex flex-row justify-between items-center px-0 py-0 z-10 px-[60px]">
             <div className="w-full">
-                <svg width="120" height="50" viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="120" height="50" viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="pointer-events-auto">
                     <path
                         d="M67.498 26.678L71.4258 14.8084L76.2476 0.843518H82.378C87.8215 0.843518 88.5705 0.898221 89.0615 1.33233C89.5585 1.77197 90.4347 4.0414 91.299 7.12787C91.4709 7.74216 91.9982 9.56443 92.4709 11.1774C93.3794 14.2794 93.4047 14.3698 94.4832 18.2994C95.9444 23.6222 96.8961 26.9852 97.1322 27.6557C97.2668 28.0396 97.5988 29.1397 97.8692 30.0997C98.3249 31.7193 98.9546 32.3802 99.2001 31.4959C99.6146 30.0049 99.9869 28.4722 100.609 25.7009C101.005 23.9343 101.503 21.7346 101.716 20.8132C101.929 19.8913 102.362 18.0063 102.679 16.6237C102.996 15.241 103.367 13.6702 103.505 13.1327C103.765 12.1179 104.023 11.0043 104.769 7.68644C105.011 6.61095 105.475 4.62959 105.799 3.28258L106.39 0.833984L113.04 0.908763L119.69 0.983535L119.959 1.75792C120.204 2.46153 119.225 6.98484 117.347 13.8308C116.887 15.511 115.506 21.0205 114.863 23.7456C114.736 24.2831 114.321 25.9172 113.942 27.3766C113.029 30.8826 111.685 36.221 110.671 40.3634C109.283 46.0365 107.404 48.8725 104.516 49.6519C103.743 49.8602 101.454 49.9992 98.7871 49.9992C94.926 49.9992 94.1736 49.9244 93.0295 49.4281C91.7144 48.8569 91.714 48.8554 90.718 46.0068C90.1703 44.439 89.2618 41.7114 88.6997 39.9448C88.1371 38.1782 87.5725 36.4814 87.4443 36.1743C87.3171 35.8672 86.3226 32.9137 85.2357 29.6109C83.3705 23.9428 82.9073 22.9251 82.4197 23.4174C82.1275 23.712 80.9879 27.0574 80.1186 30.1695L75.3132 46.7968L71.6892 37.2915C70.9183 35.2945 70.1788 33.409 70.0456 33.1019C69.9129 32.7948 69.2852 31.2239 68.6511 29.6109L67.498 26.678Z"
                         className="fill-[#1A1917] dark:fill-white transition-colors duration-300"
@@ -23,18 +23,18 @@ export default function Header({ scrolledHero }: { scrolledHero: Boolean }) {
             </div>
             <div className="w-full flex flex-col justify-center items-center">
                 <div className={`flex font-tommy-regular flex-row w-full justify-end items-center gap-8 text-white ${!scrolledHero ? "text-white dark:text-white" : "!text-[#44517b] dark:!text-[#A3B8EE]"}`}>
-                    <Link href={"#"} className="hover:opacity-80 transition-opacity">About</Link>
-                    <Link href={"#"} className="hover:opacity-80 transition-opacity">Projects</Link>
-                    <Link href={"#"} className="hover:opacity-80 transition-opacity">Services</Link>
-                    <Link href={"#"} className="hover:opacity-80 transition-opacity">Vendors</Link>
-                    <Link href={"#"} className="hover:opacity-80 transition-opacity">Blog</Link>
-                    <Link href={"#"} className="hover:opacity-80 transition-opacity">Contact</Link>
+                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">About</Link>
+                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Projects</Link>
+                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Services</Link>
+                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Vendors</Link>
+                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Blog</Link>
+                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Contact</Link>
 
                     {/* Theme Toggle Switch */}
                     <button
                         onClick={toggleTheme}
                         aria-label="Toggle theme"
-                        className="relative flex items-center justify-between w-16 h-8 px-1 rounded-full cursor-pointer bg-[#282828] dark:bg-white/20 border border-white/20 shadow-inner transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#FCD119]"
+                        className="pointer-events-auto relative flex items-center justify-between w-16 h-8 px-1 rounded-full cursor-pointer bg-[#282828] dark:bg-white/20 border border-white/20 shadow-inner transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#FCD119]"
                     >
                         {/* Sun Icon */}
                         <svg
