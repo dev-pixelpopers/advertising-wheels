@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const FRAME_COUNT = 208;
+const FRAME_COUNT = 130;
 
 const getFrameSrc = (index: number): string => {
   const frameNumber = (index + 1).toString().padStart(3, '0');
