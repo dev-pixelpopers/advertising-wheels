@@ -14,6 +14,7 @@ import MarketsCoverage from '@/components/MarketsCoverage';
 import FloatingTestimonials from '@/components/FloatingTestimonials';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import CtaSection from '@/components/CtaSection';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   const [isPreloaderDone, setIsPreloaderDone] = useState(false);
@@ -41,6 +42,7 @@ export default function Home() {
         <FloatingTestimonials />
         <WhyChooseUs />
         <CtaSection />
+        <Footer />
         {/* <Process /> */}
         {/* <CinematicStory /> */}
 

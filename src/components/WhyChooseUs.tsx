@@ -29,6 +29,7 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { useTheme } from '@/context/ThemeContext';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -36,15 +37,51 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 /*  Palette + copy                                                     */
 /* ------------------------------------------------------------------ */
 
-/* Brand palette — matches the rest of the site: the dark surface used by
-   TruckExperience/MarketsCoverage, the signature yellow, and the cream that
-   carries structure lines and muted copy. */
-const INK = '#0A0A0A';      // section ground
-const SURFACE = '#1A1917';  // panel / body fill
-const PANEL = '#141414';    // recessed fill
-const EDGE = '#4A4640';     // warm structural stroke
-const BRAND = '#FCD119';    // accent — replaces the old emerald
-const MUTED = '#9A968E';    // secondary copy on dark
+/**
+ * Brand palette, per theme. These feed inline styles and SVG fill/stroke
+ * attributes, which Tailwind's `dark:` variant cannot reach — so the theme is
+ * read from context and the whole set is swapped at render.
+ *
+ * `brand` is the yellow used for fills and shapes; `accent` is its text-safe
+ * counterpart, because #FCD119 on cream is illegible. On dark they coincide.
+ */
+type Palette = {
+    ink: string; surface: string; panel: string; edge: string;
+    brand: string; accent: string; muted: string; text: string;
+    seam: string; hub: string; grid: string; glass: string; wrapArt: string;
+};
+
+const DARK: Palette = {
+    ink: '#0A0A0A',      // section ground
+    surface: '#1A1917',  // panel / body fill
+    panel: '#141414',    // recessed fill
+    edge: '#4A4640',     // warm structural stroke
+    brand: '#FCD119',
+    accent: '#FCD119',
+    muted: '#9A968E',
+    text: '#FFFFFF',
+    seam: '#33302B',
+    hub: '#6B655C',
+    grid: 'rgba(238,232,217,0.05)',
+    glass: 'rgba(252,209,25,0.07)',
+    wrapArt: 'rgba(26,25,23,0.9)',
+};
+
+const LIGHT: Palette = {
+    ink: '#EEE8D9',      // the site's cream ground
+    surface: '#DCD5C2',
+    panel: '#E6E0CF',
+    edge: '#A8A08C',
+    brand: '#FCD119',
+    accent: '#B8860B',   // text-safe yellow for cream backgrounds
+    muted: '#6F6A60',
+    text: '#1A1917',
+    seam: '#C4BCA6',
+    hub: '#8C8472',
+    grid: 'rgba(26,25,23,0.05)',
+    glass: 'rgba(200,153,43,0.12)',
+    wrapArt: 'rgba(26,25,23,0.9)',
+};
 
 const CHAPTERS = [
     {
@@ -98,11 +135,11 @@ const PARTICLES = [
  *   ghost — neon wireframe silhouette (fleet duplicates)
  *   glass — translucent panels + internal neon grid "engine"
  */
-function TruckSide({ mode }: { mode: 'solid' | 'ghost' | 'glass' }) {
+function TruckSide({ mode, p }: { mode: 'solid' | 'ghost' | 'glass'; p: Palette }) {
     const ghost = mode === 'ghost';
     const glass = mode === 'glass';
-    const bodyFill = ghost ? 'none' : glass ? 'rgba(252,209,25,0.07)' : SURFACE;
-    const stroke = ghost ? 'rgba(252,209,25,0.45)' : glass ? BRAND : EDGE;
+    const bodyFill = ghost ? 'none' : glass ? p.glass : p.surface;
+    const stroke = ghost ? p.accent : glass ? p.accent : p.edge;
 
     return (
         <svg viewBox="0 0 520 260" className="h-auto w-full" aria-hidden="true">
@@ -110,7 +147,7 @@ function TruckSide({ mode }: { mode: 'solid' | 'ghost' | 'glass' }) {
                 <defs>
                     <linearGradient id="wcu-wrapgrad" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0" stopColor="#C8992B" />
-                        <stop offset="0.55" stopColor={BRAND} />
+                        <stop offset="0.55" stopColor={p.brand} />
                         <stop offset="1" stopColor="#FFE98A" />
                     </linearGradient>
                     <clipPath id="wcu-wrapclip">
@@ -128,15 +165,15 @@ function TruckSide({ mode }: { mode: 'solid' | 'ghost' | 'glass' }) {
                     <rect className="wcu-wrapbar" x="30" y="52" width="298" height="116" fill="url(#wcu-wrapgrad)" />
                     {/* Simple brand shapes riding on the wrap */}
                     {/* Dark-on-yellow, the way the brand actually sits on a wrap. */}
-                    <circle className="wcu-wrapbar-art" cx="90" cy="110" r="26" fill="rgba(26,25,23,0.9)" />
-                    <rect className="wcu-wrapbar-art" x="140" y="96" width="120" height="10" rx="5" fill="rgba(26,25,23,0.92)" />
+                    <circle className="wcu-wrapbar-art" cx="90" cy="110" r="26" fill={p.wrapArt} />
+                    <rect className="wcu-wrapbar-art" x="140" y="96" width="120" height="10" rx="5" fill={p.wrapArt} />
                     <rect className="wcu-wrapbar-art" x="140" y="118" width="76" height="10" rx="5" fill="rgba(26,25,23,0.55)" />
                 </g>
             )}
 
             {/* Internal neon grid engine (glass mode only) */}
             {glass && (
-                <g className="wcu-engine" stroke={BRAND} strokeWidth="0.8" opacity="0.55">
+                <g className="wcu-engine" stroke={p.accent} strokeWidth="0.8" opacity="0.55">
                     {[70, 118, 166, 214, 262, 310].map((x) => (
                         <line key={x} x1={x} y1="48" x2={x} y2="172" />
                     ))}
@@ -144,65 +181,65 @@ function TruckSide({ mode }: { mode: 'solid' | 'ghost' | 'glass' }) {
                         <line key={y} x1="26" y1={y} x2="332" y2={y} />
                     ))}
                     {/* Glowing engine core */}
-                    <circle cx="360" cy="150" r="16" fill={BRAND} opacity="0.25" stroke="none" />
-                    <circle cx="360" cy="150" r="7" fill={BRAND} stroke="none" />
+                    <circle cx="360" cy="150" r="16" fill={p.accent} opacity="0.25" stroke="none" />
+                    <circle cx="360" cy="150" r="7" fill={p.accent} stroke="none" />
                 </g>
             )}
 
             {/* Cab */}
             <path
                 d="M 346 92 L 412 92 L 452 132 L 458 158 L 458 178 L 346 178 Z"
-                fill={ghost ? 'none' : glass ? 'rgba(252,209,25,0.1)' : PANEL}
+                fill={ghost ? 'none' : glass ? p.glass : p.panel}
                 stroke={stroke}
                 strokeWidth={ghost ? 2 : 1.5}
             />
             {/* Windshield */}
-            <path d="M 354 100 L 406 100 L 434 130 L 354 130 Z" fill={ghost || glass ? 'none' : INK} stroke={stroke} strokeWidth="1" />
+            <path d="M 354 100 L 406 100 L 434 130 L 354 130 Z" fill={ghost || glass ? 'none' : p.ink} stroke={stroke} strokeWidth="1" />
             {/* Headlight (high-beam anchor) */}
-            <rect x="452" y="150" width="8" height="12" rx="2" fill={ghost ? 'none' : BRAND} stroke={stroke} strokeWidth="0.8" />
+            <rect x="452" y="150" width="8" height="12" rx="2" fill={ghost ? 'none' : p.brand} stroke={stroke} strokeWidth="0.8" />
 
             {/* Underbody + wheels */}
             <line x1="22" y1="192" x2="458" y2="192" stroke={stroke} strokeWidth="1" opacity="0.5" />
             {[92, 168, 398].map((cx) => (
                 <g key={cx}>
-                    <circle cx={cx} cy="200" r="26" fill={ghost ? 'none' : INK} stroke={stroke} strokeWidth={ghost ? 2 : 1.5} />
-                    <circle cx={cx} cy="200" r="9" fill="none" stroke={ghost || glass ? BRAND : '#6B655C'} strokeWidth="1.5" />
+                    <circle cx={cx} cy="200" r="26" fill={ghost ? 'none' : p.ink} stroke={stroke} strokeWidth={ghost ? 2 : 1.5} />
+                    <circle cx={cx} cy="200" r="9" fill="none" stroke={ghost || glass ? p.accent : p.hub} strokeWidth="1.5" />
                 </g>
             ))}
         </svg>
     );
 }
 
-/** Stylized 3/4 isometric chassis — dark HUD wireframe treatment. */
-function TruckIso() {
+/** Stylized 3/4 isometric chassis — HUD wireframe treatment. */
+function TruckIso({ p }: { p: Palette }) {
     return (
         <svg viewBox="0 0 520 300" className="h-auto w-full" aria-hidden="true">
             {/* Trailer side panel (skewed) */}
-            <polygon points="42,78 348,52 348,196 42,222" fill={SURFACE} stroke={EDGE} strokeWidth="1.5" />
+            <polygon points="42,78 348,52 348,196 42,222" fill={p.surface} stroke={p.edge} strokeWidth="1.5" />
             {/* Trailer front face */}
-            <polygon points="348,52 432,84 432,208 348,196" fill="#232120" stroke={EDGE} strokeWidth="1.5" />
+            <polygon points="348,52 432,84 432,208 348,196" fill={p.panel} stroke={p.edge} strokeWidth="1.5" />
             {/* Top sliver */}
-            <polygon points="42,78 348,52 432,84 128,112" fill={PANEL} stroke={EDGE} strokeWidth="1" opacity="0.9" />
+            <polygon points="42,78 348,52 432,84 128,112" fill={p.panel} stroke={p.edge} strokeWidth="1" opacity="0.9" />
             {/* Panel seams */}
-            <g stroke="#33302B" strokeWidth="1">
+            <g stroke={p.seam} strokeWidth="1">
                 <line x1="120" y1="71" x2="120" y2="215" />
                 <line x1="200" y1="65" x2="200" y2="209" />
                 <line x1="280" y1="58" x2="280" y2="202" />
             </g>
             {/* Cab (front-right) */}
-            <polygon points="432,132 470,146 476,178 476,214 432,208" fill={PANEL} stroke={EDGE} strokeWidth="1.5" />
-            <polygon points="436,138 464,150 468,172 436,166" fill={INK} stroke="#33302B" strokeWidth="1" />
+            <polygon points="432,132 470,146 476,178 476,214 432,208" fill={p.panel} stroke={p.edge} strokeWidth="1.5" />
+            <polygon points="436,138 464,150 468,172 436,166" fill={p.ink} stroke={p.seam} strokeWidth="1" />
             {/* Wheels (skewed ellipses) */}
             {[
                 [110, 238], [190, 232], [420, 232],
             ].map(([cx, cy]) => (
                 <g key={cx}>
-                    <ellipse cx={cx} cy={cy} rx="24" ry="21" fill={INK} stroke={EDGE} strokeWidth="1.5" />
-                    <ellipse cx={cx} cy={cy} rx="8" ry="7" fill="none" stroke={BRAND} strokeWidth="1.2" opacity="0.7" />
+                    <ellipse cx={cx} cy={cy} rx="24" ry="21" fill={p.ink} stroke={p.edge} strokeWidth="1.5" />
+                    <ellipse cx={cx} cy={cy} rx="8" ry="7" fill="none" stroke={p.accent} strokeWidth="1.2" opacity="0.7" />
                 </g>
             ))}
             {/* HUD measure ticks along the side panel */}
-            <g stroke={BRAND} strokeWidth="1" opacity="0.5">
+            <g stroke={p.accent} strokeWidth="1" opacity="0.5">
                 <line x1="42" y1="240" x2="348" y2="214" strokeDasharray="4 6" />
                 <line x1="42" y1="234" x2="42" y2="246" />
                 <line x1="348" y1="208" x2="348" y2="220" />
@@ -219,6 +256,12 @@ export default function WhyChooseUs() {
     const rootRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
     const impressionsRef = useRef<HTMLSpanElement>(null);
+
+    // Swapping the palette only re-renders colour props; GSAP owns transform /
+    // opacity / visibility, and React's style diffing leaves those untouched —
+    // so toggling the theme mid-scroll can't disturb the timeline.
+    const { theme } = useTheme();
+    const p = theme === 'dark' ? DARK : LIGHT;
 
     useGSAP(
         () => {
@@ -347,7 +390,7 @@ export default function WhyChooseUs() {
 
     return (
         /* 400vh scroll track */
-        <div ref={rootRef} className="relative h-[400vh] w-full" style={{ backgroundColor: INK }}>
+        <div ref={rootRef} className="relative h-[400vh] w-full" style={{ backgroundColor: p.ink }}>
             {/* Pinned full-screen frame */}
             <div ref={screenRef} className="flex h-screen w-full flex-col overflow-hidden md:flex-row">
                 {/* ------------------------------------------------ */}
@@ -359,10 +402,10 @@ export default function WhyChooseUs() {
                     {/* Section intro — holds for the whole section while the four
                         reasons cycle underneath it. */}
                     <div className="shrink-0">
-                        <h2 className="wcu-intro-item font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight text-white md:text-[46px]">
-                            Why Choose Us<span style={{ color: BRAND }}>.</span>
+                        <h2 className="wcu-intro-item font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[46px]" style={{ color: p.text }}>
+                            Why Choose Us<span style={{ color: p.accent }}>.</span>
                         </h2>
-                        <p className="wcu-intro-item mt-3 max-w-[430px] font-tommy-regular text-[14px] leading-[1.6] md:text-[15px]" style={{ color: MUTED }}>
+                        <p className="wcu-intro-item mt-3 max-w-[430px] font-tommy-regular text-[14px] leading-[1.6] md:text-[15px]" style={{ color: p.muted }}>
                             Four reasons brands move budget onto the road — efficiency, reach,
                             scale, and proof you can audit.
                         </p>
@@ -377,10 +420,10 @@ export default function WhyChooseUs() {
                             data-wcu-chapter={i}
                             className="absolute inset-0 flex flex-col justify-start"
                         >
-                            <p className="font-tommy-medium text-[12px] uppercase tracking-[4px]" style={{ color: BRAND }}>
+                            <p className="font-tommy-medium text-[12px] uppercase tracking-[4px]" style={{ color: p.accent }}>
                                 {ch.tag}
                             </p>
-                            <h3 className="mt-3 font-tommy-bold text-[34px] leading-[1.02] tracking-[-1px] text-white md:text-[56px] md:tracking-[-2px]">
+                            <h3 className="mt-3 font-tommy-bold text-[34px] leading-[1.02] tracking-[-1px] md:text-[56px] md:tracking-[-2px]" style={{ color: p.text }}>
                                 {i === 0
                                     ? // CH.01 headline is split for the letter-stagger.
                                       ch.title.split('').map((c, j) => (
@@ -390,7 +433,7 @@ export default function WhyChooseUs() {
                                       ))
                                     : ch.title}
                             </h3>
-                            <p className={`mt-5 max-w-[420px] font-tommy-regular text-[14px] leading-[1.7] md:text-[16px] ${i === 0 ? 'wcu-sub' : ''}`} style={{ color: MUTED }}>
+                            <p className={`mt-5 max-w-[420px] font-tommy-regular text-[14px] leading-[1.7] md:text-[16px] ${i === 0 ? 'wcu-sub' : ''}`} style={{ color: p.muted }}>
                                 {ch.body}
                             </p>
                         </div>
@@ -406,19 +449,18 @@ export default function WhyChooseUs() {
                     <div
                         className="absolute inset-0"
                         style={{
-                            backgroundImage:
-                                'linear-gradient(rgba(238,232,217,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(238,232,217,0.05) 1px, transparent 1px)',
+                            backgroundImage: `linear-gradient(${p.grid} 1px, transparent 1px), linear-gradient(90deg, ${p.grid} 1px, transparent 1px)`,
                             backgroundSize: '44px 44px',
                         }}
                     />
 
                     {/* HUD frame: slicing border lines + corner brackets */}
-                    <div className="wcu-frame-h absolute left-[6%] right-[6%] top-[7%] h-px origin-left" style={{ backgroundColor: `${BRAND}55` }} />
-                    <div className="wcu-frame-h absolute bottom-[7%] left-[6%] right-[6%] h-px origin-right" style={{ backgroundColor: `${BRAND}55` }} />
-                    <div className="wcu-frame-v absolute bottom-[7%] left-[6%] top-[7%] w-px origin-top" style={{ backgroundColor: `${BRAND}55` }} />
-                    <div className="wcu-frame-v absolute bottom-[7%] right-[6%] top-[7%] w-px origin-bottom" style={{ backgroundColor: `${BRAND}55` }} />
+                    <div className="wcu-frame-h absolute left-[6%] right-[6%] top-[7%] h-px origin-left" style={{ backgroundColor: `${p.accent}55` }} />
+                    <div className="wcu-frame-h absolute bottom-[7%] left-[6%] right-[6%] h-px origin-right" style={{ backgroundColor: `${p.accent}55` }} />
+                    <div className="wcu-frame-v absolute bottom-[7%] left-[6%] top-[7%] w-px origin-top" style={{ backgroundColor: `${p.accent}55` }} />
+                    <div className="wcu-frame-v absolute bottom-[7%] right-[6%] top-[7%] w-px origin-bottom" style={{ backgroundColor: `${p.accent}55` }} />
                     {(['left-[6%] top-[7%] border-l-2 border-t-2', 'right-[6%] top-[7%] border-r-2 border-t-2', 'bottom-[7%] left-[6%] border-b-2 border-l-2', 'bottom-[7%] right-[6%] border-b-2 border-r-2'] as const).map((pos, i) => (
-                        <div key={i} className={`wcu-corner absolute h-5 w-5 ${pos}`} style={{ borderColor: BRAND }} />
+                        <div key={i} className={`wcu-corner absolute h-5 w-5 ${pos}`} style={{ borderColor: p.accent }} />
                     ))}
 
                     {/* Perspective stage for the simulated yaw rotation */}
@@ -426,37 +468,37 @@ export default function WhyChooseUs() {
                         <div className="wcu-truckstage relative h-full w-full will-change-transform">
                             {/* Ghost fleet (phase 3) — behind the hero truck */}
                             <div className="wcu-ghost wcu-ghost--l absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
-                                <TruckSide mode="ghost" />
+                                <TruckSide mode="ghost" p={p} />
                             </div>
                             <div className="wcu-ghost wcu-ghost--r absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
-                                <TruckSide mode="ghost" />
+                                <TruckSide mode="ghost" p={p} />
                             </div>
                             {/* Hero truck: three material states, crossfaded */}
                             <div className="wcu-truck-iso absolute inset-x-[4%] top-1/2 -translate-y-1/2 will-change-transform">
-                                <TruckIso />
+                                <TruckIso p={p} />
                             </div>
                             <div className="wcu-truck-side absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
-                                <TruckSide mode="solid" />
+                                <TruckSide mode="solid" p={p} />
                             </div>
                             <div className="wcu-truck-glass absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
-                                <TruckSide mode="glass" />
+                                <TruckSide mode="glass" p={p} />
                             </div>
                         </div>
                     </div>
 
                     {/* Phase 1: surface-area measurement flag */}
-                    <div className="wcu-flag-stem absolute left-[58%] top-[16%] h-16 w-px" style={{ backgroundColor: BRAND }} />
-                    <div className="wcu-flag-label absolute left-[58%] top-[9%] whitespace-nowrap rounded-[4px] border px-3 py-1.5 font-tommy-medium text-[10px] uppercase tracking-[2px] md:text-[11px]" style={{ borderColor: `${BRAND}88`, color: BRAND, backgroundColor: `${INK}cc` }}>
+                    <div className="wcu-flag-stem absolute left-[58%] top-[16%] h-16 w-px" style={{ backgroundColor: p.accent }} />
+                    <div className="wcu-flag-label absolute left-[58%] top-[9%] whitespace-nowrap rounded-[4px] border px-3 py-1.5 font-tommy-medium text-[10px] uppercase tracking-[2px] md:text-[11px]" style={{ borderColor: `${p.accent}88`, color: p.accent, backgroundColor: `${p.ink}cc` }}>
                         Surface Area — 600 sq. ft.
                     </div>
 
                     {/* Phase 2: social particles rising from the tires */}
-                    {PARTICLES.map((p, i) => (
-                        <div key={i} className="wcu-particle absolute will-change-transform" style={{ left: p.left, top: p.top }}>
-                            {p.kind === 'ring' && <div className="h-3 w-3 rounded-full border-2" style={{ borderColor: BRAND }} />}
-                            {p.kind === 'dot' && <div className="h-2 w-2 rounded-full" style={{ backgroundColor: BRAND }} />}
-                            {p.kind === 'plus' && (
-                                <span className="font-tommy-bold text-[13px]" style={{ color: BRAND }}>+</span>
+                    {PARTICLES.map((particle, i) => (
+                        <div key={i} className="wcu-particle absolute will-change-transform" style={{ left: particle.left, top: particle.top }}>
+                            {particle.kind === 'ring' && <div className="h-3 w-3 rounded-full border-2" style={{ borderColor: p.accent }} />}
+                            {particle.kind === 'dot' && <div className="h-2 w-2 rounded-full" style={{ backgroundColor: p.accent }} />}
+                            {particle.kind === 'plus' && (
+                                <span className="font-tommy-bold text-[13px]" style={{ color: p.accent }}>+</span>
                             )}
                         </div>
                     ))}
@@ -464,24 +506,24 @@ export default function WhyChooseUs() {
                     {/* Phase 3: floating geolocation pins */}
                     {PINS.map((pin, i) => (
                         <div key={i} className="wcu-pin absolute flex flex-col items-center" style={{ left: pin.left, top: pin.top }}>
-                            <span className="whitespace-nowrap rounded-[4px] border px-2.5 py-1 font-tommy-medium text-[9px] uppercase tracking-[1.5px] md:text-[10px]" style={{ borderColor: `${BRAND}88`, color: BRAND, backgroundColor: `${INK}cc` }}>
+                            <span className="whitespace-nowrap rounded-[4px] border px-2.5 py-1 font-tommy-medium text-[9px] uppercase tracking-[1.5px] md:text-[10px]" style={{ borderColor: `${p.accent}88`, color: p.accent, backgroundColor: `${p.ink}cc` }}>
                                 {pin.label}
                             </span>
-                            <span className="mt-px h-0 w-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent" style={{ borderTopColor: BRAND }} />
+                            <span className="mt-px h-0 w-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent" style={{ borderTopColor: p.accent }} />
                         </div>
                     ))}
 
                     {/* Phase 4: telemetry dashboard cards */}
-                    <div className="wcu-card absolute right-[4%] top-[18%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${BRAND}55`, backgroundColor: `${INK}b3` }}>
-                        <p className="font-tommy-medium text-[10px] uppercase tracking-[2px]" style={{ color: MUTED }}>Telemetry</p>
-                        <p className="mt-1 flex items-center gap-2 font-tommy-medium text-[12px] uppercase tracking-[1px]" style={{ color: BRAND }}>
-                            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full" style={{ backgroundColor: BRAND }} />
+                    <div className="wcu-card absolute right-[4%] top-[18%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${p.accent}55`, backgroundColor: `${p.ink}b3` }}>
+                        <p className="font-tommy-medium text-[10px] uppercase tracking-[2px]" style={{ color: p.muted }}>Telemetry</p>
+                        <p className="mt-1 flex items-center gap-2 font-tommy-medium text-[12px] uppercase tracking-[1px]" style={{ color: p.accent }}>
+                            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full" style={{ backgroundColor: p.accent }} />
                             24/7 ACTIVE GPS
                         </p>
                     </div>
-                    <div className="wcu-card absolute bottom-[16%] left-[6%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${BRAND}55`, backgroundColor: `${INK}b3` }}>
-                        <p className="font-tommy-medium text-[10px] uppercase tracking-[2px]" style={{ color: MUTED }}>Impressions</p>
-                        <p className="mt-1 font-tommy-bold text-[17px] tracking-[0.5px] tabular-nums" style={{ color: BRAND }}>
+                    <div className="wcu-card absolute bottom-[16%] left-[6%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${p.accent}55`, backgroundColor: `${p.ink}b3` }}>
+                        <p className="font-tommy-medium text-[10px] uppercase tracking-[2px]" style={{ color: p.muted }}>Impressions</p>
+                        <p className="mt-1 font-tommy-bold text-[17px] tracking-[0.5px] tabular-nums" style={{ color: p.accent }}>
                             <span ref={impressionsRef}>Calculating…</span>
                         </p>
                     </div>
@@ -489,7 +531,7 @@ export default function WhyChooseUs() {
                     {/* Exit high-beam wash */}
                     <div
                         className="wcu-beam pointer-events-none absolute inset-0"
-                        style={{ background: `radial-gradient(ellipse at 78% 55%, ${BRAND}cc 0%, rgba(255,255,255,0.5) 30%, transparent 70%)`, opacity: 0 }}
+                        style={{ background: `radial-gradient(ellipse at 78% 55%, ${p.accent}cc 0%, rgba(255,255,255,0.5) 30%, transparent 70%)`, opacity: 0 }}
                     />
                 </div>
             </div>
