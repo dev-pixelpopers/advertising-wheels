@@ -24,14 +24,14 @@ import Logo from './Logo';
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /* Row-major order, so the two-column grid reads About/Vendors, Projects/Blog,
-   Services/Contact — matching the header's nav. All '#' until routes exist. */
+   Services/Contact — matching the header's nav. */
 const QUICK_LINKS = [
-    { label: 'About', href: '#' },
-    { label: 'Vendors', href: '#' },
-    { label: 'Projects', href: '#' },
-    { label: 'Blog', href: '#' },
-    { label: 'Services', href: '#' },
-    { label: 'Contact', href: '#' },
+    { label: 'About', href: '/about' },
+    { label: 'Vendors', href: '/vendors' },
+    { label: 'Projects', href: '/projects' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Services', href: '/services' },
+    { label: 'Contact', href: '/contact' },
 ];
 
 const SOCIALS = [

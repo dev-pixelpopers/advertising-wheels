@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import Logo from "@/components/Logo";
+import { NAV_LINKS } from "@/config/nav";
 
 export default function Header({ scrolledHero }: { scrolledHero: Boolean }) {
     const { theme, toggleTheme } = useTheme();
@@ -14,12 +15,9 @@ export default function Header({ scrolledHero }: { scrolledHero: Boolean }) {
             </div>
             <div className="w-full flex flex-col justify-center items-center">
                 <div className={`flex font-tommy-regular flex-row w-full justify-end items-center gap-8 text-white ${!scrolledHero ? "text-white dark:text-white" : "!text-[#909ABA] dark:!text-[#A3B8EE]"}`}>
-                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">About</Link>
-                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Projects</Link>
-                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Services</Link>
-                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Vendors</Link>
-                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Blog</Link>
-                    <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Contact</Link>
+                    {NAV_LINKS.map((l) => (
+                        <Link key={l.href} href={l.href} className="pointer-events-auto hover:opacity-80 transition-opacity">{l.label}</Link>
+                    ))}
 
                     {/* Theme Toggle Switch */}
                     <button
