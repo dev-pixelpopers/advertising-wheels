@@ -13,7 +13,7 @@ export default function Header({ scrolledHero }: { scrolledHero: Boolean }) {
                 <Logo className="pointer-events-auto" />
             </div>
             <div className="w-full flex flex-col justify-center items-center">
-                <div className={`flex font-tommy-regular flex-row w-full justify-end items-center gap-8 text-white ${!scrolledHero ? "text-white dark:text-white" : "!text-[#44517b] dark:!text-[#A3B8EE]"}`}>
+                <div className={`flex font-tommy-regular flex-row w-full justify-end items-center gap-8 text-white ${!scrolledHero ? "text-white dark:text-white" : "!text-[#909ABA] dark:!text-[#A3B8EE]"}`}>
                     <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">About</Link>
                     <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Projects</Link>
                     <Link href={"#"} className="pointer-events-auto hover:opacity-80 transition-opacity">Services</Link>

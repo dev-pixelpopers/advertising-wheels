@@ -148,7 +148,7 @@ export default function TruckExperience() {
             <div className="sticky top-0 h-screen w-full overflow-hidden">
 
                 {/* HOW IT WORKS HEADING */}
-                <div className="absolute top-[6%] left-0 w-full flex flex-col items-center justify-center z-30 pointer-events-none">
+                <div className="absolute top-[12%] left-0 w-full flex flex-col items-center justify-center z-30 pointer-events-none">
                     <h2
                         ref={headingRef}
                         className="text-[44px] md:text-[60px] font-tommy-bold uppercase tracking-tight text-[#1A1917] dark:text-white transition-colors duration-300 drop-shadow-md text-center"

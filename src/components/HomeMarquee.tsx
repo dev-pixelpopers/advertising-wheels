@@ -1,31 +1,64 @@
 'use client';
 
+const LOGO_DIR = '/assets/images/review/logo';
+
+/** Most logos are a single file. Ones with a light/dark pair swap by theme:
+ *  `white` shows on the light theme, `dark` shows on the dark theme. */
+type LogoEntry = string | { light: string; dark: string };
+
+const ROW_1_LOGOS: LogoEntry[] = [
+    { light: 'partner-saks-white.png', dark: 'partner-saks-dark.png' },
+    'partner-staywell.png',
+    'partner-vw.png',
+    'partner-wendys.png',
+    'partner-cuyahoga.png',
+    'partner-kaiser.png',
+    'partner-mote-museum.png',
+    'partner-nationwide.png',
+    'partner-penn811.png',
+    'partner-razorbacks.png',
+];
+
+const ROW_2_LOGOS: LogoEntry[] = [
+    'partner-echo.png',
+    'partner-fanduel.png',
+    'partner-morgan.png',
+    'partner-hertz.png',
+    'partner-outer.png',
+    'partner-mudflap.png',
+    'partner-floor-decor.png',
+    'partner-xfinity.png',
+    'partner-fifth-third.png',
+    'partner-ohionet.png',
+    'partner-titan.png',
+    'partner-reliable.png',
+    'partner-shocktop.png',
+    'partner-raising-canes.png',
+];
+
 export default function HomeMarquee() {
-    const logos: string[] = [
-        'marquee-1.png',
-        'marquee-1.png',
-        'marquee-1.png',
-        'marquee-1.png',
-        'marquee-1.png',
-        'marquee-1.png',
-        'marquee-1.png',
-        'marquee-1.png',
-        'marquee-1.png',
-        'marquee-1.png',
-    ];
+    // Two copies so each track can loop seamlessly (translateX -50% lands on a boundary).
+    const row1Track = [...ROW_1_LOGOS, ...ROW_1_LOGOS, ...ROW_1_LOGOS];
+    const row2Track = [...ROW_2_LOGOS, ...ROW_2_LOGOS, ...ROW_2_LOGOS];
 
-    // Two copies so the track can loop seamlessly (translateX -50% lands on a boundary).
-    const track = [...logos, ...logos];
+    const renderTile = (logo: LogoEntry, index: number) => {
+        const imgClass = "w-[160px] h-[120px] object-contain opacity-[0.8] transition-all";
 
-    const renderTile = (logo: string, index: number) => (
-        <div key={index} className="mr-2 shrink-0">
-            <img
-                className="w-[100px] h-[100px] object-contain opacity-[0.8] transition-all"
-                src={`/assets/images/${logo}`}
-                alt=""
-            />
-        </div>
-    );
+        if (typeof logo === 'string') {
+            return (
+                <div key={index} className="mr-2 shrink-0">
+                    <img className={imgClass} src={`${LOGO_DIR}/${logo}`} alt="" />
+                </div>
+            );
+        }
+
+        return (
+            <div key={index} className="mr-2 shrink-0">
+                <img className={`${imgClass} block dark:hidden`} src={`${LOGO_DIR}/${logo.light}`} alt="" />
+                <img className={`${imgClass} hidden dark:block`} src={`${LOGO_DIR}/${logo.dark}`} alt="" />
+            </div>
+        );
+    };
 
     // Animations are orchestrated by the parent SecondSection via the class hooks below.
     return (
@@ -51,7 +84,7 @@ export default function HomeMarquee() {
                         className="flex flex-row gap-[150px]"
                         style={{ animation: 'marquee-right 40s linear infinite' }}
                     >
-                        {track.map(renderTile)}
+                        {row2Track.map(renderTile)}
                     </div>
                 </div>
 
@@ -60,7 +93,7 @@ export default function HomeMarquee() {
                         className="flex flex-row gap-[150px]"
                         style={{ animation: 'marquee-left 40s linear infinite' }}
                     >
-                        {track.map(renderTile)}
+                        {row1Track.map(renderTile)}
                     </div>
                 </div>
             </div>
