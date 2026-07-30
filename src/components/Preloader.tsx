@@ -18,6 +18,8 @@ interface PreloaderProps {
 export default function Preloader({ onComplete }: PreloaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const percentRef = useRef<HTMLSpanElement>(null);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isTextDone, setIsTextDone] = useState(false);
 
@@ -43,6 +45,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
       const timeline = gsap.timeline();
       timelineRef.current = timeline;
+
+      // Loading progress: 0 → 90% across the word intro, → 100% once the page loads.
+      const prog = { v: 0 };
+      const setProg = () => {
+        gsap.set(progressRef.current, { scaleX: prog.v });
+        if (percentRef.current) percentRef.current.textContent = Math.round(prog.v * 100) + '%';
+      };
 
       timeline
         // fromTo (not from) so the end state is explicit: the words are hidden
@@ -80,6 +89,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         // timeline once the window 'load' event has also fired.
         .call(() => setIsTextDone(true))
         .addPause()
+        // Page has finished loading — top the bar off to 100%.
+        .to(prog, { v: 1, duration: 0.4, ease: 'power2.out', onUpdate: setProg })
         .to(containerRef.current, {
           // yPercent: -100,
           autoAlpha: 0,
@@ -92,6 +103,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             onComplete?.();
           },
         });
+
+      // Bar climbs to ~90% across the intro, then holds until the page 'load' resumes it.
+      timeline.to(prog, { v: 0.9, duration: 4.5, ease: 'power1.inOut', onUpdate: setProg }, 0);
 
       return () => {
         document.documentElement.style.overflow = '';
@@ -142,6 +156,23 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         </div>
         <span className="preloader-word-2 font-tommy-regular text-2xl leading-none opacity-0">
           {FINAL_WORD}
+        </span>
+      </div>
+
+      {/* Loading progress bar */}
+      <div className="absolute bottom-[12%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-[70]">
+        <div className="w-[240px] md:w-[300px] h-[3px] rounded-full bg-[#EEE8D9]/15 overflow-hidden">
+          <div
+            ref={progressRef}
+            className="h-full w-full bg-[#F6D54D] origin-left"
+            style={{ transform: 'scaleX(0)' }}
+          />
+        </div>
+        <span
+          ref={percentRef}
+          className="text-[#EEE8D9]/60 text-[12px] font-tommy-regular tracking-[0.3em]"
+        >
+          0%
         </span>
       </div>
     </div>
