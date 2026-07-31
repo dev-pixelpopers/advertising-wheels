@@ -38,6 +38,8 @@
   --font-tommy-bold: var(--font-tommy-bold);
   --font-tommy-regular: var(--font-tommy-regular);
   --font-tommy-medium: var(--font-tommy-medium);
+
+  --breakpoint-3xl: 120rem;
 }
 
 body {

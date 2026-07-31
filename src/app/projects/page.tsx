@@ -255,8 +255,6 @@ function Industries() {
 export default function ProjectsPage() {
     return (
         <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
-            <SiteHeader />
-
             <PortalHero
                 badge="Work"
                 title="THE RESULTS"
@@ -272,7 +270,6 @@ export default function ProjectsPage() {
             <Industries />
 
             <CtaSection />
-            <Footer />
         </main>
     );
 }

@@ -136,36 +136,36 @@ export default function AdvertisingLeader() {
                 </svg>
             </div>
             {/* SCENE A — the statement. Own layer, centred on the stage. */}
-            <div ref={textSceneRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-[10%]">
-                <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[36px] leading-[66px] font-tommy-medium text-center capitalize">
+            <div ref={textSceneRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-[3%] lg:px-[2%] xl:px-[5%] 2xl:px-[10%]">
+                <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[16px] sm:text-[18px] md:text-[clamp(1.1rem,2.2vw,2.25rem)] leading-[183%] font-tommy-medium text-center capitalize w-full">
                     Advertising Wheels is the leader in truckside billboard advertising. For 25+ years
                     <span className="text-[#D5CCB4] dark:text-[#8C8472]"> we’ve helped national and local brands own the street with one of the largest truckside fleets in the country —</span> pairing bold, high-impact creative with GPS-tracked routing and independently verified impressions
                     <span className="text-[#D5CCB4] dark:text-[#8C8472]"> so every campaign is planned, targeted, and measurable.</span>
                 </p>
-                <a ref={btnRef} className="rounded-[6px] bg-[#282828] dark:bg-[#FCD119] py-[12px] px-[50px] text-[24px] leading-[50px] text-[#FCD119] dark:text-black font-tommy-regular w-max mt-[50px] transition-colors duration-300 cursor-pointer">More about us</a>
+                <a ref={btnRef} className="rounded-[6px] bg-[#282828] dark:bg-[#FCD119] py-[6px] md:py-[10px] lg:py-[12px] px-[20px] md:px-[35px] lg:px-[50px] text-[16px] md:text-[clamp(1.125rem,1.7vw,1.5rem)] leading-[208%] text-[#FCD119] dark:text-black font-tommy-regular w-max mt-[50px] transition-colors duration-300 cursor-pointer">More about us</a>
             </div>
 
             {/* SCENE B — the proof. Same stage, revealed once the statement clears. */}
-            <div ref={cardsSceneRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-[10%]">
-                <h2 ref={statsHeadingRef} className="text-[#1A1917] dark:text-white transition-colors duration-300 font-tommy-bold uppercase tracking-tight text-[clamp(28px,3vw,48px)] leading-tight text-center">
+            <div ref={cardsSceneRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center lg:px-[2%] xl:px-[5%] 2xl:px-[10%] md:pt-[40px] lg:pt-0">
+                <h2 ref={statsHeadingRef} className="text-[#1A1917] dark:text-white transition-colors duration-300 font-tommy-bold uppercase tracking-tight text-[20px] md:text-[clamp(28px,3vw,48px)] leading-tight text-center">
                     The Case For Out-Of-Home<span className="text-[#FCD119]">.</span>
                 </h2>
-                <p ref={statsSubRef} className="mt-[14px] max-w-[680px] text-center text-[#8A857C] dark:text-[#9A968E] transition-colors duration-300 font-tommy-regular text-[18px] leading-[30px]">
+                <p ref={statsSubRef} className="mt-[8px] md:mt-[10px] lg:mt-[14px] lg:max-w-[680px] text-center text-[#8A857C] dark:text-[#9A968E] transition-colors duration-300 font-tommy-regular text-[14px] md:text-[16px] lg:text-[18px] leading-[167%]">
                     Independent measurement, not our own claims — here is how the format compares
                     against the channels chasing the same budget.
                 </p>
-                <div ref={cardsRef} className="flex flex-row justify-between w-full gap-x-[37px] max-w-[90%] mt-[46px]">
+                <div ref={cardsRef} className="flex flex-col gap-y-4 lg:gap-y-0 lg:flex-row justify-between w-full  lg:gap-x-[28px] xl:gap-x-[37px] lg:max-w-[95%] xl:max-w-[90%] mt-[20px] md:mt-[25px] lg:mt-[40px] xl:mt-[46px]">
                     {
                         cards.map((card, index) => {
                             return (
-                                <div key={index} className={`rounded-[10px] border border-[#EBEAEA] dark:border-[#2A2A2A] py-[15px] flex flex-col items-center justify-between h-[350px] bg-white dark:bg-[#1E1E1E] transition-colors duration-300 ${index == 1 ? 'mt-[8%]' : ''}`} style={{
+                                <div key={index} className={`rounded-[10px] border border-[#EBEAEA] dark:border-[#2A2A2A] py-[10px] md:py-[15px] flex flex-col items-center justify-between h-[150px] md:h-[200px] lg:h-[250px] xl:h-[300px] 2xl:h-[350px] bg-white dark:bg-[#1E1E1E] transition-colors duration-300 max-w-[70%] md:max-w-[50%] lg:max-w-none mx-auto ${index == 1 ? 'lg:mt-[8%]' : ''}`} style={{
                                     boxShadow: "7px 4px 15.6px -2px rgba(0, 0, 0, 0.08)",
                                 }}>
-                                    <div className="rounded-[30px] border border-[#E4E4E4] dark:border-[#333] bg-white dark:bg-[#282828] px-[22px] py-[8px] flex justify-center w-max transition-colors duration-300">
-                                        <span className="text-[#ACA7A7] dark:text-[#AAA] text-center text-[16px] leading-[26px] capitalize font-tommy-regular">{card.source}</span>
+                                    <div className="rounded-[30px] border border-[#E4E4E4] dark:border-[#333] bg-white dark:bg-[#282828] px-[12px] md:px-[14px] lg:px-[18px] xl:px-[22px] md:py-[6px] xl:py-[8px] flex justify-center w-max transition-colors duration-300">
+                                        <span className="text-[#ACA7A7] dark:text-[#AAA] text-center text-[12px] md:text-[14px] lg:text-[16px] leading-[163%] capitalize font-tommy-regular">{card.source}</span>
                                     </div>
-                                    <span className="text-[#EEE8D9] dark:text-[#383327] text-[120px] leading-[66px] font-tommy-medium transition-colors duration-300">{card.percent}%</span>
-                                    <p className="text-black dark:text-white font-tommy-regular text-[20px] leading-[26px] capitalize text-center max-w-[85%] transition-colors duration-300">
+                                    <span className="text-[#EEE8D9] dark:text-[#383327] text-[40px] md:text-[clamp(3.75rem,6.25vw,7.5rem)] leading-[55%] font-tommy-medium transition-colors duration-300">{card.percent}%</span>
+                                    <p className="text-black dark:text-white font-tommy-regular text-[10px] md:text-[16px] lg:text-[18px] xl:text-[20px] leading-[130%] capitalize text-center max-w-[85%] transition-colors duration-300">
                                         {card.description}
                                     </p>
                                 </div>

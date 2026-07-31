@@ -155,13 +155,13 @@ export default function FloatingTestimonials() {
             ref={rootRef}
             className="relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
         >
-            <div ref={frameRef} className="w-full px-4 py-12 md:px-8 lg:flex lg:h-screen lg:items-center lg:py-0">
+            <div ref={frameRef} className="w-full px-2 md:px-3 lg:px-4 md:px-8 lg:flex lg:h-screen lg:items-center lg:py-0">
                 {/* Plain container — cards sit straight on the section ground. */}
-                <div className="mx-auto w-full max-w-[1440px] py-12 md:py-16 lg:py-[7vh]">
+                <div className="mx-auto w-full lg:max-w-[1440px] py-4 md:py-8 lg:py-[7vh]">
                     {/* ---------------- Header (left aligned) ---------------- */}
                     <div
                         data-tm-head
-                        className="mb-10 px-7 md:mb-12 md:px-14 lg:mb-[5vh] lg:px-[4.5%]"
+                        className="mb-6 px-3 md:px-5 lg:px-7 md:mb-12 md:px-14 lg:mb-[5vh] lg:px-[4.5%]"
                     >
                         <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#6F6A60] md:text-[12px] dark:text-[#9A968E]">
                             Testimonials
@@ -184,7 +184,7 @@ export default function FloatingTestimonials() {
                     >
                         <div
                             ref={railRef}
-                            className="flex w-max snap-x snap-mandatory gap-5 px-7 md:gap-6 md:px-14 lg:snap-none lg:px-[4.5%]"
+                            className="flex w-max snap-x snap-mandatory gap-5 px-3 md:px-5 lg:px-7 md:gap-6 md:px-14 lg:snap-none lg:px-[4.5%]"
                         >
                             {TESTIMONIALS.map((t) => (
                                 <figure

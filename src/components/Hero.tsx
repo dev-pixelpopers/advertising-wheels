@@ -346,13 +346,13 @@ export default function Hero({ isReady }: HeroProps) {
     <>
       {/* The bar spans the full viewport at z-100, so it must not capture clicks in
           its empty middle — the controls inside re-enable pointer events themselves. */}
-      <div ref={headerRef} className='fixed z-[100] w-full left-0 py-[2%] px-[3%] top-0 pointer-events-none'>
+      {/* <div ref={headerRef} className='fixed z-[100] w-full left-0 py-[2%] px-[3%] top-0 pointer-events-none'>
         <Header scrolledHero={hasScrolledPast} />
-      </div>
+      </div> */}
       <section ref={containerRef} className="relative h-[550vh] w-[100vw] z-70">
         <div className="sticky top-0 h-screen w-full overflow-hidden">
 
-          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-25 py-[72px] overflow-hidden'>
+          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-4 md:px-12 lg:px-25 py-[72px] overflow-hidden'>
             {/* Canvas frame sequence — sits above the cream bg, behind the text.
               Hidden at first (only text shows); fades in blurred & scaled down as scroll begins. */}
             <canvas
@@ -374,30 +374,30 @@ export default function Hero({ isReady }: HeroProps) {
               }}
             />
             <div ref={contentRef} className='w-full h-full flex flex-col justify-center items-center relative z-10'>
-              <div ref={headingWrapRef} className='flex flex-col justify-center items-center gap-[5px]'>
-                <span ref={subRef} className='text-center text-[#1A1917] dark:text-[#F5F5F5] font-tommy-bold text-[66px] capitalize transition-colors duration-300'>We’re where life</span>
-                <h1 className='text-white font-tommy-bold text-[344px] leading-[300px] flex flex-nowrap'>
+              <div ref={headingWrapRef} className='flex flex-col justify-center items-center gap-[3px] md:gap-[5px]'>
+                <span ref={subRef} className='text-center text-[#1A1917] dark:text-[#F5F5F5] font-tommy-bold text-[25px] md:text-[clamp(2.5rem,5vw,4.125rem) capitalize transition-colors duration-300'>We’re where life</span>
+                <h1 className='text-white font-tommy-bold text-[60px] md:text-[clamp(80px,16.9vw,21.5rem)] leading-[87.21%] flex flex-nowrap'>
                   <span ref={hapRef} className='inline-block'>HAPP</span>
                   <span ref={pensRef} className='inline-block'>ENS<span className='text-[#FCD119]'>.</span></span>
                 </h1>
               </div>
 
               {/* Absolute overlay pinned near the bottom so it never affects the heading's layout/centering. */}
-              <div ref={ctaRef} className='absolute inset-0 flex flex-col gap-[25px] text-center items-center justify-center w-full h-full'>
+              <div ref={ctaRef} className='absolute inset-0 flex flex-col gap-[20px] lg:gap-[25px] text-center items-center justify-center w-full h-full'>
                 <div className='flex flex-col gap-[10px] items-center text-center'>
-                  <h2 className='text-white font-tommy-bold text-[65px] leading-[100%] capitalize' style={{
+                  <h2 className='text-white font-tommy-bold text-[25px] md:text-[clamp(2rem,4.5vw,4.0625rem)] leading-[100%] capitalize' style={{
                     clipPath: "inset(0% 100% 0% 0%)",
                   }}>Out-of-home that works like <span className='text-[#FCD119]'>online</span> </h2>
-                  <p className='text-white font-tommy-bold text-[65px] leading-[100%] capitalize' style={{
+                  <p className='text-white font-tommy-bold text-[25px] md:text-[clamp(2rem,4.5vw,4.0625rem)] leading-[100%] capitalize' style={{
                     clipPath: "inset(0% 100% 0% 0%)",
                   }}> measure your reach, </p>
                 </div>
 
-                <div ref={ctaButtonsRef} className='w-full flex gap-[42px] justify-center items-center'>
-                  <a className='bg-white text-[24px] leading-[25px] font-tommy-regular text-[#1A1917] rounded-[6px] px-[30px] py-[20px] cursor-pointer'>
+                <div ref={ctaButtonsRef} className='w-full flex flex-col md:flex-row gap-[10px] md:gap-[32px] lg:gap-[42px] justify-center items-center'>
+                  <a className='bg-white text-[16px] md:text-[20px] lg:text-[24px] leading-[102%] font-tommy-regular text-[#1A1917] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'>
                     Start a Campaign
                   </a>
-                  <a className='bg-black text-[24px] leading-[25px] font-tommy-regular text-[#FCD119] rounded-[6px] px-[30px] py-[20px] cursor-pointer'>
+                  <a className='bg-black text-[16px] md:text-[20px] leading-[102%] font-tommy-regular text-[#FCD119] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'>
                     Start a Campaign
                   </a>
                 </div>

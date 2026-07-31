@@ -138,11 +138,10 @@ function Grid() {
                         <button
                             key={c}
                             onClick={() => setActive(c)}
-                            className={`rounded-full border px-5 py-2.5 font-tommy-medium text-[13.5px] transition-colors duration-300 ${
-                                active === c
+                            className={`rounded-full border px-5 py-2.5 font-tommy-medium text-[13.5px] transition-colors duration-300 ${active === c
                                     ? 'border-transparent bg-[#1A1917] text-[#FCD119] dark:bg-[#FCD119] dark:text-black'
                                     : 'border-black/12 text-[#5A554C] hover:border-[#C8992B]/40 hover:text-[#1A1917] dark:border-white/12 dark:text-[#A8A399] dark:hover:text-white'
-                            }`}
+                                }`}
                         >
                             {c}
                         </button>
@@ -240,8 +239,6 @@ function Newsletter() {
 export default function BlogPage() {
     return (
         <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
-            <SiteHeader />
-
             <PortalHero
                 badge="Blog"
                 title="FROM THE ROAD"
@@ -256,7 +253,6 @@ export default function BlogPage() {
             </div>
             <Grid />
             <Newsletter />
-            <Footer />
         </main>
     );
 }

@@ -16,6 +16,22 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * Layout: a tall parent + a sticky child (NO gsap pin). ScrollTrigger only scrubs the
  * timeline that crossfades the environments and animates the overlays.
  */
+
+const pinPositions = [
+    {
+        className: "left-[8%] top-[10%] lg:top-[44%] ",
+    },
+    {
+        className: "top-[20%] lg:top-[30%] right-[15%] 2xl:right-[23%] 3xl:right-[28%] ",
+    },
+    {
+        className: "right-[10%] lg:right-[16%] top-[30%] lg:top-[44%] ",
+    },
+    {
+        className: "right-[50%] lg:right-[4%] top-[20%] lg:top-[44%] ",
+    },
+];
+
 export default function TruckExperience() {
     const rootRef = useRef<HTMLDivElement>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
@@ -151,7 +167,7 @@ export default function TruckExperience() {
                 <div className="absolute top-[12%] left-0 w-full flex flex-col items-center justify-center z-30 pointer-events-none">
                     <h2
                         ref={headingRef}
-                        className="text-[44px] md:text-[60px] font-tommy-bold uppercase tracking-tight text-[#1A1917] dark:text-white transition-colors duration-300 drop-shadow-md text-center"
+                        className="text-[30px] md:text-[clamp(2.25rem,4.2vw,3.75rem)] font-tommy-bold uppercase tracking-tight text-[#1A1917] dark:text-white transition-colors duration-300 drop-shadow-md text-center"
                     >
                         How It Works<span className="text-[#FCD119]">.</span>
                     </h2>
@@ -185,77 +201,31 @@ export default function TruckExperience() {
                 </div>
 
                 {/* 4 PINS — 1 on left side of truck, 3 on right side of truck aligned on the same horizontal line */}
-                {/* Pin 1: Left side of truck */}
-                <div
-                    ref={(el) => { pinRefs.current[0] = el; }}
-                    className="absolute left-[8%] top-[44%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
-                >
-                    <img
-                        src="/assets/images/process/circle.png"
-                        alt="Circle background"
-                        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
-                    />
-                    <img
-                        src="/assets/images/process/pin.gif"
-                        alt="Pin animation"
-                        className="w-[40px] h-[40px] object-contain relative z-10 pointer-events-none"
-                    />
-                </div>
+                {pinPositions.map((pin, index) => (
+                    <div
+                        key={index}
+                        ref={(el) => {
+                            pinRefs.current[index] = el;
+                        }}
+                        className={`absolute z-20 flex items-center justify-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] w-[60px] lg:w-[75px] h-[60px] lg:h-[75px] ${pin.className}`}
+                    >
+                        <img
+                            src="/assets/images/process/circle.png"
+                            alt="Circle background"
+                            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                        />
 
-                {/* Pin 2: Right side of truck (Right - Inner) */}
-                <div
-                    ref={(el) => { pinRefs.current[1] = el; }}
-                    className="absolute right-[28%] top-[44%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
-                >
-                    <img
-                        src="/assets/images/process/circle.png"
-                        alt="Circle background"
-                        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
-                    />
-                    <img
-                        src="/assets/images/process/pin.gif"
-                        alt="Pin animation"
-                        className="w-[40px] h-[40px] object-contain relative z-10 pointer-events-none"
-                    />
-                </div>
-
-                {/* Pin 3: Right side of truck (Right - Center) */}
-                <div
-                    ref={(el) => { pinRefs.current[2] = el; }}
-                    className="absolute right-[16%] top-[44%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
-                >
-                    <img
-                        src="/assets/images/process/circle.png"
-                        alt="Circle background"
-                        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
-                    />
-                    <img
-                        src="/assets/images/process/pin.gif"
-                        alt="Pin animation"
-                        className="w-[40px] h-[40px] object-contain relative z-10 pointer-events-none"
-                    />
-                </div>
-
-                {/* Pin 4: Right side of truck (Right - Outer) */}
-                <div
-                    ref={(el) => { pinRefs.current[3] = el; }}
-                    className="absolute right-[4%] top-[44%] z-20 flex items-center justify-center w-[75px] h-[75px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
-                >
-                    <img
-                        src="/assets/images/process/circle.png"
-                        alt="Circle background"
-                        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
-                    />
-                    <img
-                        src="/assets/images/process/pin.gif"
-                        alt="Pin animation"
-                        className="w-[40px] h-[40px] object-contain relative z-10 pointer-events-none"
-                    />
-                </div>
+                        <img
+                            src="/assets/images/process/pin.gif"
+                            alt="Pin animation"
+                            className={`w-[30px] lg:w-[40px] h-[30px] lg:h-[40px] object-contain relative z-10 pointer-events-none`}
+                        />
+                    </div>
+                ))}
 
                 {/* TRUCK — enters from left, centre stage */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div ref={truckWrapRef} className="relative w-[74vw] max-w-[1120px]">
+                    <div ref={truckWrapRef} className="relative w-full lg:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[10%] 2xl:top-0">
                         <img
                             src="/assets/images/process/truck.png"
                             alt="Advertising Wheels truck"
@@ -275,9 +245,9 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Quality-verified badge on the body */}
-                        <div ref={badgeRef} className="aw-badge absolute right-[16%] top-[30%] flex items-center gap-2 rounded-full bg-[#1A1917]/90 backdrop-blur px-4 py-2 border border-[#FCD119]/40 z-20">
-                            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#FCD119] text-[#1A1917] text-[12px] font-bold">✓</span>
-                            <span className="text-[#FCD119] text-[13px] font-tommy-medium whitespace-nowrap">Quality Verified</span>
+                        <div ref={badgeRef} className="aw-badge absolute right-0 md:right-[11%] lg:right-[13%] 2xl:right-[16%] top-[18%] md:top-[20%] lg:top-[24%] 2xl:top-[30%] flex items-center gap-1 md:gap-2 rounded-full bg-[#1A1917]/90 backdrop-blur px-3 lg:px-4 py-1 md:py-2 border border-[#FCD119]/40 z-20">
+                            <span className="flex items-center justify-center w-3 md:w-4 lg:w-5 h-3 md:h-4 lg:h-5 rounded-full bg-[#FCD119] text-[#1A1917] text-[10px] md:text-[12px] font-bold">✓</span>
+                            <span className="text-[#FCD119] text-[10px] md:text-[13px] font-tommy-medium whitespace-nowrap">Quality Verified</span>
                         </div>
                     </div>
                 </div>
@@ -285,12 +255,12 @@ export default function TruckExperience() {
                 {/* STATS BAR — appears with stats.png, positioned bottom of screen above subtitle text */}
                 <div
                     ref={statsBarRef}
-                    className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[92%] max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 p-4 md:p-6 transition-colors duration-300 pointer-events-auto"
+                    className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-6 transition-colors duration-300 pointer-events-auto"
                 >
                     <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-4 md:gap-y-0">
                         {/* Item 1: TOTAL IMPRESSIONS */}
                         <div className="flex flex-col justify-between pr-3 md:px-5 first:pl-0">
-                            <div className="flex items-center gap-3">
+                            <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
@@ -299,7 +269,7 @@ export default function TruckExperience() {
                                 <div className="flex flex-col">
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">TOTAL IMPRESSIONS</span>
                                     <div className="flex items-baseline gap-1.5 md:gap-2">
-                                        <span className="text-[22px] md:text-[28px] font-tommy-bold leading-tight text-black dark:text-white">
+                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {impressionsCount.toFixed(2)}M
                                         </span>
                                         <span className="text-[11px] md:text-[12px] font-tommy-medium text-black dark:text-gray-300 whitespace-nowrap">
@@ -315,8 +285,8 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Item 2: TOTAL MILEAGE */}
-                        <div className="flex flex-col justify-between pr-3 md:px-5 pt-3 md:pt-0">
-                            <div className="flex items-center gap-3">
+                        <div className="flex flex-col justify-between xl:pr-3 px-3 xl:px-5 pt-3 md:pt-0">
+                            <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
@@ -325,7 +295,7 @@ export default function TruckExperience() {
                                 <div className="flex flex-col">
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">TOTAL MILEAGE</span>
                                     <div className="flex items-baseline gap-1.5 md:gap-2">
-                                        <span className="text-[20px] md:text-[26px] font-tommy-bold leading-tight text-black dark:text-white">
+                                        <span className="text-[16px] text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {mileageCount.toLocaleString()} <span className="text-[15px] md:text-[18px] font-tommy-medium">km</span>
                                         </span>
                                         <span className="text-[11px] md:text-[12px] font-tommy-medium text-black dark:text-gray-300 whitespace-nowrap">
@@ -341,8 +311,8 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Item 3: ACTIVE TRUCKS */}
-                        <div className="flex flex-col justify-between pr-3 md:px-5 pt-3 md:pt-0">
-                            <div className="flex items-center gap-3">
+                        <div className="flex flex-col justify-between xl:pr-3 lg:px-3 xl:px-5 pt-3 md:pt-0">
+                            <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
@@ -351,7 +321,7 @@ export default function TruckExperience() {
                                 <div className="flex flex-col">
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">ACTIVE TRUCKS</span>
                                     <div className="flex items-baseline gap-1.5 md:gap-2">
-                                        <span className="text-[22px] md:text-[28px] font-tommy-bold leading-tight text-black dark:text-white">
+                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {trucksCount}
                                         </span>
                                         <span className="text-[11px] md:text-[12px] font-tommy-medium text-black dark:text-gray-300 whitespace-nowrap">
@@ -368,7 +338,7 @@ export default function TruckExperience() {
 
                         {/* Item 4: ACTIVE CAMPAIGNS */}
                         <div className="flex flex-col justify-between md:pl-5 pt-3 md:pt-0">
-                            <div className="flex items-center gap-3">
+                            <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M18 11c0-1.33-.52-2.54-1.37-3.45L19 5l-1.5-1.5-2.52 2.52C13.97 5.37 12.54 5 11 5c-3.87 0-7 3.13-7 7s3.13 7 7 7c1.54 0 2.97-.37 4-1.02L17.52 20.5 19 19l-2.37-2.55C17.48 13.54 18 12.33 18 11zm-7 4c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />
@@ -377,7 +347,7 @@ export default function TruckExperience() {
                                 <div className="flex flex-col">
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">ACTIVE CAMPAIGNS</span>
                                     <div className="flex items-baseline gap-1.5 md:gap-2">
-                                        <span className="text-[22px] md:text-[28px] font-tommy-bold leading-tight text-black dark:text-white">
+                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {campaignsCount}
                                         </span>
                                     </div>
@@ -395,7 +365,7 @@ export default function TruckExperience() {
                 <div className="absolute bottom-[9%] left-0 w-full flex justify-center px-6 pointer-events-none">
                     <div className="relative text-center">
                         <div ref={sub1Ref} className="absolute inset-0 flex items-center justify-center">
-                            <p className="text-[#1A1917] dark:text-white font-tommy-bold text-[clamp(28px,3.4vw,56px)] leading-tight transition-colors duration-300">Wrapped, inspected, <span className="text-[#C8992B]">verified.</span></p>
+                            <p className="text-[#1A1917] dark:text-white font-tommy-bold text-[20px] md:text-[clamp(28px,3.4vw,56px)] leading-tight transition-colors duration-300">Wrapped, inspected, <span className="text-[#C8992B]">verified.</span></p>
                         </div>
                         <div ref={sub2Ref} className="absolute inset-0 flex items-center justify-center">
                             <p className="text-white font-tommy-bold text-[clamp(28px,3.4vw,56px)] leading-tight drop-shadow-lg">Routed for <span className="text-[#4DA3FF]">maximum reach.</span></p>

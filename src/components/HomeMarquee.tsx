@@ -42,7 +42,7 @@ export default function HomeMarquee() {
     const row2Track = [...ROW_2_LOGOS, ...ROW_2_LOGOS, ...ROW_2_LOGOS];
 
     const renderTile = (logo: LogoEntry, index: number) => {
-        const imgClass = "w-[160px] h-[120px] object-contain opacity-[0.8] transition-all";
+        const imgClass = "w-[60px] md:w-[clamp(5rem,8.3vw,10rem)] h-[70px] md:h-[clamp(4rem,6.25vw,7.5rem)] object-contain opacity-[0.8] transition-all";
 
         if (typeof logo === 'string') {
             return (
@@ -74,23 +74,23 @@ export default function HomeMarquee() {
                 }
             `}</style>
 
-            <div className="overflow-hidden py-[60px]">
-                <p className="hm-heading text-black dark:text-white text-center font-tommy-regular leading-[40px] text-[30px] capitalize transition-colors duration-300">trusted by Fortune 500 brands across financial services</p>
+            <div className="overflow-hidden py-[20px] md:py-[40px] lg:py-[60px]">
+                <p className="hm-heading text-black dark:text-white text-center font-tommy-regular leading-[133.33%] text-[clamp(1.125rem,2vw,1.875rem)] capitalize transition-colors duration-300">trusted by Fortune 500 brands across financial services</p>
             </div>
 
-            <div className='mt-[30px] pb-[60px]'>
+            <div className='mt-[16px] md:mt-[22px] lg:mt-[30px] pb-[60px]'>
                 <div className="hm-row1 w-full overflow-hidden">
                     <div
-                        className="flex flex-row gap-[150px]"
+                        className="flex flex-row gap-[20px] md:gap-[40px] lg:gap-[70px] xl:gap-[100px] 2xl:gap-[150px]"
                         style={{ animation: 'marquee-right 40s linear infinite' }}
                     >
                         {row2Track.map(renderTile)}
                     </div>
                 </div>
 
-                <div className="hm-row2 w-full overflow-hidden mt-[50px]">
+                <div className="hm-row2 w-full overflow-hidden mt-[24px] md:mt-[35px] lg:mt-[50px]">
                     <div
-                        className="flex flex-row gap-[150px]"
+                        className="flex flex-row gap-[20px] md:gap-[40px] lg:gap-[70px] xl:gap-[100px] 2xl:gap-[150px]"
                         style={{ animation: 'marquee-left 40s linear infinite' }}
                     >
                         {row1Track.map(renderTile)}

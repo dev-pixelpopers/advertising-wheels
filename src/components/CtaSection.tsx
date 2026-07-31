@@ -38,7 +38,7 @@ export default function CtaSection() {
         <div ref={rootRef} className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
             {/* Elliptical top corners — the curve runs far wider than it drops, so it
                 reads as one long sweep into the flat middle rather than a rounded box. */}
-            <div className="relative w-full overflow-hidden rounded-t-[40px] bg-[#FCD119] px-6 py-[100px] md:rounded-t-[90px] md:px-14 md:py-[140px]">
+            <div className="relative w-full overflow-hidden rounded-t-[30px] lg:rounded-t-[40px] bg-[#FCD119] px-3 md:px-5 lg:px-6 py-[50px] md:py-[80px] lg:py-[100px] md:rounded-t-[90px] md:px-14 xl:py-[140px]">
                 {/* Concentric rings — echoes the motif behind AdvertisingLeader so the
                     flat yellow slab has some depth. Clipped by the rounded top. */}
                 <div className="pointer-events-none absolute -bottom-[45%] left-1/2 -translate-x-1/2" aria-hidden="true">
@@ -52,19 +52,19 @@ export default function CtaSection() {
                     <p className="font-tommy-regular text-[13px] uppercase tracking-[4px] text-black/60">
                         Ready To Roll?
                     </p>
-                    <h2 className="mt-3 font-tommy-bold text-[46px] leading-[0.98] tracking-[-2px] text-black md:text-[104px] md:tracking-[-5px]">
+                    <h2 className="mt-3 font-tommy-bold text-[30px] leading-[0.98] tracking-[-2px] text-black md:text-[clamp(3.5rem,5.4vw,6.5rem)] md:tracking-[-5px]">
                         Let&apos;s Put Your Brand
                         <br />
                         On The Road.
                     </h2>
-                    <p className="mt-6 max-w-[520px] font-tommy-regular text-[15px] leading-[1.65] text-black/65 md:text-[17px]">
+                    <p className="mt-2 md:mt-4 lg:mt-6 lg:max-w-[520px] font-tommy-regular text-[13px] md:text-[15px] lg:text-[17px] leading-[1.65] text-black/65 ">
                         From artwork to first highway mile in days — book a route, wrap a
                         fleet, and watch the impressions climb.
                     </p>
-                    <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+                    <div className="mt-6 md:mt-8 lg:mt-10 flex flex-col items-center gap-2 md:gap-4 sm:flex-row sm:gap-6">
                         <a
                             href="#"
-                            className="group flex items-center gap-3 rounded-full bg-black px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04]"
+                            className="group flex items-center gap-2 lg:gap-3 rounded-full bg-black px-4 md:px-6 lg:px-8 py-3 lg:py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04]"
                         >
                             Start Your Campaign
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:translate-x-1">
@@ -73,7 +73,7 @@ export default function CtaSection() {
                         </a>
                         <a
                             href="#"
-                            className="rounded-full border-2 border-black px-8 py-4 font-tommy-medium text-[15px] text-black transition-colors duration-300 hover:bg-black hover:text-[#FCD119]"
+                            className="rounded-full border-2 border-black px-4 md:px-6 lg:px-8 py-3 lg:py-4 font-tommy-medium text-[15px] text-black transition-colors duration-300 hover:bg-black hover:text-[#FCD119]"
                         >
                             Talk To Us
                         </a>

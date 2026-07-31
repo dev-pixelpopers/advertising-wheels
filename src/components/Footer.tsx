@@ -15,7 +15,7 @@
  * comfortably reachable — and sequences the beats inside the timeline instead.
  */
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -56,6 +56,11 @@ export default function Footer() {
     const rootRef = useRef<HTMLElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
     const year = new Date().getFullYear();
+    const [isMobile, setIsMobile] = useState<Boolean>(false);
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth <= 768);
+    }, [])
 
     useGSAP(
         () => {
@@ -67,7 +72,7 @@ export default function Footer() {
             // scroll position, so the parallax always resolves fully to 0.
             gsap.fromTo(
                 innerRef.current,
-                { yPercent: 12 },
+                { yPercent: isMobile ? 4 : 12 },
                 {
                     yPercent: 0,
                     ease: 'none',
@@ -147,9 +152,9 @@ export default function Footer() {
                 Advertising Wheels — site footer
             </h2>
 
-            <div ref={innerRef} className="relative mx-auto w-full max-w-[1240px] px-6 md:px-12">
+            <div ref={innerRef} className="relative mx-auto w-full lg:max-w-[1240px] px-3 md:px-6 lg:px-12">
                 {/* ================= Top: three columns ================= */}
-                <div className="grid grid-cols-1 gap-12 py-16 md:grid-cols-[1.1fr_0.9fr_1.2fr] md:gap-0 md:py-24">
+                <div className="grid grid-cols-1 gap-4 md:gap-8 lg:gap-12 py-8 md:py-12 lg:py-16 xl:py-24 md:grid-cols-[1.1fr_0.9fr_1.2fr] ">
                     {/* ---- Identity + direct contact ---- */}
                     <div data-foot-col className="flex flex-col gap-8 md:pr-12">
                         <Logo width={132} height={55} />

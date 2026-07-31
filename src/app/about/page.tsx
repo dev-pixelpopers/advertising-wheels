@@ -340,7 +340,6 @@ function PullQuote() {
 export default function AboutPage() {
     return (
         <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
-            <SiteHeader />
             <PortalHero
                 badge="About"
                 title="ADVERTISING WHEELS"
@@ -356,7 +355,6 @@ export default function AboutPage() {
             <Leadership />
             <PullQuote />
             <CtaSection />
-            <Footer />
         </main>
     );
 }

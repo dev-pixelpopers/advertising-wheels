@@ -392,16 +392,16 @@ export default function WhyChooseUs() {
         /* 400vh scroll track */
         <div ref={rootRef} className="relative h-[400vh] w-full" style={{ backgroundColor: p.ink }}>
             {/* Pinned full-screen frame */}
-            <div ref={screenRef} className="flex h-screen w-full flex-col overflow-hidden md:flex-row">
+            <div ref={screenRef} className="flex h-screen w-full flex-col lg:flex-row overflow-hidden  !pt-8 lg:pt-0">
                 {/* ------------------------------------------------ */}
                 {/* LEFT (45%): scroll-driven chapter copy            */}
                 {/* ------------------------------------------------ */}
                 {/* Intro and reasons are centred as one group, so the heading clears
                     the site header and the gap between them stays deliberate. */}
-                <div className="relative order-2 flex h-[42vh] w-full flex-col justify-center px-7 md:order-1 md:h-full md:w-[45%] md:px-16">
+                <div className="relative order-2 flex h-[42vh] w-full lg:w-[45%] flex-col justify-center px-7 md:order-1 md:h-full lg:px-10 xl:px-16">
                     {/* Section intro — holds for the whole section while the four
                         reasons cycle underneath it. */}
-                    <div className="shrink-0">
+                    <div className="shrink-0 bg-[#eee8d9] z-[100]">
                         <h2 className="wcu-intro-item font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[46px]" style={{ color: p.text }}>
                             Why Choose Us<span style={{ color: p.accent }}>.</span>
                         </h2>
@@ -413,30 +413,30 @@ export default function WhyChooseUs() {
 
                     {/* The four reasons — each swaps in as you scroll. Fixed height so
                         the block never resizes as the copy changes underneath. */}
-                    <div className="relative mt-7 h-[215px] shrink-0 md:mt-11 md:h-[280px]">
+                    <div className="relative shrink-0 mt-3 md:mt-5 lg:mt-11 h-[120px] lg:h-[280px]">
                         {CHAPTERS.map((ch, i) => (
-                        <div
-                            key={i}
-                            data-wcu-chapter={i}
-                            className="absolute inset-0 flex flex-col justify-start"
-                        >
-                            <p className="font-tommy-medium text-[12px] uppercase tracking-[4px]" style={{ color: p.accent }}>
-                                {ch.tag}
-                            </p>
-                            <h3 className="mt-3 font-tommy-bold text-[34px] leading-[1.02] tracking-[-1px] md:text-[56px] md:tracking-[-2px]" style={{ color: p.text }}>
-                                {i === 0
-                                    ? // CH.01 headline is split for the letter-stagger.
-                                      ch.title.split('').map((c, j) => (
-                                          <span key={j} className="wcu-ch1-letter inline-block">
-                                              {c === ' ' ? ' ' : c}
-                                          </span>
-                                      ))
-                                    : ch.title}
-                            </h3>
-                            <p className={`mt-5 max-w-[420px] font-tommy-regular text-[14px] leading-[1.7] md:text-[16px] ${i === 0 ? 'wcu-sub' : ''}`} style={{ color: p.muted }}>
-                                {ch.body}
-                            </p>
-                        </div>
+                            <div
+                                key={i}
+                                data-wcu-chapter={i}
+                                className="absolute inset-0 flex flex-col justify-start"
+                            >
+                                <p className="font-tommy-medium text-[12px] uppercase tracking-[4px]" style={{ color: p.accent }}>
+                                    {ch.tag}
+                                </p>
+                                <h3 className="mt-3 font-tommy-bold text-[25px] md:text-[30px] lg:text-[56px] leading-[1.02] tracking-[-1px] md:tracking-[-2px]" style={{ color: p.text }}>
+                                    {i === 0
+                                        ? // CH.01 headline is split for the letter-stagger.
+                                        ch.title.split('').map((c, j) => (
+                                            <span key={j} className="wcu-ch1-letter inline-block">
+                                                {c === ' ' ? ' ' : c}
+                                            </span>
+                                        ))
+                                        : ch.title}
+                                </h3>
+                                <p className={`mt-5 max-w-[420px] font-tommy-regular text-[14px] leading-[1.7] md:text-[16px] ${i === 0 ? 'wcu-sub' : ''}`} style={{ color: p.muted }}>
+                                    {ch.body}
+                                </p>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -444,15 +444,15 @@ export default function WhyChooseUs() {
                 {/* ------------------------------------------------ */}
                 {/* RIGHT (55%): the visualization viewport           */}
                 {/* ------------------------------------------------ */}
-                <div className="relative order-1 h-[58vh] w-full md:order-2 md:h-full md:w-[55%]">
+                <div className="relative order-1 h-[40vh] lg:h-full w-full md:w-[55%] md:order-2 md:h-full mx-auto lg:my-auto xl:my-0 ">
                     {/* Minimalist gray grid backdrop */}
-                    <div
+                    {/* <div
                         className="absolute inset-0"
                         style={{
                             backgroundImage: `linear-gradient(${p.grid} 1px, transparent 1px), linear-gradient(90deg, ${p.grid} 1px, transparent 1px)`,
                             backgroundSize: '44px 44px',
                         }}
-                    />
+                    /> */}
 
                     {/* HUD frame: slicing border lines + corner brackets */}
                     <div className="wcu-frame-h absolute left-[6%] right-[6%] top-[7%] h-px origin-left" style={{ backgroundColor: `${p.accent}55` }} />

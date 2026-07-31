@@ -253,7 +253,6 @@ function Faq() {
 export default function ContactPage() {
     return (
         <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
-            <SiteHeader />
             <PortalHero
                 badge="Contact"
                 title="LET'S TALK"
@@ -265,7 +264,6 @@ export default function ContactPage() {
             />
             <ContactHero />
             <Faq />
-            <Footer />
         </main>
     );
 }

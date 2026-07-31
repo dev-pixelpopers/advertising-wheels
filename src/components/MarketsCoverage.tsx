@@ -669,10 +669,10 @@ export default function MarketsCoverage() {
                         <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-black/50 md:text-[13px] dark:text-white/50">
                             Markets &amp; Coverage
                         </p>
-                        <h2 className="mt-3 font-tommy-bold text-[44px] leading-[0.95] tracking-[-1.5px] text-black md:text-[76px] md:tracking-[-3px] dark:text-white">
+                        <h2 className="mt-3 font-tommy-bold text-[24px] md:text-[clamp(1.75rem,3vw,2.75rem)] leading-[0.95] lg:tracking-[-1.5px] text-black dark:text-white">
                             Where We Roll<span className="text-[#FCD119]">.</span>
                         </h2>
-                        <p className="mx-auto mt-5 max-w-[620px] font-tommy-regular text-[14px] leading-[1.7] text-black/60 md:text-[16px] dark:text-white/55">
+                        <p className="mx-auto mt-3 md:mt-4 lg:mt-5 lg:max-w-[620px] font-tommy-regular text-[12px] md:text-[14px] leading-[1.7] text-black/60 md:text-[16px] dark:text-white/55">
                             {totals.count} metro markets from coast to coast, reaching{' '}
                             {compact(totals.adults)} adults 18+ inside our coverage areas —
                             every mile measured, every market accounted for.
@@ -692,7 +692,7 @@ export default function MarketsCoverage() {
                                 data-mc-stat
                                 className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-4 text-left md:px-5 md:py-5 dark:border-white/10 dark:bg-white/[0.04]"
                             >
-                                <p className="font-tommy-bold text-[26px] leading-none text-black md:text-[34px] dark:text-white">
+                                <p className="font-tommy-bold text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] leading-none text-black md:text-[34px] dark:text-white">
                                     {s.k}
                                 </p>
                                 <p className="mt-1.5 font-tommy-regular text-[10.5px] uppercase tracking-[2px] text-black/45 md:text-[11px] dark:text-white/45">
@@ -715,9 +715,8 @@ export default function MarketsCoverage() {
                 >
                     <div
                         ref={stageRef}
-                        className={`relative h-[52vh] w-full touch-none select-none overflow-hidden rounded-2xl border border-black/10 bg-[#4d5666] md:rounded-3xl lg:h-full lg:rounded-[inherit] lg:border-0 dark:border-white/10 ${
-                            expanded ? '' : 'lg:pointer-events-none'
-                        }`}
+                        className={`relative h-[52vh] w-full touch-none select-none overflow-hidden rounded-2xl border border-black/10 bg-[#4d5666] md:rounded-3xl lg:h-full lg:rounded-[inherit] lg:border-0 dark:border-white/10 ${expanded ? '' : 'lg:pointer-events-none'
+                            }`}
                         onPointerDown={onPointerDown}
                         onPointerMove={onPointerMove}
                         onPointerUp={onPointerUp}
@@ -728,322 +727,321 @@ export default function MarketsCoverage() {
                             zoomBy(0.6, p ? { x: p.x, y: p.y } : undefined);
                         }}
                     >
-                    <svg
-                        ref={svgRef}
-                        viewBox={`${REGION_VIEWS.NATIONAL.x} ${REGION_VIEWS.NATIONAL.y} ${REGION_VIEWS.NATIONAL.w} ${REGION_VIEWS.NATIONAL.h}`}
-                        preserveAspectRatio="xMidYMid meet"
-                        className={`h-full w-full ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-                        role="img"
-                        aria-label="Map of United States coverage markets"
-                    >
-                        <defs>
-                            <filter id="mc-glow" x="-80%" y="-80%" width="260%" height="260%">
-                                <feGaussianBlur stdDeviation="1.8" result="b" />
-                                <feMerge>
-                                    <feMergeNode in="b" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-                            {/* Brushed-metal bezel for the truck pins */}
-                            <linearGradient id="mc-bezel" x1="0" y1="0" x2="0.35" y2="1">
-                                <stop offset="0" stopColor="#fbf7ee" />
-                                <stop offset="0.35" stopColor="#8f98a6" />
-                                <stop offset="0.62" stopColor="#e9e3d6" />
-                                <stop offset="1" stopColor="#767f8c" />
-                            </linearGradient>
-                        </defs>
+                        <svg
+                            ref={svgRef}
+                            viewBox={`${REGION_VIEWS.NATIONAL.x} ${REGION_VIEWS.NATIONAL.y} ${REGION_VIEWS.NATIONAL.w} ${REGION_VIEWS.NATIONAL.h}`}
+                            preserveAspectRatio="xMidYMid meet"
+                            className={`h-full w-full ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                            role="img"
+                            aria-label="Map of United States coverage markets"
+                        >
+                            <defs>
+                                <filter id="mc-glow" x="-80%" y="-80%" width="260%" height="260%">
+                                    <feGaussianBlur stdDeviation="1.8" result="b" />
+                                    <feMerge>
+                                        <feMergeNode in="b" />
+                                        <feMergeNode in="SourceGraphic" />
+                                    </feMerge>
+                                </filter>
+                                {/* Brushed-metal bezel for the truck pins */}
+                                <linearGradient id="mc-bezel" x1="0" y1="0" x2="0.35" y2="1">
+                                    <stop offset="0" stopColor="#fbf7ee" />
+                                    <stop offset="0.35" stopColor="#8f98a6" />
+                                    <stop offset="0.62" stopColor="#e9e3d6" />
+                                    <stop offset="1" stopColor="#767f8c" />
+                                </linearGradient>
+                            </defs>
 
-                        {/* Brand US map asset */}
-                        <image href={MAP_SRC} x="0" y="0" width={MAP_W} height={MAP_H} />
+                            {/* Brand US map asset */}
+                            <image href={MAP_SRC} x="0" y="0" width={MAP_W} height={MAP_H} />
 
-                        {/* Interstate corridors — delicate infrastructure lines
+                            {/* Interstate corridors — delicate infrastructure lines
                             that sit under the traffic, never competing with the
                             landmass. */}
-                        <g fill="none" stroke="#FCD119" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
-                            {CORRIDORS.map((c) => (
-                                <path
-                                    key={c.id}
-                                    id={`corridor-${c.id}`}
-                                    data-corridor={c.region}
-                                    d={c.d}
-                                    opacity="0"
-                                    strokeOpacity="0.34"
-                                />
-                            ))}
-                        </g>
-
-                        {/* Market nodes */}
-                        {MARKETS.map((m) => {
-                            const r = radiusOf(m);
-                            const on = activeMarket?.id === m.id;
-                            return (
-                                <g
-                                    key={m.id}
-                                    data-node={m.id}
-                                    className="mc-hot cursor-pointer"
-                                    onClick={() => {
-                                        // Ignore the click that ends a drag.
-                                        if (drag.current.moved > 6) return;
-                                        if (on) clearMarket();
-                                        else selectMarket(m);
-                                    }}
-                                    role="button"
-                                    aria-label={`${m.city} — view coverage stats`}
-                                >
-                                    <circle cx={m.x} cy={m.y} r={Math.max(13, r + 8)} fill="transparent" />
-                                    {/* Rings are reserved for the very top markets —
-                                        any lower and the map turns into noise. */}
-                                    {m.impressions > 1300000 && (
-                                        <>
-                                            <circle className="mc-pulse" cx={m.x} cy={m.y} r={r + 3} fill="none" stroke="#FCD119" strokeWidth="1" />
-                                            <circle className="mc-pulse mc-pulse--late" cx={m.x} cy={m.y} r={r + 3} fill="none" stroke="#FCD119" strokeWidth="0.8" />
-                                        </>
-                                    )}
-                                    <circle
-                                        className="mc-core"
-                                        cx={m.x}
-                                        cy={m.y}
-                                        r={on ? r + 2.4 : r}
-                                        fill="#FCD119"
-                                        stroke={on ? '#ffffff' : 'rgba(0,0,0,0.35)'}
-                                        strokeWidth={on ? 1.6 : 0.8}
-                                        filter="url(#mc-glow)"
+                            <g fill="none" stroke="#FCD119" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
+                                {CORRIDORS.map((c) => (
+                                    <path
+                                        key={c.id}
+                                        id={`corridor-${c.id}`}
+                                        data-corridor={c.region}
+                                        d={c.d}
+                                        opacity="0"
+                                        strokeOpacity="0.34"
                                     />
-                                    <circle cx={m.x} cy={m.y} r={r * 0.34} fill="#1a1d24" />
-                                    <line className="mc-stem" x1={m.x} y1={m.y - r - 1} x2={m.x} y2={m.y - r - 22} stroke="#ffffff" strokeWidth="0.9" />
-                                    <text
-                                        className={on ? 'select-none' : 'mc-tag select-none'}
-                                        x={m.x}
-                                        y={m.y - r - (on ? 8 : 27)}
-                                        textAnchor="middle"
-                                        fill="#ffffff"
-                                        fontSize="8.5"
-                                        letterSpacing="0.3"
-                                        style={{
-                                            fontFamily: 'var(--font-tommy-medium)',
-                                            paintOrder: 'stroke',
-                                            stroke: 'rgba(12,15,20,0.85)',
-                                            strokeWidth: 3.4,
-                                            strokeLinejoin: 'round',
-                                        }}
-                                    >
-                                        {m.city} · {compact(m.impressions)}
-                                    </text>
-                                </g>
-                            );
-                        })}
+                                ))}
+                            </g>
 
-                        {/* ---------- Live truck pins, one per corridor ----------
+                            {/* Market nodes */}
+                            {MARKETS.map((m) => {
+                                const r = radiusOf(m);
+                                const on = activeMarket?.id === m.id;
+                                return (
+                                    <g
+                                        key={m.id}
+                                        data-node={m.id}
+                                        className="mc-hot cursor-pointer"
+                                        onClick={() => {
+                                            // Ignore the click that ends a drag.
+                                            if (drag.current.moved > 6) return;
+                                            if (on) clearMarket();
+                                            else selectMarket(m);
+                                        }}
+                                        role="button"
+                                        aria-label={`${m.city} — view coverage stats`}
+                                    >
+                                        <circle cx={m.x} cy={m.y} r={Math.max(13, r + 8)} fill="transparent" />
+                                        {/* Rings are reserved for the very top markets —
+                                        any lower and the map turns into noise. */}
+                                        {m.impressions > 1300000 && (
+                                            <>
+                                                <circle className="mc-pulse" cx={m.x} cy={m.y} r={r + 3} fill="none" stroke="#FCD119" strokeWidth="1" />
+                                                <circle className="mc-pulse mc-pulse--late" cx={m.x} cy={m.y} r={r + 3} fill="none" stroke="#FCD119" strokeWidth="0.8" />
+                                            </>
+                                        )}
+                                        <circle
+                                            className="mc-core"
+                                            cx={m.x}
+                                            cy={m.y}
+                                            r={on ? r + 2.4 : r}
+                                            fill="#FCD119"
+                                            stroke={on ? '#ffffff' : 'rgba(0,0,0,0.35)'}
+                                            strokeWidth={on ? 1.6 : 0.8}
+                                            filter="url(#mc-glow)"
+                                        />
+                                        <circle cx={m.x} cy={m.y} r={r * 0.34} fill="#1a1d24" />
+                                        <line className="mc-stem" x1={m.x} y1={m.y - r - 1} x2={m.x} y2={m.y - r - 22} stroke="#ffffff" strokeWidth="0.9" />
+                                        <text
+                                            className={on ? 'select-none' : 'mc-tag select-none'}
+                                            x={m.x}
+                                            y={m.y - r - (on ? 8 : 27)}
+                                            textAnchor="middle"
+                                            fill="#ffffff"
+                                            fontSize="8.5"
+                                            letterSpacing="0.3"
+                                            style={{
+                                                fontFamily: 'var(--font-tommy-medium)',
+                                                paintOrder: 'stroke',
+                                                stroke: 'rgba(12,15,20,0.85)',
+                                                strokeWidth: 3.4,
+                                                strokeLinejoin: 'round',
+                                            }}
+                                        >
+                                            {m.city} · {compact(m.impressions)}
+                                        </text>
+                                    </g>
+                                );
+                            })}
+
+                            {/* ---------- Live truck pins, one per corridor ----------
                             Painted last so a truck always rides OVER the market
                             nodes it passes — SVG has no z-index, stacking is
                             document order. `pointer-events: none` keeps a passing
                             truck from swallowing clicks meant for a node. */}
-                        {TRUCKS.map((t) => (
-                            <g key={t.corridor} data-truck={t.region} className="pointer-events-none">
-                                {/* This invisible circle keeps the group's bounding
+                            {TRUCKS.map((t) => (
+                                <g key={t.corridor} data-truck={t.region} className="pointer-events-none">
+                                    {/* This invisible circle keeps the group's bounding
                                     box symmetric about (0,0). MotionPath's
                                     alignOrigin snaps the bbox centre to the route,
                                     so without it the protruding arrow would drag
                                     the whole pin off the road. */}
-                                <circle r="26" fill="none" />
-                                {/* Every child is authored around (0,0) — the pin's
+                                    <circle r="26" fill="none" />
+                                    {/* Every child is authored around (0,0) — the pin's
                                     centre — so native scale/rotate pivot on it. */}
-                                <g data-truck-scale>
-                                    {/* Sonar rings radiating off the pin */}
-                                    <circle className="mc-ping" r="15" fill="none" stroke="#FCD119" strokeWidth="1.3" />
-                                    <circle className="mc-ping mc-ping--late" r="15" fill="none" stroke="#FCD119" strokeWidth="1" />
+                                    <g data-truck-scale>
+                                        {/* Sonar rings radiating off the pin */}
+                                        <circle className="mc-ping" r="15" fill="none" stroke="#FCD119" strokeWidth="1.3" />
+                                        <circle className="mc-ping mc-ping--late" r="15" fill="none" stroke="#FCD119" strokeWidth="1" />
 
-                                    {/* Heading arrow — rides the ring edge so it
+                                        {/* Heading arrow — rides the ring edge so it
                                         reads as part of the pin. Only this rotates. */}
-                                    <g data-truck-arrow>
-                                        <path
-                                            d="M 0 -25 L 5.6 -16.2 L 0 -18.6 L -5.6 -16.2 Z"
-                                            fill="#FCD119"
-                                            stroke="#12161d"
-                                            strokeWidth="0.8"
-                                            strokeLinejoin="round"
-                                        />
-                                    </g>
+                                        <g data-truck-arrow>
+                                            <path
+                                                d="M 0 -25 L 5.6 -16.2 L 0 -18.6 L -5.6 -16.2 Z"
+                                                fill="#FCD119"
+                                                stroke="#12161d"
+                                                strokeWidth="0.8"
+                                                strokeLinejoin="round"
+                                            />
+                                        </g>
 
-                                    {/* Glowing halo + brushed bezel + dark face */}
-                                    <circle r="15" fill="none" stroke="#FCD119" strokeWidth="2.6" filter="url(#mc-glow)" />
-                                    <circle r="12.8" fill="none" stroke="url(#mc-bezel)" strokeWidth="2.4" />
-                                    <circle r="11.3" fill="#12161d" />
+                                        {/* Glowing halo + brushed bezel + dark face */}
+                                        <circle r="15" fill="none" stroke="#FCD119" strokeWidth="2.6" filter="url(#mc-glow)" />
+                                        <circle r="12.8" fill="none" stroke="url(#mc-bezel)" strokeWidth="2.4" />
+                                        <circle r="11.3" fill="#12161d" />
 
-                                    {/* Truck art — upright, mirrored by heading */}
-                                    <g data-truck-art>
-                                        <image href={TRUCK_SRC} x="-10" y="-3.09" width="20" height="6.18" />
+                                        {/* Truck art — upright, mirrored by heading */}
+                                        <g data-truck-art>
+                                            <image href={TRUCK_SRC} x="-10" y="-3.09" width="20" height="6.18" />
+                                        </g>
                                     </g>
                                 </g>
-                            </g>
-                        ))}
-                    </svg>
+                            ))}
+                        </svg>
 
-                    {/* ---------- Region tabs, floating over the map ---------- */}
-                    <nav
-                        data-mc-ui
-                        /* On desktop the map runs full-bleed under the site's fixed
-                           header, so the tabs are dropped clear of it. That header's
-                           height tracks the viewport width (its py is 2% of vw), so
-                           the offset has to as well: 50px logo + 4vw padding + 14px
-                           gap. A fixed px value only clears the header at one width. */
-                        className="pointer-events-auto absolute inset-x-2.5 top-2.5 z-20 mx-auto flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-white/15 bg-black/35 p-1 backdrop-blur-md md:inset-x-3 md:top-3 md:gap-1 lg:top-[calc(64px+4vw)]"
-                        aria-label="Coverage regions"
-                        onPointerDown={(e) => e.stopPropagation()}
-                    >
-                        {REGIONS.map((region) => {
-                            const active = region === activeRegion && !activeMarket;
-                            const n =
-                                region === 'NATIONAL'
-                                    ? MARKETS.length
-                                    : MARKETS.filter((m) => m.region === region).length;
-                            return (
-                                <button
-                                    key={region}
-                                    onClick={() => selectRegion(region)}
-                                    className={`shrink-0 rounded-full px-3 py-1.5 font-tommy-medium text-[10px] uppercase tracking-[1.5px] transition-colors duration-300 md:px-4 md:text-[11px] ${
-                                        active
-                                            ? 'bg-[#FCD119] text-black'
-                                            : 'text-white/60 hover:bg-white/10 hover:text-white'
-                                    }`}
-                                >
-                                    {region}
-                                    <span className="ml-1 opacity-60">{n}</span>
-                                </button>
-                            );
-                        })}
-                    </nav>
-
-                    {/* ---------- Zoom controls ---------- */}
-                    <div
-                        data-mc-ui
-                        className="absolute bottom-2.5 right-2.5 z-20 flex flex-col gap-1 md:bottom-3 md:right-3"
-                        onPointerDown={(e) => e.stopPropagation()}
-                    >
-                        <button
-                            onClick={zoomIn}
-                            title="Zoom in"
-                            aria-label="Zoom in"
-                            className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-black/40 font-tommy-medium text-[15px] text-white/80 backdrop-blur-md transition-colors hover:bg-black/60 hover:text-white"
-                        >
-                            +
-                        </button>
-                        <button
-                            onClick={zoomOut}
-                            title="Zoom out"
-                            aria-label="Zoom out"
-                            className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-black/40 font-tommy-medium text-[15px] text-white/80 backdrop-blur-md transition-colors hover:bg-black/60 hover:text-white"
-                        >
-                            −
-                        </button>
-                        <button
-                            onClick={resetView}
-                            title="Reset view"
-                            aria-label="Reset view"
-                            className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-black/40 text-white/80 backdrop-blur-md transition-colors hover:bg-black/60 hover:text-white"
-                        >
-                            <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-                                <path d="M2 7a5 5 0 1 1 1.5 3.6M2 11V7.5h3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    {/* ---------- Selected market panel ---------- */}
-                    {activeMarket && (
-                        <div
-                            ref={panelRef}
-                            className="absolute inset-x-2.5 bottom-2.5 z-30 md:inset-x-auto md:left-3 md:top-1/2 md:w-[320px] md:-translate-y-1/2"
+                        {/* ---------- Region tabs, floating over the map ---------- */}
+                        <nav
+                            data-mc-ui
+                            /* On desktop the map runs full-bleed under the site's fixed
+                               header, so the tabs are dropped clear of it. That header's
+                               height tracks the viewport width (its py is 2% of vw), so
+                               the offset has to as well: 50px logo + 4vw padding + 14px
+                               gap. A fixed px value only clears the header at one width. */
+                            className="pointer-events-auto absolute inset-x-2.5 top-2.5 z-20 mx-auto flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-white/15 bg-black/35 p-1 backdrop-blur-md md:inset-x-3 md:top-3 md:gap-1 lg:top-[calc(64px+4vw)]"
+                            aria-label="Coverage regions"
                             onPointerDown={(e) => e.stopPropagation()}
                         >
-                            <div className="rounded-2xl border border-white/15 bg-[#151a22]/70 p-5 shadow-[0_24px_60px_rgba(0,0,0,0.45)] backdrop-blur-[12px]">
-                                <div className="mb-4 flex items-start justify-between gap-3">
-                                    <div>
-                                        <p className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#FCD119]">
-                                            {activeMarket.region} · Selected Market
-                                        </p>
-                                        <h3 className="mt-1 font-tommy-bold text-[19px] leading-tight text-white md:text-[22px]">
-                                            {activeMarket.city}
-                                        </h3>
-                                    </div>
+                            {REGIONS.map((region) => {
+                                const active = region === activeRegion && !activeMarket;
+                                const n =
+                                    region === 'NATIONAL'
+                                        ? MARKETS.length
+                                        : MARKETS.filter((m) => m.region === region).length;
+                                return (
                                     <button
-                                        onClick={clearMarket}
-                                        aria-label="Clear selected market"
-                                        className="shrink-0 rounded-full border border-white/15 p-1.5 text-white/50 transition-colors hover:text-white"
+                                        key={region}
+                                        onClick={() => selectRegion(region)}
+                                        className={`shrink-0 rounded-full px-3 py-1.5 font-tommy-medium text-[10px] uppercase tracking-[1.5px] transition-colors duration-300 md:px-4 md:text-[11px] ${active
+                                            ? 'bg-[#FCD119] text-black'
+                                            : 'text-white/60 hover:bg-white/10 hover:text-white'
+                                            }`}
                                     >
-                                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-                                            <path d="M1 1 L11 11 M11 1 L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                        </svg>
+                                        {region}
+                                        <span className="ml-1 opacity-60">{n}</span>
                                     </button>
-                                </div>
+                                );
+                            })}
+                        </nav>
 
-                                <div className="mb-4 rounded-xl bg-[#FCD119]/10 px-4 py-3">
-                                    <p className="font-tommy-bold text-[26px] leading-none text-[#FCD119]">
-                                        {fmt(activeMarket.impressions)}
-                                    </p>
-                                    <p className="mt-1.5 font-tommy-regular text-[10px] uppercase tracking-[2px] text-white/50">
-                                        Impressions / truck · 4-wk flight
-                                    </p>
-                                </div>
+                        {/* ---------- Zoom controls ---------- */}
+                        <div
+                            data-mc-ui
+                            className="absolute bottom-2.5 right-2.5 z-20 flex flex-col gap-1 md:bottom-3 md:right-3"
+                            onPointerDown={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={zoomIn}
+                                title="Zoom in"
+                                aria-label="Zoom in"
+                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-black/40 font-tommy-medium text-[15px] text-white/80 backdrop-blur-md transition-colors hover:bg-black/60 hover:text-white"
+                            >
+                                +
+                            </button>
+                            <button
+                                onClick={zoomOut}
+                                title="Zoom out"
+                                aria-label="Zoom out"
+                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-black/40 font-tommy-medium text-[15px] text-white/80 backdrop-blur-md transition-colors hover:bg-black/60 hover:text-white"
+                            >
+                                −
+                            </button>
+                            <button
+                                onClick={resetView}
+                                title="Reset view"
+                                aria-label="Reset view"
+                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-black/40 text-white/80 backdrop-blur-md transition-colors hover:bg-black/60 hover:text-white"
+                            >
+                                <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+                                    <path d="M2 7a5 5 0 1 1 1.5 3.6M2 11V7.5h3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
 
-                                <dl className="space-y-2.5">
-                                    {(
-                                        [
-                                            ['Adults 18+ Reached', fmt(activeMarket.adults)],
-                                            ['Metro 18+ Population', fmt(activeMarket.pop18)],
-                                            ['Coverage Rate', `${Math.round((activeMarket.adults / activeMarket.pop18) * 100)}% of 18+`],
-                                        ] as const
-                                    ).map(([label, value]) => (
-                                        <div
-                                            key={label}
-                                            className="flex items-baseline justify-between gap-3 border-b border-white/10 pb-2.5 last:border-0 last:pb-0"
-                                        >
-                                            <dt className="font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-white/45">
-                                                {label}
-                                            </dt>
-                                            <dd className="text-right font-tommy-medium text-[13.5px] text-white">
-                                                {value}
-                                            </dd>
+                        {/* ---------- Selected market panel ---------- */}
+                        {activeMarket && (
+                            <div
+                                ref={panelRef}
+                                className="absolute inset-x-2.5 bottom-2.5 z-30 md:inset-x-auto md:left-3 md:top-1/2 md:w-[320px] md:-translate-y-1/2"
+                                onPointerDown={(e) => e.stopPropagation()}
+                            >
+                                <div className="rounded-2xl border border-white/15 bg-[#151a22]/70 p-5 shadow-[0_24px_60px_rgba(0,0,0,0.45)] backdrop-blur-[12px]">
+                                    <div className="mb-4 flex items-start justify-between gap-3">
+                                        <div>
+                                            <p className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#FCD119]">
+                                                {activeMarket.region} · Selected Market
+                                            </p>
+                                            <h3 className="mt-1 font-tommy-bold text-[19px] leading-tight text-white md:text-[22px]">
+                                                {activeMarket.city}
+                                            </h3>
                                         </div>
-                                    ))}
-                                </dl>
+                                        <button
+                                            onClick={clearMarket}
+                                            aria-label="Clear selected market"
+                                            className="shrink-0 rounded-full border border-white/15 p-1.5 text-white/50 transition-colors hover:text-white"
+                                        >
+                                            <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                                                <path d="M1 1 L11 11 M11 1 L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                            </svg>
+                                        </button>
+                                    </div>
 
-                                {activeMarket.audience && (
-                                    <p className="mt-3 font-tommy-regular text-[11px] leading-[1.5] text-white/45">
-                                        {activeMarket.audience}
-                                    </p>
-                                )}
+                                    <div className="mb-4 rounded-xl bg-[#FCD119]/10 px-4 py-3">
+                                        <p className="font-tommy-bold text-[26px] leading-none text-[#FCD119]">
+                                            {fmt(activeMarket.impressions)}
+                                        </p>
+                                        <p className="mt-1.5 font-tommy-regular text-[10px] uppercase tracking-[2px] text-white/50">
+                                            Impressions / truck · 4-wk flight
+                                        </p>
+                                    </div>
 
-                                {/* The truck asset, shown at its natural
+                                    <dl className="space-y-2.5">
+                                        {(
+                                            [
+                                                ['Adults 18+ Reached', fmt(activeMarket.adults)],
+                                                ['Metro 18+ Population', fmt(activeMarket.pop18)],
+                                                ['Coverage Rate', `${Math.round((activeMarket.adults / activeMarket.pop18) * 100)}% of 18+`],
+                                            ] as const
+                                        ).map(([label, value]) => (
+                                            <div
+                                                key={label}
+                                                className="flex items-baseline justify-between gap-3 border-b border-white/10 pb-2.5 last:border-0 last:pb-0"
+                                            >
+                                                <dt className="font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-white/45">
+                                                    {label}
+                                                </dt>
+                                                <dd className="text-right font-tommy-medium text-[13.5px] text-white">
+                                                    {value}
+                                                </dd>
+                                            </div>
+                                        ))}
+                                    </dl>
+
+                                    {activeMarket.audience && (
+                                        <p className="mt-3 font-tommy-regular text-[11px] leading-[1.5] text-white/45">
+                                            {activeMarket.audience}
+                                        </p>
+                                    )}
+
+                                    {/* The truck asset, shown at its natural
                                     side-on orientation where it actually reads. */}
-                                <div className="mt-4 flex items-center gap-3 border-t border-white/10 pt-4">
-                                    <img
-                                        src={TRUCK_SRC}
-                                        alt=""
-                                        aria-hidden="true"
-                                        className="h-auto w-[86px] shrink-0 opacity-90"
-                                    />
-                                    <p className="font-tommy-regular text-[10px] uppercase leading-[1.5] tracking-[1.5px] text-white/40">
-                                        Full-wrap fleet
-                                        <br />
-                                        in market
-                                    </p>
+                                    <div className="mt-4 flex items-center gap-3 border-t border-white/10 pt-4">
+                                        <img
+                                            src={TRUCK_SRC}
+                                            alt=""
+                                            aria-hidden="true"
+                                            className="h-auto w-[86px] shrink-0 opacity-90"
+                                        />
+                                        <p className="font-tommy-regular text-[10px] uppercase leading-[1.5] tracking-[1.5px] text-white/40">
+                                            Full-wrap fleet
+                                            <br />
+                                            in market
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* ---------- Hint / legend ---------- */}
-                    <div
-                        data-mc-ui
-                        className="pointer-events-none absolute bottom-2.5 left-2.5 hidden items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-1.5 backdrop-blur-md md:bottom-3 md:left-3 md:flex"
-                    >
-                        <svg width="12" height="12" viewBox="0 0 14 14" fill="none" className="text-white/60">
-                            <path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                        </svg>
-                        <span className="font-tommy-regular text-[10px] uppercase tracking-[1.5px] text-white/60">
-                            Drag to pan · node size = impressions
-                        </span>
-                    </div>
+                        {/* ---------- Hint / legend ---------- */}
+                        <div
+                            data-mc-ui
+                            className="pointer-events-none absolute bottom-2.5 left-2.5 hidden items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-1.5 backdrop-blur-md md:bottom-3 md:left-3 md:flex"
+                        >
+                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" className="text-white/60">
+                                <path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                            </svg>
+                            <span className="font-tommy-regular text-[10px] uppercase tracking-[1.5px] text-white/60">
+                                Drag to pan · node size = impressions
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

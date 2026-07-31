@@ -313,8 +313,6 @@ function MeasurementStack() {
 export default function ServicesPage() {
     return (
         <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
-            <SiteHeader />
-
             <PortalHero
                 badge="Solutions"
                 title="WHAT WE DO"
@@ -331,7 +329,6 @@ export default function ServicesPage() {
             <Process />
 
             <CtaSection />
-            <Footer />
         </main>
     );
 }

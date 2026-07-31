@@ -266,8 +266,6 @@ function VendorCta() {
 export default function VendorsPage() {
     return (
         <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
-            <SiteHeader />
-
             <PortalHero
                 badge="Fleet Partners"
                 title="DRIVE. EARN"
@@ -285,7 +283,6 @@ export default function VendorsPage() {
             <Requirements />
             <NetworkStats />
             <VendorCta />
-            <Footer />
         </main>
     );
 }
