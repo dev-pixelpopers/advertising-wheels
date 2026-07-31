@@ -47,7 +47,7 @@ const caseStudies = [
 // Animations are orchestrated by the parent SecondSection via the class hooks below.
 export default function CaseStudy() {
     return (
-        <div className="case-study relative w-full 2xl:px-[40px] 3xl:px-[60px] pt-[100px] md:pt-[120px] lg:pt-0 h-screen flex flex-col lg:flex-row lg:items-center overflow-hidden">
+        <div className="case-study relative w-full 2xl:px-[40px] 3xl:px-[60px] pt-[60px] md:pt-[120px] lg:pt-0 h-screen flex flex-col lg:flex-row lg:items-center overflow-hidden">
             <div className="w-full lg:w-[40%] shrink-0 flex justify-start">
                 <div className="cs-left flex flex-col gap-4 md:gap-6 lg:gap-8 xl:gap-10 justify-center items-start">
                     <div className="flex flex-row gap-4 xl:gap-6 2xl:gap-[8] 3xl:gap-10 w-fit justify-start">
@@ -56,14 +56,14 @@ export default function CaseStudy() {
                             <h2 className="font-tommy-medium text-[30px] md:text-[clamp(2.5rem,3.5vw,4.125rem)] capitalize text-black dark:text-white leading-[100%] transition-colors duration-300">explore our case study</h2>
                         </div>
                     </div>
-                    <p className="font-tommy-regular text-[16px] md:text-[clamp(1rem,1.5vw,1.3125rem)] leading-[143%] text-black dark:text-gray-300 lg:max-w-[90%] xl:max-w-[80%] capitalize transition-colors duration-300">Our client, a growing consumer brand, wanted to increase brand awareness and reach a wider audience in key urban markets.</p>
+                    <p className="font-tommy-regular text-[14px] sm:text-[16px] md:text-[clamp(1rem,1.5vw,1.3125rem)] leading-[143%] text-black dark:text-gray-300 lg:max-w-[90%] xl:max-w-[80%] capitalize transition-colors duration-300">Our client, a growing consumer brand, wanted to increase brand awareness and reach a wider audience in key urban markets.</p>
                 </div>
             </div>
 
             {/* Right column — the pass-through card carousel. */}
             <div className="cs-carousel flex-1 relative md:mt-[40px] lg:mt-0 lg:h-[85vh] overflow-hidden">
                 {caseStudies.map((cs, index) => (
-                    <div key={index} className="cs-card absolute inset-0 flex flex-col items-end justify-center top-0">
+                    <div key={index} className="cs-card absolute inset-0 flex flex-col items-end justify-center top-0 lg:pt-[10%]">
                         <div className="w-[89vw] sm:w-[85vw] md:w-[65%] lg:w-[480px] xl:w-[530px] 2xl:w-[550px] 3xl:w-[600px] rounded-[8px] border border-[#F0F0F0] dark:border-[#2D2D2D] bg-[#FFF] dark:bg-[#181818] py-[10px] px-[10px] flex flex-col gap-2 md:gap-4 xl:gap-6 2xl:gap-8 transition-colors duration-300 shadow-sm dark:shadow-black/40 mx-auto lg:mx-0">
                             <div className="flex flex-row justify-between pt-[10px] md:pt-[12px] lg:pt-[16px] xl:pt-[22px] 2xl:pt-[30px] pl-[15px]">
                                 <div className="overflow-hidden">

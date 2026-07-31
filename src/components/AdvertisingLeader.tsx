@@ -137,7 +137,7 @@ export default function AdvertisingLeader() {
             </div>
             {/* SCENE A — the statement. Own layer, centred on the stage. */}
             <div ref={textSceneRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-[3%] lg:px-[2%] xl:px-[5%] 2xl:px-[10%]">
-                <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[16px] sm:text-[18px] md:text-[clamp(1.1rem,2.2vw,2.25rem)] leading-[183%] font-tommy-medium text-center capitalize w-full">
+                <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[20px] md:text-[25px] lg:text-[clamp(1.1rem,2.2vw,2.25rem)] leading-[183%] font-tommy-medium text-center capitalize w-full">
                     Advertising Wheels is the leader in truckside billboard advertising. For 25+ years
                     <span className="text-[#D5CCB4] dark:text-[#8C8472]"> we’ve helped national and local brands own the street with one of the largest truckside fleets in the country —</span> pairing bold, high-impact creative with GPS-tracked routing and independently verified impressions
                     <span className="text-[#D5CCB4] dark:text-[#8C8472]"> so every campaign is planned, targeted, and measurable.</span>
@@ -146,7 +146,7 @@ export default function AdvertisingLeader() {
             </div>
 
             {/* SCENE B — the proof. Same stage, revealed once the statement clears. */}
-            <div ref={cardsSceneRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center lg:px-[2%] xl:px-[5%] 2xl:px-[10%] md:pt-[40px] lg:pt-0">
+            <div ref={cardsSceneRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center lg:px-[2%] xl:px-[5%] 2xl:px-[10%] pt-[30px] md:pt-[40px] lg:pt-0">
                 <h2 ref={statsHeadingRef} className="text-[#1A1917] dark:text-white transition-colors duration-300 font-tommy-bold uppercase tracking-tight text-[20px] md:text-[clamp(28px,3vw,48px)] leading-tight text-center">
                     The Case For Out-Of-Home<span className="text-[#FCD119]">.</span>
                 </h2>
@@ -154,11 +154,11 @@ export default function AdvertisingLeader() {
                     Independent measurement, not our own claims — here is how the format compares
                     against the channels chasing the same budget.
                 </p>
-                <div ref={cardsRef} className="flex flex-col gap-y-4 lg:gap-y-0 lg:flex-row justify-between w-full  lg:gap-x-[28px] xl:gap-x-[37px] lg:max-w-[95%] xl:max-w-[90%] mt-[20px] md:mt-[25px] lg:mt-[40px] xl:mt-[46px]">
+                <div ref={cardsRef} className="flex flex-col gap-y-2 md:gap-y-4 lg:gap-y-0 lg:flex-row justify-between w-full  lg:gap-x-[28px] xl:gap-x-[37px] lg:max-w-[95%] xl:max-w-[90%] mt-[10px] md:mt-[25px] lg:mt-[40px] xl:mt-[46px]">
                     {
                         cards.map((card, index) => {
                             return (
-                                <div key={index} className={`rounded-[10px] border border-[#EBEAEA] dark:border-[#2A2A2A] py-[10px] md:py-[15px] flex flex-col items-center justify-between h-[150px] md:h-[200px] lg:h-[250px] xl:h-[300px] 2xl:h-[350px] bg-white dark:bg-[#1E1E1E] transition-colors duration-300 max-w-[70%] md:max-w-[50%] lg:max-w-none mx-auto ${index == 1 ? 'lg:mt-[8%]' : ''}`} style={{
+                                <div key={index} className={`rounded-[10px] border border-[#EBEAEA] dark:border-[#2A2A2A] py-[10px] md:py-[15px] flex flex-col items-center justify-between h-[130px] md:h-[200px] lg:h-[250px] xl:h-[300px] 2xl:h-[350px] bg-white dark:bg-[#1E1E1E] transition-colors duration-300 max-w-[33vh] md:max-w-[50%] lg:max-w-none mx-auto ${index == 1 ? 'lg:mt-[8%]' : ''}`} style={{
                                     boxShadow: "7px 4px 15.6px -2px rgba(0, 0, 0, 0.08)",
                                 }}>
                                     <div className="rounded-[30px] border border-[#E4E4E4] dark:border-[#333] bg-white dark:bg-[#282828] px-[12px] md:px-[14px] lg:px-[18px] xl:px-[22px] md:py-[6px] xl:py-[8px] flex justify-center w-max transition-colors duration-300">

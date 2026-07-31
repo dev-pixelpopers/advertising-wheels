@@ -59,8 +59,8 @@ export default function Footer() {
     const [isMobile, setIsMobile] = useState<Boolean>(false);
 
     useEffect(() => {
-        setIsMobile(window.innerWidth <= 768);
-    }, [])
+        setIsMobile(window.innerWidth < 1024);
+    }, []);
 
     useGSAP(
         () => {
@@ -152,11 +152,11 @@ export default function Footer() {
                 Advertising Wheels — site footer
             </h2>
 
-            <div ref={innerRef} className="relative mx-auto w-full lg:max-w-[1240px] px-3 md:px-6 lg:px-12">
-                {/* ================= Top: three columns ================= */}
-                <div className="grid grid-cols-1 gap-4 md:gap-8 lg:gap-12 py-8 md:py-12 lg:py-16 xl:py-24 md:grid-cols-[1.1fr_0.9fr_1.2fr] ">
+            <div ref={innerRef} className="relative mx-auto w-full px-4 sm:px-6 lg:max-w-[1240px] lg:px-12">
+                {/* ================= Top: three columns on desktop, stacked on mobile/tablet ================= */}
+                <div className="grid grid-cols-1 gap-10 py-8 sm:py-12 lg:grid-cols-[1.1fr_0.9fr_1.2fr] lg:gap-12 lg:py-16 xl:py-24">
                     {/* ---- Identity + direct contact ---- */}
-                    <div data-foot-col className="flex flex-col gap-8 md:pr-12">
+                    <div data-foot-col className="flex flex-col gap-4 md:gap-6 lg:gap-8 lg:pr-12">
                         <Logo width={132} height={55} />
 
                         <p className="max-w-[280px] font-tommy-regular text-[13.5px] leading-[1.7] text-[#6F6A60] dark:text-[#9A968E]">
@@ -164,7 +164,7 @@ export default function Footer() {
                             independently verified impressions.
                         </p>
 
-                        <ul className="flex flex-col gap-4">
+                        <ul className="flex flex-col gap-2 md:gap-3 lg:gap-4">
                             <li className="flex items-center gap-3">
                                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] dark:border-white/10 dark:bg-white/[0.06] dark:text-[#FCD119]">
                                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -197,16 +197,16 @@ export default function Footer() {
                     </div>
 
                     {/* ---- Quick links ---- */}
-                    <div data-foot-col className="relative md:px-12">
+                    <div data-foot-col className="relative lg:px-12">
                         <span
                             data-foot-rule
                             aria-hidden="true"
-                            className="absolute inset-y-0 left-0 hidden w-px bg-black/10 md:block dark:bg-white/10"
+                            className="absolute inset-y-0 left-0 hidden w-px bg-black/10 lg:block dark:bg-white/10"
                         />
                         <h3 className="font-tommy-bold text-[19px] uppercase tracking-tight text-[#1A1917] dark:text-white">
                             Quick Links<span className="text-[#FCD119]">.</span>
                         </h3>
-                        <ul className="mt-7 grid grid-cols-2 gap-x-6 gap-y-4">
+                        <ul className="mt-3 md:mt-5 lg:mt-7 grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-2 md:gap-y-3 lg:gap-y-4">
                             {QUICK_LINKS.map((l) => (
                                 <li key={l.label}>
                                     <a
@@ -221,11 +221,11 @@ export default function Footer() {
                     </div>
 
                     {/* ---- Newsletter ---- */}
-                    <div data-foot-col className="relative md:pl-12">
+                    <div data-foot-col className="relative lg:pl-12">
                         <span
                             data-foot-rule
                             aria-hidden="true"
-                            className="absolute inset-y-0 left-0 hidden w-px bg-black/10 md:block dark:bg-white/10"
+                            className="absolute inset-y-0 left-0 hidden w-px bg-black/10 lg:block dark:bg-white/10"
                         />
                         <h3 className="font-tommy-bold text-[19px] uppercase tracking-tight text-[#1A1917] dark:text-white">
                             Newsletter<span className="text-[#FCD119]">.</span>
@@ -290,7 +290,7 @@ export default function Footer() {
 
                 <div
                     data-foot-bottom
-                    className="flex flex-col items-center gap-6 py-8 text-center md:flex-row md:justify-between md:gap-4 md:text-left"
+                    className="flex flex-col items-center gap-6 py-8 text-center lg:flex-row lg:justify-between lg:gap-4 lg:text-left"
                 >
                     <p className="font-tommy-regular text-[12px] text-[#6F6A60] dark:text-[#9A968E]">
                         © {year} Advertising Wheels. All Rights Reserved.

@@ -219,6 +219,16 @@ export default function Hero({ isReady }: HeroProps) {
           autoAlpha: 1,
           ease: 'power1.out',
           duration: 0.8,
+          onStart: () => {
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('heroHeaderShow', { detail: true }));
+            }
+          },
+          onReverseComplete: () => {
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('heroHeaderShow', { detail: false }));
+            }
+          },
         },
         '>'
       );
@@ -390,7 +400,7 @@ export default function Hero({ isReady }: HeroProps) {
                   }}>Out-of-home that works like <span className='text-[#FCD119]'>online</span> </h2>
                   <p className='text-white font-tommy-bold text-[25px] md:text-[clamp(2rem,4.5vw,4.0625rem)] leading-[100%] capitalize' style={{
                     clipPath: "inset(0% 100% 0% 0%)",
-                  }}> measure your reach, </p>
+                  }}> measure your reach, then extend it <span className='text-[#FCD119]'>online</span> </p>
                 </div>
 
                 <div ref={ctaButtonsRef} className='w-full flex flex-col md:flex-row gap-[10px] md:gap-[32px] lg:gap-[42px] justify-center items-center'>

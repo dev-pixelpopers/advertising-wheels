@@ -148,7 +148,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           {LEAD_WORDS.map((word) => (
             <span
               key={word}
-              className="preloader-word font-tommy-regular text-2xl leading-none opacity-0"
+              className="preloader-word font-tommy-regular text-[18px] md:text-[22px] lg:text-2xl leading-none opacity-0"
             >
               {word}
             </span>

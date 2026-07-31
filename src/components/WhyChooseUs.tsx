@@ -398,7 +398,7 @@ export default function WhyChooseUs() {
                 {/* ------------------------------------------------ */}
                 {/* Intro and reasons are centred as one group, so the heading clears
                     the site header and the gap between them stays deliberate. */}
-                <div className="relative order-2 flex h-[42vh] w-full lg:w-[45%] flex-col justify-center px-7 md:order-1 md:h-full lg:px-10 xl:px-16">
+                <div className="relative order-2 flex h-[35vh] w-full lg:w-[45%] flex-col justify-center px-7 md:order-1 md:h-full lg:px-10 xl:px-16">
                     {/* Section intro — holds for the whole section while the four
                         reasons cycle underneath it. */}
                     <div className="shrink-0 bg-[#eee8d9] z-[100]">
@@ -433,7 +433,7 @@ export default function WhyChooseUs() {
                                         ))
                                         : ch.title}
                                 </h3>
-                                <p className={`mt-5 max-w-[420px] font-tommy-regular text-[14px] leading-[1.7] md:text-[16px] ${i === 0 ? 'wcu-sub' : ''}`} style={{ color: p.muted }}>
+                                <p className={`mt-2 md:mt-4 lg:mt-5 max-w-[420px] font-tommy-regular text-[14px] leading-[1.7] md:text-[16px] ${i === 0 ? 'wcu-sub' : ''}`} style={{ color: p.muted }}>
                                     {ch.body}
                                 </p>
                             </div>
@@ -444,7 +444,7 @@ export default function WhyChooseUs() {
                 {/* ------------------------------------------------ */}
                 {/* RIGHT (55%): the visualization viewport           */}
                 {/* ------------------------------------------------ */}
-                <div className="relative order-1 h-[40vh] lg:h-full w-full md:w-[55%] md:order-2 md:h-full mx-auto lg:my-auto xl:my-0 ">
+                <div className="relative order-1 h-[50vh] lg:h-full w-full md:w-[55%] md:order-2 md:h-full mx-auto lg:my-auto xl:my-0 ">
                     {/* Minimalist gray grid backdrop */}
                     {/* <div
                         className="absolute inset-0"

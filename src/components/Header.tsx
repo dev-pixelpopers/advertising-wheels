@@ -12,10 +12,28 @@ export default function Header({ scrolledHero }: { scrolledHero?: Boolean }) {
     const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [showHomeHeader, setShowHomeHeader] = useState(false);
+
+    const isHomePage = pathname === '/';
+
+    // On home page only: listen for hero canvas animation completion
+    useEffect(() => {
+        if (!isHomePage) return;
+
+        setShowHomeHeader(false);
+
+        const handleHeaderShow = (e: Event) => {
+            const customEvent = e as CustomEvent<boolean>;
+            setShowHomeHeader(!!customEvent.detail);
+        };
+
+        window.addEventListener('heroHeaderShow', handleHeaderShow);
+        return () => window.removeEventListener('heroHeaderShow', handleHeaderShow);
+    }, [isHomePage]);
 
     // Frost the bar once the page leaves the very top.
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 12);
+        const onScroll = () => setScrolled(typeof window !== 'undefined' ? window.scrollY > 12 : false);
         onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
@@ -29,8 +47,15 @@ export default function Header({ scrolledHero }: { scrolledHero?: Boolean }) {
     const isActive = (href: string) =>
         pathname === href || pathname.startsWith(href + '/');
 
+    const isVisible = !isHomePage || showHomeHeader;
+
     return (
-        <header className="fixed inset-x-0 top-0 z-[100] w-full">
+        <header
+            className={`fixed inset-x-0 top-0 z-[100] w-full transition-all duration-500 ease-out ${isVisible
+                ? 'opacity-100 translate-y-0 pointer-events-auto'
+                : 'opacity-0 -translate-y-full pointer-events-none'
+                }`}
+        >
             <div
                 className={`w-full transition-all duration-300 ${scrolled || menuOpen
                     ? 'border-b border-black/10 bg-[#EEE8D9]/85 backdrop-blur-xl dark:border-white/10 dark:bg-[#0A0A0A]/85'

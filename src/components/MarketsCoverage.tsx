@@ -458,62 +458,39 @@ export default function MarketsCoverage() {
                 onComplete: () => drawCorridors('NATIONAL'),
             });
 
-            const mm = gsap.matchMedia();
+            setExpandedOnce(false);
 
-            /* ---------- Desktop: pin + scrub the map open ---------- */
-            mm.add('(min-width: 1024px)', () => {
-                setExpandedOnce(false);
+            const tl = gsap.timeline({
+                defaults: { ease: 'none' },
+                scrollTrigger: {
+                    trigger: rootRef.current,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    pin: pinRef.current,
+                    scrub: 0.6,
+                    anticipatePin: 1,
+                    onUpdate: (self) => setExpandedOnce(self.progress > 0.5),
+                },
+            });
 
-                const tl = gsap.timeline({
-                    defaults: { ease: 'none' },
-                    scrollTrigger: {
-                        trigger: rootRef.current,
-                        start: 'top top',
-                        end: 'bottom bottom',
-                        pin: pinRef.current,
-                        scrub: 0.6,
-                        anticipatePin: 1,
-                        onUpdate: (self) => setExpandedOnce(self.progress > 0.6),
-                    },
-                });
-
-                // Every desktop-only style is declared as a `fromTo` so that it
-                // lives inside this media context and is fully reverted when the
-                // viewport drops below `lg` — a plain gsap.set would leak the
-                // peek transform into the mobile layout.
-                tl.fromTo(
-                    mapWrapRef.current,
-                    { yPercent: 74, scaleX: 0.9, scaleY: 0.9, transformOrigin: '50% 0%', borderRadius: 28 },
-                    { yPercent: 0, scaleX: 1, scaleY: 1, borderRadius: 0, duration: 0.6 },
-                    0
+            tl.fromTo(
+                mapWrapRef.current,
+                { yPercent: 68, scaleX: 0.92, scaleY: 0.92, transformOrigin: '50% 0%', borderRadius: 20 },
+                { yPercent: 0, scaleX: 1, scaleY: 1, borderRadius: 0, duration: 0.6 },
+                0
+            )
+                .fromTo(
+                    introRef.current,
+                    { yPercent: 0, autoAlpha: 1 },
+                    { yPercent: -20, autoAlpha: 0, duration: 0.45, ease: 'power1.in' },
+                    0.05
                 )
-                    // Intro copy lifts away as the map takes the screen.
-                    .fromTo(
-                        introRef.current,
-                        { yPercent: 0, autoAlpha: 1 },
-                        { yPercent: -18, autoAlpha: 0, duration: 0.42, ease: 'power1.in' },
-                        0.06
-                    )
-                    // Map chrome fades in once the frame is essentially full.
-                    .fromTo(
-                        '[data-mc-ui]',
-                        { autoAlpha: 0 },
-                        { autoAlpha: 1, duration: 0.12 },
-                        0.55
-                    );
-            });
-
-            /* ---------- Mobile / tablet: no pin, always interactive ---------- */
-            mm.add('(max-width: 1023px)', () => {
-                setExpandedOnce(true);
-                gsap.from(stageRef.current, {
-                    autoAlpha: 0,
-                    y: 24,
-                    duration: 0.8,
-                    ease: 'power3.out',
-                    scrollTrigger: { trigger: stageRef.current, start: 'top 85%', once: true },
-                });
-            });
+                .fromTo(
+                    '[data-mc-ui]',
+                    { autoAlpha: 0 },
+                    { autoAlpha: 1, duration: 0.15 },
+                    0.5
+                );
 
             /* ---------- Truck pins ----------
              * One truck per corridor. The pin travels the route but is never
@@ -578,8 +555,6 @@ export default function MarketsCoverage() {
                     });
                 });
             }
-
-            return () => mm.revert();
         },
         { scope: rootRef }
     );
@@ -616,7 +591,7 @@ export default function MarketsCoverage() {
     return (
         <section
             ref={rootRef}
-            className="relative w-full bg-[#EEE8D9] transition-colors duration-300 lg:h-[260vh] dark:bg-[#0A0A0A]"
+            className="relative w-full bg-[#EEE8D9] transition-colors duration-300 h-[220vh] sm:h-[240vh] lg:h-[260vh] dark:bg-[#0A0A0A]"
         >
             <style>{`
                 @keyframes mc-pulse {
@@ -658,21 +633,21 @@ export default function MarketsCoverage() {
             {/* The frame that gets pinned for the whole scroll sequence. */}
             <div
                 ref={pinRef}
-                className="relative w-full overflow-hidden lg:h-screen"
+                className="relative w-full overflow-hidden h-screen h-[100dvh]"
             >
                 {/* ============ INTRO: heading, copy + national stats ============ */}
                 <div
                     ref={introRef}
-                    className="relative z-10 mx-auto w-full max-w-[1100px] px-5 pb-10 pt-[100px] text-center md:px-[60px] md:pt-[120px] lg:absolute lg:inset-x-0 lg:top-0 lg:pb-0 lg:pt-[14vh]"
+                    className="absolute inset-x-0 top-0 z-10 mx-auto w-full max-w-[1100px] px-4 pt-[5vh] text-center sm:px-6 sm:pt-[8vh] md:px-[60px] lg:pt-[14vh]"
                 >
                     <div data-mc-head>
-                        <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-black/50 md:text-[13px] dark:text-white/50">
+                        <p className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-black/50 sm:text-[11px] sm:tracking-[4px] md:text-[13px] dark:text-white/50">
                             Markets &amp; Coverage
                         </p>
-                        <h2 className="mt-3 font-tommy-bold text-[24px] md:text-[clamp(1.75rem,3vw,2.75rem)] leading-[0.95] lg:tracking-[-1.5px] text-black dark:text-white">
+                        <h2 className="mt-2 font-tommy-bold text-[22px] leading-[0.95] text-black sm:text-[28px] md:text-[clamp(1.75rem,3vw,2.75rem)] lg:tracking-[-1.5px] dark:text-white">
                             Where We Roll<span className="text-[#FCD119]">.</span>
                         </h2>
-                        <p className="mx-auto mt-3 md:mt-4 lg:mt-5 lg:max-w-[620px] font-tommy-regular text-[12px] md:text-[14px] leading-[1.7] text-black/60 md:text-[16px] dark:text-white/55">
+                        <p className="mx-auto mt-2 font-tommy-regular text-[11.5px] leading-[1.6] text-black/60 sm:mt-3 sm:text-[14px] sm:leading-[1.7] md:text-[16px] lg:mt-5 lg:max-w-[620px] dark:text-white/55">
                             {totals.count} metro markets from coast to coast, reaching{' '}
                             {compact(totals.adults)} adults 18+ inside our coverage areas —
                             every mile measured, every market accounted for.
@@ -680,7 +655,7 @@ export default function MarketsCoverage() {
                     </div>
 
                     {/* National coverage totals */}
-                    <div className="mx-auto mt-9 grid max-w-[900px] grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+                    <div className="mx-auto mt-4 grid max-w-[900px] grid-cols-2 gap-2 sm:mt-6 sm:gap-3 md:mt-9 md:grid-cols-4 md:gap-4">
                         {[
                             { k: `${totals.count}`, l: 'Metro Markets' },
                             { k: compact(totals.adults), l: 'Adults 18+ Reached' },
@@ -690,20 +665,20 @@ export default function MarketsCoverage() {
                             <div
                                 key={s.l}
                                 data-mc-stat
-                                className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-4 text-left md:px-5 md:py-5 dark:border-white/10 dark:bg-white/[0.04]"
+                                className="rounded-xl border border-black/10 bg-black/[0.03] px-3 py-2.5 text-left sm:px-4 sm:py-4 dark:border-white/10 dark:bg-white/[0.04]"
                             >
-                                <p className="font-tommy-bold text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] leading-none text-black md:text-[34px] dark:text-white">
+                                <p className="font-tommy-bold text-[18px] leading-none text-black sm:text-[24px] md:text-[34px] dark:text-white">
                                     {s.k}
                                 </p>
-                                <p className="mt-1.5 font-tommy-regular text-[10.5px] uppercase tracking-[2px] text-black/45 md:text-[11px] dark:text-white/45">
+                                <p className="mt-1 font-tommy-regular text-[9.5px] uppercase tracking-[1.5px] text-black/45 sm:text-[11px] sm:tracking-[2px] dark:text-white/45">
                                     {s.l}
                                 </p>
                             </div>
                         ))}
                     </div>
 
-                    {/* Scroll affordance — desktop only, where the pin runs. */}
-                    <p className="mt-8 hidden font-tommy-regular text-[10.5px] uppercase tracking-[3px] text-black/35 lg:block dark:text-white/35">
+                    {/* Scroll affordance — shown on all viewports */}
+                    <p className="mt-4 block font-tommy-regular text-[9.5px] uppercase tracking-[2.5px] text-black/35 sm:mt-6 sm:text-[10.5px] sm:tracking-[3px] dark:text-white/35">
                         Scroll to open the coverage map ↓
                     </p>
                 </div>
@@ -711,11 +686,11 @@ export default function MarketsCoverage() {
                 {/* ================= THE MAP ================= */}
                 <div
                     ref={mapWrapRef}
-                    className="relative z-20 w-full overflow-hidden px-5 pb-[70px] md:px-[60px] lg:absolute lg:inset-0 lg:z-20 lg:overflow-visible lg:p-0"
+                    className="absolute inset-0 z-20 overflow-hidden p-0"
                 >
                     <div
                         ref={stageRef}
-                        className={`relative h-[52vh] w-full touch-none select-none overflow-hidden rounded-2xl border border-black/10 bg-[#4d5666] md:rounded-3xl lg:h-full lg:rounded-[inherit] lg:border-0 dark:border-white/10 ${expanded ? '' : 'lg:pointer-events-none'
+                        className={`relative h-full w-full touch-none select-none overflow-hidden bg-[#4d5666] ${expanded ? '' : 'pointer-events-none'
                             }`}
                         onPointerDown={onPointerDown}
                         onPointerMove={onPointerMove}
@@ -886,7 +861,7 @@ export default function MarketsCoverage() {
                                height tracks the viewport width (its py is 2% of vw), so
                                the offset has to as well: 50px logo + 4vw padding + 14px
                                gap. A fixed px value only clears the header at one width. */
-                            className="pointer-events-auto absolute inset-x-2.5 top-2.5 z-20 mx-auto flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-white/15 bg-black/35 p-1 backdrop-blur-md md:inset-x-3 md:top-3 md:gap-1 lg:top-[calc(64px+4vw)]"
+                            className="pointer-events-auto absolute inset-x-2 top-14 z-20 mx-auto flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-white/15 bg-black/35 p-1 backdrop-blur-md sm:top-16 md:inset-x-3 md:gap-1 lg:top-[calc(64px+4vw)]"
                             aria-label="Coverage regions"
                             onPointerDown={(e) => e.stopPropagation()}
                         >
