@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import Preloader from '@/components/Preloader';
 import Hero from '@/components/Hero';
-import HomeMarquee from '@/components/HomeMarquee';
-import CaseStudy from '@/components/CaseStudy';
+import CaseStudySection from '@/components/CaseStudySection';
 import Campaigns from '@/components/Campaigns';
 import Process from '@/components/Process';
 import AdvertisingLeader from '@/components/AdvertisingLeader';
@@ -11,7 +10,6 @@ import SecondSection from '@/components/SecondSection';
 import TruckExperience from '@/components/TruckExperience';
 import CinematicStory from '@/components/CinematicStory';
 import MarketsCoverage from '@/components/MarketsCoverage';
-import FloatingTestimonials from '@/components/FloatingTestimonials';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import CtaSection from '@/components/CtaSection';
 import Footer from '@/components/Footer';
@@ -39,7 +37,7 @@ export default function Home() {
         <AdvertisingLeader />
         <TruckExperience />
         <MarketsCoverage />
-        <FloatingTestimonials />
+        <CaseStudySection />
         <WhyChooseUs />
         <CtaSection />
         {/* <Process /> */}

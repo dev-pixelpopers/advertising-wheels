@@ -401,7 +401,10 @@ export default function WhyChooseUs() {
                 <div className="relative order-2 flex h-[35vh] w-full lg:w-[45%] flex-col justify-center px-7 md:order-1 md:h-full lg:px-10 xl:px-16">
                     {/* Section intro — holds for the whole section while the four
                         reasons cycle underneath it. */}
-                    <div className="shrink-0 bg-[#eee8d9] z-[100]">
+                    {/* Sits above the chapter copy that scrolls underneath it, so it
+                        needs the section's own ground — taken from the palette, not a
+                        hard-coded cream, or it stays light in dark mode. */}
+                    <div className="relative z-[100] shrink-0" style={{ backgroundColor: p.ink }}>
                         <h2 className="wcu-intro-item font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[46px]" style={{ color: p.text }}>
                             Why Choose Us<span style={{ color: p.accent }}>.</span>
                         </h2>

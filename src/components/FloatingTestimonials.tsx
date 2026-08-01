@@ -86,7 +86,14 @@ const TESTIMONIALS: Testimonial[] = [
     },
 ];
 
-export default function FloatingTestimonials() {
+/**
+ * `embedded` hands control to a parent timeline: the component renders to fill
+ * its container and runs no ScrollTrigger of its own (the parent drives the
+ * header via [data-tm-head] and the rail via [data-tm-rail]). Used inside
+ * SecondSection, where the testimonials play between the marquee and the case
+ * studies on a single pinned stage.
+ */
+export default function FloatingTestimonials({ embedded = false }: { embedded?: boolean } = {}) {
     const rootRef = useRef<HTMLElement>(null);
     const frameRef = useRef<HTMLDivElement>(null);
     const railRef = useRef<HTMLDivElement>(null);
@@ -94,6 +101,7 @@ export default function FloatingTestimonials() {
 
     useGSAP(
         () => {
+            if (embedded) return; // the parent owns all motion
             const q = gsap.utils.selector(rootRef);
 
             /* Header reveal */
@@ -140,9 +148,12 @@ export default function FloatingTestimonials() {
     return (
         <section
             ref={rootRef}
-            className="relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
+            className={`relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A] ${embedded ? 'h-full' : ''}`}
         >
-            <div ref={frameRef} className="flex h-screen h-[100dvh] w-full items-center px-3 sm:px-6 md:px-8 lg:px-4">
+            <div
+                ref={frameRef}
+                className={`flex w-full items-center px-3 sm:px-6 md:px-8 lg:px-4 ${embedded ? 'h-full' : 'h-screen h-[100dvh]'}`}
+            >
                 {/* Plain container — cards sit straight on the section ground. */}
                 <div className="mx-auto w-full py-2 sm:py-4 md:py-8 lg:max-w-[1440px] lg:py-[7vh]">
                     {/* ---------------- Header (left aligned) ---------------- */}
@@ -165,10 +176,12 @@ export default function FloatingTestimonials() {
                     {/* ---------------- The rail ---------------- */}
                     <div
                         ref={viewportRef}
+                        data-tm-viewport
                         className="w-full overflow-hidden pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     >
                         <div
                             ref={railRef}
+                            data-tm-rail
                             className="flex w-max gap-4 px-3 sm:gap-5 sm:px-5 md:gap-6 md:px-8 lg:px-[4.5%]"
                         >
                             {TESTIMONIALS.map((t) => (

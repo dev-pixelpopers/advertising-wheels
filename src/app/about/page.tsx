@@ -36,7 +36,7 @@ const STORY_IMG = '/assets/images/background.avif';
 /* ------------------------------------------------------------------ */
 
 const MILESTONES = [
-    { year: '1999', title: 'Founded', body: 'Advertising Wheels begins operations in Brentwood, Tennessee with a single market and a small fleet — running mobile truckside campaigns for regional brands that wanted street-level visibility their static OOH couldn’t deliver.' },
+    { year: '1999', title: 'Founded', body: 'Advertising Wheels begins operations in Nashville, Tennessee with a single market and a small fleet — running mobile truckside campaigns for regional brands that wanted street-level visibility their static OOH couldn’t deliver.' },
     { year: '2003', title: 'First Fortune 500 client', body: 'Won our first national CPG account — a beverage launch that required eight markets in eight weeks. We hit every market and every flight. That client is still a client today.' },
     { year: '2008', title: 'National operational footprint', body: 'Expanded from regional to 50-DMA national coverage with in-house fleet operations in every major metropolitan corridor — never brokered out to third-party operators.' },
     { year: '2014', title: 'GPS-verified delivery', body: 'Every truck in the national fleet upgraded to continuous GPS reporting. Verified-impression reporting becomes the default, not the upgrade.' },
@@ -138,7 +138,7 @@ function Story() {
                         <p className="mt-1.5 font-tommy-regular text-[11px] uppercase tracking-[2px] text-white/60 dark:text-black/60">Years · Owner-operated</p>
                     </div>
                     <div data-story-badge className="absolute -right-4 -top-4 rounded-full border border-black/10 bg-white/80 px-5 py-2.5 font-tommy-medium text-[12px] uppercase tracking-[2px] text-[#1A1917] shadow-lg backdrop-blur dark:border-white/10 dark:bg-[#141414]/80 dark:text-white">
-                        Brentwood, TN
+                        Nashville, TN
                     </div>
                 </div>
             </div>
@@ -269,7 +269,7 @@ function Leadership() {
             }
             hub={{
                 title: 'Roopanjan Dey',
-                role: 'Owner · Brentwood, TN',
+                role: 'Owner · Nashville, TN',
                 mono: 'Owner-operated',
                 body: 'Personally accountable for every Fortune 500 relationship.',
             }}
@@ -343,7 +343,7 @@ export default function AboutPage() {
             <PortalHero
                 badge="About"
                 title="ADVERTISING WHEELS"
-                lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands since 1999, owner-operated from Brentwood, Tennessee."
+                lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands since 1999, owner-operated from Nashville, Tennessee."
                 primary={{ label: 'Book a Strategy Call', href: '/contact' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
                 image={HERO_IMG}

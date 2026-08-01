@@ -26,6 +26,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { useGSAP } from '@gsap/react';
+import UsMap from './map/UsMap';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, MotionPathPlugin);
 
@@ -33,14 +34,13 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, MotionPathPlugin);
 /*  Map space                                                          */
 /* ------------------------------------------------------------------ */
 
-const MAP_W = 1000;
-const MAP_H = 589;
-const MAP_SRC = '/assets/images/market/map.svg';
+const MAP_W = 2000;
+const MAP_H = 1200;
 const TRUCK_SRC = '/assets/images/market/truck.svg';
 
 /** Zoom limits, expressed as viewBox width. */
-const MIN_VIEW_W = 150; // most zoomed-in
-const MAX_VIEW_W = 940; // most zoomed-out
+const MIN_VIEW_W = 300; // most zoomed-in
+const MAX_VIEW_W = 1960; // most zoomed-out
 
 type Region = 'NATIONAL' | 'WEST' | 'CENTRAL' | 'SOUTH' | 'NORTHEAST';
 const REGIONS: Region[] = ['NATIONAL', 'WEST', 'CENTRAL', 'SOUTH', 'NORTHEAST'];
@@ -63,81 +63,153 @@ interface Market {
 /** The 50 covered markets — client coverage figures (60% of metro 18+). */
 const MARKETS: Market[] = [
     // ---------------- WEST ----------------
-    { id: 'lax', city: 'Los Angeles, CA', region: 'WEST', x: 301, y: 363, adults: 6120000, pop18: 10200000, impressions: 1751625 },
-    { id: 'sfo', city: 'San Francisco, CA', region: 'WEST', x: 236, y: 283, adults: 2940000, pop18: 4900000, impressions: 749250 },
-    { id: 'phx', city: 'Phoenix, AZ', region: 'WEST', x: 388, y: 370, adults: 2460000, pop18: 4100000, impressions: 384750 },
-    { id: 'sea', city: 'Seattle-Tacoma, WA', region: 'WEST', x: 221, y: 57, adults: 2220000, pop18: 3700000, impressions: 931500 },
-    { id: 'den', city: 'Denver, CO', region: 'WEST', x: 474, y: 217, adults: 1740000, pop18: 2900000, impressions: 810000 },
-    { id: 'sac', city: 'Sacramento, CA', region: 'WEST', x: 247, y: 263, adults: 1440000, pop18: 2400000, impressions: 513000 },
-    { id: 'san', city: 'San Diego, CA', region: 'WEST', x: 318, y: 392, adults: 1500000, pop18: 2500000, impressions: 776250 },
-    { id: 'pdx', city: 'Portland, OR', region: 'WEST', x: 218, y: 106, adults: 1320000, pop18: 2200000, impressions: 810000 },
-    { id: 'slc', city: 'Salt Lake City, UT', region: 'WEST', x: 377, y: 202, adults: 660000, pop18: 1100000, impressions: 540000 },
-    { id: 'las', city: 'Las Vegas, NV', region: 'WEST', x: 340, y: 311, adults: 960000, pop18: 1600000, impressions: 810000 },
-    { id: 'abq', city: 'Albuquerque, NM', region: 'WEST', x: 460, y: 326, adults: 420000, pop18: 700000, impressions: 337500 },
+    { id: 'lax', city: 'Los Angeles, CA', region: 'WEST', x: 301.9, y: 707.4, adults: 6120000, pop18: 10200000, impressions: 1751625 },
+    { id: 'sfo', city: 'San Francisco, CA', region: 'WEST', x: 205.4, y: 531.5, adults: 2940000, pop18: 4900000, impressions: 749250 },
+    { id: 'phx', city: 'Phoenix, AZ', region: 'WEST', x: 501.4, y: 767.4, adults: 2460000, pop18: 4100000, impressions: 384750 },
+    { id: 'sea', city: 'Seattle-Tacoma, WA', region: 'WEST', x: 308.3, y: 116.1, adults: 2220000, pop18: 3700000, impressions: 931500 },
+    { id: 'den', city: 'Denver, CO', region: 'WEST', x: 774.7, y: 537.9, adults: 1740000, pop18: 2900000, impressions: 810000 },
+    { id: 'sac', city: 'Sacramento, CA', region: 'WEST', x: 228.8, y: 504.0, adults: 1440000, pop18: 2400000, impressions: 513000 },
+    { id: 'san', city: 'San Diego, CA', region: 'WEST', x: 331.9, y: 763.2, adults: 1500000, pop18: 2500000, impressions: 776250 },
+    { id: 'pdx', city: 'Portland, OR', region: 'WEST', x: 273.1, y: 203.2, adults: 1320000, pop18: 2200000, impressions: 810000 },
+    { id: 'slc', city: 'Salt Lake City, UT', region: 'WEST', x: 556.1, y: 465.0, adults: 660000, pop18: 1100000, impressions: 540000 },
+    { id: 'las', city: 'Las Vegas, NV', region: 'WEST', x: 414.6, y: 640.6, adults: 960000, pop18: 1600000, impressions: 810000 },
+    { id: 'abq', city: 'Albuquerque, NM', region: 'WEST', x: 698.6, y: 729.3, adults: 420000, pop18: 700000, impressions: 337500 },
 
     // ---------------- CENTRAL ----------------
-    { id: 'ord', city: 'Chicago, IL', region: 'CENTRAL', x: 721, y: 148, adults: 3960000, pop18: 6600000, impressions: 978750 },
-    { id: 'dfw', city: 'Dallas-Ft. Worth, TX', region: 'CENTRAL', x: 601, y: 367, adults: 3240000, pop18: 5400000, impressions: 985500 },
-    { id: 'hou', city: 'Houston, TX', region: 'CENTRAL', x: 626, y: 435, adults: 2820000, pop18: 4700000, impressions: 675000, audience: 'Commuters, shoppers, sports & event crowds — ~1.2M weekly' },
-    { id: 'msp', city: 'Minneapolis-St. Paul, MN', region: 'CENTRAL', x: 627, y: 84, adults: 1860000, pop18: 3100000, impressions: 742500 },
-    { id: 'dtw', city: 'Detroit, MI', region: 'CENTRAL', x: 760, y: 134, adults: 1920000, pop18: 3200000, impressions: 877500 },
-    { id: 'cle', city: 'Cleveland, OH', region: 'CENTRAL', x: 776, y: 158, adults: 1560000, pop18: 2600000, impressions: 384750 },
-    { id: 'ind', city: 'Indianapolis, IN', region: 'CENTRAL', x: 735, y: 195, adults: 1140000, pop18: 1900000, impressions: 540000 },
-    { id: 'stl', city: 'St. Louis, MO', region: 'CENTRAL', x: 681, y: 226, adults: 1380000, pop18: 2300000, impressions: 675000 },
-    { id: 'aus', city: 'Austin, TX', region: 'CENTRAL', x: 592, y: 426, adults: 1020000, pop18: 1700000, impressions: 1074195 },
-    { id: 'grr', city: 'Grand Rapids, MI', region: 'CENTRAL', x: 736, y: 121, adults: 450000, pop18: 750000, impressions: 715500 },
-    { id: 'mci', city: 'Kansas City, MO', region: 'CENTRAL', x: 620, y: 220, adults: 900000, pop18: 1500000, impressions: 675000 },
-    { id: 'cvg', city: 'Cincinnati, OH', region: 'CENTRAL', x: 759, y: 208, adults: 840000, pop18: 1400000, impressions: 607500 },
-    { id: 'sat', city: 'San Antonio, TX', region: 'CENTRAL', x: 583, y: 446, adults: 960000, pop18: 1600000, impressions: 742500 },
-    { id: 'okc', city: 'Oklahoma City, OK', region: 'CENTRAL', x: 586, y: 307, adults: 540000, pop18: 900000, impressions: 405000 },
+    { id: 'ord', city: 'Chicago, IL', region: 'CENTRAL', x: 1336.7, y: 450.4, adults: 3960000, pop18: 6600000, impressions: 978750 },
+    { id: 'dfw', city: 'Dallas-Ft. Worth, TX', region: 'CENTRAL', x: 1043.1, y: 853.8, adults: 3240000, pop18: 5400000, impressions: 985500 },
+    { id: 'hou', city: 'Houston, TX', region: 'CENTRAL', x: 1097.7, y: 978.2, adults: 2820000, pop18: 4700000, impressions: 675000, audience: 'Commuters, shoppers, sports & event crowds — ~1.2M weekly' },
+    { id: 'msp', city: 'Minneapolis-St. Paul, MN', region: 'CENTRAL', x: 1151.6, y: 330.4, adults: 1860000, pop18: 3100000, impressions: 742500 },
+    { id: 'dtw', city: 'Detroit, MI', region: 'CENTRAL', x: 1476.6, y: 409.3, adults: 1920000, pop18: 3200000, impressions: 877500 },
+    { id: 'cle', city: 'Cleveland, OH', region: 'CENTRAL', x: 1529.9, y: 439.3, adults: 1560000, pop18: 2600000, impressions: 384750 },
+    { id: 'ind', city: 'Indianapolis, IN', region: 'CENTRAL', x: 1394.0, y: 536.0, adults: 1140000, pop18: 1900000, impressions: 540000 },
+    { id: 'stl', city: 'St. Louis, MO', region: 'CENTRAL', x: 1265.4, y: 599.1, adults: 1380000, pop18: 2300000, impressions: 675000 },
+    { id: 'aus', city: 'Austin, TX', region: 'CENTRAL', x: 1009.3, y: 953.9, adults: 1020000, pop18: 1700000, impressions: 1074195 },
+    { id: 'grr', city: 'Grand Rapids, MI', region: 'CENTRAL', x: 1397.8, y: 396.4, adults: 450000, pop18: 750000, impressions: 715500 },
+    { id: 'mci', city: 'Kansas City, MO', region: 'CENTRAL', x: 1118.7, y: 583.8, adults: 900000, pop18: 1500000, impressions: 675000 },
+    { id: 'cvg', city: 'Cincinnati, OH', region: 'CENTRAL', x: 1451.3, y: 557.3, adults: 840000, pop18: 1400000, impressions: 607500 },
+    { id: 'sat', city: 'San Antonio, TX', region: 'CENTRAL', x: 981.7, y: 985.2, adults: 960000, pop18: 1600000, impressions: 742500 },
+    { id: 'okc', city: 'Oklahoma City, OK', region: 'CENTRAL', x: 1018.3, y: 739.4, adults: 540000, pop18: 900000, impressions: 405000 },
 
     // ---------------- SOUTH ----------------
-    { id: 'mia', city: 'Miami-Ft. Lauderdale, FL', region: 'SOUTH', x: 878, y: 500, adults: 2400000, pop18: 4000000, impressions: 1373692 },
-    { id: 'atl', city: 'Atlanta, GA', region: 'SOUTH', x: 771, y: 331, adults: 2700000, pop18: 4500000, impressions: 1029105 },
-    { id: 'tpa', city: 'Tampa-St. Pete, FL', region: 'SOUTH', x: 843, y: 472, adults: 1800000, pop18: 3000000, impressions: 641250 },
-    { id: 'mco', city: 'Orlando, FL', region: 'SOUTH', x: 856, y: 464, adults: 1740000, pop18: 2900000, impressions: 607500 },
-    { id: 'clt', city: 'Charlotte, NC', region: 'SOUTH', x: 817, y: 293, adults: 1260000, pop18: 2100000, impressions: 573750 },
-    { id: 'rdu', city: 'Raleigh-Durham, NC', region: 'SOUTH', x: 847, y: 278, adults: 1080000, pop18: 1800000, impressions: 506250 },
-    { id: 'bna', city: 'Nashville, TN', region: 'SOUTH', x: 733, y: 278, adults: 1080000, pop18: 1800000, impressions: 1032750 },
-    { id: 'jax', city: 'Jacksonville, FL', region: 'SOUTH', x: 846, y: 436, adults: 720000, pop18: 1200000, impressions: 472500 },
-    { id: 'rsw', city: 'Ft. Myers, FL', region: 'SOUTH', x: 850, y: 490, adults: 450000, pop18: 750000, impressions: 634500 },
-    { id: 'gsp', city: 'Greenville-Spartanburg, SC', region: 'SOUTH', x: 797, y: 303, adults: 510000, pop18: 850000, impressions: 405000 },
-    { id: 'mem', city: 'Memphis, TN', region: 'SOUTH', x: 690, y: 305, adults: 540000, pop18: 900000, impressions: 472500 },
-    { id: 'pbi', city: 'West Palm Beach, FL', region: 'SOUTH', x: 877, y: 487, adults: 600000, pop18: 1000000, impressions: 499500 },
-    { id: 'sdf', city: 'Louisville, KY', region: 'SOUTH', x: 744, y: 229, adults: 510000, pop18: 850000, impressions: 432000 },
-    { id: 'msy', city: 'New Orleans, LA', region: 'SOUTH', x: 699, y: 424, adults: 510000, pop18: 850000, impressions: 432000 },
-    { id: 'orf', city: 'Norfolk-Virginia Beach, VA', region: 'SOUTH', x: 878, y: 251, adults: 600000, pop18: 1000000, impressions: 472500 },
-    { id: 'ric', city: 'Richmond, VA', region: 'SOUTH', x: 860, y: 236, adults: 510000, pop18: 850000, impressions: 432000 },
+    { id: 'mia', city: 'Miami-Ft. Lauderdale, FL', region: 'SOUTH', x: 1691.5, y: 1101.2, adults: 2400000, pop18: 4000000, impressions: 1373692 },
+    { id: 'atl', city: 'Atlanta, GA', region: 'SOUTH', x: 1484.4, y: 791.4, adults: 2700000, pop18: 4500000, impressions: 1029105 },
+    { id: 'tpa', city: 'Tampa-St. Pete, FL', region: 'SOUTH', x: 1595.1, y: 1026.9, adults: 1800000, pop18: 3000000, impressions: 641250 },
+    { id: 'mco', city: 'Orlando, FL', region: 'SOUTH', x: 1625.5, y: 996.4, adults: 1740000, pop18: 2900000, impressions: 607500 },
+    { id: 'clt', city: 'Charlotte, NC', region: 'SOUTH', x: 1598.8, y: 704.2, adults: 1260000, pop18: 2100000, impressions: 573750 },
+    { id: 'rdu', city: 'Raleigh-Durham, NC', region: 'SOUTH', x: 1669.4, y: 661.9, adults: 1080000, pop18: 1800000, impressions: 506250 },
+    { id: 'bna', city: 'Nashville, TN', region: 'SOUTH', x: 1389.7, y: 696.8, adults: 1080000, pop18: 1800000, impressions: 1032750 },
+    { id: 'jax', city: 'Jacksonville, FL', region: 'SOUTH', x: 1602.8, y: 923.1, adults: 720000, pop18: 1200000, impressions: 472500 },
+    { id: 'rsw', city: 'Ft. Myers, FL', region: 'SOUTH', x: 1626.5, y: 1069.8, adults: 450000, pop18: 750000, impressions: 634500 },
+    { id: 'gsp', city: 'Greenville-Spartanburg, SC', region: 'SOUTH', x: 1547.9, y: 731.7, adults: 510000, pop18: 850000, impressions: 405000 },
+    { id: 'mem', city: 'Memphis, TN', region: 'SOUTH', x: 1279.9, y: 750.7, adults: 540000, pop18: 900000, impressions: 472500 },
+    { id: 'pbi', city: 'West Palm Beach, FL', region: 'SOUTH', x: 1689.2, y: 1062.5, adults: 600000, pop18: 1000000, impressions: 499500 },
+    { id: 'sdf', city: 'Louisville, KY', region: 'SOUTH', x: 1414.6, y: 600.7, adults: 510000, pop18: 850000, impressions: 432000 },
+    { id: 'msy', city: 'New Orleans, LA', region: 'SOUTH', x: 1294.4, y: 970.6, adults: 510000, pop18: 850000, impressions: 432000 },
+    { id: 'orf', city: 'Norfolk-Virginia Beach, VA', region: 'SOUTH', x: 1738.3, y: 591.5, adults: 600000, pop18: 1000000, impressions: 472500 },
+    { id: 'ric', city: 'Richmond, VA', region: 'SOUTH', x: 1694.2, y: 572.8, adults: 510000, pop18: 850000, impressions: 432000 },
 
     // ---------------- NORTHEAST ----------------
-    { id: 'nyc', city: 'New York, NY', region: 'NORTHEAST', x: 902, y: 160, adults: 9360000, pop18: 15600000, impressions: 2025000 },
-    { id: 'phl', city: 'Philadelphia, PA', region: 'NORTHEAST', x: 887, y: 178, adults: 2820000, pop18: 4700000, impressions: 877500 },
-    { id: 'dca', city: 'Washington, DC', region: 'NORTHEAST', x: 863, y: 204, adults: 2940000, pop18: 4900000, impressions: 648000 },
-    { id: 'bos', city: 'Boston, MA', region: 'NORTHEAST', x: 940, y: 118, adults: 2640000, pop18: 4400000, impressions: 1350000 },
-    { id: 'bwi', city: 'Baltimore, MD', region: 'NORTHEAST', x: 869, y: 195, adults: 1380000, pop18: 2300000, impressions: 742500 },
-    { id: 'pit', city: 'Pittsburgh, PA', region: 'NORTHEAST', x: 824, y: 173, adults: 1260000, pop18: 2100000, impressions: 648000 },
-    { id: 'bdl', city: 'Hartford, CT', region: 'NORTHEAST', x: 919, y: 134, adults: 540000, pop18: 900000, impressions: 540000 },
-    { id: 'pvd', city: 'Providence, RI', region: 'NORTHEAST', x: 936, y: 131, adults: 570000, pop18: 950000, impressions: 450000 },
-    { id: 'buf', city: 'Buffalo, NY', region: 'NORTHEAST', x: 840, y: 146, adults: 480000, pop18: 800000, impressions: 384750 },
+    { id: 'nyc', city: 'New York, NY', region: 'NORTHEAST', x: 1769.3, y: 396.8, adults: 9360000, pop18: 15600000, impressions: 2025000 },
+    { id: 'phl', city: 'Philadelphia, PA', region: 'NORTHEAST', x: 1742.4, y: 443.2, adults: 2820000, pop18: 4700000, impressions: 877500 },
+    { id: 'dca', city: 'Washington, DC', region: 'NORTHEAST', x: 1694.2, y: 508.6, adults: 2940000, pop18: 4900000, impressions: 648000 },
+    { id: 'bos', city: 'Boston, MA', region: 'NORTHEAST', x: 1835.2, y: 288.1, adults: 2640000, pop18: 4400000, impressions: 1350000 },
+    { id: 'bwi', city: 'Baltimore, MD', region: 'NORTHEAST', x: 1704.2, y: 487.6, adults: 1380000, pop18: 2300000, impressions: 742500 },
+    { id: 'pit', city: 'Pittsburgh, PA', region: 'NORTHEAST', x: 1586.7, y: 468.8, adults: 1260000, pop18: 2100000, impressions: 648000 },
+    { id: 'bdl', city: 'Hartford, CT', region: 'NORTHEAST', x: 1796.1, y: 335.4, adults: 540000, pop18: 900000, impressions: 540000 },
+    { id: 'pvd', city: 'Providence, RI', region: 'NORTHEAST', x: 1832.7, y: 315.6, adults: 570000, pop18: 950000, impressions: 450000 },
+    { id: 'buf', city: 'Buffalo, NY', region: 'NORTHEAST', x: 1617.6, y: 346.5, adults: 480000, pop18: 800000, impressions: 384750 },
 ];
 
 /** Camera framings per tab (map units). */
 const REGION_VIEWS: Record<Region, { x: number; y: number; w: number; h: number }> = {
-    NATIONAL: { x: 140, y: 20, w: 880, h: 518 },
-    WEST: { x: 150, y: 20, w: 420, h: 247 },
-    CENTRAL: { x: 520, y: 55, w: 340, h: 200 },
-    SOUTH: { x: 640, y: 220, w: 320, h: 188 },
-    NORTHEAST: { x: 790, y: 95, w: 220, h: 129 },
+    NATIONAL: { x: 120, y: 60, w: 1820, h: 1092 },
+    WEST: { x: 150, y: 80, w: 780, h: 468 },
+    CENTRAL: { x: 900, y: 250, w: 700, h: 420 },
+    SOUTH: { x: 1200, y: 600, w: 640, h: 384 },
+    NORTHEAST: { x: 1520, y: 250, w: 460, h: 276 },
 };
 
-/** Real interstate corridors, drawn through the calibrated market nodes. */
-const CORRIDORS = [
-    { id: 'i5', region: 'WEST', d: 'M 221 57 L 218 106 L 247 263 L 236 283 L 301 363 L 318 392' },
-    { id: 'i10', region: 'WEST|CENTRAL|SOUTH', d: 'M 301 363 L 388 370 L 583 446 L 626 435 L 699 424 L 846 436' },
-    { id: 'i35', region: 'CENTRAL', d: 'M 627 84 L 620 220 L 586 307 L 601 367 L 592 426 L 583 446' },
-    { id: 'i90', region: 'CENTRAL|NORTHEAST', d: 'M 721 148 L 760 134 L 776 158 L 824 173 L 902 160' },
-    { id: 'i95', region: 'NORTHEAST|SOUTH', d: 'M 940 118 L 902 160 L 887 178 L 869 195 L 863 204 L 860 236 L 847 278 L 817 293' },
-    { id: 'flx', region: 'SOUTH', d: 'M 846 436 L 856 464 L 843 472 L 850 490 L 878 500' },
+/**
+ * Interstate corridors, defined as chains of market ids so every route is
+ * guaranteed to run through real, calibrated nodes (the `d` string is built
+ * from the MARKETS table below). Between them these routes touch all 50
+ * covered markets — no market sits off the network.
+ */
+const CORRIDOR_ROUTES: { id: string; region: string; nodes: string[] }[] = [
+    { id: 'i5',   region: 'WEST',                     nodes: ['sea', 'pdx', 'sac', 'sfo', 'lax', 'san'] },
+    { id: 'i15',  region: 'WEST',                     nodes: ['slc', 'las', 'lax'] },
+    { id: 'i10',  region: 'WEST|CENTRAL|SOUTH',       nodes: ['san', 'phx', 'sat', 'hou', 'msy', 'jax'] },
+    { id: 'i25',  region: 'WEST',                     nodes: ['den', 'abq'] },
+    { id: 'i40',  region: 'WEST|CENTRAL|SOUTH',       nodes: ['abq', 'okc', 'mem', 'bna', 'rdu'] },
+    { id: 'i35',  region: 'CENTRAL',                  nodes: ['msp', 'mci', 'okc', 'dfw', 'aus', 'sat'] },
+    { id: 'i70',  region: 'WEST|CENTRAL|NORTHEAST',   nodes: ['den', 'mci', 'stl', 'ind', 'cvg', 'pit'] },
+    { id: 'i90',  region: 'CENTRAL|NORTHEAST',        nodes: ['ord', 'dtw', 'cle', 'buf', 'bos'] },
+    { id: 'i94',  region: 'CENTRAL',                  nodes: ['msp', 'ord'] },
+    { id: 'i96',  region: 'CENTRAL',                  nodes: ['ord', 'grr', 'dtw'] },
+    { id: 'i75',  region: 'CENTRAL|SOUTH',            nodes: ['dtw', 'cvg', 'atl', 'tpa', 'rsw', 'mia'] },
+    { id: 'i95',  region: 'NORTHEAST|SOUTH',          nodes: ['bos', 'pvd', 'bdl', 'nyc', 'phl', 'bwi', 'dca', 'ric', 'rdu'] },
+    { id: 'i95s', region: 'SOUTH',                    nodes: ['jax', 'mco', 'pbi', 'mia'] },
+    { id: 'i85',  region: 'SOUTH',                    nodes: ['atl', 'gsp', 'clt', 'rdu'] },
+    { id: 'i64',  region: 'CENTRAL|SOUTH',            nodes: ['stl', 'sdf', 'cvg'] },
+    { id: 'i64e', region: 'SOUTH',                    nodes: ['ric', 'orf'] },
+    { id: 'i4',   region: 'SOUTH',                    nodes: ['tpa', 'mco', 'jax'] },
+];
+
+/**
+ * State names, taken verbatim from map-v2.svg's own `#labels` group — so each
+ * one sits exactly where the map's author placed it (the small north-east
+ * states are deliberately set offshore, as on any printed map).
+ */
+const STATE_LABELS: { s: string; x: number; y: number }[] = [
+    { s: 'AL', x: 1403.0, y: 836.0 },
+    { s: 'AR', x: 1191.0, y: 766.0 },
+    { s: 'AZ', x: 516.6, y: 740.1 },
+    { s: 'CA', x: 264.6, y: 580.1 },
+    { s: 'CO', x: 744.6, y: 570.1 },
+    { s: 'CT', x: 1863.0, y: 427.0 },
+    { s: 'DE', x: 1809.0, y: 519.0 },
+    { s: 'FL', x: 1621.0, y: 1020.0 },
+    { s: 'GA', x: 1519.0, y: 828.0 },
+    { s: 'IA', x: 1155.0, y: 452.0 },
+    { s: 'ID', x: 509.0, y: 326.0 },
+    { s: 'IL', x: 1297.0, y: 528.0 },
+    { s: 'IN', x: 1395.0, y: 524.0 },
+    { s: 'KS', x: 989.0, y: 606.0 },
+    { s: 'KY', x: 1447.0, y: 624.0 },
+    { s: 'LA', x: 1199.0, y: 924.0 },
+    { s: 'MA', x: 1902.0, y: 313.0 },
+    { s: 'MD', x: 1806.0, y: 573.0 },
+    { s: 'ME', x: 1871.0, y: 198.0 },
+    { s: 'MI', x: 1417.0, y: 376.0 },
+    { s: 'MN', x: 1111.0, y: 272.0 },
+    { s: 'MO', x: 1181.0, y: 610.0 },
+    { s: 'MS', x: 1295.0, y: 846.0 },
+    { s: 'MT', x: 669.0, y: 210.0 },
+    { s: 'NC', x: 1663.0, y: 684.0 },
+    { s: 'ND', x: 937.0, y: 218.0 },
+    { s: 'NE', x: 955.0, y: 474.0 },
+    { s: 'NH', x: 1780.0, y: 173.0 },
+    { s: 'NJ', x: 1820.0, y: 468.0 },
+    { s: 'NM', x: 710.6, y: 756.1 },
+    { s: 'NV', x: 386.6, y: 492.1 },
+    { s: 'NY', x: 1717.0, y: 342.0 },
+    { s: 'OH', x: 1497.0, y: 500.0 },
+    { s: 'OK', x: 1027.0, y: 740.0 },
+    { s: 'OR', x: 315.0, y: 276.0 },
+    { s: 'PA', x: 1661.0, y: 446.0 },
+    { s: 'RI', x: 1909.0, y: 400.0 },
+    { s: 'SC', x: 1611.0, y: 768.0 },
+    { s: 'SD', x: 935.0, y: 346.0 },
+    { s: 'TN', x: 1405.0, y: 708.0 },
+    { s: 'TX', x: 968.0, y: 922.3 },
+    { s: 'UT', x: 556.6, y: 536.1 },
+    { s: 'VA', x: 1655.0, y: 594.0 },
+    { s: 'VT', x: 1719.0, y: 190.0 },
+    { s: 'WA', x: 355.0, y: 138.0 },
+    { s: 'WI', x: 1263.0, y: 338.0 },
+    { s: 'WV', x: 1569.0, y: 568.0 },
+    { s: 'WY', x: 699.0, y: 386.0 },
 ];
 
 /**
@@ -145,7 +217,25 @@ const CORRIDORS = [
  * badge itself never tilts, so the side-profile truck art always reads, and
  * only a small heading arrow rotates to show direction of travel.
  */
-const TRUCKS = CORRIDORS.map((c, i) => ({
+/**
+ * Corridor geometry, built from the market nodes so each route provably runs
+ * through real calibrated coordinates rather than a hand-written path string.
+ */
+const CORRIDORS = CORRIDOR_ROUTES.map((route) => ({
+    id: route.id,
+    region: route.region,
+    d: route.nodes
+        .map((id) => {
+            const m = MARKETS.find((x) => x.id === id)!;
+            return `${m.x} ${m.y}`;
+        })
+        .map((pt, i) => (i === 0 ? `M ${pt}` : `L ${pt}`))
+        .join(' '),
+}));
+
+/** One truck per major corridor (the long-haul routes read best in motion). */
+const TRUCK_ROUTES = ['i5', 'i10', 'i35', 'i90', 'i95', 'i75'];
+const TRUCKS = CORRIDOR_ROUTES.filter((c) => TRUCK_ROUTES.includes(c.id)).map((c, i) => ({
     corridor: c.id,
     region: c.region,
     // Staggered so the fleet never moves in lock-step.
@@ -154,7 +244,7 @@ const TRUCKS = CORRIDORS.map((c, i) => ({
 
 /** Map units travelled per second — duration is derived from each route's
  *  real length so every truck moves at the same apparent speed. */
-const TRUCK_SPEED = 13;
+const TRUCK_SPEED = 26;
 
 const fmt = (n: number) => n.toLocaleString('en-US');
 const compact = (n: number) =>
@@ -197,7 +287,7 @@ export default function MarketsCoverage() {
 
     const maxImp = useMemo(() => Math.max(...MARKETS.map((m) => m.impressions)), []);
     const radiusOf = useCallback(
-        (m: Market) => 2.6 + Math.sqrt(m.impressions / maxImp) * 4.6,
+        (m: Market) => 5.2 + Math.sqrt(m.impressions / maxImp) * 9.2,
         [maxImp]
     );
 
@@ -206,8 +296,8 @@ export default function MarketsCoverage() {
         const c = cam.current;
         c.w = gsap.utils.clamp(MIN_VIEW_W, MAX_VIEW_W, c.w);
         c.h = c.w * (REGION_VIEWS.NATIONAL.h / REGION_VIEWS.NATIONAL.w);
-        c.x = gsap.utils.clamp(-60, MAP_W - c.w + 60, c.x);
-        c.y = gsap.utils.clamp(-40, MAP_H - c.h + 40, c.y);
+        c.x = gsap.utils.clamp(-120, MAP_W - c.w + 120, c.x);
+        c.y = gsap.utils.clamp(-80, MAP_H - c.h + 80, c.y);
     }, []);
 
     const applyCamera = useCallback(() => {
@@ -290,7 +380,7 @@ export default function MarketsCoverage() {
     const selectMarket = useCallback(
         (m: Market) => {
             setActiveMarket(m);
-            const w = 260;
+            const w = 520;
             const h = w * (REGION_VIEWS.NATIONAL.h / REGION_VIEWS.NATIONAL.w);
             flyTo({ x: m.x - w / 2, y: m.y - h / 2, w, h }, 1.3);
             applyFocus(activeRegionRef.current, m);
@@ -438,6 +528,10 @@ export default function MarketsCoverage() {
     useGSAP(
         () => {
             applyCamera();
+            // Lay the corridors down immediately so the trucks always have a
+            // visible road under them — the scroll-triggered redraw below is
+            // just the flourish, not what makes them exist.
+            drawCorridors('NATIONAL');
 
             // Entrance: heading + stats reveal as the section scrolls into view.
             gsap.from('[data-mc-head] > *', {
@@ -525,8 +619,8 @@ export default function MarketsCoverage() {
                             // Sample the route just before and after the truck to
                             // get the true direction of travel at this point.
                             const d = tween.progress() * L;
-                            const a = pathEl.getPointAtLength(Math.max(0, d - 1.5));
-                            const b = pathEl.getPointAtLength(Math.min(L, d + 1.5));
+                            const a = pathEl.getPointAtLength(Math.max(0, d - 3));
+                            const b = pathEl.getPointAtLength(Math.min(L, d + 3));
                             const dx = b.x - a.x;
                             const dy = b.y - a.y;
                             if (dx || dy) {
@@ -542,7 +636,7 @@ export default function MarketsCoverage() {
                                 }
                                 if (Math.abs(dx) > 0.001) dir = dx > 0 ? 1 : -1;
                             }
-                            const k = cam.current.w / REGION_VIEWS.NATIONAL.w;
+                            const k = (cam.current.w / REGION_VIEWS.NATIONAL.w) * 2;
                             // Native SVG transforms, not GSAP's: each of these
                             // groups is authored around a (0,0) origin, so
                             // scale/rotate pivot on the pin's centre exactly.
@@ -594,6 +688,9 @@ export default function MarketsCoverage() {
             className="relative w-full bg-[#EEE8D9] transition-colors duration-300 h-[220vh] sm:h-[240vh] lg:h-[260vh] dark:bg-[#0A0A0A]"
         >
             <style>{`
+                /* Landmass outline — the inlined map reads this. */
+                .mc-map-scope { --map-stroke: rgba(26,25,23,0.45); }
+                :where(.dark) .mc-map-scope { --map-stroke: rgba(255,255,255,0.38); }
                 @keyframes mc-pulse {
                     0%   { transform: scale(0.4); opacity: 0.7; }
                     100% { transform: scale(2.8); opacity: 0; }
@@ -613,7 +710,7 @@ export default function MarketsCoverage() {
                 .mc-tag { opacity: 0; transition: opacity .14s linear; }
                 .mc-hot:hover .mc-tag { opacity: 1; }
                 .mc-core { transition: r .25s ease; }
-                .mc-hot:hover .mc-core { r: 7; }
+                .mc-hot:hover .mc-core { r: 14; }
                 /* Sonar rings radiating from each travelling truck pin. */
                 @keyframes mc-ping {
                     0%   { transform: scale(0.7); opacity: 0.6; }
@@ -690,7 +787,7 @@ export default function MarketsCoverage() {
                 >
                     <div
                         ref={stageRef}
-                        className={`relative h-full w-full touch-none select-none overflow-hidden bg-[#4d5666] ${expanded ? '' : 'pointer-events-none'
+                        className={`mc-map-scope relative h-full w-full touch-none select-none overflow-hidden bg-transparent ${expanded ? '' : 'pointer-events-none'
                             }`}
                         onPointerDown={onPointerDown}
                         onPointerMove={onPointerMove}
@@ -712,7 +809,7 @@ export default function MarketsCoverage() {
                         >
                             <defs>
                                 <filter id="mc-glow" x="-80%" y="-80%" width="260%" height="260%">
-                                    <feGaussianBlur stdDeviation="1.8" result="b" />
+                                    <feGaussianBlur stdDeviation="3.6" result="b" />
                                     <feMerge>
                                         <feMergeNode in="b" />
                                         <feMergeNode in="SourceGraphic" />
@@ -727,13 +824,32 @@ export default function MarketsCoverage() {
                                 </linearGradient>
                             </defs>
 
-                            {/* Brand US map asset */}
-                            <image href={MAP_SRC} x="0" y="0" width={MAP_W} height={MAP_H} />
+                            {/* US map — stroke only, so the section background shows
+                                through (see UsMap). */}
+                            <UsMap />
+
+                            {/* State names */}
+                            <g className="pointer-events-none select-none fill-black/60 dark:fill-white/55" aria-hidden="true">
+                                {STATE_LABELS.map((st) => (
+                                    <text
+                                        key={st.s}
+                                        x={st.x}
+                                        y={st.y}
+                                        textAnchor="middle"
+                                        dominantBaseline="middle"
+                                        fontSize="20"
+                                        letterSpacing="1"
+                                        style={{ fontFamily: 'var(--font-tommy-medium)' }}
+                                    >
+                                        {st.s}
+                                    </text>
+                                ))}
+                            </g>
 
                             {/* Interstate corridors — delicate infrastructure lines
                             that sit under the traffic, never competing with the
                             landmass. */}
-                            <g fill="none" stroke="#FCD119" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
+                            <g fill="none" stroke="#C8992B" className="dark:stroke-[#FCD119]" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                                 {CORRIDORS.map((c) => (
                                     <path
                                         key={c.id}
@@ -741,7 +857,7 @@ export default function MarketsCoverage() {
                                         data-corridor={c.region}
                                         d={c.d}
                                         opacity="0"
-                                        strokeOpacity="0.34"
+                                        strokeOpacity="0.75"
                                     />
                                 ))}
                             </g>
@@ -764,13 +880,13 @@ export default function MarketsCoverage() {
                                         role="button"
                                         aria-label={`${m.city} — view coverage stats`}
                                     >
-                                        <circle cx={m.x} cy={m.y} r={Math.max(13, r + 8)} fill="transparent" />
+                                        <circle cx={m.x} cy={m.y} r={Math.max(26, r + 16)} fill="transparent" />
                                         {/* Rings are reserved for the very top markets —
                                         any lower and the map turns into noise. */}
                                         {m.impressions > 1300000 && (
                                             <>
-                                                <circle className="mc-pulse" cx={m.x} cy={m.y} r={r + 3} fill="none" stroke="#FCD119" strokeWidth="1" />
-                                                <circle className="mc-pulse mc-pulse--late" cx={m.x} cy={m.y} r={r + 3} fill="none" stroke="#FCD119" strokeWidth="0.8" />
+                                                <circle className="mc-pulse" cx={m.x} cy={m.y} r={r + 6} fill="none" stroke="#FCD119" strokeWidth="1" />
+                                                <circle className="mc-pulse mc-pulse--late" cx={m.x} cy={m.y} r={r + 6} fill="none" stroke="#FCD119" strokeWidth="0.8" />
                                             </>
                                         )}
                                         <circle
@@ -784,20 +900,20 @@ export default function MarketsCoverage() {
                                             filter="url(#mc-glow)"
                                         />
                                         <circle cx={m.x} cy={m.y} r={r * 0.34} fill="#1a1d24" />
-                                        <line className="mc-stem" x1={m.x} y1={m.y - r - 1} x2={m.x} y2={m.y - r - 22} stroke="#ffffff" strokeWidth="0.9" />
+                                        <line className="mc-stem" x1={m.x} y1={m.y - r - 2} x2={m.x} y2={m.y - r - 44} stroke="#ffffff" strokeWidth="1.8" />
                                         <text
                                             className={on ? 'select-none' : 'mc-tag select-none'}
                                             x={m.x}
-                                            y={m.y - r - (on ? 8 : 27)}
+                                            y={m.y - r - (on ? 16 : 54)}
                                             textAnchor="middle"
                                             fill="#ffffff"
-                                            fontSize="8.5"
+                                            fontSize="17"
                                             letterSpacing="0.3"
                                             style={{
                                                 fontFamily: 'var(--font-tommy-medium)',
                                                 paintOrder: 'stroke',
                                                 stroke: 'rgba(12,15,20,0.85)',
-                                                strokeWidth: 3.4,
+                                                strokeWidth: 6.8,
                                                 strokeLinejoin: 'round',
                                             }}
                                         >

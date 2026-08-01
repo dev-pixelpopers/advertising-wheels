@@ -36,7 +36,13 @@ const ROW_2_LOGOS: LogoEntry[] = [
     'partner-raising-canes.png',
 ];
 
-export default function HomeMarquee() {
+/**
+ * `scrollDriven` hands the horizontal movement to a parent ScrollTrigger on
+ * desktop: the CSS auto-scroll is switched off at `lg` and up, and the parent
+ * translates [data-hm-row] instead. Below `lg` the rows keep looping on their
+ * own, so touch users still see motion without any scroll dependency.
+ */
+export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: boolean } = {}) {
     // Two copies so each track can loop seamlessly (translateX -50% lands on a boundary).
     const row1Track = [...ROW_1_LOGOS, ...ROW_1_LOGOS, ...ROW_1_LOGOS];
     const row2Track = [...ROW_2_LOGOS, ...ROW_2_LOGOS, ...ROW_2_LOGOS];
@@ -72,6 +78,17 @@ export default function HomeMarquee() {
                     from { transform: translateX(0); }
                     to { transform: translateX(-50%); }
                 }
+                .hm-anim-right { animation: marquee-right 40s linear infinite; }
+                .hm-anim-left  { animation: marquee-left 40s linear infinite; }
+                ${scrollDriven
+                    ? `/* Desktop hands the movement to the parent's ScrollTrigger. */
+                       @media (min-width: 1024px) {
+                           .hm-anim-right, .hm-anim-left { animation: none !important; }
+                       }`
+                    : ''}
+                @media (prefers-reduced-motion: reduce) {
+                    .hm-anim-right, .hm-anim-left { animation: none !important; }
+                }
             `}</style>
 
             <div className="overflow-hidden py-[20px] md:py-[40px] lg:py-[60px]">
@@ -81,8 +98,8 @@ export default function HomeMarquee() {
             <div className='mt-[16px] md:mt-[22px] lg:mt-[30px] pb-[60px]'>
                 <div className="hm-row1 w-full overflow-hidden">
                     <div
-                        className="flex flex-row gap-[20px] md:gap-[40px] lg:gap-[70px] xl:gap-[100px] 2xl:gap-[150px]"
-                        style={{ animation: 'marquee-right 40s linear infinite' }}
+                        data-hm-row="1"
+                        className="hm-anim-right flex flex-row gap-[20px] md:gap-[40px] lg:gap-[70px] xl:gap-[100px] 2xl:gap-[150px]"
                     >
                         {row2Track.map(renderTile)}
                     </div>
@@ -90,8 +107,8 @@ export default function HomeMarquee() {
 
                 <div className="hm-row2 w-full overflow-hidden mt-[24px] md:mt-[35px] lg:mt-[50px]">
                     <div
-                        className="flex flex-row gap-[20px] md:gap-[40px] lg:gap-[70px] xl:gap-[100px] 2xl:gap-[150px]"
-                        style={{ animation: 'marquee-left 40s linear infinite' }}
+                        data-hm-row="2"
+                        className="hm-anim-left flex flex-row gap-[20px] md:gap-[40px] lg:gap-[70px] xl:gap-[100px] 2xl:gap-[150px]"
                     >
                         {row1Track.map(renderTile)}
                     </div>
