@@ -3,10 +3,11 @@
 import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
 import Header from '@/components/Header';
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 const FRAME_COUNT = 130;
 
@@ -107,11 +108,67 @@ export default function Hero({ isReady }: HeroProps) {
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
 
-      // CTA (headline + buttons) starts hidden and pushed down; revealed in Phase 3.
-      const ctaLines = ctaRef.current
-        ? Array.from(ctaRef.current.querySelectorAll('h2, p'))
+      /* ── CTA headline: typed out, one character at a time ──────────────
+         The lines are split into characters and hidden. They then type in at
+         a fixed 50ms per character — deliberately REAL TIME rather than tied
+         to the scrubbed master timeline, so the cadence reads as typing
+         instead of speeding up or reversing with the scroll wheel. The
+         trigger below starts it at the point in the scroll where the CTA
+         phase begins. */
+      /* The headline is three tiers; each is tagged with the tier it belongs to
+         so the typing can pause between them. Tier 2 is two elements because
+         the accent word carries its own styling. */
+      const ctaParts = ctaRef.current
+        ? (Array.from(ctaRef.current.querySelectorAll('[data-cta-part]')) as HTMLElement[])
         : [];
-      // gsap.set(ctaLines, { yPercent: 120, autoAlpha: 0 });
+      const caretOf = (n: string) =>
+        ctaRef.current?.querySelector<HTMLElement>(`[data-caret="${n}"]`) ?? null;
+
+      const splits = ctaParts.map((el) => new SplitText(el, { type: 'chars' }));
+      const tier = (n: string) =>
+        ctaParts.flatMap((el, i) => (el.getAttribute('data-cta-line') === n ? splits[i].chars : []));
+      const [t1, t2, t3] = ['1', '2', '3'].map(tier);
+      const ctaChars = [...t1, ...t2, ...t3];
+      const carets = ['1', '2', '3'].map(caretOf);
+
+      /* Hide the characters themselves, then un-arm the wrapper. The wrapper
+         carries `cta-pre` so nothing is painted before hydration; hiding the
+         PARENTS instead would mean revealing a child character does nothing,
+         because the parent's own opacity still wins. */
+      gsap.set(ctaChars, { autoAlpha: 0 });
+      gsap.set(carets, { autoAlpha: 0 });
+      ctaRef.current?.querySelector('[data-cta-stack]')?.classList.remove('cta-pre');
+
+      /* Each tier types out, then the caret steps down to the next one. The
+         pause between tiers is what makes the three lines read as a stack
+         rather than one long sentence that happens to wrap. */
+      const CHAR = 0.005; // 50ms per character
+      const typeTl = gsap.timeline({ paused: true })
+        .set(carets[0], { autoAlpha: 1 })
+        .to(t1, { autoAlpha: 1, duration: 0.01, ease: 'none', stagger: CHAR })
+        .set(carets[0], { autoAlpha: 0 }, '+=0.35')
+
+        .set(carets[1], { autoAlpha: 1 })
+        .to(t2, { autoAlpha: 1, duration: 0.01, ease: 'none', stagger: CHAR })
+        .set(carets[1], { autoAlpha: 0 }, '+=0.35')
+
+        .set(carets[2], { autoAlpha: 1 })
+        .to(t3, { autoAlpha: 1, duration: 0.01, ease: 'none', stagger: CHAR })
+        // The last caret stays and keeps blinking, as a terminal would.
+        .to(carets[2], { autoAlpha: 0, duration: 0.45, repeat: -1, yoyo: true }, '+=0.35');
+
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        // ~85% through the scrubbed hero, where the scrim and CTA phase land.
+        start: () => 'top+=' + window.innerHeight * 2.55 + ' top',
+        onEnter: () => typeTl.play(),
+        onLeaveBack: () => {
+          typeTl.pause(0);
+          gsap.set(ctaChars, { autoAlpha: 0 });
+          gsap.set(carets, { autoAlpha: 0 });
+        },
+      });
+
       gsap.set(ctaButtonsRef.current, { y: 40, autoAlpha: 0 });
       gsap.set(scrimRef.current, { autoAlpha: 0 });
       // gsap.set('.second-home-section', { yPercent: 0 });
@@ -249,17 +306,8 @@ export default function Hero({ isReady }: HeroProps) {
         '>-0.1'
       );
 
-      // ...then the CTA lines ride up from behind their masks and reveal.
-      tl.to(
-        ctaLines,
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: 'power2.out',
-          duration: 2,
-          stagger: 0.25,
-        },
-        '<+0.15'
-      );
+      // The CTA lines are no longer revealed here — they type themselves in,
+      // in real time, off the dedicated trigger created above.
 
 
 
@@ -319,7 +367,12 @@ export default function Hero({ isReady }: HeroProps) {
 
       //     '<' // The '0' position parameter forces this to run concurrently with the first animation
       //   );
-      return () => window.removeEventListener('resize', resizeCanvas);
+      return () => {
+        window.removeEventListener('resize', resizeCanvas);
+        // Put the original markup back on unmount / HMR, or the split spans
+        // accumulate every time this effect re-runs.
+        splits.forEach((s) => s.revert());
+      };
     },
     { scope: containerRef }
   );
@@ -354,6 +407,16 @@ export default function Hero({ isReady }: HeroProps) {
 
   return (
     <>
+      {/* The typed headline must not paint before GSAP has hidden its characters,
+          or the whole block flashes at full size on load. `cta-pre` keeps it
+          hidden in the server HTML; GSAP removes the class the moment the
+          characters are safely hidden. visibility (not display) so the layout
+          is already measured and nothing shifts when it is un-armed. */}
+      <style>{`
+        .cta-pre [data-cta-part],
+        .cta-pre [data-caret] { visibility: hidden; }
+      `}</style>
+
       {/* The bar spans the full viewport at z-100, so it must not capture clicks in
           its empty middle — the controls inside re-enable pointer events themselves. */}
       {/* <div ref={headerRef} className='fixed z-[100] w-full left-0 py-[2%] px-[3%] top-0 pointer-events-none'>
@@ -394,13 +457,49 @@ export default function Hero({ isReady }: HeroProps) {
 
               {/* Absolute overlay pinned near the bottom so it never affects the heading's layout/centering. */}
               <div ref={ctaRef} className='absolute inset-0 flex flex-col gap-[20px] lg:gap-[25px] text-center items-center justify-center w-full h-full'>
-                <div className='flex flex-col gap-[10px] items-center text-center'>
-                  <h2 className='text-white font-tommy-bold text-[25px] md:text-[clamp(2rem,4.5vw,4.0625rem)] leading-[100%] capitalize' style={{
-                    clipPath: "inset(0% 100% 0% 0%)",
-                  }}>Out-of-home that works like <span className='text-[#FCD119]'>online</span> </h2>
-                  <p className='text-white font-tommy-bold text-[25px] md:text-[clamp(2rem,4.5vw,4.0625rem)] leading-[100%] capitalize' style={{
-                    clipPath: "inset(0% 100% 0% 0%)",
-                  }}> measure your reach, then extend it <span className='text-[#FCD119]'>online</span> </p>
+                {/* Three tiers, each a step down in scale — the subject lands first
+                    and biggest, the claim answers it, and the method sits underneath
+                    as fine print. Sizes step roughly 1 : 0.66 : 0.21 so the block
+                    reads as one shape rather than three separate lines. Each tier
+                    types in at 50ms per character with a beat between them, and the
+                    caret walks down the tiers as they fill. */}
+                <div data-cta-stack className='cta-pre flex flex-col items-center text-center text-white'>
+                  {/* TIER 1 — the subject */}
+                  <h2
+                    data-cta-part
+                    data-cta-line='1'
+                    className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[clamp(2rem,7vw,5.5rem)]'
+                  >
+                    Out-of-home
+                    <span
+                      data-caret='1'
+                      aria-hidden='true'
+                      className='ml-[0.06em] inline-block h-[0.72em] w-[0.045em] translate-y-[0.02em] bg-[#FCD119] align-middle'
+                    />
+                  </h2>
+
+                  {/* TIER 2 — the claim */}
+                  <p className='mt-[0.18em] font-tommy-medium capitalize leading-[1.15] text-[clamp(1.35rem,4.6vw,3.6rem)]'>
+                    <span data-cta-part data-cta-line='2'>That works like </span>
+                    <span data-cta-part data-cta-line='2' className='font-tommy-bold italic text-[#FCD119]'>
+                      online
+                    </span>
+                    <span
+                      data-caret='2'
+                      aria-hidden='true'
+                      className='ml-[0.06em] inline-block h-[0.74em] w-[0.05em] translate-y-[0.04em] bg-[#FCD119] align-middle'
+                    />
+                  </p>
+
+                  {/* TIER 3 — the method */}
+                  <p className='mt-[0.75em] font-tommy-regular uppercase leading-[1.15] tracking-[0.14em] text-white/85 text-[clamp(0.9rem,2.15vw,1.65rem)]'>
+                    <span data-cta-part data-cta-line='3'>Measure your reach, then extend it online</span>
+                    <span
+                      data-caret='3'
+                      aria-hidden='true'
+                      className='ml-[0.35em] inline-block h-[1em] w-[0.09em] translate-y-[0.16em] bg-[#FCD119] align-middle'
+                    />
+                  </p>
                 </div>
 
                 <div ref={ctaButtonsRef} className='w-full flex flex-col md:flex-row gap-[10px] md:gap-[32px] lg:gap-[42px] justify-center items-center'>
@@ -408,7 +507,7 @@ export default function Hero({ isReady }: HeroProps) {
                     Start a Campaign
                   </a>
                   <a className='bg-black text-[16px] md:text-[20px] leading-[102%] font-tommy-regular text-[#FCD119] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'>
-                    Start a Campaign
+                    Become a Vendor
                   </a>
                 </div>
               </div>

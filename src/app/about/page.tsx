@@ -36,7 +36,7 @@ const STORY_IMG = '/assets/images/background.avif';
 /* ------------------------------------------------------------------ */
 
 const MILESTONES = [
-    { year: '1999', title: 'Founded', body: 'Advertising Wheels begins operations in Nashville, Tennessee with a single market and a small fleet — running mobile truckside campaigns for regional brands that wanted street-level visibility their static OOH couldn’t deliver.' },
+    { year: '2001', title: 'Founded', body: 'Advertising Wheels begins operations in Nashville, Tennessee with a single market and a small fleet — running mobile truckside campaigns for regional brands that wanted street-level visibility their static OOH couldn’t deliver.' },
     { year: '2003', title: 'First Fortune 500 client', body: 'Won our first national CPG account — a beverage launch that required eight markets in eight weeks. We hit every market and every flight. That client is still a client today.' },
     { year: '2008', title: 'National operational footprint', body: 'Expanded from regional to 50-DMA national coverage with in-house fleet operations in every major metropolitan corridor — never brokered out to third-party operators.' },
     { year: '2014', title: 'GPS-verified delivery', body: 'Every truck in the national fleet upgraded to continuous GPS reporting. Verified-impression reporting becomes the default, not the upgrade.' },
@@ -98,7 +98,7 @@ function Story() {
 
             {/* Oversized outlined founding year behind the grid */}
             <span aria-hidden="true" className="story-outline pointer-events-none absolute -top-8 right-[3%] select-none font-tommy-bold leading-none tracking-tight" style={{ fontSize: 'clamp(140px,20vw,300px)' }}>
-                1999
+                2001
             </span>
 
             <div className="relative z-10 mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-14 px-6 md:px-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
@@ -111,7 +111,7 @@ function Story() {
                             Twenty-five years of doing one thing — for the brands that can’t afford to gamble<Dot />
                         </h2>
                         <p className="mt-7 font-tommy-medium text-[17px] leading-[1.6] text-[#2C2C2B] md:text-[19px] dark:text-[#EAEAEA]">
-                            We started Advertising Wheels in 1999 with a simple thesis: out-of-home was the only major
+                            We started Advertising Wheels in 2001 with a simple thesis: out-of-home was the only major
                             media channel without real measurement, targeting or accountability — and brands deserved better.
                         </p>
                         <p className="mt-5 font-tommy-regular text-[15.5px] leading-[1.75] text-[#5A554C] dark:text-[#A8A399]">
@@ -343,7 +343,7 @@ export default function AboutPage() {
             <PortalHero
                 badge="About"
                 title="ADVERTISING WHEELS"
-                lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands since 1999, owner-operated from Nashville, Tennessee."
+                lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands since 2001, owner-operated from Nashville, Tennessee."
                 primary={{ label: 'Book a Strategy Call', href: '/contact' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
                 image={HERO_IMG}

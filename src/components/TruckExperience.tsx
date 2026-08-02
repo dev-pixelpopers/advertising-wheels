@@ -17,6 +17,27 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * timeline that crossfades the environments and animates the overlays.
  */
 
+/* ------------------------------------------------------------------ */
+/*  Subtitle type ramp                                                 */
+/*                                                                     */
+/*  Mirrors the Hero's tier system rather than inventing a second one:  */
+/*  a small tracked index label, a cream statement a step down from the */
+/*  section heading, the payoff word in the accent, and a caret to      */
+/*  close it. Shared constants so all three steps stay identical and    */
+/*  nothing shifts as they cross-fade.                                  */
+/* ------------------------------------------------------------------ */
+
+const SUB_LABEL =
+    'font-tommy-regular text-[10px] md:text-[12px] uppercase tracking-[0.34em] text-[#FCD119]';
+
+const SUB_TYPE =
+    'mt-3 md:mt-4 font-tommy-bold capitalize leading-[1.06] tracking-[-0.01em] text-[#EEE8D9] text-[clamp(1.3rem,3.4vw,3.1rem)]';
+
+const SUB_ACCENT = 'italic text-[#FCD119]';
+
+const SUB_CARET =
+    'aw-caret ml-[0.12em] inline-block h-[0.78em] w-[0.05em] translate-y-[0.06em] bg-[#FCD119] align-middle';
+
 const pinPositions = [
     {
         className: "left-[8%] top-[10%] lg:top-[44%] ",
@@ -158,19 +179,28 @@ export default function TruckExperience() {
                     0%,100% { opacity: 0.35; }
                     50% { opacity: 0.9; }
                 }
+                /* Terminal caret, same device the Hero closes its headline with. */
+                @keyframes aw-caret { 0%,45% { opacity: 1; } 55%,100% { opacity: 0; } }
+                .aw-caret { animation: aw-caret 1.05s steps(1) infinite; }
+                @media (prefers-reduced-motion: reduce) { .aw-caret { animation: none; } }
             `}</style>
 
             {/* Sticky visual stage (no gsap pin) */}
             <div className="sticky top-0 h-screen w-full overflow-hidden">
 
-                {/* HOW IT WORKS HEADING */}
-                <div className="absolute top-[12%] left-0 w-full flex flex-col items-center justify-center z-30 pointer-events-none">
-                    <h2
-                        ref={headingRef}
-                        className="text-[30px] md:text-[clamp(2.25rem,4.2vw,3.75rem)] font-tommy-bold uppercase tracking-tight text-[#1A1917] dark:text-white transition-colors duration-300 drop-shadow-md text-center"
-                    >
-                        How It Works<span className="text-[#FCD119]">.</span>
-                    </h2>
+                {/* HEADING — built on the Hero's tier system: a small tracked label
+                    over an oversized uppercase line, cream on a darkened plate, with
+                    the accent carried by the full stop. No theme colours here — this
+                    sits on photography, not on the page ground. */}
+                <div className="absolute top-[9%] left-0 z-30 flex w-full flex-col items-center justify-center px-6 pointer-events-none md:top-[11%]">
+                    <div ref={headingRef} className="flex flex-col items-center">
+                        <span className="font-tommy-regular text-[10px] uppercase tracking-[0.34em] text-[#FCD119] md:text-[12px]">
+                            The Process
+                        </span>
+                        <h2 className="mt-3 text-center font-tommy-bold uppercase leading-[0.98] tracking-[-0.015em] text-[#EEE8D9] text-[clamp(2rem,5.4vw,4.25rem)] md:mt-4">
+                            How It Works<span className="text-[#FCD119]">.</span>
+                        </h2>
+                    </div>
                 </div>
 
                 {/* ENVIRONMENT — 1st slide: studio background (clips from bottom to top on entrance) */}
@@ -199,6 +229,23 @@ export default function TruckExperience() {
                         className="w-full h-full object-cover"
                     />
                 </div>
+
+                {/* LEGIBILITY VEIL — the same device the Hero uses, bottom only.
+                    The three plates behind this section run from a pale studio shot
+                    to a dusk street to a bright stats board, so no single text
+                    colour survives all of them. Rather than fighting that with
+                    per-slide colours and shadows, the photography is eased down
+                    where the subtitles sit and the type is simply always cream.
+                    Kept light — enough separation to read against, not so much that
+                    it reads as a black band. Sits at z-5: above the plates, below
+                    the truck (z-10) and pins (z-20), so only the backdrop is
+                    touched and the subject stays crisp. The heading at the top
+                    needs no veil — that area of every plate is already dark. */}
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[48%]"
+                    style={{ background: 'linear-gradient(0deg, rgba(8,8,10,0.62) 0%, rgba(8,8,10,0.34) 42%, rgba(8,8,10,0) 100%)' }}
+                />
 
                 {/* 4 PINS — 1 on left side of truck, 3 on right side of truck aligned on the same horizontal line */}
                 {pinPositions.map((pin, index) => (
@@ -361,17 +408,34 @@ export default function TruckExperience() {
                     </div>
                 </div>
 
-                {/* SUBTITLE overlay */}
-                <div className="absolute bottom-[9%] left-0 w-full flex justify-center px-6 pointer-events-none">
+                {/* SUBTITLES — the Hero's stack, one step down.
+                    Each step is an indexed label above a single cream line whose
+                    payoff word carries the accent in italic, closed by a blinking
+                    caret. All three share one ramp so nothing resizes as they swap,
+                    and all three are the same colour because the veil above has
+                    already made the plate behind them consistent. */}
+                <div className="absolute bottom-[9%] left-0 z-30 w-full flex justify-center px-6 pointer-events-none">
                     <div className="relative text-center">
-                        <div ref={sub1Ref} className="absolute inset-0 flex items-center justify-center">
-                            <p className="text-[#1A1917] dark:text-white font-tommy-bold text-[20px] md:text-[clamp(28px,3.4vw,56px)] leading-tight transition-colors duration-300">Wrapped, inspected, <span className="text-[#C8992B]">verified.</span></p>
+                        <div ref={sub1Ref} className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className={SUB_LABEL}>01 — Wrap</span>
+                            <p className={SUB_TYPE}>
+                                Wrapped, inspected, <span className={SUB_ACCENT}>verified.</span>
+                                <span aria-hidden="true" className={SUB_CARET} />
+                            </p>
                         </div>
-                        <div ref={sub2Ref} className="absolute inset-0 flex items-center justify-center">
-                            <p className="text-white font-tommy-bold text-[clamp(28px,3.4vw,56px)] leading-tight drop-shadow-lg">Routed for <span className="text-[#4DA3FF]">maximum reach.</span></p>
+                        <div ref={sub2Ref} className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className={SUB_LABEL}>02 — Route</span>
+                            <p className={SUB_TYPE}>
+                                Routed for <span className={SUB_ACCENT}>maximum reach.</span>
+                                <span aria-hidden="true" className={SUB_CARET} />
+                            </p>
                         </div>
-                        <div ref={sub3Ref} className="flex items-center justify-center">
-                            <p className="text-white font-tommy-bold text-[clamp(28px,3.4vw,56px)] leading-tight drop-shadow-lg">Measured in <span className="text-[#FCD119]">real time.</span></p>
+                        <div ref={sub3Ref} className="flex flex-col items-center justify-center">
+                            <span className={SUB_LABEL}>03 — Measure</span>
+                            <p className={SUB_TYPE}>
+                                Measured in <span className={SUB_ACCENT}>real time.</span>
+                                <span aria-hidden="true" className={SUB_CARET} />
+                            </p>
                         </div>
                     </div>
                 </div>

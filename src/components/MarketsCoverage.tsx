@@ -573,11 +573,18 @@ export default function MarketsCoverage() {
                 { yPercent: 0, scaleX: 1, scaleY: 1, borderRadius: 0, duration: 0.6 },
                 0
             )
+                /* The intro is CUT, not faded. The map is stroke-only and sits on a
+                   transparent ground, so anything still painted underneath shows
+                   straight through it — a fade would drag the heading as a ghost
+                   across the whole rise. A near-zero duration makes this a hard
+                   on/off switch the instant the map starts moving, and autoAlpha
+                   ends on `visibility: hidden` so there is nothing left to bleed
+                   through. It still flips back cleanly on the way up. */
                 .fromTo(
                     introRef.current,
-                    { yPercent: 0, autoAlpha: 1 },
-                    { yPercent: -20, autoAlpha: 0, duration: 0.45, ease: 'power1.in' },
-                    0.05
+                    { autoAlpha: 1 },
+                    { autoAlpha: 0, duration: 0.01, ease: 'none', immediateRender: false },
+                    0.02
                 )
                 .fromTo(
                     '[data-mc-ui]',
