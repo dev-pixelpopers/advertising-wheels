@@ -9,6 +9,7 @@
  */
 
 import { useRef, useState } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -16,6 +17,7 @@ import SiteHeader from '@/components/SiteHeader';
 import Footer from '@/components/Footer';
 import PortalHero from '@/components/site/PortalHero';
 import { Reveal, Eyebrow, Dot, ArrowIcon, Rings } from '@/components/site/primitives';
+import { POSTS } from '@/data/posts';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -23,34 +25,17 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 /*  Data                                                               */
 /* ------------------------------------------------------------------ */
 
-const CATEGORIES = ['All', 'Strategy', 'Measurement', 'Creative', 'Technology', 'Operations'];
-
-interface Post {
-    title: string;
-    excerpt: string;
-    category: string;
-    date: string;
-    read: string;
-    image: string;
-}
-
-const FEATURED: Post = {
-    title: 'Why out-of-home is the most trusted channel in a skippable world',
-    excerpt: 'Ad blockers, skip buttons and banner blindness gutted digital attention. A 600-square-foot truck rolling through rush hour can’t be skipped, blocked or muted — and the data shows audiences trust it more because of it.',
-    category: 'Strategy',
-    date: 'Jul 14, 2026',
-    read: '6 min read',
-    image: '/assets/images/case-study-img.jpg',
-};
-
-const POSTS: Post[] = [
-    { title: 'The real math behind a 600-square-foot billboard', excerpt: 'What one wrapped truck actually delivers per mile — and why it beats a static board on cost-per-thousand.', category: 'Measurement', date: 'Jul 2, 2026', read: '5 min', image: '/assets/images/process/stats.png' },
-    { title: 'How GPS routing turns guesswork into a media plan', excerpt: 'Audience-led routes, dayparts and dwell zones — planning OOH the way you’d plan a digital buy.', category: 'Technology', date: 'Jun 20, 2026', read: '7 min', image: '/assets/images/process/city.png' },
-    { title: 'Wrap design that reads at 65 miles an hour', excerpt: 'Distance, motion and glance-value — the art-direction rules for creative built for the highway.', category: 'Creative', date: 'Jun 9, 2026', read: '4 min', image: '/assets/images/process/studio.png' },
-    { title: 'OOH + social: the earned-media flywheel', excerpt: 'Sightings become photos, photos become posts. How a moving billboard keeps working after it passes.', category: 'Strategy', date: 'May 28, 2026', read: '6 min', image: '/assets/images/campaings-img.png' },
-    { title: 'From artwork to first mile in five days', excerpt: 'Inside the production line that gets a campaign printed, installed and rolling in under a week.', category: 'Operations', date: 'May 15, 2026', read: '5 min', image: '/assets/images/background.avif' },
-    { title: 'What “verified impressions” actually means', excerpt: 'Third-party audited reach and frequency, explained — and why it’s the number your CMO should ask for.', category: 'Measurement', date: 'May 3, 2026', read: '8 min', image: '/assets/images/process/stats.png' },
-];
+/**
+ * Posts now come from `src/data/posts.ts` so this index and the `/blog/[slug]`
+ * article route can never disagree about what exists. The newest post leads as
+ * the feature; the rest fill the grid.
+ *
+ * Categories are derived from the data rather than hand-listed — a hard-coded
+ * chip for a category no one has written yet just filters to an empty grid.
+ */
+const FEATURED = POSTS[0];
+const REST = POSTS.slice(1);
+const CATEGORIES = ['All', ...Array.from(new Set(REST.map((p) => p.category)))];
 
 /* ------------------------------------------------------------------ */
 /*  Featured                                                           */
@@ -89,7 +74,7 @@ function Featured() {
     return (
         <section ref={rootRef} className="w-full bg-[#EEE8D9] py-16 transition-colors duration-300 md:py-24 dark:bg-[#0A0A0A]">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
-                <a href="#" className="group grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+                <Link href={`/blog/${FEATURED.slug}`} className="group grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
                     <div data-bf-media className="order-2 overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)] lg:order-1 dark:border-white/10">
                         <div className="h-[280px] overflow-hidden md:h-[440px]">
                             <img ref={imgRef} src={FEATURED.image} alt="" className="h-[124%] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
@@ -115,7 +100,7 @@ function Featured() {
                             Read article <ArrowIcon />
                         </span>
                     </div>
-                </a>
+                </Link>
             </div>
         </section>
     );
@@ -127,7 +112,7 @@ function Featured() {
 
 function Grid() {
     const [active, setActive] = useState('All');
-    const visible = active === 'All' ? POSTS : POSTS.filter((p) => p.category === active);
+    const visible = active === 'All' ? REST : REST.filter((p) => p.category === active);
 
     return (
         <section className="w-full bg-[#EEE8D9] pb-24 transition-colors duration-300 md:pb-32 dark:bg-[#0A0A0A]">
@@ -151,9 +136,9 @@ function Grid() {
                 {/* Cards — keyed on active so the reveal replays on filter change. */}
                 <Reveal key={active} className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" y={44} stagger={0.1}>
                     {visible.map((p) => (
-                        <a
-                            key={p.title}
-                            href="#"
+                        <Link
+                            key={p.slug}
+                            href={`/blog/${p.slug}`}
                             className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#FCD119]/30"
                         >
                             <div className="h-[190px] overflow-hidden">
@@ -178,7 +163,7 @@ function Grid() {
                                     </span>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     ))}
                 </Reveal>
             </div>

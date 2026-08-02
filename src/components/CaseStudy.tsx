@@ -1,52 +1,33 @@
 'use client';
 
-// Where the closing "explore all case studies" beat sends the user. '#' matches the
-// placeholder links in Header/CtaSection — swap it once the index route exists.
-const CASE_STUDIES_URL = '#';
+import Link from 'next/link';
+import { CASE_STUDIES } from '@/data/caseStudies';
 
-// Replicated case-study cards (the original "Fifth Third Bank" card + counters).
-const caseStudies = [
-    {
-        title: 'Fifth Third Bank',
-        sector: 'Financial Services',
-        stats: [
-            { value: '+96%', label: 'branded checking search clicks' },
-            { value: '8%', label: 'lift in household production' },
-            { value: '6,802', label: 'incremental checking households' },
-            { value: '<12', label: 'month better-than-break-even ROMI' },
-        ],
-    },
-    {
-        title: 'Fifth Third Bank',
-        sector: 'Financial Services',
-        stats: [
-            { value: '+96%', label: 'branded checking search clicks' },
-            { value: '8%', label: 'lift in household production' },
-            { value: '6,802', label: 'incremental checking households' },
-            { value: '<12', label: 'month better-than-break-even ROMI' },
-        ],
-    },
-    {
-        title: 'Fifth Third Bank',
-        sector: 'Financial Services',
-        stats: [
-            { value: '+96%', label: 'branded checking search clicks' },
-            { value: '8%', label: 'lift in household production' },
-            { value: '6,802', label: 'incremental checking households' },
-            { value: '<12', label: 'month better-than-break-even ROMI' },
-        ],
-    },
-    {
-        title: 'Fifth Third Bank',
-        sector: 'Financial Services',
-        stats: [
-            { value: '+96%', label: 'branded checking search clicks' },
-            { value: '8%', label: 'lift in household production' },
-            { value: '6,802', label: 'incremental checking households' },
-            { value: '<12', label: 'month better-than-break-even ROMI' },
-        ],
-    },
-];
+/** Where the closing "explore all case studies" beat sends the user. */
+const CASE_STUDIES_URL = '/projects';
+
+/**
+ * The carousel used to hold four identical placeholder cards. It now reads the
+ * real studies, so each card carries its own brand, image and figures — and,
+ * more to the point, links to its own write-up at `/projects/[slug]`.
+ *
+ * The counter animation in CaseStudySection parses `data-value` as a STRING
+ * (it pulls the prefix/suffix off either end and counts the digits between), so
+ * the numeric source data is formatted back into that shape here rather than
+ * changing the animation's contract.
+ */
+const formatStat = (s: { value: number; prefix?: string; suffix?: string; comma?: boolean }) =>
+    (s.prefix ?? '') +
+    (s.comma ? s.value.toLocaleString('en-US') : String(s.value)) +
+    (s.suffix ?? '');
+
+const caseStudies = CASE_STUDIES.map((c) => ({
+    slug: c.slug,
+    title: c.brand,
+    sector: c.industry,
+    image: c.hero,
+    stats: c.stats.map((s) => ({ value: formatStat(s), label: s.label })),
+}));
 
 /**
  * One shared row height for BOTH stat columns. The figures and the labels live in
@@ -105,7 +86,11 @@ export default function CaseStudy() {
                             measured against the carousel column rather than the card —
                             which is why `ml-[3%]` under `items-end` pushed it out past
                             the card's right edge instead of insetting it. */}
-                        <div className="relative w-[89vw] sm:w-[85vw] md:w-[65%] lg:w-[480px] xl:w-[530px] 2xl:w-[550px] 3xl:w-[600px] mx-auto lg:mx-0">
+                        <Link
+                            href={`/projects/${cs.slug}`}
+                            aria-label={`${cs.title} case study`}
+                            className="group relative block w-[89vw] sm:w-[85vw] md:w-[65%] lg:w-[480px] xl:w-[530px] 2xl:w-[550px] 3xl:w-[600px] mx-auto lg:mx-0"
+                        >
                             <div className="w-full rounded-[8px] border border-[#F0F0F0] dark:border-[#2D2D2D] bg-[#FFF] dark:bg-[#181818] py-[10px] px-[10px] flex flex-col gap-2 md:gap-4 xl:gap-6 2xl:gap-8 transition-colors duration-300 shadow-sm dark:shadow-black/40">
                                 <div className="flex flex-row justify-between pt-[10px] md:pt-[12px] lg:pt-[16px] xl:pt-[22px] 2xl:pt-[30px] pl-[15px]">
                                     <div>
@@ -119,17 +104,19 @@ export default function CaseStudy() {
                                             <h2 className="cs-title text-[18px] sm:text-[clamp(1.75rem,2.5vw,2.625rem)] font-tommy-bold leading-[1.02] tracking-[-0.02em] uppercase text-black dark:text-white transition-colors duration-300">{cs.title}</h2>
                                         </div>
                                     </div>
-                                    <a className="group mt-[-10%] shrink-0">
+                                    {/* A <span>, not an <a> — the whole card is now the
+                                        link, and nesting an anchor inside it is invalid. */}
+                                    <span className="mt-[-10%] shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-[60px] md:w-[70px] lg:w-[90px] xl:w-[119px] h-[60px] md:h-[70px] lg:h-[90px] xl:h-[119px] rotate-[90deg]" width="119" height="119" viewBox="0 0 119 119" fill="none">
                                             <circle cx="59.5" cy="59.5" r="59.5" className="fill-black dark:fill-white transition-colors duration-300" />
                                             <path d="M43.4436 42.4436C42.8913 42.4436 42.4436 42.8913 42.4436 43.4436L42.4436 52.4436C42.4436 52.9959 42.8913 53.4436 43.4436 53.4436C43.9959 53.4436 44.4436 52.9959 44.4436 52.4436L44.4436 44.4436L52.4436 44.4436C52.9959 44.4436 53.4436 43.9959 53.4436 43.4436C53.4436 42.8913 52.9959 42.4436 52.4436 42.4436L43.4436 42.4436ZM75.5547 75.5547L76.2618 74.8476L44.1507 42.7365L43.4436 43.4436L42.7365 44.1507L74.8476 76.2618L75.5547 75.5547Z" fill="#FCD119"
                                                 className="transition-all duration-300 ease-out [transform-box:fill-box] origin-center group-hover:scale-300" />
                                         </svg>
-                                    </a>
+                                    </span>
                                 </div>
                                 {/* Wrapper contains the media's over-scale while it wipes open. */}
                                 <div className="overflow-hidden rounded-[10px]">
-                                    <img className="cs-media w-full h-[240px] md:h-[280px] lg:h-[360px] object-cover" src="/assets/images/case-study-img.jpg" alt="" />
+                                    <img className="cs-media w-full h-[240px] md:h-[280px] lg:h-[360px] object-cover" src={cs.image} alt="" />
                                 </div>
                             </div>
 
@@ -159,7 +146,7 @@ export default function CaseStudy() {
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 ))}
             </div>

@@ -9,6 +9,7 @@
  */
 
 import { useRef } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -33,15 +34,21 @@ interface Project {
     metric: string;
     metricLabel: string;
     logo: string;
+    /**
+     * Slug of the full write-up in `src/data/caseStudies.ts`, when one exists.
+     * Cards without a slug stay as plain articles rather than linking nowhere —
+     * a dead "Read the story" affordance is worse than none at all.
+     */
+    slug?: string;
 }
 
 const PROJECTS: Project[] = [
-    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/partner-hertz.png` },
-    { brand: 'Nationwide', industry: 'Insurance', result: 'Mobile billboards became the highlight of Nationwide’s market presence — and are still talked about today.', metric: 'City', metricLabel: 'Wide recall', logo: `${LOGOS}/partner-nationwide.png` },
+    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/partner-hertz.png` , slug: 'hertz' },
+    { brand: 'Nationwide', industry: 'Insurance', result: 'Mobile billboards became the highlight of Nationwide’s market presence — and are still talked about today.', metric: 'City', metricLabel: 'Wide recall', logo: `${LOGOS}/partner-nationwide.png` , slug: 'nationwide' },
     { brand: 'Wendy’s', industry: 'Quick-Service Food', result: 'High-impact visual messaging, quick to implement, unusually cost-effective and highly measurable.', metric: 'Days', metricLabel: 'To launch', logo: `${LOGOS}/partner-wendys.png` },
     { brand: 'Saks Fifth Avenue', industry: 'Luxury Retail', result: 'The team executed outstanding results — recognition was city-wide, and memorable.', metric: '#1', metricLabel: 'In-market buzz', logo: `${LOGOS}/partner-saks-white.png` },
     { brand: 'Volkswagen', industry: 'Automotive', result: 'Synchronized routes blanketed launch corridors, turning highway miles into launch-week presence.', metric: '50', metricLabel: 'Markets ready', logo: `${LOGOS}/partner-vw.png` },
-    { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png` },
+    { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png` , slug: 'cuyahoga-community-college' },
     { brand: 'FanDuel', industry: 'Sports & Gaming', result: 'Game-day fleets surged around venues and sports districts, hitting crowds exactly when intent peaked.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/partner-fanduel.png` },
     { brand: 'Xfinity', industry: 'Telecom', result: 'Neighbourhood-level routing carried the offer straight into target ZIPs across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png` },
 ];
@@ -116,6 +123,13 @@ function Featured() {
                             </div>
                         ))}
                     </div>
+
+                    <Link
+                        href="/projects/fifth-third-bank"
+                        className="group mt-10 inline-flex items-center gap-3 rounded-full bg-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] dark:bg-[#FCD119] dark:text-black"
+                    >
+                        Read the full case study <ArrowIcon />
+                    </Link>
                 </div>
             </div>
         </section>
@@ -187,11 +201,17 @@ function Gallery() {
                 ref={trackRef}
                 className="flex flex-col gap-6 px-6 pb-16 pt-[210px] md:px-12 lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-8 lg:px-[6vw] lg:pb-0 lg:pt-[24vh]"
             >
-                {PROJECTS.map((p) => (
-                    <article
-                        key={p.brand}
-                        className="pj-card group flex shrink-0 flex-col rounded-[22px] border border-black/10 bg-white/60 p-8 transition-colors duration-300 hover:border-[#C8992B]/40 md:p-9 lg:w-[clamp(340px,30vw,420px)] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40"
-                    >
+                {PROJECTS.map((p) => {
+                    // `.pj-card` is the horizontal track's animation hook, so it has to
+                    // land on the outermost node either way — hence the shared class
+                    // string and the two explicit branches below (a polymorphic
+                    // `Link | 'article'` component can't be typed cleanly against
+                    // Link's required `href`).
+                    const cardClass =
+                        'pj-card group flex shrink-0 flex-col rounded-[22px] border border-black/10 bg-white/60 p-8 transition-colors duration-300 hover:border-[#C8992B]/40 md:p-9 lg:w-[clamp(340px,30vw,420px)] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40';
+
+                    const inner = (
+                    <>
                         <div className="flex items-start justify-between">
                             <span className="inline-flex h-[64px] w-[132px] items-center justify-start">
                                 <img src={p.logo} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain dark:brightness-0 dark:invert" loading="lazy" />
@@ -209,11 +229,26 @@ function Gallery() {
                         <h3 className="mt-6 font-tommy-bold text-[26px] tracking-tight">{p.brand}</h3>
                         <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-white/60">{p.result}</p>
 
-                        <span className="mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white/50 dark:group-hover:text-[#FCD119]">
-                            Read the story <ArrowIcon />
-                        </span>
-                    </article>
-                ))}
+                        {p.slug && (
+                            <span className="mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white/50 dark:group-hover:text-[#FCD119]">
+                                Read the story <ArrowIcon />
+                            </span>
+                        )}
+                    </>
+                    );
+
+                    // Cards without a written study stay as plain articles rather than
+                    // linking nowhere.
+                    return p.slug ? (
+                        <Link key={p.brand} href={`/projects/${p.slug}`} className={cardClass}>
+                            {inner}
+                        </Link>
+                    ) : (
+                        <article key={p.brand} className={cardClass}>
+                            {inner}
+                        </article>
+                    );
+                })}
             </div>
         </section>
     );
