@@ -37,18 +37,23 @@ const QUICK_LINKS = [
 const SOCIALS = [
     {
         label: 'LinkedIn',
-        href: '#',
+        href: '	https://www.linkedin.com/company/advertisingwheels',
         path: 'M4.98 3.5A1.75 1.75 0 1 1 3.23 5.25 1.75 1.75 0 0 1 4.98 3.5ZM3.5 8.25h2.96V19H3.5V8.25Zm5.19 0h2.84v1.47h.04a3.11 3.11 0 0 1 2.8-1.54c3 0 3.55 1.97 3.55 4.54V19h-2.96v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.4-2.07 2.85V19H8.69V8.25Z',
     },
     {
         label: 'Instagram',
-        href: '#',
+        href: 'https://www.instagram.com/advertisingwheels/',
         path: 'M11.5 2h1c2.2 0 2.6.01 3.5.05a4.3 4.3 0 0 1 1.44.28 2.9 2.9 0 0 1 1.05.68 2.9 2.9 0 0 1 .68 1.05 4.3 4.3 0 0 1 .28 1.44c.04.9.05 1.3.05 3.5v1c0 2.2-.01 2.6-.05 3.5a4.3 4.3 0 0 1-.28 1.44 3.1 3.1 0 0 1-1.73 1.73 4.3 4.3 0 0 1-1.44.28c-.9.04-1.3.05-3.5.05h-1c-2.2 0-2.6-.01-3.5-.05a4.3 4.3 0 0 1-1.44-.28 3.1 3.1 0 0 1-1.73-1.73 4.3 4.3 0 0 1-.28-1.44C2.01 14.6 2 14.2 2 12v-1c0-2.2.01-2.6.05-3.5a4.3 4.3 0 0 1 .28-1.44 3.1 3.1 0 0 1 1.73-1.73 4.3 4.3 0 0 1 1.44-.28C6.4 4.01 6.8 4 9 4Zm.5 4.25a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Zm0 1.75a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm3.6-2.6a.78.78 0 1 0 0 1.55.78.78 0 0 0 0-1.55Z',
     },
     {
         label: 'Facebook',
-        href: '#',
+        href: 'https://www.facebook.com/AdvertisingWheels/',
         path: 'M13.5 12.5h2.1l.4-2.75h-2.5V8.1c0-.8.28-1.35 1.42-1.35h1.2V4.3a17 17 0 0 0-1.85-.1c-1.9 0-3.27 1.16-3.27 3.3v1.84H8.5v2.76h2.5V19h2.5v-6.5Z',
+    },
+    {
+        label: 'Tiktok',
+        href: 'https://www.tiktok.com/@advertisingwheels',
+        path: 'M14 2c.26 1.9 1.42 3.32 3.3 3.5v2.4c-1.12.05-2.2-.3-3.3-1v5.8c0 3.5-2.6 5.55-5.4 5.55-2.65 0-4.85-1.9-4.85-4.8 0-2.95 2.35-4.9 5.25-4.7v2.55c-.4-.1-.85-.13-1.28-.06-1.15.2-1.9 1.02-1.8 2.2.1 1.15.98 1.9 2.05 1.85 1.28-.06 2.05-1 2.05-2.35V2H14Z',
     },
 ];
 
@@ -177,11 +182,11 @@ export default function Footer() {
                                     </svg>
                                 </span>
                                 <span className="font-tommy-medium text-[14px] text-[#1A1917] dark:text-white">
-                                    (877) 4-ADWHEELS
+                                    1-877-4-ADWHEELS (1-877-423-9433)
                                 </span>
                             </li>
                             <li>
-                                <a href="mailto:info@advertisingwheels.com" className="group flex items-center gap-3">
+                                <a href="mailto:BrandGrowth@advertisingwheels.com" className="group flex items-center gap-3">
                                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] transition-colors duration-300 group-hover:border-[#C8992B]/40 group-hover:bg-[#FCD119]/20 dark:border-white/10 dark:bg-white/[0.06] dark:text-[#FCD119] dark:group-hover:bg-[#FCD119]/10">
                                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                                             <rect x="1.8" y="3.4" width="12.4" height="9.2" rx="1.6" stroke="currentColor" strokeWidth="1.3" />
@@ -189,7 +194,7 @@ export default function Footer() {
                                         </svg>
                                     </span>
                                     <span className="ft-link font-tommy-medium text-[14px] text-[#1A1917] dark:text-white">
-                                        info@advertisingwheels.com
+                                        BrandGrowth@advertisingwheels.com
                                     </span>
                                 </a>
                             </li>

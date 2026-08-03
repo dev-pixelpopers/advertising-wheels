@@ -167,7 +167,7 @@ export default function TruckExperience() {
     );
 
     return (
-        <section ref={rootRef} className="relative h-[400vh] w-full bg-[#0d0d10] -mt-[100vh]">
+        <section ref={rootRef} className="relative h-[400vh] w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A] -mt-[100vh]">
             <style>{`
                 @keyframes aw-pulse {
                     0% { box-shadow: 0 0 0 0 rgba(252,209,25,0.55); }
@@ -285,7 +285,7 @@ export default function TruckExperience() {
                             className="absolute left-[5.4%] top-[11%] w-[62.9%] h-[58%] rounded-[4px] overflow-hidden shadow-2xl pointer-events-none"
                         >
                             <img
-                                src="/assets/images/process/banner.png"
+                                src="/assets/images/process/banner.jpg"
                                 alt="Brand creative banner"
                                 className="w-full h-full object-cover"
                             />

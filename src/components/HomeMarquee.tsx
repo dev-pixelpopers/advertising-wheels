@@ -27,38 +27,17 @@ const ROW_2_LOGOS: LogoEntry[] = [
 ];
 
 /**
- * Dark-theme handling, measured per file (average luminance + how much of the
- * ink is actually saturated colour). Two different problems, two fixes —
- * lumping them together is what turns a red-and-blue mark into a white blob.
+ * Dark-theme legibility WITHOUT inverting. Monochrome/dark-ink marks vanish
+ * against a dark ground, and inverting a coloured mark just turns it into a
+ * white blob. Instead, on the dark theme each single-file mark sits on its own
+ * light "chip" (a rounded white panel), so dark-ink AND full-colour logos read
+ * exactly as their artwork intends. The light theme keeps them floating on the
+ * cream ground as before.
  *
- * 1. MONOCHROME dark ink (black / near-black, no real colour). Safe to redraw
- *    as a white silhouette: `brightness-0` flattens it to solid black, `invert`
- *    flips that to white. Nothing is lost because there was no colour to lose.
+ * Chip classes must be `dark:`-prefixed so they only apply on the dark theme —
+ * this project defines the variant as `@variant dark (&:where(.dark, .dark *))`.
  */
-const INVERT_ON_DARK = new Set([
-    'partner-echo.png',
-    'partner-outer.png',
-    'partner-floor-decor.png',
-    'partner-titan.png',
-    'partner-vw.png'
-]);
-
-/* 2. COLOURED marks are deliberately NOT listed above — Kaiser blue, Xfinity,
-      Wendy's red, Reliable's red-and-blue and so on. For those the colour IS
-      the logo, and `brightness-0` would flatten the artwork into a featureless
-      white blob. They keep their own colours, as do the marks that ship their
-      own opaque light panel (Morgan, Hertz, Raising Cane's) and Saks, which
-      already swaps between a light and a dark file by theme.
-
-   NB: every class returned below must be `dark:`-prefixed. A bare `dark` class
-   would leak into the light theme, because this project defines the variant as
-   NB: every class here must be `dark:`-prefixed. A bare `dark` class would leak
-   into the light theme, because this project defines the variant as
-   `@variant dark (&:where(.dark, .dark *))` — an element carrying the literal
-   class `dark` matches `.dark` itself, so its `dark:` utilities fire in BOTH
-   themes. */
-const darkFix = (file: string) =>
-    INVERT_ON_DARK.has(file) ? ' dark:brightness-10 dark:invert' : '';
+const DARK_CHIP = 'dark:rounded-[6px] dark:bg-[#383327] dark:p-2 md:dark:p-3';
 
 /**
  * `scrollDriven` hands the horizontal movement to a parent ScrollTrigger on
@@ -76,8 +55,8 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
 
         if (typeof logo === 'string') {
             return (
-                <div key={index} className="mr-2 shrink-0">
-                    <img className={`${imgClass}${darkFix(logo)}`} src={`${LOGO_DIR}/${logo}`} alt="" />
+                <div key={index} className={`mr-2 shrink-0 ${DARK_CHIP}`}>
+                    <img className={`${imgClass} dark:opacity-100`} src={`${LOGO_DIR}/${logo}`} alt="" />
                 </div>
             );
         }

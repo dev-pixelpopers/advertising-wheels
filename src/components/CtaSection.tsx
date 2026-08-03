@@ -27,6 +27,20 @@ const BADGES = [
     { src: '/assets/images/cta/bbb-rating.webp', alt: 'BBB accredited business', w: 'w-[86px] md:w-[102px]' },
 ];
 
+/** Industry-association marks for the marquee. USDOT has no logo asset, so it
+ *  rides along as a small text tile. */
+type AssocItem =
+    | { kind: 'img'; src: string; alt: string; w: string }
+    | { kind: 'text'; label: string };
+
+const ASSOCIATIONS: AssocItem[] = [
+    { kind: 'img', src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', w: 'w-[110px] md:w-[130px]' },
+    { kind: 'img', src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', w: 'w-[110px] md:w-[130px]' },
+    { kind: 'img', src: '/assets/images/cta/mbe-certified.webp', alt: 'MBE certified', w: 'w-[54px] md:w-[64px]' },
+    { kind: 'img', src: '/assets/images/cta/national-minority.webp', alt: 'NMSDC certified', w: 'w-[76px] md:w-[90px]' },
+    { kind: 'text', label: 'USDOT Registered' },
+];
+
 export default function CtaSection() {
     const rootRef = useRef<HTMLDivElement>(null);
     const ringsRef = useRef<SVGGElement>(null);
@@ -115,6 +129,22 @@ export default function CtaSection() {
                 ease: 'power3.out',
                 scrollTrigger: { trigger: '[data-badge-row]', start: 'top 90%', once: true },
             });
+
+            // Industry-associations block — heading first, then the cards cascade.
+            gsap.from('[data-assoc-heading]', {
+                y: 14,
+                autoAlpha: 0,
+                duration: 0.6,
+                ease: 'power3.out',
+                scrollTrigger: { trigger: '[data-assoc-row]', start: 'top 88%', once: true },
+            });
+            gsap.from('[data-assoc-marquee]', {
+                y: 20,
+                autoAlpha: 0,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: { trigger: '[data-assoc-row]', start: 'top 85%', once: true },
+            });
         },
         { scope: rootRef }
     );
@@ -124,6 +154,11 @@ export default function CtaSection() {
            curved corners reveal a seamless continuation rather than a mismatched
            edge. Must stay in step with WhyChooseUs above and Footer below. */
         <div ref={rootRef} className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+            <style>{`
+                @keyframes cta-assoc-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+                .cta-assoc-track { animation: cta-assoc-marquee 26s linear infinite; }
+                @media (prefers-reduced-motion: reduce) { .cta-assoc-track { animation: none; } }
+            `}</style>
             {/* Elliptical top corners — the curve runs far wider than it drops, so it
                 reads as one long sweep into the flat middle rather than a rounded box. */}
             <div className="relative w-full overflow-hidden rounded-t-[30px] lg:rounded-t-[40px] bg-[#FCD119] px-3 md:px-5 lg:px-6 py-[50px] md:py-[80px] lg:py-[100px] md:rounded-t-[90px] md:px-14 xl:py-[140px]">
@@ -156,7 +191,7 @@ export default function CtaSection() {
                     </p>
                     <div className="mt-6 md:mt-8 lg:mt-10 flex flex-col items-center gap-2 md:gap-4 sm:flex-row sm:gap-6">
                         <a
-                            href="#"
+                            href="/contact"
                             className="group flex items-center gap-2 lg:gap-3 rounded-full bg-black px-4 md:px-6 lg:px-8 py-3 lg:py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04]"
                         >
                             Start Your Campaign
@@ -165,7 +200,7 @@ export default function CtaSection() {
                             </svg>
                         </a>
                         <a
-                            href="#"
+                            href="tel:+1-877-423-9433"
                             className="rounded-full border-2 border-black px-4 md:px-6 lg:px-8 py-3 lg:py-4 font-tommy-medium text-[15px] text-black transition-colors duration-300 hover:bg-black hover:text-[#FCD119]"
                         >
                             Talk To Us
@@ -207,7 +242,47 @@ export default function CtaSection() {
                         ))}
                     </ul>
                 </div>
+
+                {/* ---------------- Industry Associations ---------------- */}
+                {/* <div
+                    data-assoc-row
+                    className="relative z-10 mx-auto mt-14 w-full max-w-[1100px] md:mt-20"
+                >
+                    <h3
+                        data-assoc-heading
+                        className="text-center font-tommy-bold text-[22px] leading-tight tracking-[-1px] text-black md:text-[30px]"
+                    >
+                        Industry Associations &amp; Accreditations
+                    </h3>
+
+                <div
+                    data-assoc-marquee
+                    className="mt-8 w-full overflow-hidden md:mt-10"
+                    style={{ maskImage: 'linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)' }}
+                >
+                    <div className="cta-assoc-track flex w-max items-center gap-x-12 md:gap-x-20">
+                        {[...ASSOCIATIONS, ...ASSOCIATIONS].map((a, i) =>
+                            a.kind === 'img' ? (
+                                <img
+                                    key={i}
+                                    src={a.src}
+                                    alt={a.alt}
+                                    loading="lazy"
+                                    className={`${a.w} h-auto shrink-0 object-contain opacity-80 mix-blend-multiply`}
+                                />
+                            ) : (
+                                <span
+                                    key={i}
+                                    className="shrink-0 whitespace-nowrap rounded-full border border-black/25 px-4 py-1.5 font-tommy-medium text-[12px] uppercase tracking-[2px] text-black/70 md:text-[13px]"
+                                >
+                                    {a.label}
+                                </span>
+                            )
+                        )}
+                    </div>
+                </div>
+            </div> */}
             </div>
-        </div>
+        </div >
     );
 }

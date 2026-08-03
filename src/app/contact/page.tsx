@@ -26,19 +26,19 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const DETAILS = [
     {
         label: 'Call us',
-        value: '(877) 4-ADWHEELS',
+        value: '1-877-4-ADWHEELS (1-877-423-9433)',
         sub: 'Mon–Fri, 8am–6pm ET',
         icon: 'M5.2 2.5 6.6 5.3 5.3 6.6a8.4 8.4 0 0 0 4.1 4.1l1.3-1.3 2.8 1.4v2.4c0 .6-.5 1-1.1.9A11.6 11.6 0 0 1 2.1 3.6c0-.6.4-1.1 1-1.1h2.1Z',
     },
     {
         label: 'Email us',
-        value: 'info@advertisingwheels.com',
+        value: 'BrandGrowth@advertisingwheels.com',
         sub: 'We reply within one business day',
         icon: 'M1.8 3.4h12.4v9.2H1.8zM2.4 4.6l5.6 4 5.6-4',
     },
     {
         label: 'Headquarters',
-        value: 'Columbus, Ohio',
+        value: 'Nashville, Tennessee',
         sub: '50 metro markets, coast to coast',
         icon: 'M8 14s5-4.5 5-8A5 5 0 0 0 3 6c0 3.5 5 8 5 8Zm0-6.2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z',
     },
@@ -124,7 +124,7 @@ function ContactHero() {
                                 <h2 className="mt-6 font-tommy-bold text-[30px] tracking-tight text-[#1A1917] dark:text-white">Message on its way<Dot /></h2>
                                 <p className="mt-3 max-w-[360px] font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-[#A8A399]">
                                     Thanks — we’ll be in touch within one business day. In the meantime, feel free to call
-                                    us at (877) 4-ADWHEELS.
+                                    us at 1-877-4-ADWHEELS (1-877-423-9433).
                                 </p>
                                 <button
                                     onClick={() => setSent(false)}
@@ -259,11 +259,12 @@ export default function ContactPage() {
                 lead="Tell us what you want to move — a product, a perception, a whole market. We'll come back with routes, formats and a plan you can measure."
                 primary={{ label: 'Book a Strategy Call', href: '#form' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
-                image="/assets/images/process/studio.png"
+                image="/assets/images/costco-img.webp"
                 imageAlt="Advertising Wheels production studio"
             />
             <ContactHero />
             <Faq />
+            <Footer />
         </main>
     );
 }

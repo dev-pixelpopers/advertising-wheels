@@ -294,6 +294,154 @@ export const CASE_STUDIES: CaseStudy[] = [
         },
         gallery: ['/assets/images/process/studio.png', '/assets/images/process/city.png'],
     },
+    {
+        slug: 'dollar',
+        brand: 'Dollar',
+        industry: 'Car Rental',
+        summary:
+            'An OOH-versus-control study that lifted Dollar.com traffic in every target market.',
+        lead:
+            'Dollar wanted to know whether out-of-home could move online bookings — and to prove it against a clean control. We ran the media across target booking-location markets and measured year-over-year Dollar.com traffic, target versus non-OOH control.',
+        year: '2018',
+        markets: 'Target booking markets',
+        duration: 'Campaign flight',
+        hero: '/assets/images/dollar-hero.webp',
+        logo: `${LOGOS}/dollar-car-rental-logo.png`,
+        stats: [
+            { value: 32, prefix: '+', suffix: '%', label: 'Peak-week Dollar.com visits YoY (target)' },
+            { value: 25, prefix: '+', suffix: '%', label: 'Same-period lift in control markets' },
+            { value: 7, prefix: '+', suffix: 'pt', label: 'Target-over-control gap at peak' },
+            { value: 100, suffix: '%', label: 'Of target markets beat control' },
+        ],
+        services: ['Test-vs-control design', 'Route planning', 'Traffic-lift measurement'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'Could a physical medium move a digital booking?',
+                body: [
+                    'Dollar’s bookings happen online, so any awareness channel had to prove it moved Dollar.com traffic — not just impressions. The brief was to test out-of-home the way a performance team would test anything: against a matched control.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Run OOH in target markets, hold out the rest',
+                body: [
+                    'We flighted the campaign across target booking-location markets and left demographically comparable markets un-exposed as a control group.',
+                    'Year-over-year Dollar.com website traffic was then compared between the two groups across the campaign, so any lift could be read against the flight dates rather than a seasonal curve.',
+                ],
+            },
+            {
+                id: 'results',
+                nav: 'Results',
+                heading: 'Traffic tracked the trucks',
+                body: [
+                    'In the peak week, target markets grew Dollar.com visits 32% year over year against 25% for control, and target markets consistently outperformed the non-OOH control.',
+                    'Traffic lifts tracked the OOH flight dates — the signal every performance marketer wants to see before scaling.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'Target markets outperformed the non-OOH control across the flight, with the traffic lift tracking the campaign dates rather than the season.',
+            author: 'Campaign Analytics',
+            role: 'Advertising Wheels',
+        },
+        gallery: ['/assets/images/process/city.png', '/assets/images/case-study-img.jpg'],
+    },
+    {
+        slug: 'aaa',
+        brand: 'AAA',
+        industry: 'Travel & Mobility',
+        summary:
+            'A membership and roadside-assistance awareness plan built for commuter routes and travel hubs.',
+        lead:
+            'AAA wanted to stay top-of-mind exactly where drivers feel it — on the road. The plan puts mobile billboards on high-volume commuter corridors and travel hubs, timed to peak drive times. Figures below are projected for the proposed flight.',
+        year: '2025',
+        markets: 'Commuter corridors & travel hubs',
+        duration: 'Proposed seasonal flight',
+        hero: '/assets/images/campaings-img.png',
+        logo: `${LOGOS}/aaa-vector-logo.png`,
+        stats: [
+            { value: 40, prefix: '+', suffix: '%', label: 'Projected awareness lift' },
+            { value: 12, label: 'Commuter corridors' },
+            { value: 24, comma: true, suffix: 'M', label: 'Projected impressions' },
+            { value: 3, suffix: 'x', label: 'Frequency at peak drive times' },
+        ],
+        services: ['Commuter-route planning', 'Travel-hub targeting', 'Wrap creative'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'Staying top-of-mind where drivers already are',
+                body: [
+                    'Membership and roadside-assistance sign-ups depend on recall at the moment of need. The goal was to keep AAA present on the exact routes and hubs where drivers spend their commuting and travel time.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Own the commuter corridor',
+                body: [
+                    'The proposed plan flights mobile billboards along high-volume commuter corridors and travel hubs, concentrated at morning and evening peaks for maximum frequency against the target driver.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'The plan concentrates frequency on the commuter corridors and travel hubs where membership recall matters most.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: ['/assets/images/campaings-img.png', '/assets/images/process/city.png'],
+    },
+    {
+        slug: 'burger-king',
+        brand: 'Burger King',
+        industry: 'Quick-Service Food',
+        summary:
+            'A foot-traffic and limited-time-offer push near restaurant clusters, timed to peak meal times.',
+        lead:
+            'Burger King wanted foot traffic and limited-time-offer awareness where hunger and proximity meet. The plan runs mobile billboards around restaurant clusters, timed to lunch and dinner peaks. Figures below are projected for the proposed flight.',
+        year: '2025',
+        markets: 'Restaurant clusters',
+        duration: 'Proposed LTO flights',
+        hero: '/assets/images/process/city.png',
+        logo: `${LOGOS}/burger-king-logo.png`,
+        stats: [
+            { value: 35, prefix: '+', suffix: '%', label: 'Projected LTO awareness lift' },
+            { value: 2, label: 'Peak meal dayparts' },
+            { value: 18, comma: true, suffix: 'M', label: 'Projected impressions' },
+            { value: 5, label: 'Restaurant clusters covered' },
+        ],
+        services: ['Cluster routing', 'Daypart timing', 'LTO creative rotation'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'Turn proximity into a visit',
+                body: [
+                    'Quick-service demand is a proximity-and-timing game. The goal was to promote limited-time offers and drive foot traffic to nearby locations right when people decide where to eat.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Be at the cluster at meal time',
+                body: [
+                    'The proposed plan concentrates mobile billboards around restaurant clusters and times them to lunch and dinner peaks, rotating the limited-time-offer creative so repeat exposure stays fresh.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'The plan puts the offer in front of hungry, nearby audiences at the exact moment they choose where to eat.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: ['/assets/images/process/city.png', '/assets/images/case-study-img.jpg'],
+    },
 ];
 
 /** Lookup used by the detail route. Returns undefined for unknown slugs. */

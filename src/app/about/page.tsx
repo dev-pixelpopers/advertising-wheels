@@ -346,7 +346,7 @@ export default function AboutPage() {
                 lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands since 2001, owner-operated from Nashville, Tennessee."
                 primary={{ label: 'Book a Strategy Call', href: '/contact' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
-                image={HERO_IMG}
+                image="/assets/images/best-buy-img.webp"
                 imageAlt="An Advertising Wheels truckside campaign on the street"
             />
             <Story />

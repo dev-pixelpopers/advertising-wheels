@@ -272,7 +272,7 @@ export default function VendorsPage() {
                 lead="Own box trucks, trailers or a full fleet? Turn the routes you already run into recurring advertising revenue — we handle the brands, the creative and the install."
                 primary={{ label: 'Apply to partner', href: '/contact' }}
                 secondary={{ label: 'How it works', href: '#how' }}
-                image="/assets/images/process/truck.png"
+                image="/assets/images/xfinity-img.webp"
                 imageAlt="An Advertising Wheels partner truck"
             />
 

@@ -29,9 +29,20 @@ interface Testimonial {
     /** Role line under the name. Omitted where the source gives no person. */
     role?: string;
     logo: string;
+    /** Optional dark-theme variant of the mark. When set, `logo` shows on the
+     *  light theme and this swaps in on the dark theme. */
+    logoDark?: string;
     /** Accessible name for the logo chip. */
     label: string;
+    /** Optional per-logo size override (e.g. a very wide or very small mark that
+     *  needs nudging to sit at the same optical weight as the rest). Defaults to
+     *  the uniform-height class below. */
+    logoClass?: string;
 }
+
+/** One shared height for every mark, width auto, centred and contained — so
+ *  logos of different aspect ratios all read at the same optical size. */
+const LOGO_BASE = 'w-full h-full object-contain';
 
 /** Verbatim from the supplied testimonials sheet. */
 const TESTIMONIALS: Testimonial[] = [
@@ -39,7 +50,7 @@ const TESTIMONIALS: Testimonial[] = [
         quote: 'Amid a transitional period requiring a shift in brand perception and tighter marketing budgets, Hertz leveraged truck advertising as its primary top-of-funnel tactic for high visibility and cost-effectiveness. The strategy reversed a five-year decline in eCommerce revenue.',
         name: 'Jeff Voorhees',
         role: 'Senior Director, Hertz',
-        logo: `${LOGOS}/hertz-logo.png`,
+        logo: `${LOGOS}/hertz-logo.webp`,
         label: 'Hertz',
     },
     {
@@ -67,14 +78,15 @@ const TESTIMONIALS: Testimonial[] = [
         quote: 'The client’s goals and objectives are achieved... as the team implement and execute outstanding results. Recognition is city wide... but memorable.',
         name: 'Jeff Byron',
         role: 'General Manager, Saks Fifth Avenue',
-        logo: `${LOGOS}/saks-fifth-avenue.svg`,
+        logo: `${LOGOS}/partner-saks-white.webp`,
+        logoDark: `${LOGOS}/partner-saks-dark.webp`,
         label: 'Saks Fifth Avenue',
     },
     {
         quote: 'The staff at Advertising Wheels was courteous, helpful, and always handled themselves with the highest level of professionalism from the design stage to installation.',
         name: 'Athletic Department',
         role: 'The Ohio State University',
-        logo: `${LOGOS}/osu-logo-stacked.svg`,
+        logo: `${LOGOS}/ohio-state-university-logo.png`,
         label: 'The Ohio State University',
     },
     {
@@ -192,13 +204,30 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                     {/* Client mark on a white chip — the supplied logos are
                                         light-background assets, so the chip keeps them
                                         legible on the dark card too. */}
-                                    <span className="mb-5 inline-flex h-[60px] w-[120px] shrink-0 items-center justify-center rounded-[14px] bg-white/0 ring-1 ring-black/[0.08] sm:mb-7 sm:h-[72px] sm:w-[136px] md:mb-8 dark:ring-white/10">
-                                        <img
-                                            src={t.logo}
-                                            alt={t.label}
-                                            loading="lazy"
-                                            className="max-h-[44px] max-w-[96px] object-contain sm:max-h-[52px] sm:max-w-[110px]"
-                                        />
+                                    <span className="mb-5 inline-flex h-[60px] w-[150px] shrink-0 items-center justify-center overflow-hidden rounded-[14px] bg-white/0 px-3 ring-1 ring-black/[0.08] sm:mb-7 sm:h-[72px] sm:w-[168px] md:mb-8 dark:ring-white/10 p-[10px]">
+                                        {t.logoDark ? (
+                                            <>
+                                                <img
+                                                    src={t.logo}
+                                                    alt={t.label}
+                                                    loading="lazy"
+                                                    className={`${t.logoClass ?? LOGO_BASE} block dark:hidden`}
+                                                />
+                                                <img
+                                                    src={t.logoDark}
+                                                    alt={t.label}
+                                                    loading="lazy"
+                                                    className={`${t.logoClass ?? LOGO_BASE} hidden dark:block`}
+                                                />
+                                            </>
+                                        ) : (
+                                            <img
+                                                src={t.logo}
+                                                alt={t.label}
+                                                loading="lazy"
+                                                className={t.logoClass ?? LOGO_BASE}
+                                            />
+                                        )}
                                     </span>
 
                                     <blockquote className="font-tommy-regular text-[13px] leading-[1.65] text-[#3A3730] sm:text-[14.5px] sm:leading-[1.72] md:text-[15.5px] dark:text-[#CFCABF]">

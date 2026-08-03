@@ -43,14 +43,17 @@ interface Project {
 }
 
 const PROJECTS: Project[] = [
-    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/partner-hertz.png` , slug: 'hertz' },
-    { brand: 'Nationwide', industry: 'Insurance', result: 'Mobile billboards became the highlight of Nationwide’s market presence — and are still talked about today.', metric: 'City', metricLabel: 'Wide recall', logo: `${LOGOS}/partner-nationwide.png` , slug: 'nationwide' },
+    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/partner-hertz.png`, slug: 'hertz' },
+    { brand: 'Nationwide', industry: 'Insurance', result: 'Mobile billboards became the highlight of Nationwide’s market presence — and are still talked about today.', metric: 'City', metricLabel: 'Wide recall', logo: `${LOGOS}/partner-nationwide.png`, slug: 'nationwide' },
     { brand: 'Wendy’s', industry: 'Quick-Service Food', result: 'High-impact visual messaging, quick to implement, unusually cost-effective and highly measurable.', metric: 'Days', metricLabel: 'To launch', logo: `${LOGOS}/partner-wendys.png` },
     { brand: 'Saks Fifth Avenue', industry: 'Luxury Retail', result: 'The team executed outstanding results — recognition was city-wide, and memorable.', metric: '#1', metricLabel: 'In-market buzz', logo: `${LOGOS}/partner-saks-white.png` },
     { brand: 'Volkswagen', industry: 'Automotive', result: 'Synchronized routes blanketed launch corridors, turning highway miles into launch-week presence.', metric: '50', metricLabel: 'Markets ready', logo: `${LOGOS}/partner-vw.png` },
-    { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png` , slug: 'cuyahoga-community-college' },
+    { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png`, slug: 'cuyahoga-community-college' },
     { brand: 'FanDuel', industry: 'Sports & Gaming', result: 'Game-day fleets surged around venues and sports districts, hitting crowds exactly when intent peaked.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/partner-fanduel.png` },
     { brand: 'Xfinity', industry: 'Telecom', result: 'Neighbourhood-level routing carried the offer straight into target ZIPs across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png` },
+    { brand: 'Dollar', industry: 'Car Rental', result: 'An OOH-vs-control study lifted Dollar.com peak-week visits +32% YoY in target markets, outperforming control in every flight.', metric: '+32%', metricLabel: 'YoY site visits', logo: `${LOGOS}/dollar-car-rental-logo.png`, slug: 'dollar' },
+    { brand: 'AAA', industry: 'Travel & Mobility', result: 'A membership and roadside-assistance awareness plan built for commuter routes and travel hubs.', metric: 'Routes', metricLabel: 'Commuter reach', logo: `${LOGOS}/aaa-vector-logo.png`, slug: 'aaa' },
+    { brand: 'Burger King', industry: 'Quick-Service Food', result: 'A foot-traffic and limited-time-offer push near restaurant clusters, timed to peak meal times.', metric: 'Peak', metricLabel: 'Meal-time reach', logo: `${LOGOS}/burger-king-logo.png`, slug: 'burger-king' },
 ];
 
 const FEATURED_STATS = [
@@ -211,30 +214,30 @@ function Gallery() {
                         'pj-card group flex shrink-0 flex-col rounded-[22px] border border-black/10 bg-white/60 p-8 transition-colors duration-300 hover:border-[#C8992B]/40 md:p-9 lg:w-[clamp(340px,30vw,420px)] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40';
 
                     const inner = (
-                    <>
-                        <div className="flex items-start justify-between">
-                            <span className="inline-flex h-[64px] w-[132px] items-center justify-start">
-                                <img src={p.logo} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain dark:brightness-0 dark:invert" loading="lazy" />
-                            </span>
-                            <span className="rounded-full border border-black/15 px-3 py-1 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:border-white/15 dark:text-white/50">
-                                {p.industry}
-                            </span>
-                        </div>
+                        <>
+                            <div className="flex items-start justify-between">
+                                <span className="inline-flex h-[64px] w-[132px] items-center justify-start">
+                                    <img src={p.logo} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain" loading="lazy" />
+                                </span>
+                                <span className="rounded-full border border-black/15 px-3 py-1 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:border-white/15 dark:text-white/50">
+                                    {p.industry}
+                                </span>
+                            </div>
 
-                        <div className="mt-8 flex items-end gap-3">
-                            <span className="font-tommy-bold text-[56px] leading-[0.9] text-[#C8992B] md:text-[68px] dark:text-[#FCD119]">{p.metric}</span>
-                            <span className="mb-2 font-tommy-regular text-[13px] uppercase leading-[1.3] tracking-[1.5px] text-[#6F6A60] dark:text-white/45">{p.metricLabel}</span>
-                        </div>
+                            <div className="mt-8 flex items-end gap-3">
+                                <span className="font-tommy-bold text-[56px] leading-[0.9] text-[#C8992B] md:text-[68px] dark:text-[#FCD119]">{p.metric}</span>
+                                <span className="mb-2 font-tommy-regular text-[13px] uppercase leading-[1.3] tracking-[1.5px] text-[#6F6A60] dark:text-white/45">{p.metricLabel}</span>
+                            </div>
 
-                        <h3 className="mt-6 font-tommy-bold text-[26px] tracking-tight">{p.brand}</h3>
-                        <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-white/60">{p.result}</p>
+                            <h3 className="mt-6 font-tommy-bold text-[26px] tracking-tight">{p.brand}</h3>
+                            <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-white/60">{p.result}</p>
 
-                        {p.slug && (
-                            <span className="mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white/50 dark:group-hover:text-[#FCD119]">
-                                Read the story <ArrowIcon />
-                            </span>
-                        )}
-                    </>
+                            {p.slug && (
+                                <span className="mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white/50 dark:group-hover:text-[#FCD119]">
+                                    Read the story <ArrowIcon />
+                                </span>
+                            )}
+                        </>
                     );
 
                     // Cards without a written study stay as plain articles rather than
