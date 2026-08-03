@@ -50,7 +50,7 @@ const TESTIMONIALS: Testimonial[] = [
         quote: 'Amid a transitional period requiring a shift in brand perception and tighter marketing budgets, Hertz leveraged truck advertising as its primary top-of-funnel tactic for high visibility and cost-effectiveness. The strategy reversed a five-year decline in eCommerce revenue.',
         name: 'Jeff Voorhees',
         role: 'Senior Director, Hertz',
-        logo: `${LOGOS}/hertz-logo.webp`,
+        logo: `${LOGOS}/partner-hertz.webp`,
         label: 'Hertz',
     },
     {

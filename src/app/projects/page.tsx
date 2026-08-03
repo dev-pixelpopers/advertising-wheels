@@ -34,6 +34,9 @@ interface Project {
     metric: string;
     metricLabel: string;
     logo: string;
+    /** Optional dark-theme variant of the mark. When set, `logo` shows on the
+     *  light theme and this swaps in on the dark theme. */
+    logoDark?: string;
     /**
      * Slug of the full write-up in `src/data/caseStudies.ts`, when one exists.
      * Cards without a slug stay as plain articles rather than linking nowhere —
@@ -43,17 +46,17 @@ interface Project {
 }
 
 const PROJECTS: Project[] = [
-    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/partner-hertz.png`, slug: 'hertz' },
+    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/partner-hertz.webp`, slug: 'hertz' },
     { brand: 'Nationwide', industry: 'Insurance', result: 'Mobile billboards became the highlight of Nationwide’s market presence — and are still talked about today.', metric: 'City', metricLabel: 'Wide recall', logo: `${LOGOS}/partner-nationwide.png`, slug: 'nationwide' },
     { brand: 'Wendy’s', industry: 'Quick-Service Food', result: 'High-impact visual messaging, quick to implement, unusually cost-effective and highly measurable.', metric: 'Days', metricLabel: 'To launch', logo: `${LOGOS}/partner-wendys.png` },
-    { brand: 'Saks Fifth Avenue', industry: 'Luxury Retail', result: 'The team executed outstanding results — recognition was city-wide, and memorable.', metric: '#1', metricLabel: 'In-market buzz', logo: `${LOGOS}/partner-saks-white.png` },
+    { brand: 'Saks Fifth Avenue', industry: 'Luxury Retail', result: 'The team executed outstanding results — recognition was city-wide, and memorable.', metric: '#1', metricLabel: 'In-market buzz', logo: `${LOGOS}/partner-saks-white.webp`, logoDark: `${LOGOS}/partner-saks-dark.webp` },
     { brand: 'Volkswagen', industry: 'Automotive', result: 'Synchronized routes blanketed launch corridors, turning highway miles into launch-week presence.', metric: '50', metricLabel: 'Markets ready', logo: `${LOGOS}/partner-vw.png` },
     { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png`, slug: 'cuyahoga-community-college' },
-    { brand: 'FanDuel', industry: 'Sports & Gaming', result: 'Game-day fleets surged around venues and sports districts, hitting crowds exactly when intent peaked.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/partner-fanduel.png` },
+    { brand: 'FanDuel', industry: 'Sports & Gaming', result: 'Game-day fleets surged around venues and sports districts, hitting crowds exactly when intent peaked.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/partner-fanduel.webp` },
     { brand: 'Xfinity', industry: 'Telecom', result: 'Neighbourhood-level routing carried the offer straight into target ZIPs across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png` },
-    { brand: 'Dollar', industry: 'Car Rental', result: 'An OOH-vs-control study lifted Dollar.com peak-week visits +32% YoY in target markets, outperforming control in every flight.', metric: '+32%', metricLabel: 'YoY site visits', logo: `${LOGOS}/dollar-car-rental-logo.png`, slug: 'dollar' },
-    { brand: 'AAA', industry: 'Travel & Mobility', result: 'A membership and roadside-assistance awareness plan built for commuter routes and travel hubs.', metric: 'Routes', metricLabel: 'Commuter reach', logo: `${LOGOS}/aaa-vector-logo.png`, slug: 'aaa' },
-    { brand: 'Burger King', industry: 'Quick-Service Food', result: 'A foot-traffic and limited-time-offer push near restaurant clusters, timed to peak meal times.', metric: 'Peak', metricLabel: 'Meal-time reach', logo: `${LOGOS}/burger-king-logo.png`, slug: 'burger-king' },
+    { brand: 'Dollar', industry: 'Car Rental', result: 'An OOH-vs-control study lifted Dollar.com peak-week visits +32% YoY in target markets, outperforming control in every flight.', metric: '+32%', metricLabel: 'YoY site visits', logo: `${LOGOS}/dollar-car-rental-logo.webp`, slug: 'dollar' },
+    { brand: 'AAA', industry: 'Travel & Mobility', result: 'A membership and roadside-assistance awareness plan built for commuter routes and travel hubs.', metric: 'Routes', metricLabel: 'Commuter reach', logo: `${LOGOS}/aaa-vector-logo.webp`, slug: 'aaa' },
+    { brand: 'Burger King', industry: 'Quick-Service Food', result: 'A foot-traffic and limited-time-offer push near restaurant clusters, timed to peak meal times.', metric: 'Peak', metricLabel: 'Meal-time reach', logo: `${LOGOS}/burger-king-logo.webp`, slug: 'burger-king' },
 ];
 
 const FEATURED_STATS = [
@@ -217,7 +220,14 @@ function Gallery() {
                         <>
                             <div className="flex items-start justify-between">
                                 <span className="inline-flex h-[64px] w-[132px] items-center justify-start">
-                                    <img src={p.logo} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain" loading="lazy" />
+                                    {p.logoDark ? (
+                                        <>
+                                            <img src={p.logo} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain block dark:hidden" loading="lazy" />
+                                            <img src={p.logoDark} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain hidden dark:block" loading="lazy" />
+                                        </>
+                                    ) : (
+                                        <img src={p.logo} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain" loading="lazy" />
+                                    )}
                                 </span>
                                 <span className="rounded-full border border-black/15 px-3 py-1 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:border-white/15 dark:text-white/50">
                                     {p.industry}

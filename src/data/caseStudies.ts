@@ -137,7 +137,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         markets: '14 metros',
         duration: '8 months',
         hero: '/assets/images/process/city.png',
-        logo: `${LOGOS}/partner-hertz.png`,
+        logo: `${LOGOS}/partner-hertz.webp`,
         stats: [
             { value: 5, suffix: 'yr', label: 'Revenue decline reversed' },
             { value: 31, prefix: '+', suffix: '%', label: 'Direct session growth' },
@@ -306,7 +306,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         markets: 'Target booking markets',
         duration: 'Campaign flight',
         hero: '/assets/images/dollar-hero.webp',
-        logo: `${LOGOS}/dollar-car-rental-logo.png`,
+        logo: `${LOGOS}/dollar-car-rental-logo.webp`,
         stats: [
             { value: 32, prefix: '+', suffix: '%', label: 'Peak-week Dollar.com visits YoY (target)' },
             { value: 25, prefix: '+', suffix: '%', label: 'Same-period lift in control markets' },
@@ -362,7 +362,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         markets: 'Commuter corridors & travel hubs',
         duration: 'Proposed seasonal flight',
         hero: '/assets/images/campaings-img.png',
-        logo: `${LOGOS}/aaa-vector-logo.png`,
+        logo: `${LOGOS}/aaa-vector-logo.webp`,
         stats: [
             { value: 40, prefix: '+', suffix: '%', label: 'Projected awareness lift' },
             { value: 12, label: 'Commuter corridors' },
@@ -408,7 +408,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         markets: 'Restaurant clusters',
         duration: 'Proposed LTO flights',
         hero: '/assets/images/process/city.png',
-        logo: `${LOGOS}/burger-king-logo.png`,
+        logo: `${LOGOS}/burger-king-logo.webp`,
         stats: [
             { value: 35, prefix: '+', suffix: '%', label: 'Projected LTO awareness lift' },
             { value: 2, label: 'Peak meal dayparts' },

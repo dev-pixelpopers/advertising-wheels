@@ -15,30 +15,47 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/** Accreditations shown under the closer. Widths are tuned per mark so the
- *  wordmark-shaped ones and the round seals read at the same visual weight. */
-const BADGES = [
-    { src: '/assets/images/cta/geopath.webp', alt: 'Geopath member', w: 'w-[112px] md:w-[132px]' },
-    { src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', w: 'w-[112px] md:w-[132px]' },
-    { src: '/assets/images/cta/mbe-certified.webp', alt: 'MBE certified', w: 'w-[54px] md:w-[64px]' },
-    { src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council certified', w: 'w-[76px] md:w-[90px]' },
-    { src: '/assets/images/cta/inc-5000.webp', alt: 'Inc. 5000 honoree', w: 'w-[54px] md:w-[64px]' },
-    { src: '/assets/images/cta/the-spirt.webp', alt: 'The Spirit of Nashville award', w: 'w-[54px] md:w-[64px]' },
-    { src: '/assets/images/cta/bbb-rating.webp', alt: 'BBB accredited business', w: 'w-[86px] md:w-[102px]' },
-];
-
-/** Industry-association marks for the marquee. USDOT has no logo asset, so it
- *  rides along as a small text tile. */
-type AssocItem =
-    | { kind: 'img'; src: string; alt: string; w: string }
-    | { kind: 'text'; label: string };
+/** Industry-association items for the certifications grid. */
+interface AssocItem {
+    tag: string;
+    title: string;
+    description: string;
+    badge?: { src: string; alt: string; w: string };
+    badges?: { src: string; alt: string; w: string }[];
+    isUsdot?: boolean;
+}
 
 const ASSOCIATIONS: AssocItem[] = [
-    { kind: 'img', src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', w: 'w-[110px] md:w-[130px]' },
-    { kind: 'img', src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', w: 'w-[110px] md:w-[130px]' },
-    { kind: 'img', src: '/assets/images/cta/mbe-certified.webp', alt: 'MBE certified', w: 'w-[54px] md:w-[64px]' },
-    { kind: 'img', src: '/assets/images/cta/national-minority.webp', alt: 'NMSDC certified', w: 'w-[76px] md:w-[90px]' },
-    { kind: 'text', label: 'USDOT Registered' },
+    {
+        tag: 'OAAA Member',
+        title: 'OAAA Membership',
+        description: 'Official OAAA membership.',
+        badge: { src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', w: 'w-[100px] md:w-[120px]' },
+    },
+    {
+        tag: 'Accreditation',
+        title: 'GeoPath & OAAA Accredited',
+        description: 'Accredited by GeoPath and the OAAA;',
+        badges: [
+            { src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', w: 'w-[90px] md:w-[105px]' },
+            { src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA accredited', w: 'w-[90px] md:w-[105px]' },
+        ],
+    },
+    {
+        tag: 'MBE Certified',
+        title: 'Minority Business Enterprise',
+        description: 'Certified Minority Business Enterprise (MBE) — NMSDC/WRMSDC certificate #WR05284; NAICS 541850 (Outdoor Advertising).',
+        badges: [
+            { src: '/assets/images/cta/mbe-certified.webp', alt: 'MBE certified', w: 'w-[44px] md:w-[52px]' },
+            { src: '/assets/images/cta/national-minority.webp', alt: 'NMSDC certified', w: 'w-[68px] md:w-[80px]' },
+        ],
+    },
+    {
+        tag: 'USDOT Fleet',
+        title: 'USDOT-Registered Fleet Partners',
+        description: 'USDOT-registered fleet partners with strict safety & branding standards;',
+        isUsdot: true,
+    },
 ];
 
 export default function CtaSection() {
@@ -95,41 +112,6 @@ export default function CtaSection() {
                 }
             );
 
-            /* ── Badges ──────────────────────────────────────────────────
-               Each mark is wiped open from the bottom with a clip-path while
-               it lifts and un-blurs, so the row assembles left-to-right like
-               a seal being stamped rather than a plain fade. */
-            gsap.fromTo(
-                '[data-badge]',
-                { clipPath: 'inset(100% 0% 0% 0%)', y: 26, filter: 'blur(6px)' },
-                {
-                    clipPath: 'inset(0% 0% 0% 0%)',
-                    y: 0,
-                    filter: 'blur(0px)',
-                    duration: 0.75,
-                    stagger: 0.09,
-                    ease: 'power3.out',
-                    scrollTrigger: { trigger: '[data-badge-row]', start: 'top 88%', once: true },
-                }
-            );
-
-            // The hairline above the row draws out from the centre first.
-            gsap.from('[data-badge-rule]', {
-                scaleX: 0,
-                duration: 0.9,
-                ease: 'power2.inOut',
-                scrollTrigger: { trigger: '[data-badge-row]', start: 'top 92%', once: true },
-            });
-
-            // The label fades up just ahead of the marks.
-            gsap.from('[data-badge-label]', {
-                y: 14,
-                autoAlpha: 0,
-                duration: 0.6,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: '[data-badge-row]', start: 'top 90%', once: true },
-            });
-
             // Industry-associations block — heading first, then the cards cascade.
             gsap.from('[data-assoc-heading]', {
                 y: 14,
@@ -154,11 +136,6 @@ export default function CtaSection() {
            curved corners reveal a seamless continuation rather than a mismatched
            edge. Must stay in step with WhyChooseUs above and Footer below. */
         <div ref={rootRef} className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
-            <style>{`
-                @keyframes cta-assoc-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-                .cta-assoc-track { animation: cta-assoc-marquee 26s linear infinite; }
-                @media (prefers-reduced-motion: reduce) { .cta-assoc-track { animation: none; } }
-            `}</style>
             {/* Elliptical top corners — the curve runs far wider than it drops, so it
                 reads as one long sweep into the flat middle rather than a rounded box. */}
             <div className="relative w-full overflow-hidden rounded-t-[30px] lg:rounded-t-[40px] bg-[#FCD119] px-3 md:px-5 lg:px-6 py-[50px] md:py-[80px] lg:py-[100px] md:rounded-t-[90px] md:px-14 xl:py-[140px]">
@@ -208,81 +185,80 @@ export default function CtaSection() {
                     </div>
                 </div>
 
-                {/* ---------------- Accreditations ---------------- */}
+                {/* ---------------- Industry Associations & Certifications ---------------- */}
                 <div
-                    data-badge-row
-                    className="relative z-10 mx-auto mt-12 w-full max-w-[1100px] md:mt-16 lg:mt-20"
-                >
-                    <span
-                        data-badge-rule
-                        aria-hidden="true"
-                        className="mx-auto block h-px w-full max-w-[720px] bg-black/15"
-                    />
-
-                    <p
-                        data-badge-label
-                        className="mt-6 text-center font-tommy-regular text-[10.5px] uppercase tracking-[3px] text-black/50 md:text-[11.5px]"
-                    >
-                        Accredited &amp; independently verified
-                    </p>
-
-                    <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-6 md:mt-9 md:gap-x-11">
-                        {BADGES.map((b) => (
-                            <li key={b.src} className="flex items-center">
-                                <img
-                                    data-badge
-                                    src={b.src}
-                                    alt={b.alt}
-                                    loading="lazy"
-                                    /* mix-blend-multiply drops each mark's white box
-                                       onto the yellow ground without needing cut-outs. */
-                                    className={`${b.w} h-auto object-contain opacity-80 mix-blend-multiply transition-all duration-300 hover:scale-[1.06] hover:opacity-100`}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* ---------------- Industry Associations ---------------- */}
-                {/* <div
                     data-assoc-row
-                    className="relative z-10 mx-auto mt-14 w-full max-w-[1100px] md:mt-20"
+                    className="relative z-10 mx-auto mt-8 w-full max-w-[880px] md:mt-12"
                 >
                     <h3
                         data-assoc-heading
-                        className="text-center font-tommy-bold text-[22px] leading-tight tracking-[-1px] text-black md:text-[30px]"
+                        className="text-center font-tommy-bold text-[18px] leading-tight tracking-[-0.5px] text-black md:text-[22px]"
                     >
-                        Industry Associations &amp; Accreditations
+                        Industry Associations &amp; Credentials
                     </h3>
 
-                <div
-                    data-assoc-marquee
-                    className="mt-8 w-full overflow-hidden md:mt-10"
-                    style={{ maskImage: 'linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)' }}
-                >
-                    <div className="cta-assoc-track flex w-max items-center gap-x-12 md:gap-x-20">
-                        {[...ASSOCIATIONS, ...ASSOCIATIONS].map((a, i) =>
-                            a.kind === 'img' ? (
-                                <img
-                                    key={i}
-                                    src={a.src}
-                                    alt={a.alt}
-                                    loading="lazy"
-                                    className={`${a.w} h-auto shrink-0 object-contain opacity-80 mix-blend-multiply`}
-                                />
-                            ) : (
-                                <span
-                                    key={i}
-                                    className="shrink-0 whitespace-nowrap rounded-full border border-black/25 px-4 py-1.5 font-tommy-medium text-[12px] uppercase tracking-[2px] text-black/70 md:text-[13px]"
-                                >
-                                    {a.label}
-                                </span>
-                            )
-                        )}
+                    <div
+                        data-assoc-marquee
+                        className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2 md:mt-6 md:gap-3.5"
+                    >
+                        {ASSOCIATIONS.map((assoc, idx) => (
+                            <div
+                                key={idx}
+                                className="flex items-center gap-3.5 rounded-xl border border-black/15 bg-black/5 p-3 md:p-3.5 backdrop-blur-sm transition-all duration-300 hover:border-black/30 hover:bg-black/10 hover:shadow-sm"
+                            >
+                                {/* Left Logo / Badge Icon */}
+                                <div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-lg border border-black/10 bg-black/5 p-1.5 md:h-[76px] md:w-[76px]">
+                                    {assoc.badge && (
+                                        <img
+                                            src={assoc.badge.src}
+                                            alt={assoc.badge.alt}
+                                            loading="lazy"
+                                            className="max-h-12 w-auto object-contain mix-blend-multiply opacity-90"
+                                        />
+                                    )}
+                                    {assoc.badges && (
+                                        <div className="flex flex-col items-center justify-center gap-1">
+                                            {assoc.badges.map((b, bIdx) => (
+                                                <img
+                                                    key={bIdx}
+                                                    src={b.src}
+                                                    alt={b.alt}
+                                                    loading="lazy"
+                                                    className="max-h-6 w-auto object-contain mix-blend-multiply opacity-90"
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+                                    {assoc.isUsdot && (
+                                        <div className="flex flex-col items-center justify-center text-center">
+                                            <svg className="h-6 w-6 text-black/75" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                            </svg>
+                                            <span className="mt-0.5 font-tommy-bold text-[9px] uppercase tracking-wider text-black/80">
+                                                USDOT
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Right Text Details */}
+                                <div className="min-w-0 flex-1">
+                                    <span className="inline-block rounded-full bg-black/10 px-2 py-0.5 font-tommy-medium text-[9.5px] uppercase tracking-wider text-black/75">
+                                        {assoc.tag}
+                                    </span>
+                                    <h4 className="mt-1 font-tommy-bold text-[14px] leading-snug text-black md:text-[15px]">
+                                        {assoc.title}
+                                    </h4>
+                                    <p className="mt-0.5 font-tommy-regular text-[11.5px] leading-snug text-black/75 md:text-[12px]">
+                                        {assoc.description}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </div> */}
             </div>
-        </div >
+        </div>
     );
 }
+
