@@ -9,7 +9,9 @@ import AdvertisingLeader from '@/components/AdvertisingLeader';
 import SecondSection from '@/components/SecondSection';
 import TruckExperience from '@/components/TruckExperience';
 import CinematicStory from '@/components/CinematicStory';
-import MarketsCoverage from '@/components/MarketsCoverage';
+// V2 replaces the map + moving-truck sequence with the pinned market roll call.
+// The original stays in the tree, unused, in case the map is wanted again.
+import MarketsCoverageV2 from '@/components/MarketsCoverageV2';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import CtaSection from '@/components/CtaSection';
 import Footer from '@/components/Footer';
@@ -36,8 +38,8 @@ export default function Home() {
         </div>
         <AdvertisingLeader />
         <TruckExperience />
-        <MarketsCoverage />
-        <CaseStudySection />
+        <MarketsCoverageV2 />
+        {/* <CaseStudySection /> */}
         <WhyChooseUs />
         <CtaSection />
         {/* <Process /> */}

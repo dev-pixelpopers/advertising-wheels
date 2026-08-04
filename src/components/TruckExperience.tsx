@@ -186,7 +186,7 @@ export default function TruckExperience() {
             `}</style>
 
             {/* Sticky visual stage (no gsap pin) */}
-            <div className="sticky top-0 h-screen w-full overflow-hidden">
+            <div className="sticky top-[8%] h-screen w-full overflow-hidden">
 
                 {/* HEADING — built on the Hero's tier system: a small tracked label
                     over an oversized uppercase line, cream on a darkened plate, with
@@ -230,20 +230,10 @@ export default function TruckExperience() {
                     />
                 </div>
 
-                {/* LEGIBILITY VEIL — the same device the Hero uses, bottom only.
-                    The three plates behind this section run from a pale studio shot
-                    to a dusk street to a bright stats board, so no single text
-                    colour survives all of them. Rather than fighting that with
-                    per-slide colours and shadows, the photography is eased down
-                    where the subtitles sit and the type is simply always cream.
-                    Kept light — enough separation to read against, not so much that
-                    it reads as a black band. Sits at z-5: above the plates, below
-                    the truck (z-10) and pins (z-20), so only the backdrop is
-                    touched and the subject stays crisp. The heading at the top
-                    needs no veil — that area of every plate is already dark. */}
+
                 <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[48%]"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[30%]"
                     style={{ background: 'linear-gradient(0deg, rgba(8,8,10,0.62) 0%, rgba(8,8,10,0.34) 42%, rgba(8,8,10,0) 100%)' }}
                 />
 
@@ -302,7 +292,7 @@ export default function TruckExperience() {
                 {/* STATS BAR — appears with stats.png, positioned bottom of screen above subtitle text */}
                 <div
                     ref={statsBarRef}
-                    className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-6 transition-colors duration-300 pointer-events-auto"
+                    className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto"
                 >
                     <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-4 md:gap-y-0">
                         {/* Item 1: TOTAL IMPRESSIONS */}
@@ -414,8 +404,8 @@ export default function TruckExperience() {
                     caret. All three share one ramp so nothing resizes as they swap,
                     and all three are the same colour because the veil above has
                     already made the plate behind them consistent. */}
-                <div className="absolute bottom-[9%] left-0 z-30 w-full flex justify-center px-6 pointer-events-none">
-                    <div className="relative text-center">
+                <div className="absolute bottom-[9%] top-[78%] left-0 z-30 w-full flex justify-center px-6 pointer-events-none">
+                    <div className="relative text-center w-full">
                         <div ref={sub1Ref} className="absolute inset-0 flex flex-col items-center justify-center">
                             <span className={SUB_LABEL}>01 — Wrap</span>
                             <p className={SUB_TYPE}>
@@ -430,7 +420,7 @@ export default function TruckExperience() {
                                 <span aria-hidden="true" className={SUB_CARET} />
                             </p>
                         </div>
-                        <div ref={sub3Ref} className="flex flex-col items-center justify-center">
+                        <div ref={sub3Ref} className="flex flex-col items-center pt-5 justify-center">
                             <span className={SUB_LABEL}>03 — Measure</span>
                             <p className={SUB_TYPE}>
                                 Measured in <span className={SUB_ACCENT}>real time.</span>

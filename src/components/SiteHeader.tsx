@@ -42,11 +42,10 @@ export default function SiteHeader() {
     return (
         <header className="fixed inset-x-0 top-0 z-[100] w-full">
             <div
-                className={`w-full transition-all duration-300 ${
-                    scrolled || menuOpen
+                className={`w-full transition-all duration-300 ${scrolled || menuOpen
                         ? 'border-b border-black/10 bg-[#EEE8D9]/85 backdrop-blur-xl dark:border-white/10 dark:bg-[#0A0A0A]/85'
                         : 'border-b border-transparent bg-transparent'
-                }`}
+                    }`}
             >
                 <div className="flex w-full items-center justify-between px-6 py-4 md:px-[60px] md:py-5">
                     {/* Wordmark → home */}
@@ -58,29 +57,28 @@ export default function SiteHeader() {
                     <div className="flex items-center gap-8">
                         {/* Desktop nav */}
                         <nav className="hidden items-center gap-8 lg:flex">
-                        {NAV_LINKS.map((l) => {
-                            const active = isActive(l.href);
-                            return (
-                                <Link
-                                    key={l.href}
-                                    href={l.href}
-                                    className={`sh-link font-tommy-regular text-[15px] transition-colors duration-300 ${
-                                        active
-                                            ? 'text-[#C8992B] dark:text-[#FCD119]'
-                                            : 'text-[#6F6A60] hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white'
-                                    }`}
-                                    aria-current={active ? 'page' : undefined}
-                                    data-active={active ? 'true' : undefined}
-                                >
-                                    {l.label}
-                                </Link>
-                            );
-                        })}
-                    </nav>
+                            {NAV_LINKS.map((l) => {
+                                const active = isActive(l.href);
+                                return (
+                                    <Link
+                                        key={l.href}
+                                        href={l.href}
+                                        className={`sh-link font-tommy-regular text-[15px] transition-colors duration-300 ${active
+                                                ? 'text-[#C8992B] dark:text-[#FCD119]'
+                                                : 'text-[#6F6A60] hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white'
+                                            }`}
+                                        aria-current={active ? 'page' : undefined}
+                                        data-active={active ? 'true' : undefined}
+                                    >
+                                        {l.label}
+                                    </Link>
+                                );
+                            })}
+                        </nav>
 
-                    <div className="flex items-center gap-3">
-                        {/* Theme toggle */}
-                        <button
+                        <div className="flex items-center gap-3">
+                            {/* Theme toggle */}
+                            {/* <button
                             onClick={toggleTheme}
                             aria-label="Toggle theme"
                             className="relative flex h-8 w-16 items-center justify-between rounded-full border border-black/15 bg-black/[0.06] px-1 shadow-inner transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#FCD119] dark:border-white/20 dark:bg-white/10"
@@ -102,32 +100,31 @@ export default function SiteHeader() {
                             <span
                                 className={`absolute left-1 h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out dark:bg-[#FCD119] ${theme === 'dark' ? 'translate-x-8' : 'translate-x-0'}`}
                             />
-                        </button>
+                        </button> */}
 
-                        {/* Mobile menu toggle */}
-                        <button
-                            onClick={() => setMenuOpen((v) => !v)}
-                            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-                            aria-expanded={menuOpen}
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/15 text-[#1A1917] lg:hidden dark:border-white/15 dark:text-white"
-                        >
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                {menuOpen ? (
-                                    <path d="M3 3l12 12M15 3L3 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                                ) : (
-                                    <path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                                )}
-                            </svg>
-                        </button>
+                            {/* Mobile menu toggle */}
+                            <button
+                                onClick={() => setMenuOpen((v) => !v)}
+                                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                                aria-expanded={menuOpen}
+                                className="flex h-10 w-10 items-center justify-center rounded-full border border-black/15 text-[#1A1917] lg:hidden dark:border-white/15 dark:text-white"
+                            >
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                    {menuOpen ? (
+                                        <path d="M3 3l12 12M15 3L3 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                                    ) : (
+                                        <path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                                    )}
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 {/* Mobile slide-down panel */}
                 <div
-                    className={`overflow-hidden transition-[max-height,opacity] duration-400 lg:hidden ${
-                        menuOpen ? 'max-h-[420px] opacity-100' : 'max-h-0 opacity-0'
-                    }`}
+                    className={`overflow-hidden transition-[max-height,opacity] duration-400 lg:hidden ${menuOpen ? 'max-h-[420px] opacity-100' : 'max-h-0 opacity-0'
+                        }`}
                 >
                     <nav className="flex flex-col gap-1 px-6 pb-6 pt-2">
                         {NAV_LINKS.map((l) => {
@@ -136,11 +133,10 @@ export default function SiteHeader() {
                                 <Link
                                     key={l.href}
                                     href={l.href}
-                                    className={`flex items-center justify-between rounded-xl px-4 py-3.5 font-tommy-medium text-[17px] transition-colors duration-200 ${
-                                        active
+                                    className={`flex items-center justify-between rounded-xl px-4 py-3.5 font-tommy-medium text-[17px] transition-colors duration-200 ${active
                                             ? 'bg-[#FCD119]/15 text-[#C8992B] dark:text-[#FCD119]'
                                             : 'text-[#3A3730] hover:bg-black/[0.04] dark:text-[#CFCABF] dark:hover:bg-white/[0.05]'
-                                    }`}
+                                        }`}
                                 >
                                     {l.label}
                                     <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="opacity-40">

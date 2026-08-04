@@ -93,7 +93,7 @@ export default function Header({ scrolledHero }: { scrolledHero?: Boolean }) {
 
                         <div className="flex items-center gap-3">
                             {/* Theme toggle */}
-                            <button
+                            {/* <button
                                 onClick={toggleTheme}
                                 aria-label="Toggle theme"
                                 className="relative flex h-8 w-16 items-center justify-between rounded-full border border-black/15 bg-black/[0.06] px-1 shadow-inner transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#FCD119] dark:border-white/20 dark:bg-white/10"
@@ -115,7 +115,7 @@ export default function Header({ scrolledHero }: { scrolledHero?: Boolean }) {
                                 <span
                                     className={`absolute left-1 h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out dark:bg-[#FCD119] ${theme === 'dark' ? 'translate-x-8' : 'translate-x-0'}`}
                                 />
-                            </button>
+                            </button> */}
 
                             {/* Mobile menu toggle */}
                             <button

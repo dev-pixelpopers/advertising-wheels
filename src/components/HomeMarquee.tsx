@@ -7,7 +7,7 @@ const LOGO_DIR = '/assets/images/review/logo';
 type LogoEntry = string | { light: string; dark: string };
 
 const ROW_1_LOGOS: LogoEntry[] = [
-    { light: 'partner-saks-white.png', dark: 'partner-saks-dark.png' },
+    { light: 'partner-saks-white.webp', dark: 'partner-saks-dark.webp' },
     'partner-staywell.png',
     'partner-vw.png',
     'partner-wendys.png',
@@ -24,6 +24,7 @@ const ROW_2_LOGOS: LogoEntry[] = [
     'partner-outer.png',
     'partner-floor-decor.png',
     'partner-titan.png',
+    'partner-saks-white.webp'
 ];
 
 /**

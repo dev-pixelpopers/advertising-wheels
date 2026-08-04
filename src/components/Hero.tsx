@@ -470,7 +470,7 @@ export default function Hero({ isReady }: HeroProps) {
                     data-cta-line='1'
                     className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[clamp(2rem,7vw,5.5rem)]'
                   >
-                    Out-of-home
+                    Unskippable on the street.
                     <span
                       data-caret='1'
                       aria-hidden='true'
@@ -480,9 +480,8 @@ export default function Hero({ isReady }: HeroProps) {
 
                   {/* TIER 2 — the claim */}
                   <p className='mt-[0.18em] font-tommy-medium capitalize leading-[1.15] text-[clamp(1.35rem,4.6vw,3.6rem)]'>
-                    <span data-cta-part data-cta-line='2'>That works like </span>
+                    <span data-cta-part data-cta-line='2'>Measurable like a screen </span>
                     <span data-cta-part data-cta-line='2' className='font-tommy-bold italic text-[#FCD119]'>
-                      online
                     </span>
                     <span
                       data-caret='2'
@@ -492,8 +491,8 @@ export default function Hero({ isReady }: HeroProps) {
                   </p>
 
                   {/* TIER 3 — the method */}
-                  <p className='mt-[0.75em] font-tommy-regular uppercase leading-[1.15] tracking-[0.14em] text-white/85 text-[clamp(0.9rem,2.15vw,1.65rem)]'>
-                    <span data-cta-part data-cta-line='3'>Measure your reach, then extend it online</span>
+                  <p className='mt-[0.75em] font-tommy-regular uppercase leading-[1.15] tracking-[0.14em] text-white/85 text-[clamp(0.7rem,2.08vw,1.45rem)]'>
+                    <span data-cta-part data-cta-line='3'>GPS-enabled billboard trucks that capture real impressions data -<br /> so you can retarget every viewer online</span>
                     <span
                       data-caret='3'
                       aria-hidden='true'
