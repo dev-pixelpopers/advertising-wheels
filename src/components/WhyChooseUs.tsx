@@ -265,11 +265,8 @@ export default function WhyChooseUs() {
         setIsMobile(window.innerWidth <= 768);
     }, [])
 
-    // Swapping the palette only re-renders colour props; GSAP owns transform /
-    // opacity / visibility, and React's style diffing leaves those untouched —
-    // so toggling the theme mid-scroll can't disturb the timeline.
-    const { theme } = useTheme();
-    const p = theme === 'dark' ? DARK : LIGHT;
+    // const { theme } = useTheme();
+    const p = LIGHT;
 
     useGSAP(
         () => {
