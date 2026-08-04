@@ -204,7 +204,7 @@ export default function CtaSection() {
                         {ASSOCIATIONS.map((assoc, idx) => (
                             <div
                                 key={idx}
-                                className="flex items-center gap-3.5 rounded-xl border border-black/15 bg-black/5 p-3 md:p-3.5 backdrop-blur-sm transition-all duration-300 hover:border-black/30 hover:bg-black/10 hover:shadow-sm"
+                                className="flex items-center gap-3.5 rounded-xl border border-black/15 bg-black/5 p-2 md:p-3.5 backdrop-blur-sm transition-all duration-300 hover:border-black/30 hover:bg-black/10 hover:shadow-sm"
                             >
                                 {/* Left Logo / Badge Icon */}
                                 <div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-lg border border-black/10 bg-black/5 p-1.5 md:h-[76px] md:w-[76px]">

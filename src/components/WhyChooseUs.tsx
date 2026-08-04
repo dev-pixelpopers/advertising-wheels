@@ -25,7 +25,7 @@
  * timeline stays at 60fps with no WebGL cost.
  */
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -106,11 +106,7 @@ const CHAPTERS = [
     },
 ];
 
-const PINS = [
-    { label: 'Manhattan, NY', left: '16%', top: '16%' },
-    { label: 'Chicago, IL', left: '44%', top: '8%' },
-    { label: 'Los Angeles, CA', left: '68%', top: '18%' },
-];
+
 
 /* Social-burst particles: position (viewport %) near the tires. */
 const PARTICLES = [
@@ -257,6 +253,18 @@ export default function WhyChooseUs() {
     const screenRef = useRef<HTMLDivElement>(null);
     const impressionsRef = useRef<HTMLSpanElement>(null);
 
+    const [isMobile, setIsMobile] = useState<Boolean>(false);
+
+    const PINS = [
+        { label: 'Manhattan, NY', left: !isMobile ? '16%' : "8%", top: '16%' },
+        { label: 'Chicago, IL', left: !isMobile ? '44%' : "35%", top: '8%' },
+        { label: 'Los Angeles, CA', left: !isMobile ? '68%' : '55%', top: '18%' },
+    ];
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth <= 768);
+    }, [])
+
     // Swapping the palette only re-renders colour props; GSAP owns transform /
     // opacity / visibility, and React's style diffing leaves those untouched —
     // so toggling the theme mid-scroll can't disturb the timeline.
@@ -342,8 +350,8 @@ export default function WhyChooseUs() {
             // Camera pulls back.
             tl.to(q('.wcu-truckstage'), { scale: 0.78, y: 26, duration: 0.3 }, 2.02);
             // Ghost fleet fans out symmetrically behind the hero truck.
-            tl.fromTo(q('.wcu-ghost--l'), { autoAlpha: 0, x: 0, scale: 0.7 }, { autoAlpha: 0.5, x: -150, scale: 0.82, duration: 0.3 }, 2.12);
-            tl.fromTo(q('.wcu-ghost--r'), { autoAlpha: 0, x: 0, scale: 0.7 }, { autoAlpha: 0.5, x: 150, scale: 0.82, duration: 0.3 }, 2.12);
+            tl.fromTo(q('.wcu-ghost--l'), { autoAlpha: 0, xPercent: 0, scale: 0.7 }, { autoAlpha: 0.5, xPercent: -50, scale: 0.82, duration: 0.3 }, 2.12);
+            tl.fromTo(q('.wcu-ghost--r'), { autoAlpha: 0, xPercent: 0, scale: 0.7 }, { autoAlpha: 0.5, xPercent: 57, scale: 0.82, duration: 0.3 }, 2.12);
             // Geo pins pop above the fleet.
             tl.fromTo(
                 q('.wcu-pin'),
@@ -405,7 +413,7 @@ export default function WhyChooseUs() {
                         needs the section's own ground — taken from the palette, not a
                         hard-coded cream, or it stays light in dark mode. */}
                     <div className="relative z-[100] shrink-0" style={{ backgroundColor: p.ink }}>
-                        <h2 className="wcu-intro-item font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[46px]" style={{ color: p.text }}>
+                        <h2 className="wcu-intro-item font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[clamp(1.75rem,3vw,2.875rem)]" style={{ color: p.text }}>
                             Why Choose Us<span style={{ color: p.accent }}>.</span>
                         </h2>
                         <p className="wcu-intro-item mt-3 max-w-[430px] font-tommy-regular text-[14px] leading-[1.6] md:text-[15px]" style={{ color: p.muted }}>
@@ -426,7 +434,7 @@ export default function WhyChooseUs() {
                                 <p className="font-tommy-medium text-[12px] uppercase tracking-[4px]" style={{ color: p.accent }}>
                                     {ch.tag}
                                 </p>
-                                <h3 className="mt-3 font-tommy-bold text-[25px] md:text-[30px] lg:text-[56px] leading-[1.02] tracking-[-1px] md:tracking-[-2px]" style={{ color: p.text }}>
+                                <h3 className="mt-3 font-tommy-bold text-[25px] md:text-[clamp(2rem,3.6vw,3.5rem)] leading-[1.02] tracking-[-1px] md:tracking-[-2px]" style={{ color: p.text }}>
                                     {i === 0
                                         ? // CH.01 headline is split for the letter-stagger.
                                         ch.title.split('').map((c, j) => (
@@ -447,7 +455,7 @@ export default function WhyChooseUs() {
                 {/* ------------------------------------------------ */}
                 {/* RIGHT (55%): the visualization viewport           */}
                 {/* ------------------------------------------------ */}
-                <div className="relative order-1 h-[50vh] lg:h-full w-full md:w-[55%] md:order-2 md:h-full mx-auto lg:my-auto xl:my-0 ">
+                <div className="relative order-1 h-[50vh] lg:h-full w-full md:w-[80%] md:order-2 md:h-full mx-auto lg:my-auto xl:my-0 ">
                     {/* Minimalist gray grid backdrop */}
                     {/* <div
                         className="absolute inset-0"
@@ -470,17 +478,17 @@ export default function WhyChooseUs() {
                     <div className="absolute inset-[12%] [perspective:1200px]">
                         <div className="wcu-truckstage relative h-full w-full will-change-transform">
                             {/* Ghost fleet (phase 3) — behind the hero truck */}
-                            <div className="wcu-ghost wcu-ghost--l absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
+                            <div className="wcu-ghost wcu-ghost--l absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform  w-[200px] md:w-auto">
                                 <TruckSide mode="ghost" p={p} />
                             </div>
-                            <div className="wcu-ghost wcu-ghost--r absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
+                            <div className="wcu-ghost wcu-ghost--r absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform  w-[200px] md:w-auto">
                                 <TruckSide mode="ghost" p={p} />
                             </div>
                             {/* Hero truck: three material states, crossfaded */}
                             <div className="wcu-truck-iso absolute inset-x-[4%] top-1/2 -translate-y-1/2 will-change-transform">
                                 <TruckIso p={p} />
                             </div>
-                            <div className="wcu-truck-side absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
+                            <div className="wcu-truck-side absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform w-[200px] md:w-auto">
                                 <TruckSide mode="solid" p={p} />
                             </div>
                             <div className="wcu-truck-glass absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
@@ -491,7 +499,7 @@ export default function WhyChooseUs() {
 
                     {/* Phase 1: surface-area measurement flag */}
                     <div className="wcu-flag-stem absolute left-[58%] top-[16%] h-16 w-px" style={{ backgroundColor: p.accent }} />
-                    <div className="wcu-flag-label absolute left-[58%] top-[9%] whitespace-nowrap rounded-[4px] border px-3 py-1.5 font-tommy-medium text-[10px] uppercase tracking-[2px] md:text-[11px]" style={{ borderColor: `${p.accent}88`, color: p.accent, backgroundColor: `${p.ink}cc` }}>
+                    <div className="wcu-flag-label absolute left-[30%] lg:left-[58%] top-[9%] whitespace-nowrap rounded-[4px] border px-3 py-1.5 font-tommy-medium text-[10px] uppercase tracking-[2px] md:text-[11px]" style={{ borderColor: `${p.accent}88`, color: p.accent, backgroundColor: `${p.ink}cc` }}>
                         Surface Area — 600 sq. ft.
                     </div>
 
@@ -517,14 +525,14 @@ export default function WhyChooseUs() {
                     ))}
 
                     {/* Phase 4: telemetry dashboard cards */}
-                    <div className="wcu-card absolute right-[4%] top-[18%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${p.accent}55`, backgroundColor: `${p.ink}b3` }}>
+                    <div className="wcu-card absolute right-[8%] top-[18%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${p.accent}55`, backgroundColor: `${p.ink}b3` }}>
                         <p className="font-tommy-medium text-[10px] uppercase tracking-[2px]" style={{ color: p.muted }}>Telemetry</p>
                         <p className="mt-1 flex items-center gap-2 font-tommy-medium text-[12px] uppercase tracking-[1px]" style={{ color: p.accent }}>
                             <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full" style={{ backgroundColor: p.accent }} />
                             24/7 ACTIVE GPS
                         </p>
                     </div>
-                    <div className="wcu-card absolute bottom-[16%] left-[6%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${p.accent}55`, backgroundColor: `${p.ink}b3` }}>
+                    <div className="wcu-card absolute bottom-[16%] left-[8%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${p.accent}55`, backgroundColor: `${p.ink}b3` }}>
                         <p className="font-tommy-medium text-[10px] uppercase tracking-[2px]" style={{ color: p.muted }}>Impressions</p>
                         <p className="mt-1 font-tommy-bold text-[17px] tracking-[0.5px] tabular-nums" style={{ color: p.accent }}>
                             <span ref={impressionsRef}>Calculating…</span>

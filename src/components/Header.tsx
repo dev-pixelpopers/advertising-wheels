@@ -62,10 +62,10 @@ export default function Header({ scrolledHero }: { scrolledHero?: Boolean }) {
                     : 'border-b border-transparent bg-transparent'
                     }`}
             >
-                <div className="flex w-full items-center justify-between py-2 md:py-3 lg:py-5 px-3 md:px-6 lg:px-[60px] ">
+                <div className="flex w-full items-center justify-between py-1 md:py-2 xl:py-3 2xl:py-4 px-3 md:px-6 lg:px-[60px] ">
                     {/* Wordmark → home */}
                     <Link href="/" aria-label="Advertising Wheels — home" className="shrink-0">
-                        <Logo width={120} height={50} className="w-[60px] md:w-[80px] lg:w-[120px] h-[20px] md:[h-40px] lg:h-[50px]" />
+                        <Logo width={80} height={40} className="w-[60px] md:w-[80px] lg:w-[80px] h-[20px] md:[h-40px] lg:h-[40px]" />
                     </Link>
 
                     {/* Nav + controls grouped to the right, matching the home header */}

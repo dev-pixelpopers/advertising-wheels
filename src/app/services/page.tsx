@@ -117,7 +117,7 @@ function Capabilities() {
     );
 
     return (
-        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-20 transition-colors duration-300 md:py-28 dark:bg-[#0A0A0A]">
+        <section ref={rootRef} className="w-full bg-[#EEE8D9]  transition-colors duration-300 py-10 md:py-16 lg:py-28 dark:bg-[#0A0A0A]">
             <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-y-4 px-6 md:px-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-x-20">
                 {/* Sticky index — desktop only */}
                 <div className="hidden lg:block">
@@ -171,7 +171,7 @@ function Capabilities() {
                         <article
                             key={s.title}
                             id={`svc-${i}`}
-                            className="svc-panel flex min-h-[62vh] flex-col justify-center border-t border-black/10 py-10 first:border-t-0 lg:min-h-[78vh] dark:border-white/10"
+                            className="svc-panel flex min-h-auto lg:min-h-[62vh] flex-col justify-center border-t border-black/10 py-10 first:border-t-0 lg:min-h-[78vh] dark:border-white/10"
                         >
                             <span data-svc-in className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FCD119] text-black">
                                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -228,7 +228,7 @@ function Process() {
     );
 
     return (
-        <section ref={rootRef} className="w-full border-y border-black/10 bg-[#E7E0CE] py-24 text-[#1A1917] transition-colors duration-300 md:py-32 dark:border-white/10 dark:bg-[#141414] dark:text-white">
+        <section ref={rootRef} className="w-full border-y border-black/10 bg-[#E7E0CE]  text-[#1A1917] transition-colors duration-300 py-10 md:py-16 lg:py-32 dark:border-white/10 dark:bg-[#141414] dark:text-white">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <Reveal className="max-w-[720px]" y={30}>
                     <Eyebrow>How it works</Eyebrow>
@@ -243,7 +243,7 @@ function Process() {
                         <div ref={lineRef} className="h-full w-full origin-left bg-[#C8992B] dark:bg-[#FCD119]" />
                     </div>
 
-                    <Reveal className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-10" y={40} stagger={0.14}>
+                    <Reveal className="grid grid-cols-1 gap-y-4 md:gap-y-8 lg:gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-10" y={40} stagger={0.14}>
                         {PROCESS.map((p, i) => (
                             <div key={p.step} className="relative">
                                 <span className="relative z-10 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-[#FCD119] font-tommy-bold text-[20px] text-black">
@@ -275,7 +275,7 @@ const STACK = [
 
 function MeasurementStack() {
     return (
-        <section className="w-full bg-[#EEE8D9] py-24 transition-colors duration-300 md:py-32 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9]  transition-colors duration-300 py-10 md:py-16 lg:py-32 dark:bg-[#0A0A0A]">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <Reveal className="max-w-[760px]" y={30}>
                     <Eyebrow>Measurement stack</Eyebrow>
@@ -290,7 +290,7 @@ function MeasurementStack() {
 
                 <Reveal className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-[20px] border border-black/10 bg-black/10 md:grid-cols-2 dark:border-white/10 dark:bg-white/10" y={40} stagger={0.12}>
                     {STACK.map((s, i) => (
-                        <div key={s.k} className="bg-[#EEE8D9] p-8 transition-colors duration-300 md:p-10 dark:bg-[#0A0A0A]">
+                        <div key={s.k} className="bg-[#EEE8D9] p-4 md:p-6 lg:p-8 transition-colors duration-300 md:p-10 dark:bg-[#0A0A0A]">
                             <span className="font-tommy-regular text-[11px] uppercase tracking-[3px] text-[#C8992B] dark:text-[#FCD119]">
                                 {String(i + 1).padStart(2, '0')}
                             </span>

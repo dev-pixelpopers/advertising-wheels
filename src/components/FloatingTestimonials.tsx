@@ -160,25 +160,25 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
     return (
         <section
             ref={rootRef}
-            className={`relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A] ${embedded ? 'h-full' : ''}`}
+            className={`relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A] pt-[5%] ${embedded ? 'h-full' : ''}`}
         >
             <div
                 ref={frameRef}
                 className={`flex w-full items-center px-3 sm:px-6 md:px-8 lg:px-4 ${embedded ? 'h-full' : 'h-screen h-[100dvh]'}`}
             >
                 {/* Plain container — cards sit straight on the section ground. */}
-                <div className="mx-auto w-full py-2 sm:py-4 md:py-8 lg:max-w-[1440px] lg:py-[7vh]">
+                <div className="mx-auto w-full py-2 sm:py-4 md:py-8 lg:max-w-[1440px] 3xl:py-0 lg:py-[7vh]">
                     {/* ---------------- Header (left aligned) ---------------- */}
                     <div
                         data-tm-head
-                        className="mb-4 sm:mb-6 md:mb-10 px-3 sm:px-5 md:px-8 lg:mb-[5vh] lg:px-[4.5%]"
+                        className="px-3 sm:px-5 md:px-8 mb-[1vh] lg:mb-[2vh] xl:mb-[3vh] 2xl:mb-[4vh] 3xl:mb-[5vh] lg:px-[4.5%]"
                     >
                         <p className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#6F6A60] sm:text-[11px] sm:tracking-[4px] md:text-[12px] dark:text-[#9A968E]">
                             Testimonials
                         </p>
                         {/* No max-width: with one, "it." wrapped onto its own line. The
                             explicit <br/> is the only intended break. */}
-                        <h2 className="mt-2 font-tommy-bold text-[22px] leading-[1.15] tracking-tight text-[#1A1917] sm:text-[30px] md:text-[42px] lg:text-[clamp(30px,3.4vw,52px)] dark:text-white">
+                        <h2 className="3xl:mt-2 font-tommy-bold text-[22px] leading-[100%] 3xl:leading-[1.15] tracking-tight text-[#1A1917] sm:text-[30px] md:text-[42px] lg:text-[clamp(30px,3.4vw,52px)] dark:text-white">
                             Don’t take our word for it.
                             <br />
                             Hear it from our partners<span className="text-[#FCD119]">.</span>
@@ -194,17 +194,17 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                         <div
                             ref={railRef}
                             data-tm-rail
-                            className="flex w-max gap-4 px-3 sm:gap-5 sm:px-5 md:gap-6 md:px-8 lg:px-[4.5%]"
+                            className="flex w-max gap-2 lg:gap-3 xl:gap-4 2xl:gap-5 3xl:gap-6 px-3 sm:px-5  md:px-8 lg:px-[4.5%]"
                         >
                             {TESTIMONIALS.map((t) => (
                                 <figure
                                     key={t.label}
-                                    className="flex w-[275px] shrink-0 flex-col rounded-[18px] bg-white/20 p-5 sm:w-[320px] sm:p-7 md:w-[350px] md:p-8 lg:w-[clamp(300px,23vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] transition-colors duration-300 dark:bg-[#1C1C1C] dark:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
+                                    className="flex w-[220px] shrink-0 flex-col rounded-[18px] bg-white/20 p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 sm:w-[320px]  md:w-[350px] lg:w-[clamp(300px,26vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] transition-colors duration-300 dark:bg-[#1C1C1C] dark:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
                                 >
                                     {/* Client mark on a white chip — the supplied logos are
                                         light-background assets, so the chip keeps them
                                         legible on the dark card too. */}
-                                    <span className="mb-5 inline-flex h-[60px] w-[150px] shrink-0 items-center justify-center overflow-hidden rounded-[14px] bg-white/0 px-3 ring-1 ring-black/[0.08] sm:mb-7 sm:h-[72px] sm:w-[168px] md:mb-8 dark:ring-white/10 p-[10px]">
+                                    <span className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex h-[40px] md:h-[40px] lg:h-[50px] 2xl:h-[60px] w-[90px] md:w-[100px] lg:w-[130px] 2xl:w-[150px] shrink-0 items-center justify-center overflow-hidden rounded-[14px] bg-white/0 px-3 ring-1 ring-black/[0.08] sm:mb-7 sm:h-[72px] sm:w-[168px] md:mb-8 dark:ring-white/10 lg:p-[6px] 2xl:p-[10px]">
                                         {t.logoDark ? (
                                             <>
                                                 <img
@@ -230,13 +230,13 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                         )}
                                     </span>
 
-                                    <blockquote className="font-tommy-regular text-[13px] leading-[1.65] text-[#3A3730] sm:text-[14.5px] sm:leading-[1.72] md:text-[15.5px] dark:text-[#CFCABF]">
+                                    <blockquote className="font-tommy-regular text-[13px] leading-[1.65] text-[#3A3730] sm:text-[14.5px] sm:leading-[1.72] md:text-[clamp(0.875rem,1.1vw,0.96875rem)] dark:text-[#CFCABF]">
                                         “{t.quote}”
                                     </blockquote>
 
                                     {/* Pushes the attribution to the card's foot so every
                                         byline sits on the same line regardless of quote length. */}
-                                    <figcaption className="mt-auto pt-6 sm:pt-8">
+                                    <figcaption className="mt-auto pt-0 3xl:pt-8">
                                         <p className="font-tommy-medium text-[14.5px] text-[#1A1917] sm:text-[16px] dark:text-white">
                                             {t.name}
                                         </p>

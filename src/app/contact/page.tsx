@@ -82,7 +82,7 @@ function ContactHero() {
                 <Rings />
             </div>
 
-            <div className="relative z-10 mx-auto grid w-full max-w-[1320px] grid-cols-1 gap-14 px-6 pb-24 pt-[132px] md:px-12 md:pb-28 md:pt-[190px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+            <div className="relative z-10 mx-auto grid w-full max-w-[1320px] grid-cols-1 gap-14  pb-24 pt-[132px]  px-3 md:px-6 lg:px-12 md:pb-28 md:pt-[190px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
                 {/* Copy */}
                 <div data-ch-copy className="lg:pt-6">
                     <Eyebrow>Get in touch</Eyebrow>
@@ -96,9 +96,9 @@ function ContactHero() {
 
                     <ul className="mt-10 flex flex-col gap-5">
                         {DETAILS.map((d) => (
-                            <li key={d.label} className="flex items-center gap-4">
-                                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] dark:border-white/10 dark:bg-white/[0.05] dark:text-[#FCD119]">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <li key={d.label} className="flex items-center gap-2 md:gap-3 lg:gap-4">
+                                <span className="flex h-6 md:h-8 lg:h-11 w-6 md:w-8 lg:w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] dark:border-white/10 dark:bg-white/[0.05] dark:text-[#FCD119]">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="w-[8px] md:w-[12px] lg:w-[16px] h-[8px] md:h-[12px] lg:h-[16px]">
                                         <path d={d.icon} stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 </span>
@@ -113,7 +113,7 @@ function ContactHero() {
 
                 {/* Form card */}
                 <div data-ch-form className="relative">
-                    <div className="rounded-[26px] border border-black/10 bg-white/60 p-7 shadow-[0_30px_80px_rgba(0,0,0,0.12)] backdrop-blur-sm md:p-10 dark:border-white/10 dark:bg-white/[0.04]">
+                    <div className="rounded-[16px] md:rounded-[20px] lg:rounded-[26px] border border-black/10 bg-white/60 p-4 md:p-7 lg:p-10 shadow-[0_30px_80px_rgba(0,0,0,0.12)] backdrop-blur-sm  dark:border-white/10 dark:bg-white/[0.04]">
                         {sent ? (
                             <div className="flex min-h-[440px] flex-col items-center justify-center text-center">
                                 <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#FCD119] text-black">
@@ -200,7 +200,7 @@ function Faq() {
     const [open, setOpen] = useState<number | null>(0);
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-24 transition-colors duration-300 md:py-32 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9]  transition-colors duration-300 py-12 md:py-20 lg:py-32 dark:bg-[#0A0A0A]">
             <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 px-6 md:px-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
                 <Reveal className="self-start" y={30}>
                     <Eyebrow>Good to know</Eyebrow>
@@ -219,7 +219,7 @@ function Faq() {
                             <div key={f.q} className="border-b border-black/10 dark:border-white/10">
                                 <button
                                     onClick={() => setOpen(isOpen ? null : i)}
-                                    className="flex w-full items-center justify-between gap-6 py-6 text-left"
+                                    className="flex w-full items-center justify-between gap-6 py-3 md:py-4 lg:py-6 text-left"
                                     aria-expanded={isOpen}
                                 >
                                     <span className="font-tommy-medium text-[19px] text-[#1A1917] md:text-[22px] dark:text-white">{f.q}</span>
@@ -264,7 +264,6 @@ export default function ContactPage() {
             />
             <ContactHero />
             <Faq />
-            <Footer />
         </main>
     );
 }

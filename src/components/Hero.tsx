@@ -425,7 +425,7 @@ export default function Hero({ isReady }: HeroProps) {
       <section ref={containerRef} className="relative h-[550vh] w-[100vw] z-70">
         <div className="sticky top-0 h-screen w-full overflow-hidden">
 
-          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-4 md:px-12 lg:px-25 py-[72px] overflow-hidden'>
+          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-4 md:px-8 lg:px-12 2xl:px-20 3xl:px-25 py-[72px] overflow-hidden'>
             {/* Canvas frame sequence — sits above the cream bg, behind the text.
               Hidden at first (only text shows); fades in blurred & scaled down as scroll begins. */}
             <canvas
@@ -468,7 +468,7 @@ export default function Hero({ isReady }: HeroProps) {
                   <h2
                     data-cta-part
                     data-cta-line='1'
-                    className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[clamp(2rem,7vw,5.5rem)]'
+                    className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[clamp(2rem,5vw,5.5rem)]'
                   >
                     Unskippable on the street.
                     <span

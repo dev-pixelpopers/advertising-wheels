@@ -66,9 +66,7 @@ export default function PortalHero({
     const ink = isLight ? '#1A1917' : '#EEE8D9';
     const inkDim = isLight ? 'rgba(26,25,23,.72)' : 'rgba(238,232,217,.8)';
     const accent = isLight ? '#C8992B' : '#FCD119';
-    const scrim = isLight
-        ? 'linear-gradient(180deg, rgba(238,232,217,.74) 0%, rgba(238,232,217,.42) 30%, rgba(238,232,217,.42) 60%, rgba(238,232,217,.82) 100%)'
-        : 'linear-gradient(180deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.30) 30%, rgba(0,0,0,.30) 60%, rgba(0,0,0,.70) 100%)';
+    const scrim = '#0000009e';
     const wordShadow = isLight ? '0 2px 26px rgba(238,232,217,.7)' : '0 2px 30px rgba(0,0,0,.55)';
 
     useGSAP(
@@ -128,7 +126,7 @@ export default function PortalHero({
 
                 {/* Title card — centred. Lead + buttons are positioned absolutely
                     below centre so revealing them never shifts the title. */}
-                <div className="absolute inset-0 z-30 flex flex-col items-center justify-center px-6 text-center">
+                <div className="relative inset-0 z-30 flex flex-col items-center justify-center px-6 text-center h-full gap-3 md:gap-5 lg:gap-7.5">
                     <div ref={titleWrapRef} className="flex flex-col items-center will-change-transform">
                         <span
                             className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-tommy-regular text-[11px] uppercase tracking-[0.3em] md:text-[12.5px]"
@@ -146,11 +144,11 @@ export default function PortalHero({
                         </h1>
                     </div>
 
-                    <div className="absolute inset-x-0 top-[62%] flex flex-col items-center px-6">
+                    <div className="relative inset-x-0 flex flex-col items-center px-6">
                         {lead && (
                             <p
                                 data-banner-in
-                                style={{ opacity: 0, color: inkDim }}
+                                style={{ opacity: 0, color: 'white' }}
                                 className="max-w-[640px] font-tommy-regular text-[clamp(15px,1.8vw,20px)] leading-[1.6]"
                             >
                                 {lead}
@@ -162,7 +160,7 @@ export default function PortalHero({
                                 {primary && (
                                     <a
                                         href={primary.href}
-                                        className="group inline-flex items-center gap-3 rounded-full bg-[#FCD119] px-8 py-4 font-tommy-medium text-[15px] text-[#1A1917] transition-transform duration-300 hover:scale-[1.04]"
+                                        className="group inline-flex items-center gap-3 rounded-full bg-[#FCD119] px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[15px] text-[#1A1917] transition-transform duration-300 hover:scale-[1.04]"
                                     >
                                         {primary.label}
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:translate-x-1">
@@ -173,7 +171,7 @@ export default function PortalHero({
                                 {secondary && (
                                     <a
                                         href={secondary.href}
-                                        className="inline-flex items-center gap-3 rounded-full border-2 px-8 py-4 font-tommy-medium text-[15px] transition-colors duration-300"
+                                        className="inline-flex items-center gap-3 rounded-full border-2 px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[15px] transition-colors duration-300"
                                         style={{ borderColor: isLight ? 'rgba(26,25,23,.4)' : 'rgba(238,232,217,.45)', color: ink }}
                                     >
                                         {secondary.label}

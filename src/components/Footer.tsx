@@ -202,7 +202,7 @@ export default function Footer() {
                     </div>
 
                     {/* ---- Quick links ---- */}
-                    <div data-foot-col className="relative lg:px-12">
+                    <div data-foot-col className="relative lg:px-8 xl:px-12">
                         <span
                             data-foot-rule
                             aria-hidden="true"
@@ -226,7 +226,7 @@ export default function Footer() {
                     </div>
 
                     {/* ---- Newsletter ---- */}
-                    <div data-foot-col className="relative lg:pl-12">
+                    <div data-foot-col className="relative lg:pl-8 xl:pl-12">
                         <span
                             data-foot-rule
                             aria-hidden="true"

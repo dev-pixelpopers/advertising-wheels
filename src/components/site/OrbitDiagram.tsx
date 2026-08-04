@@ -21,7 +21,7 @@
  * the finished orbit renders directly.
  */
 
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -45,6 +45,7 @@ export interface OrbitDiagramProps {
     eyebrow?: ReactNode;
     heading?: ReactNode;
     intro?: ReactNode;
+    isMobile: Boolean;
 }
 
 /** Loose 2×2 starting grid — fractions of the stage's half-width / half-height. */
@@ -63,7 +64,7 @@ const SAT_START = [
  */
 const START_BOX = 148;
 
-export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro }: OrbitDiagramProps) {
+export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMobile }: OrbitDiagramProps) {
     const rootRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
     const stageRef = useRef<HTMLDivElement>(null);
@@ -71,8 +72,19 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro }: Or
     const satRefs = useRef<(HTMLDivElement | null)[]>([]);
     const lineRefs = useRef<(SVGLineElement | null)[]>([]);
 
+    /**
+     * The orbit needs real horizontal room — satellite cards have a 200px
+     * width floor, so on a phone-width stage they crowd into each other and
+     * spill past the edges. Below `md` we skip the pin/orbit geometry
+     * entirely and render a plain stacked list instead (see the JSX below).
+     */
+
+
     useGSAP(
         () => {
+            console.log(isMobile);
+
+            if (isMobile) return;
             const stage = stageRef.current;
             const hubEl = hubRef.current;
             if (!stage || !hubEl) return;
@@ -228,8 +240,94 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro }: Or
             // Hold on the finished diagram before releasing the pin.
             tl.to({}, { duration: 0.35 });
         },
-        { scope: rootRef }
+        { scope: rootRef, dependencies: [isMobile] }
     );
+
+    if (isMobile) {
+        /* Mobile — a plain stacked list. No pin, no absolute orbit geometry;
+           the hub reads as an accent card up top and the satellites follow
+           in a simple grid, all copy shown up front. */
+        return (
+            <section
+                ref={rootRef}
+                className="relative w-full bg-[#EEE8D9] px-3 md:px-4 lg:px-6 py-6 md:py-10 lg:py-16 transition-colors duration-300 dark:bg-[#0A0A0A]"
+            >
+                <div className="mx-auto w-full max-w-[560px]">
+                    {(eyebrow || heading || intro) && (
+                        <div>
+                            {eyebrow}
+                            {heading}
+                            {intro}
+                        </div>
+                    )}
+
+                    <div
+                        className="mt-8 rounded-[22px] bg-[#FCD119] p-6 text-center"
+                        style={{ boxShadow: '0 24px 60px -30px rgba(0,0,0,.4)' }}
+                    >
+                        <div className="mx-auto flex w-fit items-center justify-center [&_path]:!fill-[#1A1917]">
+                            <Logo width={116} height={48} />
+                        </div>
+                        {hub.mono && (
+                            <span className="mt-4 block font-tommy-regular text-[10px] uppercase tracking-[2.5px] text-black/55">
+                                {hub.mono}
+                            </span>
+                        )}
+                        <p className="mt-1.5 font-tommy-bold text-[19px] leading-[1.1] tracking-tight text-black">
+                            {hub.title}
+                        </p>
+                        {hub.role && (
+                            <p className="mt-1 font-tommy-regular text-[10px] uppercase tracking-[1.5px] text-black/60">
+                                {hub.role}
+                            </p>
+                        )}
+                        {hub.body && (
+                            <p className="mx-auto mt-2.5 max-w-[92%] font-tommy-regular text-[12.5px] leading-[1.5] text-black/70">
+                                {hub.body}
+                            </p>
+                        )}
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {nodes.map((nd) => (
+                            <div
+                                key={nd.title}
+                                className="rounded-[20px] border border-black/10 bg-white/90 p-5 text-left shadow-[0_18px_40px_-28px_rgba(0,0,0,.4)] dark:border-white/10 dark:bg-white/[0.06]"
+                            >
+                                <div className="flex items-center gap-2.5">
+                                    {nd.icon && (
+                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FCD119] text-black">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                                <path d={nd.icon} stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                        </span>
+                                    )}
+                                    {nd.mono && (
+                                        <span className="font-tommy-bold text-[10.5px] uppercase tracking-[2px] text-[#C8992B] dark:text-[#FCD119]">
+                                            {nd.mono}
+                                        </span>
+                                    )}
+                                </div>
+                                <p className="mt-3 font-tommy-bold text-[16px] leading-[1.15] tracking-tight text-[#1A1917] dark:text-white">
+                                    {nd.title}
+                                </p>
+                                {nd.role && (
+                                    <p className="mt-1.5 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#8A857C] dark:text-[#9A968E]">
+                                        {nd.role}
+                                    </p>
+                                )}
+                                {nd.body && (
+                                    <p className="mt-3 font-tommy-regular text-[13px] leading-[1.55] text-[#5A554C] dark:text-[#A8A399]">
+                                        {nd.body}
+                                    </p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         /* Tall track — its height IS the scroll distance the pin consumes. */

@@ -56,10 +56,19 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * here; the rendering reads from the classes. A mismatch desynchronises the
  * highlight from the reading line silently.
  */
-const ROW_H = { base: 52, md: 68, lg: 84 };
+const ROW_H = { base: 32, md: 40, lg: 50, "Twxl": 60, "Txl": 84 };
 
+/**
+ * Mirrors the Tailwind breakpoints actually used on the `h-[...]` row
+ * classes below: base < md(768) < lg(1024) < xl(1280) < 3xl(1920, the
+ * project's only custom breakpoint — see `--breakpoint-3xl` in globals.css).
+ * These MUST stay in sync or the index math measures a different row
+ * height than what's on screen, drifting the active row off the line.
+ */
 const rowHeight = () => {
     if (typeof window === 'undefined') return ROW_H.lg;
+    if (window.matchMedia('(min-width: 1920px)').matches) return ROW_H.Txl;
+    if (window.matchMedia('(min-width: 1280px)').matches) return ROW_H.Twxl;
     if (window.matchMedia('(min-width: 1024px)').matches) return ROW_H.lg;
     if (window.matchMedia('(min-width: 768px)').matches) return ROW_H.md;
     return ROW_H.base;
@@ -202,7 +211,7 @@ function MarketDetail({
                 {locked && <ClearButton onClear={onClear} />}
             </div>
 
-            <div className="mt-6 rounded-2xl border border-black/10 bg-black/[0.03] px-5 py-4 dark:border-white/10 dark:bg-white/[0.04]">
+            <div className="mt-2 md:mt-3 lg:mt-5 xl:mt-6 rounded-2xl border border-black/10 bg-black/[0.03] px-3 md:px-4 lg:px-5 py-2 md:py-3 lg:py-4 dark:border-white/10 dark:bg-white/[0.04]">
                 <p className="font-tommy-bold text-[clamp(26px,3vw,40px)] leading-none tabular-nums tracking-[-0.02em] text-[#1A1917] dark:text-[#FCD119]">
                     {fmt(market.impressions)}
                 </p>
@@ -270,14 +279,14 @@ function StateSummary({
                 {group.label}
             </h3>
 
-            <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="mt-2 md:mt-4 lg:mt-6 grid grid-cols-2 gap-2 lg:gap-3">
                 {[
                     { k: compact(group.adults), l: 'Adults 18+' },
                     { k: compact(group.impressions), l: 'Impressions / flight' },
                 ].map((s) => (
                     <div
                         key={s.l}
-                        className="rounded-2xl border border-black/10 bg-black/[0.03] px-4 py-3.5 dark:border-white/10 dark:bg-white/[0.04]"
+                        className="rounded-2xl border border-black/10 bg-black/[0.03] px-2 md:px-3 lg:px-4 py-2 md:py-3 lg:py-3.5 dark:border-white/10 dark:bg-white/[0.04]"
                     >
                         <p className="font-tommy-bold text-[24px] leading-none tabular-nums text-[#1A1917] dark:text-[#FCD119]">
                             {s.k}
@@ -289,12 +298,12 @@ function StateSummary({
                 ))}
             </div>
 
-            <ul className="mt-6 space-y-1">
+            <ul className="mt-2 md:mt-4 lg:mt-6 space-y-1">
                 {group.markets.map((m) => (
                     <li key={m.id}>
                         <button
                             onClick={() => onPick(m)}
-                            className="group flex w-full items-baseline justify-between gap-4 border-b border-black/10 py-3 text-left transition-colors duration-300 last:border-0 dark:border-white/10"
+                            className="group flex w-full items-baseline justify-between gap-4 border-b border-black/10 py-1 md:py-2 lg:py-3 text-left transition-colors duration-300 last:border-0 dark:border-white/10"
                         >
                             <span className="flex min-w-0 items-baseline gap-2.5">
                                 <span className="text-[#C8992B] dark:text-[#FCD119]">↳</span>
@@ -310,7 +319,7 @@ function StateSummary({
                 ))}
             </ul>
 
-            <p className="mt-6 font-tommy-regular text-[10.5px] uppercase tracking-[2px] text-[#8A857C] dark:text-[#9A968E]">
+            <p className="mt-2 md:mt-4 lg:mt-6 font-tommy-regular text-[10.5px] uppercase tracking-[2px] text-[#8A857C] dark:text-[#9A968E]">
                 {many ? 'Click the state to open its markets' : 'Click the state to open the detail'}
             </p>
         </PanelShell>
@@ -649,14 +658,14 @@ export default function MarketsCoverageV2() {
                 </div>
 
                 {/* ============ ACTS 2 + 3 ============ */}
-                <div ref={rollRef} className="absolute inset-0 z-10 flex flex-col">
+                <div ref={rollRef} className="absolute inset-0 z-10 flex flex-col pt-[3%]">
                     {/* Persistent section header.
                         The big intro clears out of the way, but the section still
                         needs to say what it is — losing the title entirely left the
                         roll call floating with no context. This is the same eyebrow
                         and wordmark, set small, and it stays for the whole phase. */}
-                    <div className="shrink-0 px-6 pt-[3.5vh] md:px-12">
-                        <div className="mx-auto flex max-w-[1440px] flex-wrap items-end justify-between gap-x-8 gap-y-4">
+                    <div className="shrink-0 px-4 md:px-8 pt-[15%] md:pt-[10%] lg:pt-[3.5vh] md:px-12">
+                        <div className="mx-auto flex max-w-[1440px] flex-wrap items-end justify-between gap-x-8 gap-y-2 md:gap-y-3 lg:gap-y-4">
                             <div>
                                 <p className="font-tommy-regular text-[9.5px] uppercase tracking-[3.5px] text-[#8A857C] md:text-[11px] dark:text-[#9A968E]">
                                     Markets &amp; Coverage
@@ -674,7 +683,7 @@ export default function MarketsCoverageV2() {
                                         <button
                                             key={r}
                                             onClick={() => changeRegion(r)}
-                                            className={`rounded-full border px-4 py-2 font-tommy-medium text-[11.5px] uppercase tracking-[1.5px] transition-colors duration-300 ${on
+                                            className={`rounded-full border px-2 md:px-3 lg:px-4 py-1 lg:py-2 font-tommy-medium text-[8px] md:text-[11.5px] uppercase tracking-[1.5px] transition-colors duration-300 ${on
                                                 ? 'border-transparent bg-[#1A1917] text-[#FCD119] dark:bg-[#FCD119] dark:text-black'
                                                 : 'border-black/12 text-[#6F6A60] hover:border-[#C8992B]/50 hover:text-[#1A1917] dark:border-white/12 dark:text-[#9A968E] dark:hover:text-white'
                                                 }`}
@@ -689,9 +698,9 @@ export default function MarketsCoverageV2() {
 
                     {/* `min-h-0` so the list column can actually shrink inside the
                         flex parent and its own `overflow-hidden` takes effect. */}
-                    <div className="mx-auto grid min-h-0 w-full max-w-[1440px] flex-1 grid-cols-1 px-6 md:px-12 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-16">
+                    <div className="mx-auto grid min-h-0 w-full max-w-[1440px] flex-1 grid-cols-1 px-4 md:px-8 lg:px-12 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-16">
                         {/* ---------- The rolling list ---------- */}
-                        <div className="relative h-full overflow-hidden">
+                        <div className="relative h-full overflow-hidden min-h-[30vh] lg:min-h-0">
                             {/* The reading line the active row sits on. */}
                             <div
                                 className="pointer-events-none absolute inset-x-0 top-1/2 z-0 flex -translate-y-1/2 items-center gap-4"
@@ -715,8 +724,9 @@ export default function MarketsCoverageV2() {
                             {/* Offset by HALF A ROW, not half the track's own height —
                                 `-translate-y-1/2` would put the middle row on the line at
                                 y=0, but the index maths assumes row zero starts there.
-                                These values are ROW_H / 2 and must stay in step with it. */}
-                            <div className="absolute inset-x-0 top-1/2 z-10 -translate-y-[26px] md:-translate-y-[34px] lg:-translate-y-[42px]">
+                                These values are ROW_H / 2 for EACH breakpoint (16/20/25/30/42)
+                                and must stay in step with both ROW_H and rowHeight(). */}
+                            <div className="absolute inset-x-0 top-1/2 z-10 -translate-y-[16px] md:-translate-y-[20px] lg:-translate-y-[25px] xl:-translate-y-[30px] 3xl:-translate-y-[42px]">
                                 <ul ref={listRef} className="will-change-transform">
                                     {rows.map((row, i) => {
                                         const on = i === activeIdx;
@@ -730,7 +740,7 @@ export default function MarketsCoverageV2() {
                                             // below it.
                                             const inGroup = activeState === g.state;
                                             return (
-                                                <li key={row.key} className="flex h-[52px] items-center md:h-[68px] lg:h-[84px]">
+                                                <li key={row.key} className="flex h-[32px] items-center md:h-[40px] lg:h-[50px] xl:h-[60px] 3xl:h-[84px]">
                                                     <button
                                                         type="button"
                                                         onClick={() => onStateClick(g, i)}
@@ -740,7 +750,7 @@ export default function MarketsCoverageV2() {
                                                             {g.state}
                                                         </span>
 
-                                                        <span className="truncate font-tommy-bold text-[26px] uppercase leading-[1] tracking-[-0.02em] md:text-[40px] lg:text-[clamp(2.75rem,4.4vw,4.25rem)]">
+                                                        <span className="truncate font-tommy-bold text-[26px] uppercase leading-[1] tracking-[-0.02em] md:text-[clamp(2.3rem,3.5vw,4.25rem)]">
                                                             {g.label}
                                                         </span>
 
@@ -768,7 +778,7 @@ export default function MarketsCoverageV2() {
                                         const isLocked = lockedId === m.id;
                                         const inGroup = activeState === m.state;
                                         return (
-                                            <li key={row.key} className="flex h-[52px] items-center md:h-[68px] lg:h-[84px]">
+                                            <li key={row.key} className="flex h-[32px] items-center md:h-[40px] lg:h-[50px] xl:h-[60px] 3xl:h-[84px]">
                                                 <button
                                                     type="button"
                                                     onClick={() => onMarketClick(m)}
@@ -784,7 +794,7 @@ export default function MarketsCoverageV2() {
                                                         ↳
                                                     </span>
 
-                                                    <span className="truncate font-tommy-bold text-[17px] uppercase leading-[1] tracking-[-0.01em] md:text-[26px] lg:text-[clamp(1.6rem,2.4vw,2.25rem)]">
+                                                    <span className="truncate font-tommy-bold text-[17px] uppercase leading-[1] tracking-[-0.01em] md:text-[clamp(1.4rem,1.8vw,2.25rem)]">
                                                         {m.name}
                                                     </span>
 
@@ -806,9 +816,9 @@ export default function MarketsCoverageV2() {
                         </div>
 
                         {/* ---------- Panel ---------- */}
-                        <div className="relative hidden h-full items-center lg:flex">
+                        <div className="relative h-full items-center flex">
                             <div
-                                className={`w-full rounded-[24px] border p-8 transition-colors duration-300 ${lockedId
+                                className={`w-full rounded-[16px] lg:rounded-[24px] border p-3 md:p-4 lg:p-6 xl:p-8 transition-colors duration-300 ${lockedId
                                     ? 'border-[#C8992B]/45 bg-[#E7E0CE] dark:border-[#FCD119]/35 dark:bg-[#141414]'
                                     : 'border-black/10 bg-[#E7E0CE]/60 dark:border-white/10 dark:bg-[#141414]/70'
                                     }`}
