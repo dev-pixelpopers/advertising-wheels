@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light';
 
 interface ThemeContextType {
     theme: Theme;
@@ -18,36 +18,37 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') as Theme | null;
-        if (savedTheme === 'dark' || savedTheme === 'light') {
-            setThemeState(savedTheme);
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        } else {
-            // Check system preference if no saved theme
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (prefersDark) {
-                setThemeState('dark');
-                document.documentElement.classList.add('dark');
-            }
-        }
+        // if (savedTheme === 'dark' || savedTheme === 'light') {
+        //     setThemeState(savedTheme);
+        //     // if (savedTheme === 'dark') {
+        //     //     document.documentElement.classList.add('dark');
+        //     // } else {
+        //     //     document.documentElement.classList.remove('dark');
+        //     // }
+        // } else {
+        //     // Check system preference if no saved theme
+        //     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        //     if (prefersDark) {
+        //         setThemeState('dark');
+        //         document.documentElement.classList.add('dark');
+        //     }
+        // }
+        setThemeState(savedTheme || "light");
         setMounted(true);
     }, []);
 
     const setTheme = (newTheme: Theme) => {
         setThemeState(newTheme);
         localStorage.setItem('theme', newTheme);
-        if (newTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+        // if (newTheme === 'dark') {
+        //     document.documentElement.classList.add('dark');
+        // } else {
+        //     document.documentElement.classList.remove('dark');
+        // }
     };
 
     const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
+        setTheme('light');
     };
 
     return (

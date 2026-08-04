@@ -448,7 +448,7 @@ export default function Hero({ isReady }: HeroProps) {
             />
             <div ref={contentRef} className='w-full h-full flex flex-col justify-center items-center relative z-10'>
               <div ref={headingWrapRef} className='flex flex-col justify-center items-center gap-[3px] md:gap-[5px]'>
-                <span ref={subRef} className='text-center text-[#1A1917] dark:text-[#F5F5F5] font-tommy-bold text-[25px] md:text-[clamp(2.5rem,5vw,4.125rem) capitalize transition-colors duration-300'>We’re where life</span>
+                <span ref={subRef} className='text-center text-[#1A1917] dark:text-[#F5F5F5] font-tommy-bold text-[25px] md:text-[clamp(2.5rem,5vw,4.125rem)] capitalize transition-colors duration-300'>We’re where life</span>
                 <h1 className='text-white font-tommy-bold text-[60px] md:text-[clamp(80px,16.9vw,21.5rem)] leading-[87.21%] flex flex-nowrap'>
                   <span ref={hapRef} className='inline-block'>HAPP</span>
                   <span ref={pensRef} className='inline-block'>ENS<span className='text-[#FCD119]'>.</span></span>
@@ -468,7 +468,7 @@ export default function Hero({ isReady }: HeroProps) {
                   <h2
                     data-cta-part
                     data-cta-line='1'
-                    className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[clamp(2rem,5vw,5.5rem)]'
+                    className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[35px] md:text-[clamp(2rem,5vw,5.5rem)]'
                   >
                     Unskippable on the street.
                     <span
@@ -481,17 +481,17 @@ export default function Hero({ isReady }: HeroProps) {
                   {/* TIER 2 — the claim */}
                   <p className='mt-[0.18em] font-tommy-medium capitalize leading-[1.15] text-[clamp(1.35rem,4.6vw,3.6rem)]'>
                     <span data-cta-part data-cta-line='2'>Measurable like a screen </span>
-                    <span data-cta-part data-cta-line='2' className='font-tommy-bold italic text-[#FCD119]'>
+                    {/* <span data-cta-part data-cta-line='2' className='font-tommy-bold italic text-[#FCD119]'>
                     </span>
                     <span
                       data-caret='2'
                       aria-hidden='true'
                       className='ml-[0.06em] inline-block h-[0.74em] w-[0.05em] translate-y-[0.04em] bg-[#FCD119] align-middle'
-                    />
+                    /> */}
                   </p>
 
                   {/* TIER 3 — the method */}
-                  <p className='mt-[0.75em] font-tommy-regular uppercase leading-[1.15] tracking-[0.14em] text-white/85 text-[clamp(0.7rem,2.08vw,1.45rem)]'>
+                  <p className='mt-[0.75em] font-tommy-regular uppercase leading-[1.15] tracking-[0.14em] text-white/85 text-[12px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
                     <span data-cta-part data-cta-line='3'>GPS-enabled billboard trucks that capture real impressions data -<br /> so you can retarget every viewer online</span>
                     <span
                       data-caret='3'

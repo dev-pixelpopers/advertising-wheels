@@ -164,14 +164,14 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
         >
             <div
                 ref={frameRef}
-                className={`flex w-full items-center px-3 sm:px-6 md:px-8 lg:px-4 ${embedded ? 'h-full' : 'h-screen h-[100dvh]'}`}
+                className={`flex w-full items-center md:px-8 lg:px-4 ${embedded ? 'h-full' : 'h-screen h-[100dvh]'}`}
             >
                 {/* Plain container — cards sit straight on the section ground. */}
                 <div className="mx-auto w-full py-2 sm:py-4 md:py-8 lg:max-w-[1440px] 3xl:py-0 lg:py-[7vh]">
                     {/* ---------------- Header (left aligned) ---------------- */}
                     <div
                         data-tm-head
-                        className="px-3 sm:px-5 md:px-8 mb-[1vh] lg:mb-[2vh] xl:mb-[3vh] 2xl:mb-[4vh] 3xl:mb-[5vh] lg:px-[4.5%]"
+                        className="md:px-8 mb-[1vh] lg:mb-[2vh] xl:mb-[3vh] 2xl:mb-[4vh] 3xl:mb-[5vh] lg:px-[4.5%]"
                     >
                         <p className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#6F6A60] sm:text-[11px] sm:tracking-[4px] md:text-[12px] dark:text-[#9A968E]">
                             Testimonials

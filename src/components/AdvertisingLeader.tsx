@@ -41,13 +41,11 @@ export default function AdvertisingLeader() {
             // 4.5 units this timeline actually uses — leaving it at 3800 would have
             // meant roughly 1200px of scrolling against a finished, static stage.
             const tl = gsap.timeline({
-                defaults: { ease: 'none' },
                 scrollTrigger: {
                     trigger: rootRef.current,
                     start: 'top top',
-                    end: '+=2600',
-                    pin: true,
-                    scrub: 1,
+                    end: 'bottom bottom',
+                    scrub: 1.2,
                 },
             });
 
@@ -84,29 +82,31 @@ export default function AdvertisingLeader() {
     );
 
     return (
-        <div ref={rootRef} className='max-w-[95%] rounded-[20px] h-screen w-full bg-white dark:bg-[#141414] transition-colors duration-300 mx-auto mt-[20px] relative overflow-hidden shadow-sm dark:shadow-black/50'>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
-                <svg
-                    ref={svgRef}
-                    width="800"
-                    height="800"
-                    viewBox="0 0 895 895"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{ overflow: 'visible' }}
-                >
-                    <circle className="layer-1" opacity="0.28" cx="447.5" cy="447.5" r="442.5" stroke="#EEE8D9" strokeWidth="10" />
-                    <circle className="layer-2" opacity="0.22" cx="448" cy="448" r="360" stroke="#EEE8D9" strokeWidth="10" />
-                </svg>
-            </div>
-            {/* THE STATEMENT — own layer, centred on the stage. */}
-            <div ref={textSceneRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-[3%] lg:px-[2%] xl:px-[5%] 2xl:px-[10%]">
-                <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[20px] md:text-[25px] lg:text-[clamp(1.1rem,2.2vw,2.25rem)] leading-[183%] font-tommy-medium text-center capitalize w-full">
-                    Advertising Wheels is the leader in truckside billboard advertising. For 25+ years
-                    <span className="text-[#D5CCB4] dark:text-[#8C8472]"> we’ve helped national and local brands own the street with one of the largest truckside fleets in the country —</span> pairing bold, high-impact creative with GPS-tracked routing and independently verified impressions
-                    <span className="text-[#D5CCB4] dark:text-[#8C8472]"> so every campaign is planned, targeted, and measurable.</span>
-                </p>
-                <a ref={btnRef} className="rounded-[6px] bg-[#282828] dark:bg-[#FCD119] py-[6px] md:py-[10px] lg:py-[12px] px-[20px] md:px-[35px] lg:px-[50px] text-[16px] md:text-[clamp(1.125rem,1.7vw,1.5rem)] leading-[208%] text-[#FCD119] dark:text-black font-tommy-regular w-max mt-[50px] transition-colors duration-300 cursor-pointer">More about us</a>
+        <div ref={rootRef} className='relative h-[250vh] w-full'>
+            <div className='sticky top-0 z-10 w-full h-dvh overflow-hidden rounded-[20px] bg-white dark:bg-[#141414] mx-auto mt-[20px] transition-colors duration-300 shadow-sm dark:shadow-black/50  max-w-[95%]'>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+                    <svg
+                        ref={svgRef}
+                        width="800"
+                        height="800"
+                        viewBox="0 0 895 895"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={{ overflow: 'visible' }}
+                    >
+                        <circle className="layer-1" opacity="0.28" cx="447.5" cy="447.5" r="442.5" stroke="#EEE8D9" strokeWidth="10" />
+                        <circle className="layer-2" opacity="0.22" cx="448" cy="448" r="360" stroke="#EEE8D9" strokeWidth="10" />
+                    </svg>
+                </div>
+                {/* THE STATEMENT — own layer, centred on the stage. */}
+                <div ref={textSceneRef} className="relative w-full h-full inset-0 z-10 flex flex-col items-center justify-center px-[3%] lg:px-[2%] xl:px-[5%] 2xl:px-[10%]">
+                    <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[20px] md:text-[25px] lg:text-[clamp(1.1rem,2.2vw,2.25rem)] leading-[183%] font-tommy-medium text-center capitalize w-full">
+                        Advertising Wheels is the leader in truckside billboard advertising. For 25+ years
+                        <span className="text-[#D5CCB4] dark:text-[#8C8472]"> we’ve helped national and local brands own the street with one of the largest truckside fleets in the country —</span> pairing bold, high-impact creative with GPS-tracked routing and independently verified impressions
+                        <span className="text-[#D5CCB4] dark:text-[#8C8472]"> so every campaign is planned, targeted, and measurable.</span>
+                    </p>
+                    <a ref={btnRef} className="rounded-[6px] bg-[#282828] dark:bg-[#FCD119] py-[6px] md:py-[10px] lg:py-[12px] px-[20px] md:px-[35px] lg:px-[50px] text-[16px] md:text-[clamp(1.125rem,1.7vw,1.5rem)] leading-[208%] text-[#FCD119] dark:text-black font-tommy-regular w-max mt-[50px] transition-colors duration-300 cursor-pointer">More about us</a>
+                </div>
             </div>
 
         </div>

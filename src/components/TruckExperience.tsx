@@ -167,7 +167,7 @@ export default function TruckExperience() {
     );
 
     return (
-        <section ref={rootRef} className="relative h-[400vh] w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A] -mt-[100vh]">
+        <section ref={rootRef} className="relative h-[500vh] w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
             <style>{`
                 @keyframes aw-pulse {
                     0% { box-shadow: 0 0 0 0 rgba(252,209,25,0.55); }
@@ -186,7 +186,7 @@ export default function TruckExperience() {
             `}</style>
 
             {/* Sticky visual stage (no gsap pin) */}
-            <div className="sticky top-[8%] h-screen w-full overflow-hidden">
+            <div className="sticky lg:top-[8%] h-screen w-full overflow-hidden">
 
                 {/* HEADING — built on the Hero's tier system: a small tracked label
                     over an oversized uppercase line, cream on a darkened plate, with
@@ -226,7 +226,7 @@ export default function TruckExperience() {
                     <img
                         src="/assets/images/process/stats.png"
                         alt="Stats background"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover md:object-contain lg:object-cover bg-black object-top"
                     />
                 </div>
 
@@ -292,7 +292,7 @@ export default function TruckExperience() {
                 {/* STATS BAR — appears with stats.png, positioned bottom of screen above subtitle text */}
                 <div
                     ref={statsBarRef}
-                    className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto"
+                    className="absolute bottom-[25%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto"
                 >
                     <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-4 md:gap-y-0">
                         {/* Item 1: TOTAL IMPRESSIONS */}
@@ -322,7 +322,7 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Item 2: TOTAL MILEAGE */}
-                        <div className="flex flex-col justify-between xl:pr-3 px-3 xl:px-5 pt-3 md:pt-0">
+                        <div className="flex flex-col justify-between xl:pr-3 px-3 md:px-2 xl:px-5 pt-3 md:pt-0">
                             <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">

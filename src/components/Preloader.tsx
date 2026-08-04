@@ -6,9 +6,20 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP);
 
-/** Words revealed sequentially; the last one drops onto its own line. */
-const LEAD_WORDS = ['Impression.', 'Impact.', 'ROI.'] as const;
-const FINAL_WORD = 'Repeat.';
+/**
+ * The counter sequence, played back one item at a time in the same slot —
+ * each item rolls up and out as the next rolls up into its place. Numbers
+ * count 1→5, then the sign-off lines land, then the Inc 5000 mark shows.
+ */
+const SEQUENCE = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  'Thank you.',
+  'We did it. 6th time again.',
+] as const;
 
 interface PreloaderProps {
   /** Called once the preloader has fully slid out of view. */
@@ -20,6 +31,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const percentRef = useRef<HTMLSpanElement>(null);
+  /** Two alternating slots the counter rolls between — see the timeline below. */
+  const slotARef = useRef<HTMLSpanElement>(null);
+  const slotBRef = useRef<HTMLSpanElement>(null);
+  const logoMarkRef = useRef<HTMLDivElement>(null);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isTextDone, setIsTextDone] = useState(false);
 
@@ -53,41 +68,75 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         if (percentRef.current) percentRef.current.textContent = Math.round(prog.v * 100) + '%';
       };
 
+      // ── Counter roll: 1 → 2 → 3 → 4 → 5 → "Thank you." → sign-off ──────
+      // Two slots stacked in the same spot, alternating which is "current"
+      // and which is "next". Each step slides the current slot up and out
+      // while the next slot slides up into place, then the roles swap — a
+      // one-directional odometer. (No reverse needed: the preloader only
+      // ever plays forward.)
+      const slotA = slotARef.current;
+      const slotB = slotBRef.current;
+      // Logo starts below its own overflow-hidden window, same as every text
+      // slot — it rolls up into place rather than just fading.
+      gsap.set(logoMarkRef.current, { yPercent: 120, autoAlpha: 0 });
+      if (slotA && slotB) {
+        // Both slots start below the window, hidden — the very first digit
+        // rolls in exactly the same way every later item does, rather than
+        // just appearing.
+        gsap.set(slotA, { yPercent: 120, autoAlpha: 0 });
+        slotA.textContent = SEQUENCE[0];
+        gsap.set(slotB, { yPercent: 120, autoAlpha: 0 });
+
+        const ENTRY = 0.5;
+        timeline.to(slotA, { yPercent: 0, autoAlpha: 1, duration: ENTRY, ease: 'power3.out' }, 0);
+
+        let current = slotA;
+        let next = slotB;
+        for (let i = 1; i < SEQUENCE.length; i += 1) {
+          const isLast = i === SEQUENCE.length - 1;
+          const isNumberStep = i < 5; // transitions still inside the 1–5 count
+          const hold = isNumberStep ? 0.45 : 0.7;
+          const rollDuration = isNumberStep ? 0.4 : 0.55;
+
+          // Capture this step's element refs and value — `current`/`next` get
+          // reassigned at the bottom of the loop, so the closure below must
+          // not read the loop variables directly, or every deferred call
+          // would fire against whatever they'd become by the time it runs.
+          const outgoing = current;
+          const incoming = next;
+          const value = SEQUENCE[i];
+
+          timeline
+            // Text swaps THROUGH the timeline (not at build time), or every
+            // slot would jump straight to its final value while only the
+            // position animated.
+            .call(
+              () => {
+                incoming.textContent = value;
+                gsap.set(incoming, { yPercent: 120, autoAlpha: 0 });
+              },
+              [],
+              `+=${hold}`
+            )
+            // Outgoing rolls further up and OUT, fading as it goes — it must
+            // fully clear the (overflow-hidden) slot rather than just slide
+            // through it, or it visually bleeds into whatever sits below.
+            .to(outgoing, { yPercent: -120, autoAlpha: 0, duration: rollDuration, ease: 'power3.inOut' }, '<')
+            .to(incoming, { yPercent: 0, autoAlpha: 1, duration: rollDuration, ease: 'power3.inOut' }, '<');
+
+          if (isLast) {
+            // The Inc 5000 mark rolls up into place once the sign-off line has settled.
+            timeline.to(logoMarkRef.current, { yPercent: 0, autoAlpha: 1, duration: 0.6, ease: 'power2.out' }, '+=0.15');
+          }
+
+          [current, next] = [next, current];
+        }
+      }
+
       timeline
-        // fromTo (not from) so the end state is explicit: the words are hidden
-        // in CSS to avoid a pre-hydration flash, and GSAP drives them to visible.
-        // .to(
-        //   '.hero-logo',
-        //   {
-        //     xPercent: 0,
-        //     opacity: 1,
-        //     autoAlpha: 1,
-        //     duration: 1.5,
-        //     ease: 'power3.out',
-        //   },
-        // )
-        .to(
-          '.preloader-word',
-          {
-            x: 0,
-            autoAlpha: 1,
-            duration: 1.5,
-            ease: 'power3.out',
-            stagger: 1,
-          },
-        )
-        .to(
-          '.preloader-word,.preloader-word-2',
-          {
-            yPercent: -120,
-            autoAlpha: 1,
-            duration: 1.5,
-            ease: 'power3.out',
-          },
-        )
         // Hold right before the slide-off; the effect below resumes the
         // timeline once the window 'load' event has also fired.
-        .call(() => setIsTextDone(true))
+        .call(() => setIsTextDone(true), [], '+=0.6')
         .addPause()
         // Page has finished loading — top the bar off to 100%.
         .to(prog, { v: 1, duration: 0.4, ease: 'power2.out', onUpdate: setProg })
@@ -105,7 +154,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         });
 
       // Bar climbs to ~90% across the intro, then holds until the page 'load' resumes it.
-      timeline.to(prog, { v: 0.9, duration: 4.5, ease: 'power1.inOut', onUpdate: setProg }, 0);
+      timeline.to(prog, { v: 0.9, duration: 7, ease: 'power1.inOut', onUpdate: setProg }, 0);
 
       return () => {
         document.documentElement.style.overflow = '';
@@ -143,20 +192,41 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           <path d="M54.5603 0.833984H43.332L62.5026 49.9992H73.0572C73.2497 49.9992 73.3819 49.8041 73.3123 49.6234L54.5603 0.833984Z" fill="#F6D54D" />
         </svg>
       </div>
-      <div className="relative flex flex-col items-center gap-y-1 text-center md:gap-y-2 overflow-hidden">
-        <div className="flex flex-wrap items-baseline justify-center gap-x-3 md:gap-x-5">
-          {LEAD_WORDS.map((word) => (
-            <span
-              key={word}
-              className="preloader-word font-tommy-regular text-[18px] md:text-[22px] lg:text-2xl leading-none opacity-0"
-            >
-              {word}
-            </span>
-          ))}
+      <div className="relative flex flex-col items-center gap-y-5 text-center md:gap-y-6 mt-[40px] ">
+        {/* The counter slot — fixed height so the roll transition (see the
+            timeline) always moves a clean 120% regardless of which item,
+            digit or line, currently occupies it. */}
+        <div className="relative h-[26px] w-[min(90vw,520px)] overflow-hidden md:h-[32px]">
+          <span
+            ref={slotARef}
+            className="absolute inset-0 flex items-center justify-center whitespace-nowrap font-tommy-regular text-[19px] leading-none opacity-0 md:text-[25px]"
+          >
+            {SEQUENCE[0]}
+          </span>
+          <span
+            ref={slotBRef}
+            className="absolute inset-0 flex items-center justify-center whitespace-nowrap font-tommy-regular text-[19px] leading-none opacity-0 md:text-[25px]"
+          >
+            {SEQUENCE[1]}
+          </span>
         </div>
-        <span className="preloader-word-2 font-tommy-regular text-2xl leading-none opacity-0">
-          {FINAL_WORD}
-        </span>
+
+        {/* Inc 5000 mark — rolls up into its own overflow-hidden window once
+            the sign-off line has settled, same mechanic as the text slots
+            above. The source asset is full-colour on white; brightness(0)
+            invert(1) renders it as a clean white silhouette for this dark
+            ground. */}
+        <div className="relative h-[64px] w-[64px] overflow-hidden md:h-[80px] md:w-[80px]">
+          <div ref={logoMarkRef} className="absolute inset-0 opacity-0">
+            <img
+              src="/assets/images/cta/inc-1.png"
+              alt="Inc. 5000 — America's Fastest-Growing Private Companies"
+              width={88}
+              height={88}
+              className="h-full w-full"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Loading progress bar */}
