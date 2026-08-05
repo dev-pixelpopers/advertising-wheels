@@ -488,7 +488,7 @@ function MarketPopup({
                 role="dialog"
                 aria-modal="true"
                 aria-label={market.name}
-                className="relative z-10 w-full max-w-[1080px] overflow-hidden rounded-[28px] bg-[#E7E0CE] shadow-[0_45px_130px_rgba(0,0,0,0.5)] dark:bg-[#141414]"
+                className="relative z-10 w-full max-w-[1080px] overflow-hidden rounded-[16px] md:rounded-[20px] lg:rounded-[28px] bg-[#E7E0CE] shadow-[0_45px_130px_rgba(0,0,0,0.5)] dark:bg-[#141414]"
             >
                 {/* Close sits on the CARD, not the photo — on desktop the photo
                     is only the left half, so anchoring it to the card keeps it
@@ -498,9 +498,9 @@ function MarketPopup({
                     type="button"
                     onClick={close}
                     aria-label="Close"
-                    className="absolute right-4 top-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-[#1A1917]/85 text-white backdrop-blur-md transition-all duration-300 hover:rotate-90 hover:border-[#FCD119] hover:bg-[#FCD119] hover:text-black"
+                    className="absolute right-2 md:right-3 lg:right-4 top-2 md:top-3 lg:top-4 z-30 flex h-6 md:h-8 lg:h-10 w-6 md:w-8 lg:w-10 items-center justify-center rounded-full border border-white/20 bg-[#1A1917]/85 text-white backdrop-blur-md transition-all duration-300 hover:rotate-90 hover:border-[#FCD119] hover:bg-[#FCD119] hover:text-black"
                 >
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className='w-[8px] md:w-[10px] lg:w-[12px] h-[8px] md:h-[10px] lg:h-[12px]'>
                         <path d="M1 1 L11 11 M11 1 L1 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                     </svg>
                 </button>
@@ -529,18 +529,18 @@ function MarketPopup({
 
                         <span
                             data-pop-item
-                            className="absolute left-5 top-5 rounded-full border border-white/25 bg-black/40 px-3 py-1.5 font-tommy-regular text-[10px] uppercase tracking-[2px] text-white backdrop-blur-md md:left-7 md:top-7"
+                            className="absolute left-2 md:left-5 top-2 md:top-5 rounded-full border border-white/25 bg-black/40 px-3 py-1.5 font-tommy-regular text-[10px] uppercase tracking-[2px] text-white backdrop-blur-md lg:left-7 lg:top-7"
                         >
                             Market #{market.rank}
                         </span>
 
                         {/* Title sits ON the photo — the record then opens on the
                             name rather than repeating a header beside it. */}
-                        <div data-pop-item className="absolute inset-x-5 bottom-5 md:inset-x-7 md:bottom-7">
+                        <div data-pop-item className="absolute inset-x-3 md:inset-x-5 bottom-3 md:bottom-5 lg:inset-x-7 lg:bottom-7">
                             <span className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#FCD119]">
                                 {market.state} · {REGION_LABEL[market.region]}
                             </span>
-                            <h3 className="mt-2 font-tommy-bold text-[clamp(28px,3.6vw,46px)] leading-[1] tracking-[-0.02em] text-white">
+                            <h3 className="lg:mt-2 font-tommy-bold text-[24px] md:text-[clamp(28px,3.6vw,46px)] leading-[1] tracking-[-0.02em] text-white">
                                 {market.name}
                             </h3>
                         </div>
@@ -551,7 +551,7 @@ function MarketPopup({
                         row height, and the photo column stretches to match.
                         min() so it can never fight the 86vh cap on a short
                         viewport (min-height would win and overflow). */}
-                    <div className="relative max-h-[86vh] min-h-0 overflow-y-auto p-6 md:min-h-[min(430px,74vh)] md:p-9">
+                    <div className="relative lg:max-h-[86vh] min-h-0 overflow-y-auto p-3 md:p-6 md:min-h-[min(430px,74vh)] lg:p-9">
                         {/* The rank, set as a watermark — gives the data column
                             its own piece of typography instead of leaving it a
                             plain stack of boxes. */}
@@ -566,7 +566,7 @@ function MarketPopup({
                             <div data-pop-item>
                                 <p
                                     data-count={market.impressions}
-                                    className="font-tommy-bold text-[clamp(38px,4.6vw,60px)] leading-none tabular-nums tracking-[-0.03em] text-[#1A1917] dark:text-[#FCD119]"
+                                    className="font-tommy-bold text-[26px] md:text-[clamp(38px,4.6vw,60px)] leading-none tabular-nums tracking-[-0.03em] text-[#1A1917] dark:text-[#FCD119]"
                                 >
                                     {fmt(market.impressions)}
                                 </p>
@@ -575,7 +575,7 @@ function MarketPopup({
                                 </p>
                             </div>
 
-                            <div className="mt-7 grid grid-cols-3 gap-2.5 md:gap-3">
+                            <div className="mt-3 md:mt-5 lg:mt-7 grid grid-cols-3 gap-1.5 md:gap-2.5 lg:gap-3">
                                 {(
                                     [
                                         [market.adults, 'num', 'Adults 18+ reached'],
@@ -591,11 +591,11 @@ function MarketPopup({
                                         <p
                                             data-count={value}
                                             data-count-format={format}
-                                            className="font-tommy-bold text-[17px] leading-none tabular-nums text-[#1A1917] md:text-[22px] dark:text-white"
+                                            className="font-tommy-bold text-[13px] md:text-[17px] leading-none tabular-nums text-[#1A1917] lg:text-[22px] dark:text-white"
                                         >
                                             {fmt(value)}
                                         </p>
-                                        <p className="mt-2 font-tommy-regular text-[8.5px] uppercase leading-tight tracking-[1px] text-[#8A857C] md:text-[9.5px] dark:text-[#9A968E]">
+                                        <p className="mt-1 md:mt-2 font-tommy-regular text-[8.5px] uppercase leading-tight tracking-[1px] text-[#8A857C] md:text-[9.5px] dark:text-[#9A968E]">
                                             {label}
                                         </p>
                                     </div>
@@ -604,7 +604,7 @@ function MarketPopup({
 
                             {/* Two measures that actually move market to market —
                                 see the note on the derived values above. */}
-                            <div data-pop-item className="mt-7 space-y-4">
+                            <div data-pop-item className="mt-3 md:mt-5 lg:mt-7 flex flex-col gap-y-2 md:gap-y-3 lg:gap-y-4">
                                 <div>
                                     <div className="flex items-baseline justify-between">
                                         <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2px] text-[#8A857C] dark:text-[#9A968E]">
@@ -665,26 +665,26 @@ function MarketPopup({
                             {related.length > 0 && (
                                 <div
                                     data-pop-item
-                                    className="mt-7 rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-5 text-center dark:border-[#FCD119]/25 dark:bg-[#FCD119]/[0.06]"
+                                    className="mt-3 md:mt-5 lg:mt-7 rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-2 md:p-3 lg:p-5 text-center dark:border-[#FCD119]/25 dark:bg-[#FCD119]/[0.06]"
                                 >
                                     <p className="font-tommy-medium text-[11px] uppercase tracking-[3px] text-[#8A6E1F] dark:text-[#FCD119]">
                                         {relatedLabel}
                                     </p>
-                                    <div className="mt-4 flex flex-wrap justify-center gap-2.5">
+                                    <div className="mt-2 md:mt-3 lg:mt-4 flex flex-wrap justify-center gap-2.5">
                                         {related.map((r) => (
                                             <button
                                                 key={r.id}
                                                 type="button"
                                                 onClick={() => onSelect(r.id)}
-                                                className="group flex items-center gap-2.5 rounded-full border border-black/10 bg-[#EEE8D9] px-4 py-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#C8992B] hover:bg-white dark:border-white/12 dark:bg-white/[0.07] dark:hover:border-[#FCD119] dark:hover:bg-white/[0.12]"
+                                                className="group flex items-center gap-1.5 md:gap-2 lg:gap-2.5 rounded-full border border-black/10 bg-[#EEE8D9] px-2 md:px-3 lg:px-4 py-1.5 md:py-2 lg:py-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#C8992B] hover:bg-white dark:border-white/12 dark:bg-white/[0.07] dark:hover:border-[#FCD119] dark:hover:bg-white/[0.12]"
                                             >
-                                                <span className="font-tommy-medium text-[13.5px] text-[#1A1917] dark:text-white">
+                                                <span className="font-tommy-medium text-[10px] md:text-[13.5px] text-[#1A1917] dark:text-white">
                                                     {r.name}
                                                 </span>
-                                                <span className="font-tommy-regular text-[11px] tabular-nums text-[#8A857C] dark:text-[#9A968E]">
+                                                <span className="font-tommy-regular text-[9px] md:text-[11px] tabular-nums text-[#8A857C] dark:text-[#9A968E]">
                                                     {compact(r.impressions)}
                                                 </span>
-                                                <span className="text-[15px] text-[#C8992B] transition-transform duration-300 group-hover:translate-x-1 dark:text-[#FCD119]">
+                                                <span className="text-[10px] md:text-[13px] lg:text-[15px] text-[#C8992B] transition-transform duration-300 group-hover:translate-x-1 dark:text-[#FCD119]">
                                                     →
                                                 </span>
                                             </button>

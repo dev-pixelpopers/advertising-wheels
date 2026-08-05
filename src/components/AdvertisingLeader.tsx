@@ -66,17 +66,15 @@ export default function AdvertisingLeader() {
             // Button fades up once the sentence has landed.
             tl.from(btnRef.current, { y: 24, autoAlpha: 0, duration: 0.6, ease: 'power3.out' }, 2.4);
 
-            // ── OUT — rings erase and the statement lifts away, handing off to the
-            // truck section. Both land on 4.5, exactly where the pin releases, so the
-            // stage is never left empty and never cut off mid-exit.
+            // ── OUT — rings erase
             if (ring1) tl.to(ring1, { strokeDashoffset: len1, duration: 1, ease: 'power2.inOut' }, 3.5);
             if (ring2) tl.to(ring2, { strokeDashoffset: len2, duration: 0.9, ease: 'power2.inOut' }, 3.6);
-            tl.to(textSceneRef.current, { yPercent: -55, autoAlpha: 0, duration: 0.9, ease: 'power2.in' }, 3.6);
+            // tl.to(textSceneRef.current, { yPercent: -55, autoAlpha: 0, duration: 0.9, ease: 'power2.in' }, 3.6);
 
             // Restore the original paragraph markup on cleanup/HMR.
-            return () => {
-                split.revert();
-            };
+            // return () => {
+            //     split.revert();
+            // };
         },
         { scope: rootRef }
     );

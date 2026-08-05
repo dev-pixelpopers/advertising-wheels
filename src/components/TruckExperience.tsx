@@ -133,9 +133,9 @@ export default function TruckExperience() {
 
             // ── STEP 1 SEQUENCE ──
             // 1. Truck moves from left to right into center position AND studio background wipes up from bottom
-            tl.to(truckWrapRef.current, { xPercent: 0, autoAlpha: 1, duration: 0.5, ease: 'power2.out' }, 0)
-                .to(headingRef.current, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.05)
-                .to(studioRef.current, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.5, ease: 'power2.out' }, 0);
+            tl.to(truckWrapRef.current, { xPercent: 0, autoAlpha: 1, duration: 0.5, ease: 'power2.out' })
+                .to(headingRef.current, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' }, "<")
+                .to(studioRef.current, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.5, ease: 'power2.out' }, "<");
 
             // 2. NOW banner appears in mid-air and snaps onto the centered truck
             tl.to(
@@ -194,7 +194,7 @@ export default function TruckExperience() {
     );
 
     return (
-        <section ref={rootRef} className="relative h-[500vh] w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+        <section ref={rootRef} className="relative h-[500vh] w-full bg-[#EEE8D9]">
             <style>{`
                 @keyframes aw-pulse {
                     0% { box-shadow: 0 0 0 0 rgba(252,209,25,0.55); }
@@ -222,13 +222,13 @@ export default function TruckExperience() {
             `}</style>
 
             {/* Sticky visual stage (no gsap pin) */}
-            <div className="sticky lg:top-[8%] h-screen w-full overflow-hidden">
+            <div className="sticky top-[3%] lg:top-[8%] h-screen w-full overflow-hidden">
 
                 {/* HEADING — built on the Hero's tier system: a small tracked label
                     over an oversized uppercase line, cream on a darkened plate, with
                     the accent carried by the full stop. No theme colours here — this
                     sits on photography, not on the page ground. */}
-                <div className="absolute top-[9%] left-0 z-30 flex w-full flex-col items-center justify-center px-6 pointer-events-none md:top-[11%]">
+                <div className="relative z-30 flex w-full flex-col items-center justify-center px-6 pointer-events-none mt-[10px]">
                     <div ref={headingRef} className="flex flex-col items-center">
                         <span className="font-tommy-regular text-[10px] uppercase tracking-[0.34em] text-[#FCD119] md:text-[12px]">
                             The Process
