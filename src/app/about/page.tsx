@@ -28,7 +28,6 @@ import { Reveal, CountUp, Eyebrow, Dot } from '@/components/site/primitives';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
-const HERO_IMG = '/assets/images/case-study-img.jpg';
 const STORY_IMG = '/assets/images/background.avif';
 
 /* ------------------------------------------------------------------ */
@@ -354,7 +353,7 @@ export default function AboutPage() {
                 lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands since 2001, owner-operated from Nashville, Tennessee."
                 primary={{ label: 'Book a Strategy Call', href: '/contact' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
-                image="/assets/images/best-buy-img.webp"
+                image="/assets/images/best-buy.webp"
                 imageAlt="An Advertising Wheels truckside campaign on the street"
             />
             <Story />

@@ -17,6 +17,7 @@
  */
 
 import { ReactNode, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -55,7 +56,7 @@ export default function PortalHero({
     titleSize = 'clamp(44px,9vw,150px)',
 }: PortalHeroProps) {
     const heroRef = useRef<HTMLElement>(null);
-    const imgRef = useRef<HTMLImageElement>(null);
+    const imgRef = useRef<HTMLDivElement>(null);
     const titleWrapRef = useRef<HTMLDivElement>(null);
     const panelLRef = useRef<HTMLDivElement>(null);
     const panelRRef = useRef<HTMLDivElement>(null);
@@ -65,7 +66,7 @@ export default function PortalHero({
     const ground = isLight ? '#EEE8D9' : '#0A0A0A';
     const ink = isLight ? '#1A1917' : '#EEE8D9';
     const inkDim = isLight ? 'rgba(26,25,23,.72)' : 'rgba(238,232,217,.8)';
-    const accent = isLight ? '#C8992B' : '#FCD119';
+    const accent = isLight ? '#FCD119' : '#FCD119';
     const scrim = '#0000009e';
     const wordShadow = isLight ? '0 2px 26px rgba(238,232,217,.7)' : '0 2px 30px rgba(0,0,0,.55)';
 
@@ -108,13 +109,22 @@ export default function PortalHero({
     return (
         <section ref={heroRef} className="relative" style={{ height, backgroundColor: ground }}>
             <div className="sticky top-0 h-screen w-full overflow-hidden" style={{ isolation: 'isolate' }}>
-                {/* Full-bleed image */}
-                <img
-                    ref={imgRef}
-                    src={image}
-                    alt={imageAlt}
-                    className="absolute inset-0 z-0 h-full w-full object-cover"
-                />
+                {/* Full-bleed image.
+                    next/image, not <img> — these heroes are client shoot
+                    originals (the About one is a 24MB frame straight off the
+                    camera), so the raw file must never reach the browser. The
+                    scale tween drives this WRAPPER, because `fill` makes
+                    next/image own the <img>'s own transform box. */}
+                <div ref={imgRef} className="absolute inset-0 z-0 will-change-transform">
+                    <Image
+                        src={image}
+                        alt={imageAlt}
+                        fill
+                        priority
+                        sizes="100vw"
+                        className="object-cover"
+                    />
+                </div>
 
                 {/* Theme-aware readability scrim */}
                 <div className="absolute inset-0 z-10" style={{ background: scrim }} />
@@ -172,7 +182,7 @@ export default function PortalHero({
                                     <a
                                         href={secondary.href}
                                         className="inline-flex items-center gap-3 rounded-full border-2 px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[15px] transition-colors duration-300"
-                                        style={{ borderColor: isLight ? 'rgba(26,25,23,.4)' : 'rgba(238,232,217,.45)', color: ink }}
+                                        style={{ borderColor: isLight ? 'rgba(238,232,217,.45)' : 'rgba(238,232,217,.45)', color: '#fff' }}
                                     >
                                         {secondary.label}
                                     </a>

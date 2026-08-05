@@ -18,6 +18,8 @@ import Footer from '@/components/Footer';
 import CtaSection from '@/components/CtaSection';
 import PortalHero from '@/components/site/PortalHero';
 import { Reveal, CountUp, Eyebrow, Dot, ArrowIcon } from '@/components/site/primitives';
+import { useScrollTriggerRefresh } from '@/components/site/detail';
+import { HOUSE_SHOTS } from '@/data/clientShots';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -48,12 +50,17 @@ interface Project {
 const PROJECTS: Project[] = [
     { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/partner-hertz.webp`, slug: 'hertz' },
     { brand: 'Nationwide', industry: 'Insurance', result: 'Mobile billboards became the highlight of Nationwide’s market presence — and are still talked about today.', metric: 'City', metricLabel: 'Wide recall', logo: `${LOGOS}/partner-nationwide.png`, slug: 'nationwide' },
-    { brand: 'Wendy’s', industry: 'Quick-Service Food', result: 'High-impact visual messaging, quick to implement, unusually cost-effective and highly measurable.', metric: 'Days', metricLabel: 'To launch', logo: `${LOGOS}/partner-wendys.png` },
+    { brand: 'Wendy’s', industry: 'Quick-Service Food', result: 'High-impact visual messaging, quick to implement, unusually cost-effective and highly measurable.', metric: 'Days', metricLabel: 'To launch', logo: `${LOGOS}/partner-wendys.png`, slug: 'wendys' },
     { brand: 'Saks Fifth Avenue', industry: 'Luxury Retail', result: 'The team executed outstanding results — recognition was city-wide, and memorable.', metric: '#1', metricLabel: 'In-market buzz', logo: `${LOGOS}/partner-saks-white.webp`, logoDark: `${LOGOS}/partner-saks-dark.webp` },
     { brand: 'Volkswagen', industry: 'Automotive', result: 'Synchronized routes blanketed launch corridors, turning highway miles into launch-week presence.', metric: '50', metricLabel: 'Markets ready', logo: `${LOGOS}/partner-vw.png` },
     { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png`, slug: 'cuyahoga-community-college' },
     { brand: 'FanDuel', industry: 'Sports & Gaming', result: 'Game-day fleets surged around venues and sports districts, hitting crowds exactly when intent peaked.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/partner-fanduel.webp` },
-    { brand: 'Xfinity', industry: 'Telecom', result: 'Neighbourhood-level routing carried the offer straight into target ZIPs across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png` },
+    { brand: 'Xfinity', industry: 'Telecom', result: 'Neighbourhood-level routing carried the offer straight into target ZIPs across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png`, slug: 'xfinity' },
+    { brand: 'Raising Cane’s', industry: 'Quick-Service Food', result: 'Pre-opening trade-area flights introduced the brand weeks before each new restaurant opened its lane.', metric: '3wk', metricLabel: 'Pre-opening presence', logo: `${LOGOS}/partner-raising-canes.png`, slug: 'raising-canes' },
+    { brand: 'Floor & Decor', industry: 'Specialty Retail', result: 'A six-truck Boston fleet carried two simultaneous store openings down every homeowner corridor in the metro.', metric: '2', metricLabel: 'Stores launched', logo: `${LOGOS}/partner-floor-decor.png`, slug: 'floor-and-decor' },
+    { brand: 'Reliable Heating & Air', industry: 'Home Services', result: 'Offer-led wraps kept a hard system price on residential streets across the Atlanta service area, season after season.', metric: '100%', metricLabel: 'In-footprint miles', logo: `${LOGOS}/partner-reliable.png`, slug: 'reliable-heating-cooling' },
+    { brand: 'Outer', industry: 'DTC Home & Outdoor', result: 'A digitally-native furniture brand gained a seven-day physical presence on LA’s Westside design streets.', metric: '7d', metricLabel: 'Weekly presence', logo: `${LOGOS}/partner-outer.png`, slug: 'outer' },
+    { brand: 'Titan Insurance Sales', industry: 'Insurance', result: 'Retail-plaza dwell routing concentrated the rate message where value-conscious drivers park every day.', metric: '90s', metricLabel: 'Dwell at anchors', logo: `${LOGOS}/partner-titan.png`, slug: 'titan' },
     { brand: 'Dollar', industry: 'Car Rental', result: 'An OOH-vs-control study lifted Dollar.com peak-week visits +32% YoY in target markets, outperforming control in every flight.', metric: '+32%', metricLabel: 'YoY site visits', logo: `${LOGOS}/dollar-car-rental-logo.webp`, slug: 'dollar' },
     { brand: 'AAA', industry: 'Travel & Mobility', result: 'A membership and roadside-assistance awareness plan built for commuter routes and travel hubs.', metric: 'Routes', metricLabel: 'Commuter reach', logo: `${LOGOS}/aaa-vector-logo.webp`, slug: 'aaa' },
     { brand: 'Burger King', industry: 'Quick-Service Food', result: 'A foot-traffic and limited-time-offer push near restaurant clusters, timed to peak meal times.', metric: 'Peak', metricLabel: 'Meal-time reach', logo: `${LOGOS}/burger-king-logo.webp`, slug: 'burger-king' },
@@ -157,7 +164,14 @@ function Gallery() {
             const mm = gsap.matchMedia();
 
             mm.add('(min-width: 1024px)', () => {
-                const amount = () => Math.max(0, track.scrollWidth - window.innerWidth);
+                // Measured against the section's own inner width, not
+                // `window.innerWidth` — the latter includes the vertical
+                // scrollbar, which would leave the final card short of the
+                // right edge by the scrollbar's width on every desktop that
+                // renders one.
+                const amount = () =>
+                    Math.max(0, track.scrollWidth - (rootRef.current?.clientWidth ?? 0));
+
                 gsap.to(track, {
                     x: () => -amount(),
                     ease: 'none',
@@ -170,7 +184,26 @@ function Gallery() {
                         invalidateOnRefresh: true,
                     },
                 });
-                return () => gsap.set(track, { clearProps: 'x' });
+
+                // The travel distance and the pin's end are both derived from
+                // the track's width, but they are only evaluated at refresh.
+                // If the track resizes afterwards — a card added, a font
+                // swapping in, the window resizing — the two can disagree and
+                // the run stops before the last cards while the pin keeps
+                // holding. Re-measure whenever the track's width actually
+                // changes so they stay in step.
+                let last = track.scrollWidth;
+                const ro = new ResizeObserver(() => {
+                    if (track.scrollWidth === last) return;
+                    last = track.scrollWidth;
+                    ScrollTrigger.refresh();
+                });
+                ro.observe(track);
+
+                return () => {
+                    ro.disconnect();
+                    gsap.set(track, { clearProps: 'x' });
+                };
             });
 
             mm.add('(max-width: 1023px)', () => {
@@ -301,6 +334,12 @@ function Industries() {
 /* ------------------------------------------------------------------ */
 
 export default function ProjectsPage() {
+    // The hero and featured plates decode after the triggers measure, so the
+    // pinned gallery's start/end are set against a document that is still
+    // growing — leaving the pin misaligned and the track short of the last
+    // cards. Refresh once the page has settled.
+    useScrollTriggerRefresh();
+
     return (
         <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
             <PortalHero
@@ -309,8 +348,8 @@ export default function ProjectsPage() {
                 lead="National and local brands put their name on our fleet — then watched the search clicks, household growth and city-wide recall follow. Every campaign measured the same way."
                 primary={{ label: 'Start your campaign', href: '/contact' }}
                 secondary={{ label: 'How we do it', href: '/services' }}
-                image="/assets/images/case-study-img.jpg"
-                imageAlt="A wrapped Advertising Wheels truck on a city street"
+                image={HOUSE_SHOTS.projectsHero}
+                imageAlt="A wrapped Advertising Wheels truck outside a retail centre"
             />
 
             <Featured />

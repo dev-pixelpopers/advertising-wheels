@@ -14,6 +14,7 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -30,6 +31,7 @@ import {
     useScrollTriggerRefresh,
 } from '@/components/site/detail';
 import { getCaseStudy, relatedCaseStudies, type CaseStudy } from '@/data/caseStudies';
+import { shotsFor } from '@/data/clientShots';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -127,12 +129,16 @@ function Hero({ study }: { study: CaseStudy }) {
             <div className="relative z-10 mx-auto max-w-[1440px] px-6 md:px-12">
                 <div
                     ref={plateRef}
-                    className="overflow-hidden rounded-[24px] border border-black/10 shadow-[0_40px_100px_rgba(0,0,0,0.16)] dark:border-white/10"
+                    className="relative h-[300px] overflow-hidden rounded-[24px] border border-black/10 shadow-[0_40px_100px_rgba(0,0,0,0.16)] md:h-[560px] dark:border-white/10"
                 >
-                    <img
+                    {/* `priority` — this is the LCP element on the route. */}
+                    <Image
                         src={study.hero}
                         alt={`${study.brand} truckside campaign`}
-                        className="h-[300px] w-full object-cover md:h-[560px]"
+                        fill
+                        priority
+                        sizes="(max-width: 768px) 100vw, 1440px"
+                        className="object-cover"
                     />
                 </div>
             </div>
@@ -226,6 +232,82 @@ function Article({ study }: { study: CaseStudy }) {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Fleet gallery                                                      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The on-route documentation — `FleetShots` from the client's shoot folder.
+ *
+ * Deliberately a different register from the article's `ParallaxMedia`
+ * plates: those are single art-directed images that punctuate the read, this
+ * is the contact sheet — the same wrap photographed across a run, which is
+ * the actual evidence that the campaign was on the road.
+ *
+ * Every tile is `next/image` with a real `sizes`, because the sources are
+ * 2-6MB camera originals; a plain <img> here would ship ~40MB of photography
+ * for one section.
+ */
+function FleetGallery({ study, shots }: { study: CaseStudy; shots: string[] }) {
+    const ref = useRef<HTMLDivElement>(null);
+
+    useGSAP(
+        () => {
+            gsap.from(ref.current?.children ?? [], {
+                y: 46,
+                autoAlpha: 0,
+                duration: 0.8,
+                stagger: 0.07,
+                ease: 'power3.out',
+                scrollTrigger: { trigger: ref.current, start: 'top 85%', once: true },
+            });
+        },
+        { scope: ref }
+    );
+
+    if (!shots.length) return null;
+
+    return (
+        <section className="w-full bg-[#EEE8D9] py-16 transition-colors duration-300 md:py-24 dark:bg-[#0A0A0A]">
+            <div className="mx-auto max-w-[1440px] px-6 md:px-12">
+                <div className="flex flex-wrap items-end justify-between gap-6 border-t border-black/10 pt-12 dark:border-white/10">
+                    <div>
+                        <Eyebrow>On the road</Eyebrow>
+                        <h2 className="mt-4 font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917] dark:text-white">
+                            The fleet in service<Dot />
+                        </h2>
+                    </div>
+                    <p className="max-w-[380px] font-tommy-regular text-[14.5px] leading-[1.62] text-[#5A554C] dark:text-[#A8A399]">
+                        {study.brand} wraps photographed across live routes — the same
+                        vehicles our GPS logs were counting.
+                    </p>
+                </div>
+
+                {/* First tile runs full width on desktop: the run needs one
+                    establishing frame before it becomes a grid. */}
+                <div ref={ref} className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+                    {shots.map((src, i) => (
+                        <div
+                            key={src}
+                            className={`group relative overflow-hidden rounded-[16px] border border-black/10 dark:border-white/10 ${i === 0 ? 'col-span-2 h-[240px] md:h-[420px]' : 'h-[150px] md:h-[240px]'
+                                }`}
+                        >
+                            <Image
+                                src={src}
+                                alt={`${study.brand} fleet on route`}
+                                fill
+                                loading="lazy"
+                                sizes={i === 0 ? '(max-width: 768px) 100vw, 900px' : '(max-width: 768px) 50vw, 440px'}
+                                className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Quote                                                              */
 /* ------------------------------------------------------------------ */
 
@@ -310,12 +392,13 @@ function Related({ slug }: { slug: string }) {
                             href={`/projects/${c.slug}`}
                             className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#FCD119]/30"
                         >
-                            <div className="h-[180px] overflow-hidden">
-                                <img
+                            <div className="relative h-[180px] overflow-hidden">
+                                <Image
                                     src={c.hero}
                                     alt=""
-                                    loading="lazy"
-                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 400px"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                                 />
                             </div>
                             <div className="flex flex-1 flex-col p-6">
@@ -353,6 +436,12 @@ export default function CaseStudyDetailPage() {
 
     if (!study) return null;
 
+    /* Only the clients with a shoot folder get the gallery — the rest of the
+       studies fall through to the section being omitted entirely rather than
+       padded out with stock. Capped at 7: past that the contact sheet stops
+       reading as evidence and starts reading as an archive dump. */
+    const fleet = shotsFor(study.slug)?.fleet.slice(0, 7) ?? [];
+
     return (
         // No header/footer here — the root layout renders both for every route.
         <>
@@ -370,6 +459,7 @@ export default function CaseStudyDetailPage() {
                     note="Impressions are GPS-logged at fifteen-second intervals and third-party audited. Lift figures are measured against demographically matched control markets with no fleet presence."
                 />
 
+                <FleetGallery study={study} shots={fleet} />
                 <Quote study={study} />
                 <Related slug={study.slug} />
             </main>

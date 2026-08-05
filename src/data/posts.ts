@@ -6,6 +6,8 @@
  * sticky table of contents, so the two can never disagree.
  */
 
+import { HOUSE_SHOTS } from './clientShots';
+
 export interface PostSection {
     /** Anchor id — also the TOC target. */
     id: string;
@@ -43,7 +45,7 @@ export const POSTS: Post[] = [
         category: 'Strategy',
         date: 'Jul 14, 2026',
         read: '6 min read',
-        image: '/assets/images/case-study-img.jpg',
+        image: HOUSE_SHOTS.highway,
         author: { name: 'Roopanjan Dey', role: 'Founder, Advertising Wheels' },
         lead:
             'The most valuable property in advertising is no longer reach. It is the small, stubborn fraction of reach that an audience cannot dismiss — and increasingly, that fraction lives outside.',

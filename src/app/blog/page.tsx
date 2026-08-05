@@ -10,6 +10,7 @@
 
 import { useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -43,7 +44,7 @@ const CATEGORIES = ['All', ...Array.from(new Set(REST.map((p) => p.category)))];
 
 function Featured() {
     const rootRef = useRef<HTMLDivElement>(null);
-    const imgRef = useRef<HTMLImageElement>(null);
+    const imgRef = useRef<HTMLDivElement>(null);
 
     useGSAP(
         () => {
@@ -76,8 +77,20 @@ function Featured() {
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <Link href={`/blog/${FEATURED.slug}`} className="group grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
                     <div data-bf-media className="order-2 overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)] lg:order-1 dark:border-white/10">
-                        <div className="h-[280px] overflow-hidden md:h-[440px]">
-                            <img ref={imgRef} src={FEATURED.image} alt="" className="h-[124%] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                        <div className="relative h-[280px] overflow-hidden md:h-[440px]">
+                            {/* Oversized + parallaxed, so the drift moves this
+                                wrapper — `fill` gives next/image the <img>'s
+                                own transform box. */}
+                            <div ref={imgRef} className="absolute inset-0 h-[124%] w-full">
+                                <Image
+                                    src={FEATURED.image}
+                                    alt=""
+                                    fill
+                                    priority
+                                    sizes="(max-width: 1024px) 100vw, 700px"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                                />
+                            </div>
                         </div>
                     </div>
                     <div data-bf-copy className="order-1 lg:order-2">
@@ -141,8 +154,15 @@ function Grid() {
                             href={`/blog/${p.slug}`}
                             className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#FCD119]/30"
                         >
-                            <div className="h-[190px] overflow-hidden">
-                                <img src={p.image} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
+                            <div className="relative h-[190px] overflow-hidden">
+                                <Image
+                                    src={p.image}
+                                    alt=""
+                                    fill
+                                    loading="lazy"
+                                    sizes="(max-width: 768px) 100vw, 400px"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                                />
                             </div>
                             <div className="flex flex-1 flex-col p-6">
                                 <div className="flex items-center gap-3 font-tommy-regular text-[11.5px] uppercase tracking-[1.5px] text-[#8A857C] dark:text-[#9A968E]">

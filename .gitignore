@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Camera-original client photography (1.2GB) — webp derivatives live in public/assets/images/clients
+originals/

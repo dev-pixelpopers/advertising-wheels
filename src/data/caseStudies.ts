@@ -10,6 +10,8 @@
  * which is what keeps the two from drifting apart.
  */
 
+import { CLIENT_SHOTS } from './clientShots';
+
 export interface CaseStat {
     /** Numeric target the counter animates to. */
     value: number;
@@ -52,6 +54,18 @@ export interface CaseStudy {
 }
 
 const LOGOS = '/assets/images/review/logo';
+
+/**
+ * Real client photography, where we have it.
+ *
+ * Ten clients have shoot folders under `public/assets/images/clients` (see
+ * `clientShots.ts`) — studies without one keep their existing stand-in art
+ * rather than borrowing another client's truck, which would put the wrong
+ * wrap next to the wrong brand's results.
+ */
+const heroOf = (slug: string, fallback: string) => CLIENT_SHOTS[slug]?.hero[0] ?? fallback;
+const platesOf = (slug: string, fallback: string[]) =>
+    CLIENT_SHOTS[slug] ? CLIENT_SHOTS[slug].hero.slice(1, 4) : fallback;
 
 export const CASE_STUDIES: CaseStudy[] = [
     {
@@ -136,7 +150,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         year: '2024',
         markets: '14 metros',
         duration: '8 months',
-        hero: '/assets/images/process/city.png',
+        hero: heroOf('hertz', '/assets/images/process/city.png'),
         logo: `${LOGOS}/partner-hertz.webp`,
         stats: [
             { value: 5, suffix: 'yr', label: 'Revenue decline reversed' },
@@ -180,7 +194,7 @@ export const CASE_STUDIES: CaseStudy[] = [
             author: 'VP, Growth Marketing',
             role: 'Hertz',
         },
-        gallery: ['/assets/images/process/city.png', '/assets/images/case-study-img.jpg'],
+        gallery: platesOf('hertz', ['/assets/images/process/city.png', '/assets/images/process/studio.png']),
     },
     {
         slug: 'nationwide',
@@ -193,7 +207,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         year: '2024',
         markets: '6 metros',
         duration: '6 months',
-        hero: '/assets/images/campaings-img.png',
+        hero: heroOf('nationwide', '/assets/images/campaings-img.png'),
         logo: `${LOGOS}/partner-nationwide.png`,
         stats: [
             { value: 42, prefix: '+', suffix: '%', label: 'Aided awareness lift' },
@@ -236,7 +250,7 @@ export const CASE_STUDIES: CaseStudy[] = [
             author: 'Regional Marketing Lead',
             role: 'Nationwide',
         },
-        gallery: ['/assets/images/campaings-img.png', '/assets/images/process/city.png'],
+        gallery: platesOf('nationwide', ['/assets/images/campaings-img.png', '/assets/images/process/city.png']),
     },
     {
         slug: 'cuyahoga-community-college',
@@ -305,7 +319,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         year: '2018',
         markets: 'Target booking markets',
         duration: 'Campaign flight',
-        hero: '/assets/images/dollar-hero.webp',
+        hero: heroOf('dollar', '/assets/images/dollar-hero.webp'),
         logo: `${LOGOS}/dollar-car-rental-logo.webp`,
         stats: [
             { value: 32, prefix: '+', suffix: '%', label: 'Peak-week Dollar.com visits YoY (target)' },
@@ -348,7 +362,7 @@ export const CASE_STUDIES: CaseStudy[] = [
             author: 'Campaign Analytics',
             role: 'Advertising Wheels',
         },
-        gallery: ['/assets/images/process/city.png', '/assets/images/case-study-img.jpg'],
+        gallery: platesOf('dollar', ['/assets/images/process/city.png', '/assets/images/process/studio.png']),
     },
     {
         slug: 'aaa',
@@ -440,7 +454,395 @@ export const CASE_STUDIES: CaseStudy[] = [
             author: 'Campaign Team',
             role: 'Advertising Wheels',
         },
-        gallery: ['/assets/images/process/city.png', '/assets/images/case-study-img.jpg'],
+        gallery: ['/assets/images/process/city.png', '/assets/images/process/studio.png'],
+    },
+    {
+        slug: 'wendys',
+        brand: "Wendy's",
+        industry: 'Quick-Service Food',
+        summary:
+            'A drive-time frequency play that kept new menu news in front of commuters every single day.',
+        lead:
+            'Fast-food decisions are made in the car. Wendy’s put its menu news on the roads its customers were already driving — morning and evening commutes, retail corridors at lunch — so the brand was the last one seen before the exit ramp.',
+        year: '2023',
+        markets: 'Multi-metro',
+        duration: '6 months',
+        hero: heroOf('wendys', '/assets/images/process/city.png'),
+        logo: `${LOGOS}/partner-wendys.png`,
+        stats: [
+            { value: 2, label: 'Peak dayparts owned daily' },
+            { value: 3, suffix: 'x', label: 'Weekly frequency vs. static OOH plan' },
+            { value: 20, comma: true, suffix: 'M', label: 'Verified impressions' },
+            { value: 92, suffix: '%', label: 'Routes completed as planned' },
+        ],
+        services: ['Commuter routing', 'Daypart timing', 'Menu-news creative rotation'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'Menu news has a shelf life',
+                body: [
+                    'Limited-time menu items live or die in their first weeks. Wendy’s needed awareness that built immediately in the right trade areas — not a static board bought on a four-week cycle that peaks after the promotion window has moved on.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Meet the commute where it eats',
+                body: [
+                    'The fleet ran morning and evening commuter corridors and shifted to retail and lunch clusters midday, so the same driver saw the creative on the way to work and again when deciding where to eat.',
+                    'Creative rotated with the menu calendar, keeping every impression current — a flexibility a printed billboard cannot match.',
+                ],
+            },
+            {
+                id: 'results',
+                nav: 'Results',
+                heading: 'Frequency where it converts',
+                body: [
+                    'GPS logs verified the plan was delivered nearly in full, with repeat exposure against the same commuter audience running at roughly three times what an equivalent static placement would have achieved.',
+                    'The campaign photography on this page is from live routes — the same vehicles the logs were counting.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'The plan put the menu in front of the same commuters day after day, and rotated the creative as fast as the menu itself changed.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: platesOf('wendys', ['/assets/images/process/city.png', '/assets/images/process/studio.png']),
+    },
+    {
+        slug: 'xfinity',
+        brand: 'Xfinity',
+        industry: 'Telecommunications',
+        summary:
+            'Neighbourhood-level presence that put the brand on the streets its network upgrade was reaching.',
+        lead:
+            'A network is sold neighbourhood by neighbourhood. As Xfinity’s footprint and offers rolled out street by street, the fleet carried the message down those exact streets — a media buy with the same geography as the product.',
+        year: '2023',
+        markets: 'Upgrade-footprint neighbourhoods',
+        duration: '4 months',
+        hero: heroOf('xfinity', '/assets/images/xfinity-img.webp'),
+        logo: `${LOGOS}/partner-xfinity.png`,
+        stats: [
+            { value: 28, comma: true, suffix: 'M', label: 'Verified impressions' },
+            { value: 40, label: 'Target neighbourhoods routed' },
+            { value: 15, suffix: 's', label: 'GPS logging interval' },
+            { value: 100, suffix: '%', label: 'Of routes inside the service footprint' },
+        ],
+        services: ['Footprint routing', 'Retail-store support', 'Offer creative'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'Broad media, street-level product',
+                body: [
+                    'Television and digital buy audiences; a broadband offer is only relevant on the streets the network actually serves. Xfinity needed reach that could be drawn to the boundary of the serviceable footprint — and proof the media stayed inside it.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Route the media like the network',
+                body: [
+                    'Routes were built directly from the serviceable-address map: residential arterials, retail strips near Xfinity stores, and commuter corridors that feed the target neighbourhoods.',
+                    'Fifteen-second GPS logging meant every mile could be audited against the footprint — no impression was spent where the product could not be bought.',
+                ],
+            },
+            {
+                id: 'results',
+                nav: 'Results',
+                heading: 'Presence with proof',
+                body: [
+                    'The flight delivered its impressions entirely inside the serviceable footprint, verified by the GPS record rather than modelled.',
+                    'Store-adjacent routing tied the awareness push to the retail locations where the offer converts.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'Every mile was logged inside the service footprint. It is the only medium we can draw to the boundary of the network itself.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: platesOf('xfinity', ['/assets/images/xfinity-img.webp', '/assets/images/process/city.png']),
+    },
+    {
+        slug: 'raising-canes',
+        brand: "Raising Cane's",
+        industry: 'Quick-Service Food',
+        summary:
+            'Market-entry awareness that introduced the brand before the first drive-thru line formed.',
+        lead:
+            'When Raising Cane’s enters a market, the product does the retention — the campaign’s job is the introduction. The fleet seeded the trade area around new restaurants for weeks ahead of opening, so launch day arrived with the name already familiar.',
+        year: '2024',
+        markets: 'New-restaurant trade areas',
+        duration: 'Pre-opening flights',
+        hero: heroOf('raising-canes', '/assets/images/process/city.png'),
+        logo: `${LOGOS}/partner-raising-canes.png`,
+        stats: [
+            { value: 3, label: 'Weeks of pre-opening presence' },
+            { value: 5, label: 'Mile trade-area radius covered' },
+            { value: 12, comma: true, suffix: 'M', label: 'Verified impressions' },
+            { value: 2, label: 'Dayparts targeted daily' },
+        ],
+        services: ['Market-entry strategy', 'Trade-area routing', 'Opening-day support'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'New market, no memory',
+                body: [
+                    'In a new metro, Raising Cane’s starts from zero awareness against entrenched chicken competitors. The opening weeks set the trajectory of the restaurant — the brand needed to be a known name before the doors opened, within a tight trade-area radius.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Seed the trade area first',
+                body: [
+                    'The fleet ran the five-mile trade area around each new restaurant for three weeks before opening — commuter arterials at peak, retail and campus clusters at lunch — then anchored the opening itself.',
+                    'Creative kept it simple: the name, the box combo, the opening date. Introduction, not persuasion.',
+                ],
+            },
+            {
+                id: 'results',
+                nav: 'Results',
+                heading: 'Opening day with a queue',
+                body: [
+                    'By opening, the wrap had put the brand in front of the trade area at frequency for weeks — the photography on this page is from those live routes.',
+                    'The pre-opening playbook has since been repeated for subsequent restaurant launches.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'The trade area had seen the brand for three straight weeks before the first order was taken.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: platesOf('raising-canes', ['/assets/images/process/city.png', '/assets/images/process/studio.png']),
+    },
+    {
+        slug: 'floor-and-decor',
+        brand: 'Floor & Decor',
+        industry: 'Specialty Retail',
+        summary:
+            'A store-opening blitz that told Greater Boston two new locations were open — corridor by corridor.',
+        lead:
+            'Floor & Decor opened in Dorchester and Waltham at the same time, and needed Greater Boston to know it. A multi-truck fleet ran the retail and home-improvement corridors between the two stores with one message: now open, free design services, low-price leader.',
+        year: '2022',
+        markets: 'Greater Boston',
+        duration: 'Opening flight',
+        hero: heroOf('floor-and-decor', '/assets/images/process/city.png'),
+        logo: `${LOGOS}/partner-floor-decor.png`,
+        stats: [
+            { value: 2, label: 'Store openings launched' },
+            { value: 6, label: 'Trucks in the Boston fleet' },
+            { value: 16, comma: true, suffix: 'M', label: 'Verified impressions' },
+            { value: 2, label: 'Sides of the metro covered daily' },
+        ],
+        services: ['Store-opening strategy', 'Multi-truck fleet', 'Retail-corridor routing'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'Two openings, one metro, zero waste',
+                body: [
+                    'A store opening is a deadline media problem: awareness has to exist in the trade area on a specific date, and a flooring purchase only happens when a project is live. The buy had to blanket homeowner and contractor corridors on both sides of the metro at once.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Run the corridors between the stores',
+                body: [
+                    'Six wrapped trucks split the metro: Dorchester routes south and east, Waltham routes west along the home-improvement retail strips, converging on shared commuter arterials at peak.',
+                    'Creative carried the category promise — tile, wood and stone at the low price — with the opening message and both locations on every side.',
+                ],
+            },
+            {
+                id: 'results',
+                nav: 'Results',
+                heading: 'The market knew by opening week',
+                body: [
+                    'The fleet delivered saturation frequency across the target corridors through the opening period — the row of wrapped trucks in the photography above is the actual Boston fleet staged for launch.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'Both trade areas saw the opening message daily for the entire flight — a launch you could not miss on the road.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: platesOf('floor-and-decor', ['/assets/images/process/city.png', '/assets/images/process/studio.png']),
+    },
+    {
+        slug: 'reliable-heating-cooling',
+        brand: 'Reliable Heating & Air',
+        industry: 'Home Services',
+        summary:
+            'Offer-led truckside that put a hard price on the street in the exact neighbourhoods the techs serve.',
+        lead:
+            'Home-services demand is hyper-local and offer-driven. Reliable’s wraps led with the number — a monthly-payment system price and a next-day installation guarantee — and ran the residential arterials of its Atlanta service area where the decision gets made.',
+        year: '2024',
+        markets: 'Metro Atlanta service area',
+        duration: 'Seasonal flights',
+        hero: heroOf('reliable-heating-cooling', '/assets/images/process/city.png'),
+        logo: `${LOGOS}/partner-reliable.png`,
+        stats: [
+            { value: 2, label: 'Peak seasons flighted' },
+            { value: 30, comma: true, suffix: 'M', label: 'Verified impressions' },
+            { value: 100, suffix: '%', label: 'Of routes inside the service area' },
+            { value: 1, label: 'Price point on every panel' },
+        ],
+        services: ['Service-area routing', 'Offer creative', 'Seasonal flighting'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'Be the name when the AC quits',
+                body: [
+                    'Nobody shops HVAC until the day they need it — then they call a name they already know. Reliable needed continuous neighbourhood presence across its service area so that, at the moment of failure, the brand and the price were already in the household’s memory.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Lead with the offer, stay in the footprint',
+                body: [
+                    'Creative put the system price and the next-day guarantee in letters readable from across an intersection — an ad that does the estimate before the phone call.',
+                    'Routes tracked the residential service area through the summer and winter peaks, when a wrapped truck on a neighbourhood street reads exactly like what it is: proof the company is already working nearby.',
+                ],
+            },
+            {
+                id: 'results',
+                nav: 'Results',
+                heading: 'Presence that compounds seasonally',
+                body: [
+                    'Every mile ran inside the serviceable footprint, GPS-verified, concentrated in the seasons when systems fail and decisions happen fast.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'The wrap does the estimate before the phone rings — the price is on the street all season.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: platesOf('reliable-heating-cooling', ['/assets/images/process/city.png', '/assets/images/process/studio.png']),
+    },
+    {
+        slug: 'outer',
+        brand: 'Outer',
+        industry: 'DTC Home & Outdoor',
+        summary:
+            'A digitally-native furniture brand made physical, on the design-district streets its customers walk.',
+        lead:
+            'Outer sells premium outdoor furniture online, with neighbourhood showrooms instead of stores. The fleet gave the brand a physical presence on the Westside LA streets — Venice, Abbot Kinney, Santa Monica — where its design-conscious audience actually spends its weekends.',
+        year: '2021',
+        markets: 'Los Angeles — Westside',
+        duration: '3 months',
+        hero: heroOf('outer', '/assets/images/process/city.png'),
+        logo: `${LOGOS}/partner-outer.png`,
+        stats: [
+            { value: 8, comma: true, suffix: 'M', label: 'Verified impressions' },
+            { value: 12, label: 'Design-district streets routed' },
+            { value: 7, label: 'Days-a-week presence' },
+            { value: 1, label: 'Metro, owned deeply' },
+        ],
+        services: ['Neighbourhood targeting', 'Brand-launch creative', 'Weekend routing'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'A digital brand needs a physical footprint',
+                body: [
+                    'A DTC brand can saturate Instagram and still not exist in the physical world its product lives in. Outer needed credibility and presence in a compact, affluent geography — without the retail footprint it had deliberately chosen not to build.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Drive the design districts',
+                body: [
+                    'Rather than chasing freeway impressions, the fleet worked a dozen Westside streets at walking pace — the boutique and café corridors where the audience is out, unhurried, and looking around.',
+                    'The creative matched the brand: clean, product-forward, no offer. The truck was the billboard the neighbourhood does not allow.',
+                ],
+            },
+            {
+                id: 'results',
+                nav: 'Results',
+                heading: 'Physical presence, digital brand',
+                body: [
+                    'For three months the brand was physically present in its core neighbourhoods seven days a week — the street photography above is from those routes, palm trees and all.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'The truck put a digitally-native brand on the exact streets its customers walk — a footprint without a storefront.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: platesOf('outer', ['/assets/images/process/city.png', '/assets/images/process/studio.png']),
+    },
+    {
+        slug: 'titan',
+        brand: 'Titan Insurance Sales',
+        industry: 'Insurance',
+        summary:
+            'Retail-plaza routing that put super-low rates in front of value shoppers where they park.',
+        lead:
+            'Titan sells on price, to drivers. The fleet took that message to big-box retail plazas and the commercial arterials that connect them — high-dwell environments full of exactly the value-conscious motorists the brand converts.',
+        year: '2022',
+        markets: 'California metros',
+        duration: '5 months',
+        hero: heroOf('titan', '/assets/images/process/city.png'),
+        logo: `${LOGOS}/partner-titan.png`,
+        stats: [
+            { value: 10, comma: true, suffix: 'M', label: 'Verified impressions' },
+            { value: 25, label: 'Retail plazas on rotation' },
+            { value: 90, suffix: 's', label: 'Average dwell at anchor stops' },
+            { value: 1, label: 'Phone number, everywhere' },
+        ],
+        services: ['Retail-plaza routing', 'Dwell-time strategy', 'Direct-response creative'],
+        sections: [
+            {
+                id: 'challenge',
+                nav: 'The challenge',
+                heading: 'Reach the rate shopper, skip the rest',
+                body: [
+                    'Non-standard auto insurance has a specific customer, and broad media wastes most of its weight missing them. Titan needed its rate message concentrated where value-focused drivers demonstrably are — and every one of them arrives by car.',
+                ],
+            },
+            {
+                id: 'approach',
+                nav: 'The approach',
+                heading: 'Park the message where they park',
+                body: [
+                    'Routes rotated through discount-retail plazas and the arterials between them, with deliberate dwell at anchor-store entrances and long-cycle intersections — a stopped truck is a read message.',
+                    'Creative was pure direct response: the rate promise, the number, nothing else to slow the read.',
+                ],
+            },
+            {
+                id: 'results',
+                nav: 'Results',
+                heading: 'Concentrated, not broadcast',
+                body: [
+                    'The flight concentrated its full weight on the highest-density value-shopper locations in each metro, with GPS logs verifying the plaza rotation was delivered as planned.',
+                ],
+            },
+        ],
+        quote: {
+            text:
+                'Every impression was spent within sight of a parking lot full of the exact drivers the product is priced for.',
+            author: 'Campaign Team',
+            role: 'Advertising Wheels',
+        },
+        gallery: platesOf('titan', ['/assets/images/process/city.png', '/assets/images/process/studio.png']),
     },
 ];
 

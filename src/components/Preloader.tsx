@@ -17,7 +17,7 @@ const SEQUENCE = [
   '3',
   '4',
   '5',
-  'Thank you. We did it. 6th time again.',
+  'Thank you. We did it, 6th time again.',
 ] as const;
 
 interface PreloaderProps {

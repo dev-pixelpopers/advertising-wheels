@@ -14,6 +14,7 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -333,12 +334,14 @@ function Related({ slug }: { slug: string }) {
                             href={`/blog/${p.slug}`}
                             className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#FCD119]/30"
                         >
-                            <div className="h-[170px] overflow-hidden">
-                                <img
+                            <div className="relative h-[170px] overflow-hidden">
+                                <Image
                                     src={p.image}
                                     alt=""
+                                    fill
                                     loading="lazy"
-                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                                    sizes="(max-width: 768px) 100vw, 400px"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                                 />
                             </div>
                             <div className="flex flex-1 flex-col p-6">

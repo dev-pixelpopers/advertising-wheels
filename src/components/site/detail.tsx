@@ -22,6 +22,7 @@
  */
 
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -309,7 +310,7 @@ export function ParallaxMedia({
     caption?: string;
 }) {
     const rootRef = useRef<HTMLDivElement>(null);
-    const imgRef = useRef<HTMLImageElement>(null);
+    const imgRef = useRef<HTMLDivElement>(null);
 
     useGSAP(
         () => {
@@ -344,8 +345,19 @@ export function ParallaxMedia({
                 ref={rootRef}
                 className={`overflow-hidden rounded-[20px] border border-black/10 dark:border-white/10 ${height}`}
             >
-                {/* Oversized so the parallax drift never exposes an edge. */}
-                <img ref={imgRef} src={src} alt={alt} className="h-[118%] w-full object-cover" />
+                {/* Oversized so the parallax drift never exposes an edge.
+                    The drift moves this WRAPPER rather than the image itself —
+                    next/image with `fill` owns the element's own transform box,
+                    so animating the <img> directly fights it. */}
+                <div ref={imgRef} className="relative h-[118%] w-full">
+                    <Image
+                        src={src}
+                        alt={alt}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 1100px"
+                        className="object-cover"
+                    />
+                </div>
             </div>
             {caption && (
                 <figcaption className="mt-3 font-tommy-regular text-[12.5px] text-[#6F6A60] dark:text-[#9A968E]">
