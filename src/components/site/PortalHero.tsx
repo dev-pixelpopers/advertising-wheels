@@ -67,7 +67,7 @@ export default function PortalHero({
     const ink = isLight ? '#1A1917' : '#EEE8D9';
     const inkDim = isLight ? 'rgba(26,25,23,.72)' : 'rgba(238,232,217,.8)';
     const accent = isLight ? '#FCD119' : '#FCD119';
-    const scrim = '#0000009e';
+    const scrim = '#5d59599e';
     const wordShadow = isLight ? '0 2px 26px rgba(238,232,217,.7)' : '0 2px 30px rgba(0,0,0,.55)';
 
     useGSAP(
