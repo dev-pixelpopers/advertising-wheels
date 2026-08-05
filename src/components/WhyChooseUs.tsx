@@ -206,39 +206,77 @@ function TruckSide({ mode, p }: { mode: 'solid' | 'ghost' | 'glass'; p: Palette 
     );
 }
 
-/** Stylized 3/4 isometric chassis — HUD wireframe treatment. */
+/**
+ * 3/4 isometric box truck, facing front-right — the chapter-one hero.
+ *
+ * Hand-projected dimetric: the truck's length runs along (0.97, 0.17), its
+ * width along (0.89, -0.45) scaled to 51px, and height is straight vertical.
+ * Every corner of every face derives from those three axes, which is what
+ * keeps the panels reading as one rigid body instead of a loose stack of
+ * parallelograms (the previous drawing's box and cab disagreed about the
+ * projection, so it never resolved into a truck).
+ *
+ * The surface-area callout lives inside the SVG, pinned to the roof, so it
+ * scales and moves with the truck at every viewport — the scrub timeline
+ * still finds it by the same .wcu-flag-* classes the old HTML overlay used.
+ */
 function TruckIso({ p }: { p: Palette }) {
     return (
-        <svg viewBox="0 0 520 300" className="h-auto w-full" aria-hidden="true">
-            {/* Trailer side panel (skewed) */}
-            <polygon points="42,78 348,52 348,196 42,222" fill={p.surface} stroke={p.edge} strokeWidth="1.5" />
-            {/* Trailer front face */}
-            <polygon points="348,52 432,84 432,208 348,196" fill={p.panel} stroke={p.edge} strokeWidth="1.5" />
-            {/* Top sliver */}
-            <polygon points="42,78 348,52 432,84 128,112" fill={p.panel} stroke={p.edge} strokeWidth="1" opacity="0.9" />
-            {/* Panel seams */}
-            <g stroke={p.seam} strokeWidth="1">
-                <line x1="120" y1="71" x2="120" y2="215" />
-                <line x1="200" y1="65" x2="200" y2="209" />
-                <line x1="280" y1="58" x2="280" y2="202" />
+        <svg viewBox="0 0 520 330" className="h-auto w-full" aria-hidden="true">
+            {/* HUD measure line under the rocker */}
+            <g stroke={p.accent} strokeWidth="1" opacity="0.5">
+                <line x1="36" y1="240" x2="346" y2="292" strokeDasharray="4 6" />
+                <line x1="36" y1="234" x2="36" y2="246" />
+                <line x1="346" y1="286" x2="346" y2="298" />
             </g>
-            {/* Cab (front-right) */}
-            <polygon points="432,132 470,146 476,178 476,214 432,208" fill={p.panel} stroke={p.edge} strokeWidth="1.5" />
-            <polygon points="436,138 464,150 468,172 436,166" fill={p.ink} stroke={p.seam} strokeWidth="1" />
-            {/* Wheels (skewed ellipses) */}
-            {[
-                [110, 238], [190, 232], [420, 232],
-            ].map(([cx, cy]) => (
+
+            {/* Wheels — drawn first so the rocker panels cover the axle tops */}
+            {([[104, 235], [166, 246], [405, 286]] as const).map(([cx, cy]) => (
                 <g key={cx}>
-                    <ellipse cx={cx} cy={cy} rx="24" ry="21" fill={p.ink} stroke={p.edge} strokeWidth="1.5" />
-                    <ellipse cx={cx} cy={cy} rx="8" ry="7" fill="none" stroke={p.accent} strokeWidth="1.2" opacity="0.7" />
+                    <ellipse cx={cx} cy={cy} rx="27" ry="25" fill={p.ink} stroke={p.edge} strokeWidth="1.5" />
+                    <ellipse cx={cx} cy={cy} rx="10" ry="9" fill="none" stroke={p.hub} strokeWidth="1.5" />
+                    <ellipse cx={cx} cy={cy} rx="3.5" ry="3" fill={p.accent} opacity="0.7" />
                 </g>
             ))}
-            {/* HUD measure ticks along the side panel */}
-            <g stroke={p.accent} strokeWidth="1" opacity="0.5">
-                <line x1="42" y1="240" x2="348" y2="214" strokeDasharray="4 6" />
-                <line x1="42" y1="234" x2="42" y2="246" />
-                <line x1="348" y1="208" x2="348" y2="220" />
+
+            {/* Trailer box — side, front face, roof */}
+            <polygon points="36,56 346,108 346,258 36,206" fill={p.surface} stroke={p.edge} strokeWidth="1.5" strokeLinejoin="round" />
+            <polygon points="346,108 392,85 392,235 346,258" fill={p.panel} stroke={p.edge} strokeWidth="1.5" strokeLinejoin="round" />
+            <polygon points="36,56 346,108 392,85 82,33" fill={p.panel} stroke={p.edge} strokeWidth="1.2" strokeLinejoin="round" />
+
+            {/* Panel seams + skirt line on the ad face */}
+            <g stroke={p.seam} strokeWidth="1">
+                <line x1="113" y1="69" x2="113" y2="219" />
+                <line x1="190" y1="82" x2="190" y2="232" />
+                <line x1="267" y1="95" x2="267" y2="245" />
+                <line x1="36" y1="196" x2="346" y2="248" />
+            </g>
+
+            {/* Cab — side profile, roof, windshield, hood, front */}
+            <polygon points="346,166 375,171 399,205 419,212 419,270 346,258" fill={p.panel} stroke={p.edge} strokeWidth="1.5" strokeLinejoin="round" />
+            <polygon points="346,166 375,171 421,148 392,143" fill={p.panel} stroke={p.edge} strokeWidth="1.2" strokeLinejoin="round" />
+            <polygon points="375,171 421,148 445,182 399,205" fill={p.ink} stroke={p.edge} strokeWidth="1.2" strokeLinejoin="round" />
+            <polygon points="399,205 445,182 465,189 419,212" fill={p.panel} stroke={p.edge} strokeWidth="1.2" strokeLinejoin="round" />
+            <polygon points="419,212 465,189 465,247 419,270" fill={p.surface} stroke={p.edge} strokeWidth="1.5" strokeLinejoin="round" />
+
+            {/* Cab side window */}
+            <polygon points="352,173 371,177 376,196 354,191" fill={p.ink} stroke={p.seam} strokeWidth="1" />
+
+            {/* Front details: grille lines, bumper, headlight */}
+            <g stroke={p.seam} strokeWidth="1">
+                <line x1="423" y1="222" x2="461" y2="203" />
+                <line x1="423" y1="228" x2="461" y2="209" />
+            </g>
+            <polygon points="419,258 465,235 465,247 419,270" fill={p.panel} stroke={p.edge} strokeWidth="1" strokeLinejoin="round" />
+            <polygon points="421,242 436,235 436,243 421,250" fill={p.brand} />
+
+            {/* Surface-area callout — stem grows out of the roof, label unfolds */}
+            <rect className="wcu-flag-stem" x="197" y="10" width="1.5" height="58" fill={p.accent} />
+            <g className="wcu-flag-label">
+                <rect x="206" y="2" width="220" height="24" rx="4" fill={p.ink} fillOpacity="0.85" stroke={p.accent} strokeOpacity="0.55" />
+                <text x="217" y="18.5" className="font-tommy-medium" fontSize="11" letterSpacing="2" fill={p.accent}>
+                    SURFACE AREA — 600 SQ. FT.
+                </text>
             </g>
         </svg>
     );
@@ -482,8 +520,14 @@ export default function WhyChooseUs() {
                                 <TruckSide mode="ghost" p={p} />
                             </div>
                             {/* Hero truck: three material states, crossfaded */}
-                            <div className="wcu-truck-iso absolute inset-x-[4%] top-1/2 -translate-y-1/2 will-change-transform">
-                                <TruckIso p={p} />
+                            {/* Flex-centred wrapper, not translate-centred: the timeline
+                                tweens `y` on .wcu-truck-iso, and a GSAP y tween replaces
+                                any CSS -translate-y-1/2 — which is what was shoving the
+                                chassis into the bottom of the frame. */}
+                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                                <div className="wcu-truck-iso w-full max-w-[820px] will-change-transform">
+                                    <TruckIso p={p} />
+                                </div>
                             </div>
                             <div className="wcu-truck-side absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform w-[200px] md:w-auto">
                                 <TruckSide mode="solid" p={p} />
@@ -494,11 +538,9 @@ export default function WhyChooseUs() {
                         </div>
                     </div>
 
-                    {/* Phase 1: surface-area measurement flag */}
-                    <div className="wcu-flag-stem absolute left-[58%] top-[16%] h-16 w-px" style={{ backgroundColor: p.accent }} />
-                    <div className="wcu-flag-label absolute left-[30%] lg:left-[58%] top-[9%] whitespace-nowrap rounded-[4px] border px-3 py-1.5 font-tommy-medium text-[10px] uppercase tracking-[2px] md:text-[11px]" style={{ borderColor: `${p.accent}88`, color: p.accent, backgroundColor: `${p.ink}cc` }}>
-                        Surface Area — 600 sq. ft.
-                    </div>
+                    {/* Phase 1's surface-area callout lives inside TruckIso now, so it
+                        stays pinned to the roof instead of floating at viewport
+                        percentages that only lined up at one screen size. */}
 
                     {/* Phase 2: social particles rising from the tires */}
                     {PARTICLES.map((particle, i) => (

@@ -15,47 +15,31 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/** Industry-association items for the certifications grid. */
-interface AssocItem {
-    tag: string;
-    title: string;
-    description: string;
-    badge?: { src: string; alt: string; w: string };
-    badges?: { src: string; alt: string; w: string }[];
-    isUsdot?: boolean;
+/**
+ * Accreditation and recognition marks, shown as a plain logo row.
+ *
+ * Heights are set per mark rather than by one shared class: the artwork runs
+ * from a square seal (MBE) to very wide, thin wordmarks (OAAA, GeoPath), so a
+ * single height would leave the wordmarks either hairline-thin or enormous.
+ * Sizing on height keeps the optical weight even across the row.
+ *
+ * `25-years` and `6x-honoree` are generated black-on-transparent derivatives —
+ * the supplied art is white, which is invisible on this yellow band.
+ */
+interface CredentialLogo {
+    src: string;
+    alt: string;
+    size: string;
 }
 
-const ASSOCIATIONS: AssocItem[] = [
-    {
-        tag: 'OAAA Member',
-        title: 'OAAA Membership',
-        description: 'Official OAAA membership.',
-        badge: { src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', w: 'w-[100px] md:w-[120px]' },
-    },
-    {
-        tag: 'Accreditation',
-        title: 'GeoPath & OAAA Accredited',
-        description: 'Accredited by GeoPath and the OAAA;',
-        badges: [
-            { src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', w: 'w-[90px] md:w-[105px]' },
-            { src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA accredited', w: 'w-[90px] md:w-[105px]' },
-        ],
-    },
-    {
-        tag: 'MBE Certified',
-        title: 'Minority Business Enterprise',
-        description: 'Certified Minority Business Enterprise (MBE) — NMSDC/WRMSDC certificate #WR05284; NAICS 541850 (Outdoor Advertising).',
-        badges: [
-            { src: '/assets/images/cta/mbe-certified.webp', alt: 'MBE certified', w: 'w-[44px] md:w-[52px]' },
-            { src: '/assets/images/cta/national-minority.webp', alt: 'NMSDC certified', w: 'w-[68px] md:w-[80px]' },
-        ],
-    },
-    {
-        tag: 'USDOT Fleet',
-        title: 'USDOT-Registered Fleet Partners',
-        description: 'USDOT-registered fleet partners with strict safety & branding standards;',
-        isUsdot: true,
-    },
+const CREDENTIALS: CredentialLogo[] = [
+    { src: '/assets/images/cta/6x-honoree.webp', alt: 'Six-time Inc. 5000 honoree', size: 'h-[30px] md:h-[36px]' },
+    { src: '/assets/images/cta/25-years.webp', alt: '25 years in business', size: 'h-[50px] md:h-[58px]' },
+    { src: '/assets/images/cta/inc-5000-seal.webp', alt: 'Inc. 5000 — America’s fastest-growing private companies', size: 'h-[50px] md:h-[58px]' },
+    { src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council', size: 'h-[42px] md:h-[50px]' },
+    { src: '/assets/images/cta/mbe-certified.webp', alt: 'Minority Business Enterprise certified', size: 'h-[48px] md:h-[56px]' },
+    { src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[24px] md:h-[28px]' },
+    { src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[22px] md:h-[26px]' },
 ];
 
 export default function CtaSection() {
@@ -188,7 +172,7 @@ export default function CtaSection() {
                 {/* ---------------- Industry Associations & Certifications ---------------- */}
                 <div
                     data-assoc-row
-                    className="relative z-10 mx-auto mt-8 w-full max-w-[880px] md:mt-12"
+                    className="relative z-10 mx-auto mt-8 w-full max-w-[1000px] md:mt-12"
                 >
                     <h3
                         data-assoc-heading
@@ -199,60 +183,28 @@ export default function CtaSection() {
 
                     <div
                         data-assoc-marquee
-                        className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2 md:mt-6 md:gap-3.5"
+                        /* Capped at the exact width of four tiles plus their
+                           gaps (4×148 + 3×16), so the seven marks break 4-over-3
+                           and `justify-center` centres the short second row.
+                           Uncapped below md, where four would not fit anyway. */
+                        className="mx-auto mt-7 flex flex-wrap items-stretch justify-center gap-3 md:mt-9 md:max-w-[648px] md:gap-4"
                     >
-                        {ASSOCIATIONS.map((assoc, idx) => (
+                        {/* Each mark sits on its own frosted tile. The band behind
+                            is flat yellow, so the "glass" is built from a light
+                            translucent fill plus a bright top edge and a soft
+                            inner highlight — backdrop-blur alone reads as nothing
+                            against a solid colour. */}
+                        {CREDENTIALS.map((c) => (
                             <div
-                                key={idx}
-                                className="flex items-center gap-3.5 rounded-xl border border-black/15 bg-black/5 p-2 md:p-3.5 backdrop-blur-sm transition-all duration-300 hover:border-black/30 hover:bg-black/10 hover:shadow-sm"
+                                key={c.src}
+                                className="group flex h-[92px] w-[128px] items-center justify-center rounded-2xl border border-white/45 bg-white/25 px-4 shadow-[0_4px_20px_rgba(0,0,0,0.07),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/40 hover:shadow-[0_10px_28px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.85)] md:h-[104px] md:w-[148px]"
                             >
-                                {/* Left Logo / Badge Icon */}
-                                <div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-lg border border-black/10 bg-black/5 p-1.5 md:h-[76px] md:w-[76px]">
-                                    {assoc.badge && (
-                                        <img
-                                            src={assoc.badge.src}
-                                            alt={assoc.badge.alt}
-                                            loading="lazy"
-                                            className="max-h-12 w-auto object-contain mix-blend-multiply opacity-90"
-                                        />
-                                    )}
-                                    {assoc.badges && (
-                                        <div className="flex flex-col items-center justify-center gap-1">
-                                            {assoc.badges.map((b, bIdx) => (
-                                                <img
-                                                    key={bIdx}
-                                                    src={b.src}
-                                                    alt={b.alt}
-                                                    loading="lazy"
-                                                    className="max-h-6 w-auto object-contain mix-blend-multiply opacity-90"
-                                                />
-                                            ))}
-                                        </div>
-                                    )}
-                                    {assoc.isUsdot && (
-                                        <div className="flex flex-col items-center justify-center text-center">
-                                            <svg className="h-6 w-6 text-black/75" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                            </svg>
-                                            <span className="mt-0.5 font-tommy-bold text-[9px] uppercase tracking-wider text-black/80">
-                                                USDOT
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Right Text Details */}
-                                <div className="min-w-0 flex-1">
-                                    <span className="inline-block rounded-full bg-black/10 px-2 py-0.5 font-tommy-medium text-[9.5px] uppercase tracking-wider text-black/75">
-                                        {assoc.tag}
-                                    </span>
-                                    <h4 className="mt-1 font-tommy-bold text-[14px] leading-snug text-black md:text-[15px]">
-                                        {assoc.title}
-                                    </h4>
-                                    <p className="mt-0.5 font-tommy-regular text-[11.5px] leading-snug text-black/75 md:text-[12px]">
-                                        {assoc.description}
-                                    </p>
-                                </div>
+                                <img
+                                    src={c.src}
+                                    alt={c.alt}
+                                    loading="lazy"
+                                    className={`${c.size} w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]`}
+                                />
                             </div>
                         ))}
                     </div>

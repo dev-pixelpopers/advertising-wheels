@@ -38,18 +38,34 @@ const SUB_ACCENT = 'italic text-[#FCD119]';
 const SUB_CARET =
     'aw-caret ml-[0.12em] inline-block h-[0.78em] w-[0.05em] translate-y-[0.06em] bg-[#FCD119] align-middle';
 
+/**
+ * Map markers scattered over the city plate.
+ *
+ * Deliberately off-grid: three of the four used to share `top-[44%]`, which
+ * lined them up on one horizontal rule and read as a UI row rather than
+ * points on a map. No two now share a `top` at any breakpoint, and the sizes
+ * step up and down a little so they sit at different apparent depths.
+ */
 const pinPositions = [
     {
-        className: "left-[8%] top-[10%] lg:top-[44%] ",
+        // Near-left, low — largest, so it reads closest to camera
+        className: 'left-[8%] top-[6%] lg:left-[6%] lg:top-[34%]',
+        size: 'w-[64px] h-[64px] lg:w-[82px] lg:h-[82px]',
     },
     {
-        className: "top-[20%] lg:top-[30%] right-[15%] 2xl:right-[23%] 3xl:right-[28%] ",
+        // Upper-left, clearing the trailer roof
+        className: 'left-[36%] top-[22%] lg:left-[19%] lg:top-[18%]',
+        size: 'w-[52px] h-[52px] lg:w-[64px] lg:h-[64px]',
     },
     {
-        className: "right-[10%] lg:right-[16%] top-[30%] lg:top-[44%] ",
+        // Right, mid-height — smallest of the right pair, sits furthest back
+        className: 'right-[8%] top-[10%] lg:right-[14%] 2xl:right-[20%] 3xl:right-[25%] lg:top-[33%]',
+        size: 'w-[56px] h-[56px] lg:w-[70px] lg:h-[70px]',
     },
     {
-        className: "right-[50%] lg:right-[4%] top-[20%] lg:top-[44%] ",
+        // Far-right, low
+        className: 'right-[32%] top-[32%] lg:right-[5%] 2xl:right-[7%] 3xl:right-[10%] lg:top-[44%]',
+        size: 'w-[60px] h-[60px] lg:w-[76px] lg:h-[76px]',
     },
 ];
 
@@ -62,6 +78,7 @@ export default function TruckExperience() {
     const truckWrapRef = useRef<HTMLDivElement>(null);
     const bannerRef = useRef<HTMLDivElement>(null);
     const badgeRef = useRef<HTMLDivElement>(null);
+    const signalRef = useRef<HTMLDivElement>(null);
     const pinRefs = useRef<(HTMLDivElement | null)[]>([]);
     const statsBarRef = useRef<HTMLDivElement>(null);
     const sub1Ref = useRef<HTMLDivElement>(null);
@@ -95,6 +112,9 @@ export default function TruckExperience() {
             gsap.set(urbanRef.current, { autoAlpha: 0 });
             gsap.set(statsRef.current, { autoAlpha: 0 });
             gsap.set(badgeRef.current, { autoAlpha: 0, scale: 0.6 });
+            // Broadcast origin is the GPS puck (bottom-left of the arc svg), so
+            // the deploy scale grows out of the roof rather than from mid-air.
+            gsap.set(signalRef.current, { autoAlpha: 0, scale: 0.4, transformOrigin: '25% 81%' });
             gsap.set(pinRefs.current.filter(Boolean), { autoAlpha: 0, scale: 0.3, y: 20 });
             gsap.set(statsBarRef.current, { autoAlpha: 0, y: 40 });
             gsap.set([sub2Ref.current, sub3Ref.current], { autoAlpha: 0 });
@@ -134,7 +154,10 @@ export default function TruckExperience() {
                 .to(sub1Ref.current, { autoAlpha: 0, duration: 0.3 }, 1.45)
                 .to(sub2Ref.current, { autoAlpha: 1, duration: 0.4 }, 1.75);
 
-            // ── STEP 2 — 4 pins reveal one by one on scroll ─────────────────
+            // ── STEP 2 — signal + 4 pins reveal together on scroll ──────────
+            // The GPS unit deploys at the same beat as the first pin, so the
+            // broadcast and the map answers read as one event.
+            tl.to(signalRef.current, { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(1.8)' }, 1.85);
             pinRefs.current.forEach((pin, index) => {
                 if (pin) {
                     tl.to(pin, {
@@ -154,6 +177,10 @@ export default function TruckExperience() {
                     tl.to(pin, { autoAlpha: 0, scale: 0.5, duration: 0.3 }, 2.65);
                 }
             });
+            // Signal leaves on the pins' beat. The truck wrapper fades a moment
+            // later anyway, but tying it to the pins keeps the pair in lockstep
+            // if either exit is ever retimed.
+            tl.to(signalRef.current, { autoAlpha: 0, scale: 0.5, duration: 0.3 }, 2.65);
             tl.to(truckWrapRef.current, { xPercent: 160, autoAlpha: 0, duration: 0.75, ease: 'power2.in' }, 2.65);
 
             // 2. THEN: Background changes from city.png to stats.png, stats bar reveals & subtitle updates
@@ -179,6 +206,15 @@ export default function TruckExperience() {
                     0%,100% { opacity: 0.35; }
                     50% { opacity: 0.9; }
                 }
+                /* GPS broadcast arcs — pulse outward in sequence, like a live ping. */
+                @keyframes aw-sig {
+                    0%, 100% { opacity: 0.2; }
+                    50% { opacity: 1; }
+                }
+                .aw-sig { animation: aw-sig 1.6s ease-in-out infinite; }
+                .aw-sig-2 { animation-delay: 0.25s; }
+                .aw-sig-3 { animation-delay: 0.5s; }
+                @media (prefers-reduced-motion: reduce) { .aw-sig { animation: none; opacity: 1; } }
                 /* Terminal caret, same device the Hero closes its headline with. */
                 @keyframes aw-caret { 0%,45% { opacity: 1; } 55%,100% { opacity: 0; } }
                 .aw-caret { animation: aw-caret 1.05s steps(1) infinite; }
@@ -244,7 +280,7 @@ export default function TruckExperience() {
                         ref={(el) => {
                             pinRefs.current[index] = el;
                         }}
-                        className={`absolute z-20 flex items-center justify-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] w-[60px] lg:w-[75px] h-[60px] lg:h-[75px] ${pin.className}`}
+                        className={`absolute z-20 flex items-center justify-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] ${pin.size} ${pin.className}`}
                     >
                         <img
                             src="/assets/images/process/circle.png"
@@ -255,7 +291,9 @@ export default function TruckExperience() {
                         <img
                             src="/assets/images/process/pin.gif"
                             alt="Pin animation"
-                            className={`w-[30px] lg:w-[40px] h-[30px] lg:h-[40px] object-contain relative z-10 pointer-events-none`}
+                            /* Half the container rather than a fixed pixel size, so the
+                               icon keeps its proportion as the marker sizes vary. */
+                            className="w-1/2 h-1/2 object-contain relative z-10 pointer-events-none"
                         />
                     </div>
                 ))}
@@ -279,6 +317,24 @@ export default function TruckExperience() {
                                 alt="Brand creative banner"
                                 className="w-full h-full object-cover"
                             />
+                        </div>
+
+                        {/* GPS signal — a puck on the box's front-top corner (~69% across,
+                            ~9% down truck.png) broadcasting arcs into the sky. Lives inside
+                            the truck wrapper so it rides in, holds and exits with the
+                            vehicle; the timeline reveals it as the route step begins. */}
+                        <div ref={signalRef} className="pointer-events-none absolute left-[65%] top-[-22%] z-20 w-[16%]">
+                            <svg viewBox="0 0 64 64" className="h-auto w-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.35)]" aria-hidden="true">
+                                {/* Broadcast arcs — up-right quadrant, pulsing outward */}
+                                <g fill="none" stroke="#FCD119" strokeWidth="3.5" strokeLinecap="round">
+                                    <path className="aw-sig" d="M 16 39 A 13 13 0 0 1 29 52" />
+                                    <path className="aw-sig aw-sig-2" d="M 16 29 A 23 23 0 0 1 39 52" />
+                                    <path className="aw-sig aw-sig-3" d="M 16 19 A 33 33 0 0 1 49 52" />
+                                </g>
+                                {/* The GPS puck itself */}
+                                <circle cx="16" cy="52" r="5" fill="#FCD119" stroke="#1A1917" strokeWidth="1.5" />
+                                <circle cx="16" cy="52" r="1.8" fill="#1A1917" />
+                            </svg>
                         </div>
 
                         {/* Quality-verified badge on the body */}
