@@ -11,13 +11,12 @@ gsap.registerPlugin(useGSAP);
  * each item rolls up and out as the next rolls up into its place. Numbers
  * count 1→5, then the sign-off lines land, then the Inc 5000 mark shows.
  */
+//'''Impression.', 'Impact.', 'ROI.'
 const SEQUENCE = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  'Thank you. We did it, 6th time again.',
+  'Impression.',
+  'Impact',
+  'Roi',
+  'Repeat.',
 ] as const;
 
 interface PreloaderProps {
