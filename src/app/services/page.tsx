@@ -319,7 +319,7 @@ export default function ServicesPage() {
                 lead="From the wrap on the truck to the readout on your desk — placement, production, routing, measurement, creative and campaign management, handled end to end by one accountable team."
                 primary={{ label: 'Book a Strategy Call', href: '/contact' }}
                 secondary={{ label: 'See the results', href: '/projects' }}
-                image="/assets/images/kroger-img.webp"
+                image="/assets/images/clients/floor-and-decor/hero-05.webp"
                 imageAlt="An Advertising Wheels truck on a city corridor at dusk"
             />
 

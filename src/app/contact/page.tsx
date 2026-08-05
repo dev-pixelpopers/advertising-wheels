@@ -259,7 +259,7 @@ export default function ContactPage() {
                 lead="Tell us what you want to move — a product, a perception, a whole market. We'll come back with routes, formats and a plan you can measure."
                 primary={{ label: 'Book a Strategy Call', href: '#form' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
-                image="/assets/images/costco-img.webp"
+                image="/assets/images/clients/hertz/hero-03.webp"
                 imageAlt="Advertising Wheels production studio"
             />
             <ContactHero />
