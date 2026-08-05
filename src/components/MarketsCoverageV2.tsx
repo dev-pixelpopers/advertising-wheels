@@ -736,16 +736,23 @@ export default function MarketsCoverageV2() {
     /** Last count the refresh effect acted on — lets it skip the mount pass. */
     const lastCountRef = useRef(-1);
     /**
-     * State key the scroll must land back on once the row set has changed.
+     * Where the clicked state was sitting when it was clicked.
      *
      * Expanding/collapsing changes the row count, and therefore the whole
      * scroll→y mapping. Set this on the click, consume it in the effect that
-     * watches `rows`: the state you clicked ends up back under the reading
-     * line instead of the list jumping to wherever that scroll position now
-     * maps to. Null means "no target" — i.e. a region change, which resets
-     * to the top on purpose.
+     * watches `rows`, which restores the SAME on-screen position afterwards.
+     *
+     * Position, not index — that distinction is the whole point. Seating the
+     * clicked state on the reading line (screen centre) instead meant row 0,
+     * which is always at or above that line, dragged the list downwards on
+     * every open. An accordion must not move the header you just clicked.
+     *
+     * `y` is the list's target offset, `index` the row's position in the
+     * OLD row set — the two together survive the rows shifting underneath.
+     * Null means "no target": a region change, which resets to the top on
+     * purpose.
      */
-    const pendingSeatRef = useRef<string | null>(null);
+    const pendingSeatRef = useRef<{ key: string; index: number; y: number } | null>(null);
 
     const [activeIdx, setActiveIdx] = useState(0);
     /** Which market's full-screen popup is open, if any. */
@@ -796,6 +803,36 @@ export default function MarketsCoverageV2() {
         const count = rowCountRef.current;
         if (!st || count < 2) return;
         const p = INTRO_END + (1 - INTRO_END) * (i / (count - 1));
+        window.scrollTo({ top: st.start + p * (st.end - st.start), behavior: 'auto' });
+    }, []);
+
+    /**
+     * The list offset the CURRENT scroll position maps to.
+     *
+     * Derived from `st.progress` rather than read off the element, because
+     * `scrub` means the rendered transform lags the scroll by up to 0.6s.
+     * Reading the live transform mid-scroll would capture a value the list is
+     * still travelling away from, and freeze it there on the next seat.
+     */
+    const targetY = useCallback(() => {
+        const st = stRef.current;
+        const count = rowCountRef.current;
+        if (!st || count < 2) return 0;
+        const t = gsap.utils.clamp(0, 1, (st.progress - INTRO_END) / (1 - INTRO_END));
+        return -(count - 1) * rowHeight() * t;
+    }, []);
+
+    /**
+     * Inverse of `targetY` — scrolls to whatever position puts the list at
+     * offset `y`. Used to hold a row still across a row-count change, where
+     * the same y corresponds to a different scroll position before and after.
+     */
+    const seatY = useCallback((y: number) => {
+        const st = stRef.current;
+        const count = rowCountRef.current;
+        if (!st || count < 2) return;
+        const t = gsap.utils.clamp(0, 1, -y / ((count - 1) * rowHeight()));
+        const p = INTRO_END + (1 - INTRO_END) * t;
         window.scrollTo({ top: st.start + p * (st.end - st.start), behavior: 'auto' });
     }, []);
 
@@ -910,14 +947,33 @@ export default function MarketsCoverageV2() {
         tlRef.current?.invalidate();
         st.refresh();
 
-        const key = pendingSeatRef.current;
+        const seat = pendingSeatRef.current;
         pendingSeatRef.current = null;
-        const idx = key ? rows.findIndex((r) => r.kind === 'state' && r.key === key) : -1;
-        const target = idx > 0 ? idx : 0;
 
-        setActiveIdx(target);
-        seatIndex(target);
-    }, [rows, seatIndex]);
+        // No target — a region change. That one DOES reset to the top, since
+        // the list it was reading has been replaced wholesale.
+        const idxAfter = seat
+            ? rows.findIndex((r) => r.kind === 'state' && r.key === seat.key)
+            : -1;
+
+        if (!seat || idxAfter < 0) {
+            setActiveIdx(0);
+            seatIndex(0);
+            return;
+        }
+
+        /* Hold the clicked state exactly where it was.
+
+           Its index can still shift even though it was not itself removed:
+           collapsing a state that sat ABOVE it takes that state's cities out
+           of the list and pulls everything below up. Correcting y by the index
+           delta cancels that out, so the row stays on the same pixel row of
+           the screen whichever direction the set changed. */
+        const y = seat.y + (seat.index - idxAfter) * rowHeight();
+
+        setActiveIdx(gsap.utils.clamp(0, rows.length - 1, Math.round(-y / rowHeight())));
+        seatY(y);
+    }, [rows, seatIndex, seatY]);
 
     /* -------------------------------------------------------------- */
     /*  Interaction                                                    */
@@ -930,31 +986,38 @@ export default function MarketsCoverageV2() {
      * first — the effect above then re-anchors the scroll to it once the new
      * rows have rendered.
      */
-    const toggleExpand = useCallback((state: string) => {
-        pendingSeatRef.current = state;
-        setExpandedState((prev) => (prev === state ? null : state));
-    }, []);
+    const toggleExpand = useCallback(
+        (state: string, index: number) => {
+            // Captured BEFORE the state update, so it records the list as the
+            // user actually saw it at the moment of the click.
+            pendingSeatRef.current = { key: state, index, y: targetY() };
+            setExpandedState((prev) => (prev === state ? null : state));
+        },
+        [targetY]
+    );
 
     /**
-     * A state click brings the row to the reading line, then either opens its
-     * dropdown (multi-market) or its popup directly (single-market — there
-     * are no cities beneath it to reveal).
+     * A state click either opens its dropdown (multi-market) or its popup
+     * directly (single-market — there are no cities beneath it to reveal).
+     *
+     * Neither path scrolls the list. Clicking a row used to drag it to the
+     * reading line first, which meant the thing you clicked jumped out from
+     * under the pointer — worst for the top rows, which could only ever be
+     * dragged downwards.
      */
     const onStateClick = useCallback(
         (g: StateGroup, index: number) => {
             if (g.markets.length === 1) {
                 hideCursorRef.current?.();
-                seatIndex(index);
                 setPopupMarketId(g.markets[0].id);
             } else {
-                // No seatIndex() here — the row set is about to change, so the
-                // effect watching `rows` does the seating instead. Seating on
-                // the OLD index first would scroll to a row that is about to
-                // stop existing.
-                toggleExpand(g.state);
+                // The row set is about to change, so the effect watching `rows`
+                // restores the position instead. Seating on the OLD index here
+                // would scroll to a row that is about to stop existing.
+                toggleExpand(g.state, index);
             }
         },
-        [seatIndex, toggleExpand]
+        [toggleExpand]
     );
 
     const onMarketClick = useCallback((m: Market) => {
