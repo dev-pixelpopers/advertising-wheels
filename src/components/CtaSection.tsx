@@ -32,14 +32,31 @@ interface CredentialLogo {
     size: string;
 }
 
-const CREDENTIALS: CredentialLogo[] = [
-    { src: '/assets/images/cta/6x-honoree.webp', alt: 'Six-time Inc. 5000 honoree', size: 'h-[30px] md:h-[36px]' },
-    { src: '/assets/images/cta/25-years.webp', alt: '25 years in business', size: 'h-[50px] md:h-[58px]' },
-    { src: '/assets/images/cta/inc-5000-seal.webp', alt: 'Inc. 5000 — America’s fastest-growing private companies', size: 'h-[50px] md:h-[58px]' },
-    { src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council', size: 'h-[42px] md:h-[50px]' },
-    { src: '/assets/images/cta/mbe-certified.webp', alt: 'Minority Business Enterprise certified', size: 'h-[48px] md:h-[56px]' },
-    { src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[24px] md:h-[28px]' },
-    { src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[22px] md:h-[26px]' },
+interface CredentialCard {
+    /** One mark, or a pair that only means anything together. */
+    logos: CredentialLogo[];
+    /** Double-width tile — room for a pair without cramping either mark. */
+    wide?: boolean;
+}
+
+const CREDENTIALS: CredentialCard[] = [
+    {
+        /* "6X" is the count for the seal beside it: six-time Inc. 5000 honoree
+           is a single credential, so it gets a single tile. Split across two
+           tiles the number read as its own unexplained award. */
+        wide: true,
+        logos: [
+            { src: '/assets/images/cta/6x-honoree.webp', alt: 'Six-time Inc. 5000 honoree', size: 'h-[42px] md:h-[52px]' },
+            // Decorative: the mark above already carries the full credential,
+            // so this would only make a screen reader say it twice.
+            { src: '/assets/images/cta/inc-5000-seal.webp', alt: '', size: 'h-[60px] md:h-[72px]' },
+        ],
+    },
+    { logos: [{ src: '/assets/images/cta/25-years.webp', alt: '25 years in business', size: 'h-[50px] md:h-[58px]' }] },
+    { logos: [{ src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council', size: 'h-[42px] md:h-[50px]' }] },
+    { logos: [{ src: '/assets/images/cta/mbe-certified.webp', alt: 'Minority Business Enterprise certified', size: 'h-[48px] md:h-[56px]' }] },
+    { logos: [{ src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[24px] md:h-[28px]' }] },
+    { logos: [{ src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[22px] md:h-[26px]' }] },
 ];
 
 export default function CtaSection() {
@@ -183,10 +200,12 @@ export default function CtaSection() {
 
                     <div
                         data-assoc-marquee
-                        /* Capped at the exact width of four tiles plus their
-                           gaps (4×148 + 3×16), so the seven marks break 4-over-3
-                           and `justify-center` centres the short second row.
-                           Uncapped below md, where four would not fit anyway. */
+                        /* Capped at 648px, which is exactly the double-width
+                           Inc. 5000 tile plus two singles and their gaps
+                           (312 + 148 + 148 + 2×16 = 640). A fourth tile cannot
+                           fit, so the six cards break 3-over-3 and
+                           `justify-center` centres the second row. Uncapped
+                           below md, where the row wraps on its own. */
                         className="mx-auto mt-7 flex flex-wrap items-stretch justify-center gap-3 md:mt-9 md:max-w-[648px] md:gap-4"
                     >
                         {/* Each mark sits on its own frosted tile. The band behind
@@ -194,17 +213,21 @@ export default function CtaSection() {
                             translucent fill plus a bright top edge and a soft
                             inner highlight — backdrop-blur alone reads as nothing
                             against a solid colour. */}
-                        {CREDENTIALS.map((c) => (
+                        {CREDENTIALS.map((card) => (
                             <div
-                                key={c.src}
-                                className="group flex h-[92px] w-[128px] items-center justify-center rounded-2xl border border-white/45 bg-white/25 px-4 shadow-[0_4px_20px_rgba(0,0,0,0.07),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/40 hover:shadow-[0_10px_28px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.85)] md:h-[104px] md:w-[148px]"
+                                key={card.logos[0].src}
+                                className={`group flex h-[92px] items-center justify-center gap-4 rounded-2xl border border-white/45 bg-white/25 px-4 shadow-[0_4px_20px_rgba(0,0,0,0.07),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/40 hover:shadow-[0_10px_28px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.85)] md:h-[104px] md:gap-5 ${card.wide ? 'w-[272px] md:w-[312px]' : 'w-[128px] md:w-[148px]'
+                                    }`}
                             >
-                                <img
-                                    src={c.src}
-                                    alt={c.alt}
-                                    loading="lazy"
-                                    className={`${c.size} w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]`}
-                                />
+                                {card.logos.map((c) => (
+                                    <img
+                                        key={c.src}
+                                        src={c.src}
+                                        alt={c.alt}
+                                        loading="lazy"
+                                        className={`${c.size} w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]`}
+                                    />
+                                ))}
                             </div>
                         ))}
                     </div>
