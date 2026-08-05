@@ -505,8 +505,21 @@ export default function Hero({ isReady }: HeroProps) {
                   <a className='bg-white text-[16px] md:text-[20px] lg:text-[24px] leading-[102%] font-tommy-regular text-[#1A1917] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'>
                     Start a Campaign
                   </a>
-                  <a className='bg-black text-[16px] md:text-[20px] leading-[102%] font-tommy-regular text-[#FCD119] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'>
-                    Become a Vendor
+                  {/* Jumps to the Markets & Coverage roll call further down the page.
+                      The handler takes over from the plain hash so the scroll is
+                      smooth; the href stays as the fallback and keeps the link
+                      real for keyboard and middle-click. */}
+                  <a
+                    href='#markets-coverage'
+                    onClick={(e) => {
+                      const target = document.getElementById('markets-coverage');
+                      if (!target) return;
+                      e.preventDefault();
+                      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }}
+                    className='bg-black text-[16px] md:text-[20px] leading-[102%] font-tommy-regular text-[#FCD119] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'
+                  >
+                    See the Data in Action
                   </a>
                 </div>
               </div>

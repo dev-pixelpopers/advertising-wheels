@@ -87,22 +87,22 @@ const CHAPTERS = [
     {
         tag: '01 — Efficiency',
         title: 'The Smart Play',
-        body: 'One truck. 600 square feet of uninterrupted brand canvas rolling through rush hour. That is 10x the efficiency of a static board — at a fraction of the cost.',
+        body: `One truck. 600 square feet of uninterrupted brand canvas moving through daily life — seen up close, in motion, and again tomorrow. Presence a static board can't match, at a fraction of the cost.`,
     },
     {
         tag: '02 — Reach',
         title: 'The Everywhere Illusion',
-        body: 'The same vehicle seen on five highways feels like fifty. Sightings become photos, photos become posts — the earned-media flywheel starts spinning on its own.',
+        body: 'The same truck seen on five streets feels like fifty. Sightings become photos, photos become posts — the earned-media flywheel starts spinning on its own.',
     },
     {
         tag: '03 — Scale',
-        title: 'Your Canvas, Your Rules',
-        body: 'Start with a single route. Scale to a synchronized fleet blanketing corridors from NYC to California. Your creative, your markets, your schedule.',
+        title: 'Real Trucks. Real Routes.',
+        body: 'Your brand rides working delivery fleets — moving through the neighborhoods, retail corridors, and commercial zones of your DMA all day, every day. Start with a handful of trucks in one market. Scale to fleets across fifty.',
     },
     {
         tag: '04 — Proof',
         title: 'The Proof is in the Pavement',
-        body: 'Every mile is measured. 24/7 GPS telemetry, audited impression modelling and wrap longevity reports — analytics that outlive any campaign flight.',
+        body: 'Every mile is measured. 24/7 GPS telemetry, impressions independently verified by StreetMetrics, and wrap condition reporting — analytics that outlive any campaign flight.',
     },
 ];
 

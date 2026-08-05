@@ -27,7 +27,7 @@ const DETAILS = [
     {
         label: 'Call us',
         value: '1-877-4-ADWHEELS (1-877-423-9433)',
-        sub: 'Mon–Fri, 8am–6pm ET',
+        sub: 'Mon–Fri, 8am–6pm CT',
         icon: 'M5.2 2.5 6.6 5.3 5.3 6.6a8.4 8.4 0 0 0 4.1 4.1l1.3-1.3 2.8 1.4v2.4c0 .6-.5 1-1.1.9A11.6 11.6 0 0 1 2.1 3.6c0-.6.4-1.1 1-1.1h2.1Z',
     },
     {
@@ -39,7 +39,7 @@ const DETAILS = [
     {
         label: 'Headquarters',
         value: 'Nashville, Tennessee',
-        sub: '50 metro markets, coast to coast',
+        sub: '50 DMAs, coast to coast',
         icon: 'M8 14s5-4.5 5-8A5 5 0 0 0 3 6c0 3.5 5 8 5 8Zm0-6.2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z',
     },
 ];
@@ -47,10 +47,10 @@ const DETAILS = [
 const INTERESTS = ['Start a campaign', 'Become a fleet partner', 'Press / media', 'Something else'];
 
 const FAQS = [
-    { q: 'How fast can a campaign go live?', a: 'For most markets we go from approved artwork to the first highway mile in about five business days — design, print, install and routing included.' },
-    { q: 'Which markets do you cover?', a: 'We run 50 metro markets from coast to coast. You can start with a single route in one city or scale to a synchronized fleet across multiple corridors.' },
-    { q: 'How are impressions measured?', a: 'Reach and frequency are modelled by an independent, audited third party and reported alongside 24/7 GPS route data — the same rigour you’d expect from a digital buy.' },
-    { q: 'Do you handle the creative?', a: 'Yes. Our in-house studio designs wraps engineered for distance and motion, then prints and installs them on premium cast vinyl. Bring finished art or start from a brief.' },
+    { q: 'How fast can a campaign go live?', a: 'For most markets we go from approved artwork to trucks on the road in about five business days — design, print, and installation included. Larger multi-market activations are scheduled to launch in sync.' },
+    { q: 'Which markets do you cover?', a: 'We cover 50 DMAs coast to coast. Start with a handful of trucks in one market or scale to concurrent fleets across as many DMAs as your campaign needs.' },
+    { q: 'How are impressions measured?', a: `Impressions, reach, and frequency are independently measured by StreetMetrics from actual GPS movement data — the same rigor you'd expect from a digital buy.` },
+    { q: 'Do you handle the creative?', a: 'Yes. Our in-house studio designs wraps designed for how people see them — up close, in motion, at street level, then prints and installs them on premium cast vinyl. Bring finished art or start from a brief.' },
     { q: 'I own trucks — how do I partner?', a: 'Head to the Vendors page and apply. If your vehicles and routes fit, we match you to campaigns and handle the wrap, install and reporting.' },
 ];
 
@@ -180,8 +180,11 @@ function ContactHero() {
                                     Send message <ArrowIcon />
                                 </button>
                                 <p className="font-tommy-regular text-[11.5px] leading-[1.6] text-[#6F6A60]/85 dark:text-[#9A968E]/80">
-                                    By submitting you agree to our Privacy Policy. We’ll only use your details to respond
-                                    to this enquiry.
+                                    By submitting you agree to our{' '}
+                                    <a href="/privacy" className="underline underline-offset-2 hover:text-[#1A1917] dark:hover:text-white">
+                                        Privacy Policy
+                                    </a>
+                                    . We’ll only use your details to respond to this enquiry.
                                 </p>
                             </form>
                         )}

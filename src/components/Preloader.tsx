@@ -7,11 +7,15 @@ import { useGSAP } from '@gsap/react';
 gsap.registerPlugin(useGSAP);
 
 /**
- * The counter sequence, played back one item at a time in the same slot —
- * each item rolls up and out as the next rolls up into its place. Numbers
- * count 1→5, then the sign-off lines land, then the Inc 5000 mark shows.
+ * The word sequence, played back one item at a time in the same slot — each
+ * item rolls up and out as the next rolls up into its place, then the Inc 5000
+ * mark shows.
+ *
+ * Nothing here is rendered server-side: the slots below ship empty and the
+ * timeline writes into them. This overlay is the first thing in the homepage
+ * body, so any text sitting in those slots lands at the top of the document
+ * for crawlers and link previews — invisible on screen, but not in the markup.
  */
-//'''Impression.', 'Impact.', 'ROI.'
 const SEQUENCE = [
   'Impression.',
   'Impact',
@@ -66,7 +70,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         if (percentRef.current) percentRef.current.textContent = Math.round(prog.v * 100) + '%';
       };
 
-      // ── Counter roll: 1 → 2 → 3 → 4 → 5 → "Thank you." → sign-off ──────
+      // ── Word roll: "Impression." → "Impact" → "Roi" → "Repeat." ────────
       // Two slots stacked in the same spot, alternating which is "current"
       // and which is "next". Each step slides the current slot up and out
       // while the next slot slides up into place, then the roles swap — a
@@ -92,9 +96,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         let next = slotB;
         for (let i = 1; i < SEQUENCE.length; i += 1) {
           const isLast = i === SEQUENCE.length - 1;
-          const isNumberStep = i < 5; // transitions still inside the 1–5 count
-          const hold = isNumberStep ? 0.45 : 0.7;
-          const rollDuration = isNumberStep ? 0.4 : 0.55;
+          // The closing line gets a longer hold and a slower roll than the
+          // beats leading up to it, so the sequence lands rather than stops.
+          const hold = isLast ? 0.7 : 0.45;
+          const rollDuration = isLast ? 0.55 : 0.4;
 
           // Capture this step's element refs and value — `current`/`next` get
           // reassigned at the bottom of the loop, so the closure below must
@@ -191,22 +196,20 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         </svg>
       </div>
       <div className="relative flex flex-col items-center gap-y-5 text-center md:gap-y-6 mt-[40px] ">
-        {/* The counter slot — fixed height so the roll transition (see the
-            timeline) always moves a clean 120% regardless of which item,
-            digit or line, currently occupies it. */}
-        <div className="relative h-[26px] w-[min(90vw,520px)] overflow-hidden md:h-[32px]">
+        {/* The word slot — fixed height so the roll transition (see the
+            timeline) always moves a clean 120% regardless of which item
+            currently occupies it.
+
+            Both slots ship empty; the timeline fills them. See SEQUENCE. */}
+        <div className="relative h-[26px] w-[min(90vw,520px)] overflow-hidden md:h-[32px]" aria-hidden="true">
           <span
             ref={slotARef}
             className="absolute inset-0 flex items-center justify-center whitespace-nowrap font-tommy-regular text-[19px] leading-none opacity-0 md:text-[25px]"
-          >
-            {SEQUENCE[0]}
-          </span>
+          />
           <span
             ref={slotBRef}
             className="absolute inset-0 flex items-center justify-center whitespace-nowrap font-tommy-regular text-[19px] leading-none opacity-0 md:text-[25px]"
-          >
-            {SEQUENCE[1]}
-          </span>
+          />
         </div>
 
         {/* Inc 5000 mark — rolls up into its own overflow-hidden window once
@@ -227,8 +230,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         </div>
       </div>
 
-      {/* Loading progress bar */}
-      <div className="absolute bottom-[12%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-[70]">
+      {/* Loading progress bar. Decorative chrome — hidden from assistive tech,
+          and the percentage ships empty for the same reason the word slots do:
+          a served "0%" is a stray figure at the top of the homepage markup. */}
+      <div
+        className="absolute bottom-[12%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-[70]"
+        aria-hidden="true"
+      >
         <div className="w-[240px] md:w-[300px] h-[3px] rounded-full bg-[#EEE8D9]/15 overflow-hidden">
           <div
             ref={progressRef}
@@ -238,10 +246,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         </div>
         <span
           ref={percentRef}
-          className="text-[#EEE8D9]/60 text-[12px] font-tommy-regular tracking-[0.3em]"
-        >
-          0%
-        </span>
+          className="text-[#EEE8D9]/60 text-[12px] font-tommy-regular tracking-[0.3em] min-h-[1em]"
+        />
       </div>
     </div>
   );

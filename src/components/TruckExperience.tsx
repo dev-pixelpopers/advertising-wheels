@@ -91,16 +91,16 @@ export default function TruckExperience() {
     const [trucksCount, setTrucksCount] = useState(48);
     const [campaignsCount] = useState(7);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setImpressionsCount((prev) => parseFloat((prev + 0.003).toFixed(3)));
-            setMileageCount((prev) => prev + Math.floor(Math.random() * 4 + 2));
-            if (Math.random() > 0.8) {
-                setTrucksCount((prev) => prev + (Math.random() > 0.6 ? 1 : 0));
-            }
-        }, 350);
-        return () => clearInterval(timer);
-    }, []);
+    // useEffect(() => {
+    //     const timer = setInterval(() => {
+    //         setImpressionsCount((prev) => parseFloat((prev + 0.003).toFixed(3)));
+    //         setMileageCount((prev) => prev + Math.floor(Math.random() * 4 + 2));
+    //         if (Math.random() > 0.8) {
+    //             setTrucksCount((prev) => prev + (Math.random() > 0.6 ? 1 : 0));
+    //         }
+    //     }, 350);
+    //     return () => clearInterval(timer);
+    // }, []);
 
     useGSAP(
         () => {
@@ -350,6 +350,14 @@ export default function TruckExperience() {
                     ref={statsBarRef}
                     className="absolute bottom-[25%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto"
                 >
+                    {/* These figures are illustrative, not live fleet data — the
+                        counters below drift on a timer. Labelling the panel keeps
+                        its campaign-scale truck count from reading as a claim
+                        about the size of the fleet. */}
+                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">
+                        Sample campaign dashboard
+                    </p>
+
                     <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-4 md:gap-y-0">
                         {/* Item 1: TOTAL IMPRESSIONS */}
                         <div className="flex flex-col justify-between pr-3 md:px-5 first:pl-0">
@@ -389,7 +397,7 @@ export default function TruckExperience() {
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">TOTAL MILEAGE</span>
                                     <div className="flex items-baseline gap-1.5 md:gap-2">
                                         <span className="text-[16px] text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
-                                            {mileageCount.toLocaleString()} <span className="text-[15px] md:text-[18px] font-tommy-medium">km</span>
+                                            {mileageCount.toLocaleString()} <span className="text-[15px] md:text-[18px] font-tommy-medium">miles</span>
                                         </span>
                                         <span className="text-[11px] md:text-[12px] font-tommy-medium text-black dark:text-gray-300 whitespace-nowrap">
                                             ↑ 8.3%
@@ -470,16 +478,16 @@ export default function TruckExperience() {
                             </p>
                         </div>
                         <div ref={sub2Ref} className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className={SUB_LABEL}>02 — Route</span>
+                            <span className={SUB_LABEL}>02 — Match</span>
                             <p className={SUB_TYPE}>
-                                Routed for <span className={SUB_ACCENT}>maximum reach.</span>
+                                Matched to fleets covering your <span className={SUB_ACCENT}>target ZIPs.</span>
                                 <span aria-hidden="true" className={SUB_CARET} />
                             </p>
                         </div>
                         <div ref={sub3Ref} className="flex flex-col items-center pt-5 justify-center">
                             <span className={SUB_LABEL}>03 — Measure</span>
                             <p className={SUB_TYPE}>
-                                Measured in <span className={SUB_ACCENT}>real time.</span>
+                                Measured by <span className={SUB_ACCENT}>StreetMetrics.</span>
                                 <span aria-hidden="true" className={SUB_CARET} />
                             </p>
                         </div>

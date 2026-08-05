@@ -35,20 +35,20 @@ const STORY_IMG = '/assets/images/background.avif';
 /* ------------------------------------------------------------------ */
 
 const MILESTONES = [
-    { year: '2001', title: 'Founded', body: 'Advertising Wheels begins operations in Nashville, Tennessee with a single market and a small fleet — running mobile truckside campaigns for regional brands that wanted street-level visibility their static OOH couldn’t deliver.' },
-    { year: '2003', title: 'First Fortune 500 client', body: 'Won our first national CPG account — a beverage launch that required eight markets in eight weeks. We hit every market and every flight. That client is still a client today.' },
-    { year: '2008', title: 'National operational footprint', body: 'Expanded from regional to 50-DMA national coverage with in-house fleet operations in every major metropolitan corridor — never brokered out to third-party operators.' },
+    { year: '2001', title: 'Founded', body: `Our founders saw what the industry hadn't: thousands of trucks already crisscrossing America's busiest streets every day — unused ad space in motion. Advertising Wheels became an early pioneer of truckside advertising to turn truckside into a true advertising medium, giving brands street-level visibility static OOH couldn't deliver.` },
+    { year: '2003', title: 'First Fortune 500 client', body: 'Won our first national CPG account — a beverage launch that required eight markets in eight weeks. We hit every market and every flight till date.' },
+    { year: '2008', title: 'National operational footprint', body: 'Expanded from regional to 50-DMA national coverage — building the fleet-sourcing, production, and management process that lets one accountable team run campaigns in every major metro.' },
     { year: '2014', title: 'GPS-verified delivery', body: 'Every truck in the national fleet upgraded to continuous GPS reporting. Verified-impression reporting becomes the default, not the upgrade.' },
-    { year: '2019', title: 'Measurement partnership stack', body: 'Formal partnerships with independent brand-lift and foot-traffic measurement firms. Every major campaign ships with an exposed-vs-control study attached.' },
+    { year: '2019', title: 'Measurement partnership stack', body: 'Partnered with StreetMetrics for independent, third-party measurement — impressions, reach, and frequency verified on every campaign, with brand-lift studies attached to major flights.' },
     { year: '2022', title: 'Geofenced retargeting layer', body: 'Closed the loop between street and screen. Devices that came within impression range of our trucks become a targetable digital retargeting audience the following day.' },
-    { year: '2026', title: '1,000+ premium trucks', body: 'Today, Advertising Wheels operates 1,000+ premium trucks with up to 70% U.S. retail coverage — delivering measurable campaigns for Nationwide, Hertz, Fifth Third Bank, Kaiser Permanente, Burger King, Xfinity, Saks and Raising Cane’s.' },
+    { year: '2026', title: '1,000+ premium trucks', body: `Today, thousands of trucks have carried our clients' brands — with hundreds of partner trucks in the network delivering concurrent, multi-market campaigns across 50 DMAs for Nationwide, Hertz, Fifth Third Bank, Kaiser Permanente, Burger King, Xfinity, Saks and Raising Cane's.` },
 ];
 
 /* The three functions that report into the owner — they become the orbit. */
 const LEADERSHIP = [
-    { title: 'National Operations', role: 'Fleet · Routing · Dispatch', mono: '01', icon: 'M3 13l2-7h11l3 4h2v5h-2M5 13H3v3h2m0-3a2 2 0 104 0m10 0a2 2 0 10-4 0', body: 'Senior operators averaging 15+ years in the channel — running our 1,000+ truck fleet, routing, production and dispatch.' },
-    { title: 'Measurement & Analytics', role: 'In-house Analytics', mono: '02', icon: 'M3 3v18h18M7 15l4-5 3 3 5-7', body: 'Integrating GPS, impression modeling, brand-lift studies and attribution into the same weekly close-out.' },
-    { title: 'Creative & Production', role: 'Wraps · Print · Install', mono: '03', icon: 'M15 5l4 4M3 21l1.2-4.4a2 2 0 01.5-.9l9.4-9.4a2 2 0 012.8 0l1.4 1.4a2 2 0 010 2.8l-9.4 9.4a2 2 0 01-.9.5L3 21z', body: 'Highway-built creative, printed on premium cast vinyl and installed in-house with colour-matched QA.' },
+    { title: 'National Operations', role: 'Fleets · Markets · Activation', mono: '01', icon: 'M3 13l2-7h11l3 4h2v5h-2M5 13H3v3h2m0-3a2 2 0 104 0m10 0a2 2 0 10-4 0', body: 'Thousands of trucks activated over 25 years — with the operational muscle to run concurrent, multi-market campaigns across DMAs nationwide, launched and managed as one coordinated flight.' },
+    { title: 'Measurement & Analytics', role: 'StreetMetrics · Independent Verification', mono: '02', icon: 'M3 3v18h18M7 15l4-5 3 3 5-7', body: `Impressions, reach, and frequency independently measured and verified by StreetMetrics — the same accountability standard you'd demand from a digital buy.` },
+    { title: 'Creative & Production', role: 'Wraps · Print · Install · Maintain', mono: '03', icon: 'M15 5l4 4M3 21l1.2-4.4a2 2 0 01.5-.9l9.4-9.4a2 2 0 012.8 0l1.4 1.4a2 2 0 010 2.8l-9.4 9.4a2 2 0 01-.9.5L3 21z', body: 'Over 1 million square feet of premium cast vinyl installed — and counting. Precision printing, expert installation, and regular inspections keep every wrap campaign-sharp from first mile to last.' },
 ];
 
 /* ================================================================== */
@@ -120,9 +120,8 @@ function Story() {
                             credible. We’ve been here the whole time.
                         </p>
                         <p className="mt-5 font-tommy-regular text-[15.5px] leading-[1.75] text-[#5A554C] dark:text-[#A8A399]">
-                            We are independently owned and have never been brokered, white-labeled or rolled up — running
-                            national campaigns for the largest brands in CPG, telecom, automotive, retail and financial
-                            services, and the holding-company agencies that buy on their behalf.
+                            We are independently owned, running national campaigns for the largest brands in CPG, telecom, automotive,
+                            retail and financial services — and the holding-company agencies that buy on their behalf.
                         </p>
                     </div>
                 </div>
@@ -151,10 +150,10 @@ function Story() {
 
 function Stats() {
     const items = [
-        { el: <CountUp value={25} suffix="+" />, label: 'Years in mobile truckside advertising' },
-        { el: <CountUp value={65} />, label: 'DMAs covered through one accountable partner' },
-        { el: <CountUp value={1.2} decimals={1} suffix="B+" />, label: 'Verified annual impressions delivered' },
-        { el: <CountUp value={100} suffix="%" />, label: 'Owner-operated · never brokered or resold' },
+        { el: <CountUp value={25} suffix="+" />, label: 'Years in truckside advertising' },
+        { el: <CountUp value={50} />, label: 'DMAs covered through one accountable partner' },
+        { el: <CountUp value={1} suffix="M+" />, label: 'Sq ft of premium cast vinyl installed' },
+        { el: <CountUp value={1000} />, label: 'Trucks activated over 25 years' },
     ];
     return (
         <section className="w-full border-y border-black/10 bg-[#EEE8D9] transition-colors duration-300 py-12 md:py-16 lg:py-24 dark:border-white/10 dark:bg-[#0A0A0A]">
@@ -254,26 +253,27 @@ function Timeline() {
 /*  Leadership — cards morph into a hub-and-spoke orbit on scroll      */
 /* ================================================================== */
 
-function Leadership({ isMobile }: { isMobile: Boolean }) {
+function Leadership({ stacked }: { stacked: boolean }) {
     return (
-        <OrbitDiagram isMobile={isMobile}
+        <OrbitDiagram stacked={stacked}
             eyebrow={<Eyebrow>Leadership</Eyebrow>}
             heading={
                 <h2 className="mt-4 font-tommy-bold text-[clamp(28px,3.2vw,46px)] leading-[1.06] tracking-tight text-[#1A1917] dark:text-white">
-                    The operators who pitch you are the operators who run your campaign<Dot />
+                    Decades of truckside expertise. Trusted by the world's biggest brands.<Dot />
                 </h2>
             }
             intro={
                 <p className="mt-5 font-tommy-regular text-[15.5px] leading-[1.7] text-[#5A554C] dark:text-[#A8A399]">
-                    Advertising Wheels is owner-operated. There is no account-management layer between you and
-                    the people making decisions about your routes, creative, reporting and spend.
+                    Our team has planned, produced, and measured campaigns for Fortune 500 advertisers and their agencies for over two decades —
+                    bringing category-deep experience to every fleet, every market, and every readout.
+
                 </p>
             }
             hub={{
                 title: 'Roopanjan Dey',
-                role: 'Owner · Nashville, TN',
-                mono: 'Owner-operated',
-                body: 'Personally accountable for every Fortune 500 relationship.',
+                role: 'Founder',
+                mono: 'Founder-led',
+                body: 'Two and a half decades in truckside, still personally involved in every major client relationship.',
             }}
             nodes={LEADERSHIP}
         />
@@ -323,9 +323,9 @@ function PullQuote() {
             <div className="mx-auto max-w-[960px] px-6 text-center md:px-12">
                 <span data-pq-mark className="inline-block font-tommy-bold text-[90px] leading-[0.6] text-[#C8992B] dark:text-[#FCD119]">“</span>
                 <blockquote ref={quoteRef} className="mt-4 font-tommy-medium text-[clamp(23px,3.1vw,40px)] leading-[1.34] tracking-[-0.01em]">
-                    Most mobile OOH partners are sub-contractors with a sales hat on. Advertising Wheels actually owns
-                    it — the trucks, the routes, the reporting, the lift study, the explanation when something doesn’t
-                    go to plan. That’s not a small difference in this category.
+                    A lot of mobile OOH partners disappear between the sale and the report. Advertising Wheels runs the whole operation —
+                    sourcing the fleets, managing the installs, inspecting the wraps, and jumping on any issue before we even hear about it.
+                    Our brand is on the side of a truck; they treat it like it's their own reputation out there.
                 </blockquote>
                 <cite data-pq-cite className="mt-9 block font-tommy-regular text-[13px] uppercase not-italic tracking-[3px] text-[#6F6A60] dark:text-[#9A968E]">
                     — Group Account Director, top-3 global media network
@@ -340,9 +340,26 @@ function PullQuote() {
 /* ================================================================== */
 
 export default function AboutPage() {
-    const [isMobile, setIsMobile] = useState(false);
+    /**
+     * The orbit needs a stage wide enough to swing three full cards clear of
+     * the hub — about 800px, which a two-column row cannot give until roughly
+     * 1280px of viewport. Under that it renders as a stacked list instead.
+     * Watched (not read once) so a resize or an orientation change re-picks
+     * the layout rather than leaving the wrong one mounted.
+     *
+     * Starts `true` on purpose. The orbit branch pins on mount, and a child's
+     * layout effect runs before this one — so defaulting to the orbit meant
+     * every narrow-screen load built a pin, then swapped the branch out from
+     * under it and left the pin-spacer behind, overflowing the section. The
+     * stacked branch pins nothing, so leading with it is always safe.
+     */
+    const [stacked, setStacked] = useState(true);
     useEffect(() => {
-        setIsMobile(window.innerWidth < 768);
+        const mq = window.matchMedia('(max-width: 1279px)');
+        const sync = () => setStacked(mq.matches);
+        sync();
+        mq.addEventListener('change', sync);
+        return () => mq.removeEventListener('change', sync);
     }, []);
 
     return (
@@ -350,7 +367,7 @@ export default function AboutPage() {
             <PortalHero
                 badge="About"
                 title="ADVERTISING WHEELS"
-                lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands since 2001, owner-operated from Nashville, Tennessee."
+                lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands and their agencies since 2001."
                 primary={{ label: 'Book a Strategy Call', href: '/contact' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
                 image="/assets/images/best-buy.webp"
@@ -359,7 +376,7 @@ export default function AboutPage() {
             <Story />
             <Stats />
             <Timeline />
-            <Leadership isMobile={isMobile} />
+            <Leadership stacked={stacked} />
             <PullQuote />
             <CtaSection />
         </main>

@@ -45,7 +45,11 @@ export interface OrbitDiagramProps {
     eyebrow?: ReactNode;
     heading?: ReactNode;
     intro?: ReactNode;
-    isMobile: Boolean;
+    /**
+     * Render the plain stacked list instead of the orbit. Set by the caller
+     * from a viewport query — the orbit needs a stage no narrow screen has.
+     */
+    stacked: boolean;
 }
 
 /** Loose 2×2 starting grid — fractions of the stage's half-width / half-height. */
@@ -64,7 +68,7 @@ const SAT_START = [
  */
 const START_BOX = 148;
 
-export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMobile }: OrbitDiagramProps) {
+export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stacked }: OrbitDiagramProps) {
     const rootRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
     const stageRef = useRef<HTMLDivElement>(null);
@@ -72,19 +76,9 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
     const satRefs = useRef<(HTMLDivElement | null)[]>([]);
     const lineRefs = useRef<(SVGLineElement | null)[]>([]);
 
-    /**
-     * The orbit needs real horizontal room — satellite cards have a 200px
-     * width floor, so on a phone-width stage they crowd into each other and
-     * spill past the edges. Below `md` we skip the pin/orbit geometry
-     * entirely and render a plain stacked list instead (see the JSX below).
-     */
-
-
     useGSAP(
         () => {
-            console.log(isMobile);
-
-            if (isMobile) return;
+            if (stacked) return;
             const stage = stageRef.current;
             const hubEl = hubRef.current;
             if (!stage || !hubEl) return;
@@ -94,19 +88,65 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
 
             const half = () => ({ w: stage.clientWidth / 2, h: stage.clientHeight / 2 });
 
-            /** Orbit radius: measured so a card's inner edge clears the circle. */
-            const radius = () => {
+            /** Angles: top-left, right-middle, bottom-left — as in the sketch. */
+            const angleFor = (i: number) => ((-150 + (i * 300) / Math.max(1, n - 1)) * Math.PI) / 180;
+            const angles = Array.from({ length: n }, (_, i) => angleFor(i));
+
+            /**
+             * Orbit radii — an ELLIPSE, not a circle, because the two axes are
+             * solving different problems. Horizontally a card only has to clear
+             * the hub; vertically the cards stacked on the same side have to
+             * clear EACH OTHER, which at these angles needs roughly a full card
+             * height of separation. One shared radius has to satisfy whichever
+             * demand is larger, so on a stage that is wider than it is tall the
+             * cards either collide or get pushed off the edge — measured
+             * independently, each axis uses the room it actually has.
+             */
+            const radii = () => {
+                const { w: halfW, h: halfH } = half();
                 const hubR = hubEl.offsetWidth / 2;
                 const satW = Math.max(...satEls.map((e) => e.offsetWidth), 0);
                 const satH = Math.max(...satEls.map((e) => e.offsetHeight), 0);
-                const ideal = hubR + satW / 2 + 52;
-                const maxX = half().w - satW / 2 - 6;
-                const maxY = (half().h - satH / 2 - 6) / 0.52; // 0.52 ≈ max |sin| used
-                return Math.max(hubR + 40, Math.min(ideal, maxX, maxY));
+
+                const cosMax = Math.max(...angles.map((a) => Math.abs(Math.cos(a))), 0.001);
+                const sinMax = Math.max(...angles.map((a) => Math.abs(Math.sin(a))), 0.001);
+
+                // Ceilings: the outermost card on each axis must stay on stage.
+                const rxCap = Math.max(0, halfW - satW / 2 - 6) / cosMax;
+                const ryCap = Math.max(0, halfH - satH / 2 - 6) / sinMax;
+
+                let rx = Math.min(hubR + satW / 2 + 56, rxCap);
+
+                // Vertical: every pair of cards that shares horizontal space
+                // needs a real gap between them. That separation — not the
+                // distance out to the hub — is what ry is for.
+                let ry = Math.min(hubR + satH / 2 + 40, ryCap);
+                for (let i = 0; i < n; i += 1) {
+                    for (let j = i + 1; j < n; j += 1) {
+                        const apart = Math.abs(Math.cos(angles[i]) - Math.cos(angles[j])) * rx;
+                        if (apart >= satW + 16) continue; // side by side — no vertical demand
+                        const dSin = Math.abs(Math.sin(angles[i]) - Math.sin(angles[j]));
+                        if (dSin < 0.001) continue;
+                        ry = Math.min(Math.max(ry, (satH + 28) / dSin), ryCap);
+                    }
+                }
+
+                // A card still sitting level with the hub has to clear it sideways.
+                angles.forEach((a) => {
+                    const c = Math.abs(Math.cos(a));
+                    if (c < 0.001) return;
+                    if (Math.abs(Math.sin(a)) * ry >= hubR + satH / 2) return;
+                    rx = Math.min(Math.max(rx, (hubR + satW / 2 + 20) / c), rxCap);
+                });
+
+                return { rx: Math.max(rx, hubR + 40), ry: Math.max(ry, hubR + 40) };
             };
 
-            /** Angles: top-left, right-middle, bottom-left — as in the sketch. */
-            const angleFor = (i: number) => ((-150 + (i * 300) / Math.max(1, n - 1)) * Math.PI) / 180;
+            /** Card centre for spoke `i`, on the measured ellipse. */
+            const posFor = (i: number) => {
+                const { rx, ry } = radii();
+                return { x: Math.cos(angles[i]) * rx, y: Math.sin(angles[i]) * ry };
+            };
 
             /**
              * Draw each spoke from the circle's edge to the card's edge.
@@ -154,8 +194,8 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
             if (reduced) {
                 gsap.set(hubEl, { x: 0, y: 0, scale: 1, borderRadius: '50%' });
                 satEls.forEach((el, i) => {
-                    const a = angleFor(i);
-                    gsap.set(el, { x: Math.cos(a) * radius(), y: Math.sin(a) * radius(), scale: 1 });
+                    const p = posFor(i);
+                    gsap.set(el, { x: p.x, y: p.y, scale: 1 });
                 });
                 gsap.set('[data-sat-icon]', { autoAlpha: 0 });
                 gsap.set('[data-sat-copy]', { autoAlpha: 1 });
@@ -215,10 +255,9 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
 
             // The others settle onto the orbit and expand to full size.
             satEls.forEach((el, i) => {
-                const a = angleFor(i);
                 tl.to(
                     el,
-                    { x: () => Math.cos(a) * radius(), y: () => Math.sin(a) * radius(), scale: 1, duration: 1 },
+                    { x: () => posFor(i).x, y: () => posFor(i).y, scale: 1, duration: 1 },
                     0.08 + i * 0.05
                 );
             });
@@ -240,19 +279,21 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
             // Hold on the finished diagram before releasing the pin.
             tl.to({}, { duration: 0.35 });
         },
-        { scope: rootRef, dependencies: [isMobile] }
+        { scope: rootRef, dependencies: [stacked] }
     );
 
-    if (isMobile) {
-        /* Mobile — a plain stacked list. No pin, no absolute orbit geometry;
+    if (stacked) {
+        /* Narrow — a plain stacked list. No pin, no absolute orbit geometry;
            the hub reads as an accent card up top and the satellites follow
            in a simple grid, all copy shown up front. */
         return (
             <section
                 ref={rootRef}
-                className="relative w-full bg-[#EEE8D9] px-3 md:px-4 lg:px-6 py-6 md:py-10 lg:py-16 transition-colors duration-300 dark:bg-[#0A0A0A]"
+                className="relative w-full bg-[#EEE8D9] px-5 md:px-8 lg:px-12 py-12 md:py-16 lg:py-24 transition-colors duration-300 dark:bg-[#0A0A0A]"
             >
-                <div className="mx-auto w-full max-w-[560px]">
+                {/* Widens with the viewport — at tablet and small-laptop sizes a
+                    560px column would leave most of the row empty. */}
+                <div className="mx-auto w-full max-w-[560px] md:max-w-[880px] lg:max-w-[1120px]">
                     {(eyebrow || heading || intro) && (
                         <div>
                             {eyebrow}
@@ -262,7 +303,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
                     )}
 
                     <div
-                        className="mt-8 rounded-[22px] bg-[#FCD119] p-6 text-center"
+                        className="mt-8 rounded-[22px] bg-[#FCD119] p-6 md:p-8 text-center"
                         style={{ boxShadow: '0 24px 60px -30px rgba(0,0,0,.4)' }}
                     >
                         <div className="mx-auto flex w-fit items-center justify-center [&_path]:!fill-[#1A1917]">
@@ -288,11 +329,11 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
                         )}
                     </div>
 
-                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-6 md:gap-6 lg:grid-cols-3">
                         {nodes.map((nd) => (
                             <div
                                 key={nd.title}
-                                className="rounded-[20px] border border-black/10 bg-white/90 p-5 text-left shadow-[0_18px_40px_-28px_rgba(0,0,0,.4)] dark:border-white/10 dark:bg-white/[0.06]"
+                                className="h-full rounded-[20px] border border-black/10 bg-white/90 p-5 md:p-6 text-left shadow-[0_18px_40px_-28px_rgba(0,0,0,.4)] dark:border-white/10 dark:bg-white/[0.06]"
                             >
                                 <div className="flex items-center gap-2.5">
                                     {nd.icon && (
@@ -336,8 +377,12 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
             className="relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
             style={{ height: '300vh' }}
         >
-            <div ref={screenRef} className="flex h-screen w-full flex-col justify-center overflow-hidden py-12">
-                <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 items-center gap-8 px-6 md:px-12 lg:grid-cols-[0.78fr_1.22fr] lg:gap-12">
+            <div ref={screenRef} className="flex h-screen w-full flex-col justify-center overflow-hidden py-10">
+                {/* The stage takes the larger share of the row — the orbit needs
+                    real width before the cards can sit clear of the hub.
+                    minmax(0,…) on both tracks, or the heading's min-content width
+                    quietly claims space back from the stage and the orbit tightens. */}
+                <div className="mx-auto grid w-full max-w-[1560px] grid-cols-1 items-center gap-8 px-6 md:px-8 lg:grid-cols-[minmax(0,0.62fr)_minmax(0,1.38fr)] lg:gap-10 lg:px-10">
                     {/* Left column — the copy */}
                     {(eyebrow || heading || intro) && (
                         <div className="max-w-[560px]">
@@ -350,7 +395,10 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
                     {/* Right column — the stage */}
                     <div
                         ref={stageRef}
-                        className="relative h-[clamp(400px,62vh,620px)] w-full"
+                        /* Two cards stack on the left of the orbit, so the stage
+                           needs roughly two card heights of room. It takes what
+                           the pinned screen has left after its own padding. */
+                        className="relative h-[clamp(480px,calc(100vh-120px),820px)] w-full"
                     >
                         {/* Spokes (behind the cards) */}
                         <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
@@ -406,7 +454,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
                             <div
                                 key={nd.title}
                                 ref={(el) => { satRefs.current[i] = el; }}
-                                className="absolute left-1/2 top-1/2 z-10 flex w-[clamp(200px,17.5vw,244px)] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[20px] border border-black/10 bg-white/90 p-5 text-left shadow-[0_22px_50px_-32px_rgba(0,0,0,.45)] backdrop-blur-sm will-change-transform dark:border-white/10 dark:bg-white/[0.06]"
+                                className="absolute left-1/2 top-1/2 z-10 flex w-[clamp(262px,19.5vw,304px)] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[22px] border border-black/10 bg-white/90 p-6 text-left shadow-[0_22px_50px_-32px_rgba(0,0,0,.45)] backdrop-blur-sm will-change-transform dark:border-white/10 dark:bg-white/[0.06]"
                             >
                                 {/* Icon-only state — all the card shows until it lands. */}
                                 {nd.icon && (
@@ -444,7 +492,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, isMo
                                         </p>
                                     )}
                                     {nd.body && (
-                                        <p className="mt-3.5 font-tommy-regular text-[13.5px] leading-[1.6] text-[#5A554C] dark:text-[#A8A399]">
+                                        <p className="mt-3.5 font-tommy-regular text-[13px] leading-[1.55] text-[#5A554C] dark:text-[#A8A399]">
                                             {nd.body}
                                         </p>
                                     )}

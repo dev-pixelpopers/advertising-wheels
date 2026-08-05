@@ -75,7 +75,7 @@ export const POSTS: Post[] = [
                 nav: 'Closing the loop',
                 heading: 'The old objection has been solved',
                 body: [
-                    'Outdoor’s historic weakness was measurement, and that objection is now mostly out of date. GPS logging produces verified rather than modelled impressions. Geo-matched control markets isolate incremental lift. Search and site-visit studies connect exposure to behaviour.',
+                    'Outdoor’s historic weakness was measurement, and that objection is now mostly out of date. GPS logging produces verified rather than modeled impressions. Geo-matched control markets isolate incremental lift. Search and site-visit studies connect exposure to behaviour.',
                     'The practical consequence is that outdoor can now be evaluated on the same terms as a performance channel — which is exactly how it should be bought.',
                 ],
             },
@@ -140,7 +140,7 @@ export const POSTS: Post[] = [
                 heading: 'Where the numbers land',
                 body: [
                     'Verified truckside impressions typically clear at a lower cost per thousand than premium static bulletins in the same market, before accounting for the dwell-time advantage at signals and in congestion.',
-                    'The important caveat: this only holds if impressions are verified rather than modelled. A modelled number can be inflated arbitrarily, which makes any CPM comparison meaningless.',
+                    'The important caveat: this only holds if impressions are verified rather than modeled. A modeled number can be inflated arbitrarily, which makes any CPM comparison meaningless.',
                 ],
             },
         ],
@@ -148,7 +148,7 @@ export const POSTS: Post[] = [
             'One truck ≈ 600 sq ft across three faces, without adjacent-board competition.',
             'Route rotation lets you trade reach against frequency deliberately.',
             'Verified truckside CPM generally undercuts premium static bulletins.',
-            'Only compare CPMs when both sides are verified, not modelled.',
+            'Only compare CPMs when both sides are verified, not modeled.',
         ],
     },
     {
@@ -276,7 +276,7 @@ export const POSTS: Post[] = [
                 nav: 'Why it gets shared',
                 heading: 'Novelty plus locality',
                 body: [
-                    'People photograph outdoor advertising when it is unexpected and when it is theirs. A national execution parked in a specific neighbourhood satisfies neither. A local reference on an unusual surface satisfies both.',
+                    'People photograph outdoor advertising when it is unexpected and when it is theirs. A national execution parked in a specific neighborhood satisfies neither. A local reference on an unusual surface satisfies both.',
                     'Timing compounds it. The same wrap on an ordinary Tuesday and on the morning of a home game will not perform the same way.',
                 ],
             },
@@ -320,11 +320,11 @@ export const POSTS: Post[] = [
             'Two campaigns can report the same impression number and mean entirely different things by it. The difference is whether anyone independent checked.',
         sections: [
             {
-                id: 'modelled',
-                nav: 'Modelled numbers',
+                id: 'modeled',
+                nav: 'Modeled numbers',
                 heading: 'Where the big numbers come from',
                 body: [
-                    'A modelled impression estimate multiplies a traffic count by an assumed visibility factor by a duration. Every one of those inputs is an assumption, and small changes to any of them move the headline number enormously.',
+                    'A modeled impression estimate multiplies a traffic count by an assumed visibility factor by a duration. Every one of those inputs is an assumption, and small changes to any of them move the headline number enormously.',
                     'That is not inherently dishonest — modelling is how most outdoor has always been sold. It is simply not a measurement, and it should not be compared against one.',
                 ],
             },
@@ -334,7 +334,7 @@ export const POSTS: Post[] = [
                 heading: 'What verification actually adds',
                 body: [
                     'A verified impression starts from a logged fact: this vehicle was on this road segment at this time, at this speed, for this duration. Audience is then applied to a route that is known to have happened rather than one that was planned.',
-                    'The count is usually lower than a modelled equivalent. That is the point — it is defensible, and it can be reconciled line by line.',
+                    'The count is usually lower than a modeled equivalent. That is the point — it is defensible, and it can be reconciled line by line.',
                 ],
                 callout: 'A smaller number you can defend is worth more than a larger one you cannot.',
             },
@@ -343,16 +343,16 @@ export const POSTS: Post[] = [
                 nav: 'What to ask for',
                 heading: 'Four questions that separate the two',
                 body: [
-                    'Ask whether impressions are logged or modelled. Ask at what interval position is recorded. Ask who audits the data and whether you can see the raw route file. Ask how shortfall against the planned route is handled.',
+                    'Ask whether impressions are logged or modeled. Ask at what interval position is recorded. Ask who audits the data and whether you can see the raw route file. Ask how shortfall against the planned route is handled.',
                     'Vendors working from verified data answer all four immediately. The answers themselves matter less than the speed with which they arrive.',
                 ],
             },
         ],
         takeaways: [
-            'Modelled impressions are assumptions stacked on a traffic count.',
+            'Modeled impressions are assumptions stacked on a traffic count.',
             'Verified impressions begin from logged position, speed and duration.',
             'Expect verified counts to be lower — and defensible.',
-            'Ask: logged or modelled, at what interval, audited by whom, shortfall handled how.',
+            'Ask: logged or modeled, at what interval, audited by whom, shortfall handled how.',
         ],
     },
 ];

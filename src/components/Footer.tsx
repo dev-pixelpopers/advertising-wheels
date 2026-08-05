@@ -165,8 +165,8 @@ export default function Footer() {
                         <Logo width={132} height={55} />
 
                         <p className="max-w-[280px] font-tommy-regular text-[13.5px] leading-[1.7] text-[#6F6A60] dark:text-[#9A968E]">
-                            Truckside billboard advertising with GPS-tracked routing and
-                            independently verified impressions.
+                            Truckside billboard advertising with GPS-verified coverage and
+                            impressions independently measured by StreetMetrics.
                         </p>
 
                         <ul className="flex flex-col gap-2 md:gap-3 lg:gap-4">
@@ -274,14 +274,10 @@ export default function Footer() {
 
                         <p className="mt-4 font-tommy-regular text-[11.5px] leading-[1.7] text-[#6F6A60]/85 dark:text-[#9A968E]/80">
                             I have read the{' '}
-                            <a href="#" className="ft-link text-[#1A1917] dark:text-white">
+                            <a href="/privacy" className="ft-link text-[#1A1917] dark:text-white">
                                 Privacy Policy
                             </a>{' '}
-                            provided by{' '}
-                            <a href="#" className="ft-link text-[#1A1917] dark:text-white">
-                                Advertising Wheels
-                            </a>
-                            .
+                            provided by Advertising Wheels.
                         </p>
                     </div>
                 </div>
@@ -323,11 +319,11 @@ export default function Footer() {
                     </div>
 
                     <div className="flex items-center gap-3 font-tommy-regular text-[12px]">
-                        <a href="#" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white">
+                        <a href="/privacy" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white">
                             Privacy Policy
                         </a>
                         <span className="text-black/15 dark:text-white/15">|</span>
-                        <a href="#" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white">
+                        <a href="/terms" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white">
                             Terms &amp; Conditions
                         </a>
                     </div>

@@ -1154,6 +1154,7 @@ export default function MarketsCoverageV2() {
     return (
         <section
             ref={rootRef}
+            id="markets-coverage"
             className="relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
         >
             <div ref={pinRef} className="relative h-screen w-full overflow-hidden">
@@ -1169,9 +1170,10 @@ export default function MarketsCoverageV2() {
                         Where We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
                     </h2>
                     <p className="mx-auto mt-5 max-w-[620px] font-tommy-regular text-[14px] leading-[1.7] text-[#5A554C] md:text-[17px] dark:text-[#A8A399]">
-                        {TOTALS.count} metro markets across {STATE_GROUPS.length} states, reaching{' '}
+                        {/* {TOTALS.count} metro markets across {STATE_GROUPS.length} states, reaching{' '}
                         {compact(TOTALS.adults)} adults 18+ inside our coverage areas — every mile
-                        measured, every market accounted for.
+                        measured, every market accounted for. */}
+                        50 DMAs across 30 states + DC, reaching 83M adults 18+ inside our coverage areas — every mile measured, every market accounted for.
                     </p>
 
                     <div className="mx-auto mt-9 grid max-w-[900px] grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">

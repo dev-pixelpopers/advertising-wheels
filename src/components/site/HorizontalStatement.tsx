@@ -130,7 +130,7 @@ const TOKENS: Token[] = [
     { kind: 'word', text: 'bold', emph: 'soft', gap: 34 },
     { kind: 'word', text: 'Creative', emph: 'strong', gap: 26 },
     { kind: 'svg', node: <Spark s={80} />, gap: 70 },
-    { kind: 'word', text: 'route', gap: 34 },
+    { kind: 'word', text: 'roll', gap: 34 },
     { kind: 'word', text: 'it', size: 'sm', gap: 30 },
     { kind: 'word', text: 'through', size: 'sm', gap: 36 },
     { kind: 'word', text: 'real', emph: 'soft', gap: 32 },

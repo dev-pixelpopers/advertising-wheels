@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Advertising Wheels",
-  description: "Leader in truckside billboard advertising",
+  title: "Truckside Billboard Advertising | Advertising Wheels",
+  description: "Unskippable truckside billboards with GPS-verified impressions, measured by StreetMetrics — and retargeting for every audience your trucks reach. 50 DMAs, coast to coast.",
 };
 
 export default function RootLayout({

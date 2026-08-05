@@ -37,52 +37,52 @@ const SERVICES: Service[] = [
     {
         tag: 'Placement',
         title: 'Mobile Billboards',
-        body: '600 square feet of uninterrupted brand canvas rolling through rush hour, event crowds and the exact neighbourhoods you want to own. Ten times the efficiency of a static board, at a fraction of the cost.',
-        features: ['Full-truck & trailer formats', 'Event & venue domination', 'Neighbourhood-level targeting', 'Day-part scheduling'],
+        body: '600 square feet of uninterrupted brand canvas moving through daily life — commuter streets, retail corridors, event crowds, and the exact ZIP codes you want to own. Too big to miss, too close to skip, and seen again tomorrow.',
+        features: ['Full-truck & trailer formats', 'Event & venue presence', 'ZIP-level market coverage', 'Repeated daily exposure'],
         icon: 'M3 13l2-7h11l3 4h2v5h-2M5 13H3v3h2m0-3a2 2 0 104 0m10 0a2 2 0 10-4 0',
     },
     {
         tag: 'Production',
         title: 'Fleet Wraps & Print',
-        body: 'Design, print and installation handled entirely in-house on premium cast vinyl — engineered to read at highway speed and hold colour for the life of the campaign, not just the launch photo.',
-        features: ['Cast-vinyl, highway-grade', 'In-house install & QA', 'Colour-matched to brand', 'Wrap longevity reporting'],
+        body: `Over 1 million square feet of premium cast vinyl installed. Precision printing, color-matched to your brand, expertly installed and QA'd — then inspected and maintained for the life of the campaign, so week eight looks like day one.`,
+        features: ['Premium cast vinyl, 1M+ sq ft installed', 'Expert installation & panel QA', 'Color-matched to brand standards', 'Ongoing inspection & maintenance'],
         icon: 'M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6-6.3 4.6L7.9 14 2 9.4h7.6z',
     },
     {
         tag: 'Targeting',
-        title: 'GPS Routing & Targeting',
-        body: 'Routes are planned around your audience — corridors, dayparts and dwell zones — then tracked live, 24/7. You always know where your spend is, down to the mile.',
-        features: ['Audience-led route planning', 'Live 24/7 GPS telemetry', 'Geo-fenced dwell zones', 'Real-time route dashboard'],
+        title: 'ZIP-Level Targeting & Retargeting',
+        body: 'We match your campaign to fleets whose daily delivery routes cover your target ZIP codes — real trucks, moving through the right neighborhoods all day. GPS tracks every mile, and every exposed audience becomes retargetable online.',
+        features: ['ZIP-code-level fleet matching', 'Live 24/7 GPS telemetry', 'Verified in-market coverage', 'Digital retargeting of exposed audiences'],
         icon: 'M12 21s-7-6.3-7-11a7 7 0 1114 0c0 4.7-7 11-7 11zm0-8.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z',
     },
     {
         tag: 'Measurement',
-        title: 'Verified Impressions',
-        body: 'Reach and frequency are modelled by an independent, audited third party and reported the way digital is — numbers your CMO can defend in the boardroom, not our own marketing claims.',
-        features: ['Third-party audited data', 'Reach & frequency modelling', 'Impression-per-flight reporting', 'Post-campaign readouts'],
+        title: 'Verified by StreetMetrics',
+        body: 'Every campaign is independently measured by StreetMetrics — impressions, reach, and frequency verified by a third party and reported the way digital is. Numbers your CMO can defend in the boardroom, not our own marketing claims.',
+        features: ['StreetMetrics third-party verification', 'Reach & frequency reporting', 'Impressions-per-flight readouts', 'Post-campaign analysis & lift measurement'],
         icon: 'M3 3v18h18M7 15l4-5 3 3 5-7',
     },
     {
         tag: 'Creative',
         title: 'Creative Studio',
-        body: 'A moving canvas needs creative built for it. Our studio designs wraps engineered for distance, motion and glance-value — bold enough to stop traffic and become the post people share.',
-        features: ['Highway-first art direction', 'Concept to production art', 'A/B creative for routes', 'Social-ready wrap reveals'],
+        body: 'A moving canvas needs creative built for it. Our studio designs wraps for the way people actually see them — up close, in motion, at street level — bold enough to turn heads in traffic and become the post people share.',
+        features: ['Street-level art direction', 'Concept to production art', 'A/B creative by market or fleet', 'Social-ready wrap reveals'],
         icon: 'M15 5l4 4M3 21l1.2-4.4a2 2 0 01.5-.9l9.4-9.4a2 2 0 012.8 0l1.4 1.4a2 2 0 010 2.8l-9.4 9.4a2 2 0 01-.9.5L3 21z',
     },
     {
         tag: 'Management',
         title: 'Campaign Management',
-        body: 'One team from artwork to first highway mile — booking, production, routing, reporting and renewals. You get a single point of contact and a campaign that runs itself.',
-        features: ['Single point of contact', 'Artwork-to-road in days', 'Flight & renewal handling', 'Consolidated reporting'],
+        body: 'One team from artwork to on the road — fleet sourcing, production, launch, reporting, and renewals, with a single point of contact throughout. Issues get caught and fixed before you ever hear about them.',
+        features: ['Single point of contact', 'Artwork to on-road in days', 'Proactive issue resolution', 'Flight, renewal & consolidated reporting'],
         icon: 'M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11',
     },
 ];
 
 const PROCESS = [
-    { step: 'Plan', body: 'We map your audience to real corridors, markets and dayparts, and scope the fleet and flight that hits them.' },
-    { step: 'Create', body: 'Our studio designs a wrap built for the highway, then we print and install it in-house with colour-matched QA.' },
-    { step: 'Roll', body: 'Trucks hit their routes on schedule, tracked live by GPS so every planned mile is a mile actually driven.' },
-    { step: 'Report', body: 'Independently verified impressions, reach and frequency land in a readout you can take straight to the board.' },
+    { step: 'Plan', body: 'We map your audience to DMAs and ZIP codes, then match fleets whose daily delivery routes cover them — and scope the flight that hits your goals.' },
+    { step: 'Create', body: 'Our studio designs a wrap built for the highway, then we print and install it in-house with color-matched QA.' },
+    { step: 'Roll', body: 'Wrapped trucks work their daily delivery routes through your target ZIPs, tracked live by GPS so every mile is verified, not estimated.' },
+    { step: 'StreetMetrics', body: 'Impressions, reach and frequency, independently verified by StreetMetrics, land in a readout you can take straight to the board.' },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -268,7 +268,7 @@ function Process() {
 
 const STACK = [
     { k: 'GPS-verified delivery', d: 'Continuous GPS on every truck in the national fleet. Verified-impression reporting is the default, not an upgrade.' },
-    { k: 'Modeled impressions', d: 'Reach and frequency modelled against route, daypart and market — reported the way a digital buy is reported.' },
+    { k: 'Modeled impressions', d: 'Reach and frequency modeled by StreetMetrics from actual GPS movement data — real miles, real times, real locations — and reported the way a digital buy is reported.' },
     { k: 'Brand-lift studies', d: 'Exposed-vs-control studies through independent measurement partners, attached to every major campaign.' },
     { k: 'Geofenced retargeting', d: 'Devices that came within impression range of our trucks become a targetable retargeting audience the following day.' },
 ];
@@ -316,7 +316,7 @@ export default function ServicesPage() {
             <PortalHero
                 badge="Solutions"
                 title="WHAT WE DO"
-                lead="From the wrap on the truck to the readout on your desk — placement, production, routing, measurement, creative and campaign management, handled end to end by one accountable team."
+                lead="From the wrap on the truck to the readout on your desk — placement, production, targeting, measurement, creative and campaign management, handled end to end by one accountable team."
                 primary={{ label: 'Book a Strategy Call', href: '/contact' }}
                 secondary={{ label: 'See the results', href: '/projects' }}
                 image="/assets/images/clients/floor-and-decor/hero-05.webp"

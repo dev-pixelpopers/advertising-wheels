@@ -23,14 +23,24 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * single height would leave the wordmarks either hairline-thin or enormous.
  * Sizing on height keeps the optical weight even across the row.
  *
- * `25-years` and `6x-honoree` are generated black-on-transparent derivatives —
- * the supplied art is white, which is invisible on this yellow band.
+ * `25-years` is a generated black-on-transparent derivative; the 5X mark is the
+ * supplied white art darkened in CSS (see DARKEN). Either way the reason is the
+ * same — the supplied art is white, which is invisible on this yellow band.
  */
 interface CredentialLogo {
     src: string;
     alt: string;
     size: string;
+    /** Extra classes — e.g. the filter that darkens white-on-transparent art. */
+    className?: string;
 }
+
+/* The supplied marks are white on transparent, which is invisible on this
+   yellow band. `brightness(0)` collapses any colour to black while leaving the
+   alpha channel intact — the same trick the Preloader uses in reverse to get a
+   white silhouette on its dark ground. Cheaper than maintaining a second,
+   recolored copy of the artwork. */
+const DARKEN = '[filter:brightness(0)]';
 
 interface CredentialCard {
     /** One mark, or a pair that only means anything together. */
@@ -41,12 +51,12 @@ interface CredentialCard {
 
 const CREDENTIALS: CredentialCard[] = [
     {
-        /* "6X" is the count for the seal beside it: six-time Inc. 5000 honoree
-           is a single credential, so it gets a single tile. Split across two
-           tiles the number read as its own unexplained award. */
+        /* The count mark is the count for the seal beside it: a five-time Inc.
+           5000 honoree is a single credential, so it gets a single tile. Split
+           across two tiles the number read as its own unexplained award. */
         wide: true,
         logos: [
-            { src: '/assets/images/cta/6x-honoree.webp', alt: 'Six-time Inc. 5000 honoree', size: 'h-[42px] md:h-[52px]' },
+            { src: '/assets/images/cta/5x.png', alt: 'Five-time Inc. 5000 honoree', size: 'h-[42px] md:h-[52px]', className: DARKEN },
             // Decorative: the mark above already carries the full credential,
             // so this would only make a screen reader say it twice.
             { src: '/assets/images/cta/inc-5000-seal.webp', alt: '', size: 'h-[60px] md:h-[72px]' },
@@ -164,15 +174,15 @@ export default function CtaSection() {
                         On The Road.
                     </h2>
                     <p className="mt-2 md:mt-4 lg:mt-6 lg:max-w-[520px] font-tommy-regular text-[13px] md:text-[15px] lg:text-[17px] leading-[1.65] text-black/65 ">
-                        From artwork to first highway mile in days — book a route, wrap a
-                        fleet, and watch the impressions climb.
+                        From artwork to on the road in days — wrap a fleet,
+                        roll through where life happens, and watch the impressions climb
                     </p>
                     <div className="mt-6 md:mt-8 lg:mt-10 flex flex-col items-center gap-2 md:gap-4 sm:flex-row sm:gap-6">
                         <a
                             href="/contact"
                             className="group flex items-center gap-2 lg:gap-3 rounded-full bg-black px-4 md:px-6 lg:px-8 py-3 lg:py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04]"
                         >
-                            Start Your Campaign
+                            Start a Campaign
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:translate-x-1">
                                 <path d="M1 8 H14 M9 3 L14 8 L9 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -225,7 +235,7 @@ export default function CtaSection() {
                                         src={c.src}
                                         alt={c.alt}
                                         loading="lazy"
-                                        className={`${c.size} w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]`}
+                                        className={`${c.size} ${c.className ?? ''} w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]`}
                                     />
                                 ))}
                             </div>

@@ -112,7 +112,7 @@ export const CASE_STUDIES: CaseStudy[] = [
                 nav: 'Measurement',
                 heading: 'Every mile logged, matched and attributed',
                 body: [
-                    'Each vehicle streamed GPS at fifteen-second intervals, which gave us a verified impression count rather than a modelled one — audited by a third party and reconciled against the plan weekly.',
+                    'Each vehicle streamed GPS at fifteen-second intervals, which gave us a verified impression count rather than a modeled one — audited by a third party and reconciled against the plan weekly.',
                     'To connect exposure to outcome, exposed ZIPs were matched against demographically similar control ZIPs with no fleet presence. Branded search volume, site sessions and — critically — actual account openings were compared across the two groups for the length of the campaign.',
                     'That control design is what let us report a real incremental number instead of a correlation. The lift held after controlling for concurrent digital spend and seasonal patterns.',
                 ],
@@ -259,7 +259,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         summary:
             'An enrolment campaign that earned a regional NCMPR gold medal and a national nomination.',
         lead:
-            'Community college enrolment marketing has to reach prospective students who are not searching, in neighbourhoods where media budgets rarely reach. Tri-C needed both.',
+            'Community college enrolment marketing has to reach prospective students who are not searching, in neighborhoods where media budgets rarely reach. Tri-C needed both.',
         year: '2025',
         markets: 'Greater Cleveland',
         duration: '5 months',
@@ -268,10 +268,10 @@ export const CASE_STUDIES: CaseStudy[] = [
         stats: [
             { value: 1, label: 'NCMPR regional gold medal' },
             { value: 19, prefix: '+', suffix: '%', label: 'Application starts' },
-            { value: 34, label: 'Target neighbourhoods' },
+            { value: 34, label: 'Target neighborhoods' },
             { value: 26, comma: true, suffix: 'M', label: 'Verified impressions' },
         ],
-        services: ['Neighbourhood routing', 'Bilingual creative', 'Enrolment attribution'],
+        services: ['Neighborhood routing', 'Bilingual creative', 'Enrolment attribution'],
         sections: [
             {
                 id: 'challenge',
@@ -284,9 +284,9 @@ export const CASE_STUDIES: CaseStudy[] = [
             {
                 id: 'approach',
                 nav: 'The approach',
-                heading: 'Take the campus to the neighbourhood',
+                heading: 'Take the campus to the neighborhood',
                 body: [
-                    'We routed the fleet through thirty-four target neighbourhoods on a repeating weekly pattern, timed around school pickup, transit hubs and commercial strips.',
+                    'We routed the fleet through thirty-four target neighborhoods on a repeating weekly pattern, timed around school pickup, transit hubs and commercial strips.',
                     'Creative ran bilingual by corridor, and every execution carried a single, low-friction next step rather than a programme list.',
                 ],
             },
@@ -295,14 +295,14 @@ export const CASE_STUDIES: CaseStudy[] = [
                 nav: 'Results',
                 heading: 'Gold, and a full class',
                 body: [
-                    'Application starts from targeted neighbourhoods rose nineteen percent against the prior cycle.',
+                    'Application starts from targeted neighborhoods rose nineteen percent against the prior cycle.',
                     'The work took a regional gold medal for outdoor advertising from the NCMPR and was nominated at national level.',
                 ],
             },
         ],
         quote: {
             text:
-                'The campaign reached neighbourhoods our media plan had never been able to afford, and the results showed up in applications, not just impressions.',
+                'The campaign reached neighborhoods our media plan had never been able to afford, and the results showed up in applications, not just impressions.',
             author: 'Director of Marketing',
             role: 'Cuyahoga Community College',
         },
@@ -517,17 +517,17 @@ export const CASE_STUDIES: CaseStudy[] = [
         brand: 'Xfinity',
         industry: 'Telecommunications',
         summary:
-            'Neighbourhood-level presence that put the brand on the streets its network upgrade was reaching.',
+            'Neighborhood-level presence that put the brand on the streets its network upgrade was reaching.',
         lead:
-            'A network is sold neighbourhood by neighbourhood. As Xfinity’s footprint and offers rolled out street by street, the fleet carried the message down those exact streets — a media buy with the same geography as the product.',
+            'A network is sold neighborhood by neighborhood. As Xfinity’s footprint and offers rolled out street by street, the fleet carried the message down those exact streets — a media buy with the same geography as the product.',
         year: '2023',
-        markets: 'Upgrade-footprint neighbourhoods',
+        markets: 'Upgrade-footprint neighborhoods',
         duration: '4 months',
         hero: heroOf('xfinity', '/assets/images/xfinity-img.webp'),
         logo: `${LOGOS}/partner-xfinity.png`,
         stats: [
             { value: 28, comma: true, suffix: 'M', label: 'Verified impressions' },
-            { value: 40, label: 'Target neighbourhoods routed' },
+            { value: 40, label: 'Target neighborhoods routed' },
             { value: 15, suffix: 's', label: 'GPS logging interval' },
             { value: 100, suffix: '%', label: 'Of routes inside the service footprint' },
         ],
@@ -546,7 +546,7 @@ export const CASE_STUDIES: CaseStudy[] = [
                 nav: 'The approach',
                 heading: 'Route the media like the network',
                 body: [
-                    'Routes were built directly from the serviceable-address map: residential arterials, retail strips near Xfinity stores, and commuter corridors that feed the target neighbourhoods.',
+                    'Routes were built directly from the serviceable-address map: residential arterials, retail strips near Xfinity stores, and commuter corridors that feed the target neighborhoods.',
                     'Fifteen-second GPS logging meant every mile could be audited against the footprint — no impression was spent where the product could not be bought.',
                 ],
             },
@@ -555,7 +555,7 @@ export const CASE_STUDIES: CaseStudy[] = [
                 nav: 'Results',
                 heading: 'Presence with proof',
                 body: [
-                    'The flight delivered its impressions entirely inside the serviceable footprint, verified by the GPS record rather than modelled.',
+                    'The flight delivered its impressions entirely inside the serviceable footprint, verified by the GPS record rather than modeled.',
                     'Store-adjacent routing tied the awareness push to the retail locations where the offer converts.',
                 ],
             },
@@ -684,7 +684,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         brand: 'Reliable Heating & Air',
         industry: 'Home Services',
         summary:
-            'Offer-led truckside that put a hard price on the street in the exact neighbourhoods the techs serve.',
+            'Offer-led truckside that put a hard price on the street in the exact neighborhoods the techs serve.',
         lead:
             'Home-services demand is hyper-local and offer-driven. Reliable’s wraps led with the number — a monthly-payment system price and a next-day installation guarantee — and ran the residential arterials of its Atlanta service area where the decision gets made.',
         year: '2024',
@@ -705,7 +705,7 @@ export const CASE_STUDIES: CaseStudy[] = [
                 nav: 'The challenge',
                 heading: 'Be the name when the AC quits',
                 body: [
-                    'Nobody shops HVAC until the day they need it — then they call a name they already know. Reliable needed continuous neighbourhood presence across its service area so that, at the moment of failure, the brand and the price were already in the household’s memory.',
+                    'Nobody shops HVAC until the day they need it — then they call a name they already know. Reliable needed continuous neighborhood presence across its service area so that, at the moment of failure, the brand and the price were already in the household’s memory.',
                 ],
             },
             {
@@ -714,7 +714,7 @@ export const CASE_STUDIES: CaseStudy[] = [
                 heading: 'Lead with the offer, stay in the footprint',
                 body: [
                     'Creative put the system price and the next-day guarantee in letters readable from across an intersection — an ad that does the estimate before the phone call.',
-                    'Routes tracked the residential service area through the summer and winter peaks, when a wrapped truck on a neighbourhood street reads exactly like what it is: proof the company is already working nearby.',
+                    'Routes tracked the residential service area through the summer and winter peaks, when a wrapped truck on a neighborhood street reads exactly like what it is: proof the company is already working nearby.',
                 ],
             },
             {
@@ -741,7 +741,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         summary:
             'A digitally-native furniture brand made physical, on the design-district streets its customers walk.',
         lead:
-            'Outer sells premium outdoor furniture online, with neighbourhood showrooms instead of stores. The fleet gave the brand a physical presence on the Westside LA streets — Venice, Abbot Kinney, Santa Monica — where its design-conscious audience actually spends its weekends.',
+            'Outer sells premium outdoor furniture online, with neighborhood showrooms instead of stores. The fleet gave the brand a physical presence on the Westside LA streets — Venice, Abbot Kinney, Santa Monica — where its design-conscious audience actually spends its weekends.',
         year: '2021',
         markets: 'Los Angeles — Westside',
         duration: '3 months',
@@ -753,7 +753,7 @@ export const CASE_STUDIES: CaseStudy[] = [
             { value: 7, label: 'Days-a-week presence' },
             { value: 1, label: 'Metro, owned deeply' },
         ],
-        services: ['Neighbourhood targeting', 'Brand-launch creative', 'Weekend routing'],
+        services: ['Neighborhood targeting', 'Brand-launch creative', 'Weekend routing'],
         sections: [
             {
                 id: 'challenge',
@@ -769,7 +769,7 @@ export const CASE_STUDIES: CaseStudy[] = [
                 heading: 'Drive the design districts',
                 body: [
                     'Rather than chasing freeway impressions, the fleet worked a dozen Westside streets at walking pace — the boutique and café corridors where the audience is out, unhurried, and looking around.',
-                    'The creative matched the brand: clean, product-forward, no offer. The truck was the billboard the neighbourhood does not allow.',
+                    'The creative matched the brand: clean, product-forward, no offer. The truck was the billboard the neighborhood does not allow.',
                 ],
             },
             {
@@ -777,7 +777,7 @@ export const CASE_STUDIES: CaseStudy[] = [
                 nav: 'Results',
                 heading: 'Physical presence, digital brand',
                 body: [
-                    'For three months the brand was physically present in its core neighbourhoods seven days a week — the street photography above is from those routes, palm trees and all.',
+                    'For three months the brand was physically present in its core neighborhoods seven days a week — the street photography above is from those routes, palm trees and all.',
                 ],
             },
         ],

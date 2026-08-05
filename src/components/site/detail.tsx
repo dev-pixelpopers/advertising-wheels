@@ -26,6 +26,7 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { CountFormat, formatCount } from './primitives';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -154,11 +155,9 @@ export function StickyToc({ items, label = 'Contents' }: { items: TocItem[]; lab
 /*  PinnedStats                                                        */
 /* ------------------------------------------------------------------ */
 
-export interface PinnedStat {
+/** Whole numbers only — these figures are rounded as they count. */
+export interface PinnedStat extends Omit<CountFormat, 'decimals'> {
     value: number;
-    prefix?: string;
-    suffix?: string;
-    comma?: boolean;
     label: string;
 }
 
@@ -169,6 +168,11 @@ export interface PinnedStat {
  *
  * Pinning is disabled below `lg` via matchMedia — on a short touch viewport a
  * pin this tall costs more than it earns, so the rows simply reveal in place.
+ *
+ * As with `CountUp`, the real figures are what get rendered and the zero is
+ * applied at runtime. That matters more here than anywhere: the timeline is
+ * scrubbed, so a served zero would be what every crawler and no-JS visitor
+ * reads on the case-study results panel.
  */
 export function PinnedStats({
     stats,
@@ -189,17 +193,23 @@ export function PinnedStats({
             const rows = q('[data-stat-row]');
             const figures = q('[data-stat-figure]');
 
-            /** Writes the counter's current value into the figure element. */
+            /* The served panel is already the finished state — real figures,
+               rows in place. Building the scrubbed timeline would only tie
+               those numbers to scroll position for no benefit. */
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            /**
+             * Writes the counter's current value into the figure element.
+             *
+             * Deliberately not called here: the served figure stays on screen
+             * until the scrub actually reaches this row's tween. Zeroing at
+             * mount would strand a 0 on any viewer whose timeline never runs.
+             */
             const bindCounter = (el: Element, stat: PinnedStat) => {
                 const counter = { v: 0 };
                 const render = () => {
-                    const n = Math.round(counter.v);
-                    el.textContent =
-                        (stat.prefix ?? '') +
-                        (stat.comma ? n.toLocaleString('en-US') : String(n)) +
-                        (stat.suffix ?? '');
+                    el.textContent = formatCount(Math.round(counter.v), stat);
                 };
-                render();
                 return { counter, render };
             };
 
@@ -268,7 +278,7 @@ export function PinnedStats({
                                 data-stat-figure
                                 className="font-tommy-bold text-[clamp(38px,6vw,80px)] leading-none tracking-[-0.03em] tabular-nums text-[#1A1917] dark:text-[#FCD119]"
                             >
-                                {s.prefix ?? ''}0{s.suffix ?? ''}
+                                {formatCount(s.value, s)}
                             </dt>
                             <dd className="font-tommy-regular text-[15px] leading-[1.6] text-[#5A554C] md:text-[18px] dark:text-[#A8A399]">
                                 {s.label}

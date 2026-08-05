@@ -29,7 +29,7 @@ const ROW_2_LOGOS: LogoEntry[] = [
 
 /**
  * Dark-theme legibility WITHOUT inverting. Monochrome/dark-ink marks vanish
- * against a dark ground, and inverting a coloured mark just turns it into a
+ * against a dark ground, and inverting a colored mark just turns it into a
  * white blob. Instead, on the dark theme each single-file mark sits on its own
  * light "chip" (a rounded white panel), so dark-ink AND full-colour logos read
  * exactly as their artwork intends. The light theme keeps them floating on the
@@ -96,7 +96,9 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
             `}</style>
 
             <div className="overflow-hidden py-[20px] md:py-[40px] lg:py-[60px]">
-                <p className="hm-heading text-black dark:text-white text-center font-tommy-regular leading-[133.33%] text-[clamp(1.125rem,2vw,1.875rem)] capitalize transition-colors duration-300">trusted by Fortune 500 brands across financial services</p>
+                <p className="hm-heading text-black dark:text-white text-center font-tommy-regular leading-[133.33%] 
+                text-[clamp(1.125rem,2vw,1.875rem)] capitalize transition-colors duration-300">Trusted by Fortune 500 brands —
+                    from financial services to QSR, retail, and automotive.</p>
             </div>
 
             <div className='mt-[16px] md:mt-[22px] lg:mt-[30px] pb-[60px]'>

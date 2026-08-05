@@ -10,7 +10,8 @@
  *   PageHero  — the standard inner-page opener (mask-reveal title, rings motif,
  *               header-clearing offset, on-mount entrance).
  *   Reveal    — scroll-triggered stagger for a group of children.
- *   CountUp   — a number that counts up when it scrolls into view.
+ *   CountUp   — a number that counts up when it scrolls into view. The markup
+ *               carries the real figure; the zero is applied at runtime.
  *   Eyebrow / Dot — tiny typographic helpers.
  */
 
@@ -242,43 +243,82 @@ export function Reveal({ children, className = '', y = 44, stagger = 0.12, start
 /*  CountUp — animated number on scroll                                */
 /* ------------------------------------------------------------------ */
 
-interface CountUpProps {
-    value: number;
+export interface CountFormat {
     prefix?: string;
     suffix?: string;
     decimals?: number;
     /** Thousands separator. */
     comma?: boolean;
+}
+
+/**
+ * The single place a stat figure becomes text.
+ *
+ * Both the server-rendered markup and the animation's per-frame writes go
+ * through this, so the number a crawler reads can't drift from the one the
+ * count-up lands on.
+ */
+export function formatCount(
+    n: number,
+    { prefix = '', suffix = '', decimals = 0, comma = false }: CountFormat = {}
+) {
+    const body = comma
+        ? n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+        : n.toFixed(decimals);
+    return prefix + body + suffix;
+}
+
+interface CountUpProps extends CountFormat {
+    value: number;
     className?: string;
     duration?: number;
 }
 
+/**
+ * A number that counts up when it scrolls into view.
+ *
+ * The real figure is what gets rendered — the zero is applied at runtime, only
+ * on a client that has JS and wants the motion. Rendering the zero instead and
+ * animating up to the truth would mean search engines, link previews, screen
+ * readers before hydration and no-JS visitors all read "0" on the pages whose
+ * whole job is proof.
+ */
 export function CountUp({ value, prefix = '', suffix = '', decimals = 0, comma = false, className = '', duration = 1.6 }: CountUpProps) {
     const ref = useRef<HTMLSpanElement>(null);
+    const fmt: CountFormat = { prefix, suffix, decimals, comma };
 
     useGSAP(
         () => {
             const el = ref.current;
             if (!el) return;
+
+            // Already the finished figure — leave it alone rather than zeroing
+            // it and rebuilding it in front of someone who asked for less motion.
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
             const counter = { v: 0 };
             const render = () => {
-                const n = counter.v;
-                const body = comma
-                    ? n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
-                    : n.toFixed(decimals);
-                el.textContent = prefix + body + suffix;
+                el.textContent = formatCount(counter.v, fmt);
             };
-            render();
             gsap.to(counter, {
                 v: value,
                 duration,
                 ease: 'power2.out',
                 onUpdate: render,
-                scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 88%',
+                    once: true,
+                    // Drop to zero at the moment the count-up starts, not on
+                    // mount. If the trigger never fires — GSAP's ticker throttled
+                    // in a background tab, a trigger stranded by a stale pin —
+                    // the true figure stays on screen instead of a stuck zero.
+                    onEnter: render,
+                },
             });
         },
         { scope: ref }
     );
 
-    return <span ref={ref} className={className}>{prefix}{(0).toFixed(decimals)}{suffix}</span>;
+    return <span ref={ref} className={className}>{formatCount(value, fmt)}</span>;
 }

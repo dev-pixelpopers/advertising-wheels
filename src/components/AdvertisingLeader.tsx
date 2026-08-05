@@ -17,7 +17,7 @@ export default function AdvertisingLeader() {
 
     useGSAP(
         () => {
-            // Split the paragraph into lines (keeps the coloured highlight spans intact).
+            // Split the paragraph into lines (keeps the colored highlight spans intact).
             const split = new SplitText(paraRef.current, {
                 type: 'lines',
                 linesClass: 'leader-line',
@@ -100,7 +100,7 @@ export default function AdvertisingLeader() {
                 <div ref={textSceneRef} className="relative w-full h-full inset-0 z-10 flex flex-col items-center justify-center px-[3%] lg:px-[2%] xl:px-[5%] 2xl:px-[10%]">
                     <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[20px] md:text-[25px] lg:text-[clamp(1.1rem,2.2vw,2.25rem)] leading-[183%] font-tommy-medium text-center capitalize w-full">
                         Advertising Wheels is the leader in truckside billboard advertising. For 25+ years
-                        <span className="text-[#D5CCB4] dark:text-[#8C8472]"> we’ve helped national and local brands own the street with one of the largest truckside fleets in the country —</span> pairing bold, high-impact creative with GPS-tracked routing and independently verified impressions
+                        <span className="text-[#D5CCB4] dark:text-[#8C8472]"> we've helped national and local brands own the street through one of the largest truckside networks in the country —</span> pairing bold, high-impact creative with GPS-verified coverage and impressions independently measured by StreetMetrics,
                         <span className="text-[#D5CCB4] dark:text-[#8C8472]"> so every campaign is planned, targeted, and measurable.</span>
                     </p>
                     <a ref={btnRef} className="rounded-[6px] bg-[#282828] dark:bg-[#FCD119] py-[6px] md:py-[10px] lg:py-[12px] px-[20px] md:px-[35px] lg:px-[50px] text-[16px] md:text-[clamp(1.125rem,1.7vw,1.5rem)] leading-[208%] text-[#FCD119] dark:text-black font-tommy-regular w-max mt-[50px] transition-colors duration-300 cursor-pointer">More about us</a>

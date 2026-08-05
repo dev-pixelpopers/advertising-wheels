@@ -42,15 +42,15 @@ const REQUIREMENTS = [
     'Box trucks, straight trucks or dry-van trailers',
     'Clean, undamaged panels suitable for wrapping',
     'Active commercial auto insurance',
-    'Regular routes in one or more of our 50 markets',
+    'Regular delivery routes in one or more of our 50 DMAs.',
     'Consistent weekly mileage and road time',
-    'Willingness to keep the wrap on for the flight',
+    'GPS tracking enabled — we provide the device.',
 ];
 
 const NETWORK_STATS = [
-    { el: <CountUp value={300} suffix="+" />, label: 'Trucks in the network' },
-    { el: <CountUp value={50} />, label: 'Markets covered' },
-    { el: <CountUp value={24} suffix="/7" />, label: 'Routing & support' },
+    { el: <CountUp value={100} suffix="s" />, label: 'Partner trucks nationwide' },
+    { el: <CountUp value={50} />, label: 'DMAs covered' },
+    { el: <CountUp value={24} suffix="/7" />, label: 'GPS tracking & support' },
     { el: <CountUp value={7} />, label: 'Days to first wrap' },
 ];
 

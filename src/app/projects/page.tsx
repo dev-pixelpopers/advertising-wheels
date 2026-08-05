@@ -54,23 +54,23 @@ const PROJECTS: Project[] = [
     { brand: 'Saks Fifth Avenue', industry: 'Luxury Retail', result: 'The team executed outstanding results — recognition was city-wide, and memorable.', metric: '#1', metricLabel: 'In-market buzz', logo: `${LOGOS}/partner-saks-white.webp`, logoDark: `${LOGOS}/partner-saks-dark.webp` },
     { brand: 'Volkswagen', industry: 'Automotive', result: 'Synchronized routes blanketed launch corridors, turning highway miles into launch-week presence.', metric: '50', metricLabel: 'Markets ready', logo: `${LOGOS}/partner-vw.png` },
     { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png`, slug: 'cuyahoga-community-college' },
-    { brand: 'FanDuel', industry: 'Sports & Gaming', result: 'Game-day fleets surged around venues and sports districts, hitting crowds exactly when intent peaked.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/partner-fanduel.webp` },
-    { brand: 'Xfinity', industry: 'Telecom', result: 'Neighbourhood-level routing carried the offer straight into target ZIPs across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png`, slug: 'xfinity' },
+    { brand: 'FanDuel', industry: 'Sports & Gaming', result: 'Fleets covering stadium districts and sports-bar corridors carried the brand through game-day crowds, right where intent peaks.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/partner-fanduel.webp` },
+    { brand: 'Xfinity', industry: 'Telecom', result: 'ZIP-targeted fleet coverage carried the offer into target neighborhoods across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png`, slug: 'xfinity' },
     { brand: 'Raising Cane’s', industry: 'Quick-Service Food', result: 'Pre-opening trade-area flights introduced the brand weeks before each new restaurant opened its lane.', metric: '3wk', metricLabel: 'Pre-opening presence', logo: `${LOGOS}/partner-raising-canes.png`, slug: 'raising-canes' },
-    { brand: 'Floor & Decor', industry: 'Specialty Retail', result: 'A six-truck Boston fleet carried two simultaneous store openings down every homeowner corridor in the metro.', metric: '2', metricLabel: 'Stores launched', logo: `${LOGOS}/partner-floor-decor.png`, slug: 'floor-and-decor' },
+    { brand: 'Floor & Decor', industry: 'Specialty Retail', result: `A six-truck Boston fleet carried two simultaneous store openings through the metro's homeowner neighborhoods and retail corridors.`, metric: '2', metricLabel: 'Stores launched', logo: `${LOGOS}/partner-floor-decor.png`, slug: 'floor-and-decor' },
     { brand: 'Reliable Heating & Air', industry: 'Home Services', result: 'Offer-led wraps kept a hard system price on residential streets across the Atlanta service area, season after season.', metric: '100%', metricLabel: 'In-footprint miles', logo: `${LOGOS}/partner-reliable.png`, slug: 'reliable-heating-cooling' },
     { brand: 'Outer', industry: 'DTC Home & Outdoor', result: 'A digitally-native furniture brand gained a seven-day physical presence on LA’s Westside design streets.', metric: '7d', metricLabel: 'Weekly presence', logo: `${LOGOS}/partner-outer.png`, slug: 'outer' },
-    { brand: 'Titan Insurance Sales', industry: 'Insurance', result: 'Retail-plaza dwell routing concentrated the rate message where value-conscious drivers park every day.', metric: '90s', metricLabel: 'Dwell at anchors', logo: `${LOGOS}/partner-titan.png`, slug: 'titan' },
+    { brand: 'Titan Insurance Sales', industry: 'Insurance', result: 'Fleets working retail-plaza corridors put the rate message where value-conscious drivers shop and park every day.', metric: '90s', metricLabel: 'Dwell at anchors', logo: `${LOGOS}/partner-titan.png`, slug: 'titan' },
     { brand: 'Dollar', industry: 'Car Rental', result: 'An OOH-vs-control study lifted Dollar.com peak-week visits +32% YoY in target markets, outperforming control in every flight.', metric: '+32%', metricLabel: 'YoY site visits', logo: `${LOGOS}/dollar-car-rental-logo.webp`, slug: 'dollar' },
-    { brand: 'AAA', industry: 'Travel & Mobility', result: 'A membership and roadside-assistance awareness plan built for commuter routes and travel hubs.', metric: 'Routes', metricLabel: 'Commuter reach', logo: `${LOGOS}/aaa-vector-logo.webp`, slug: 'aaa' },
-    { brand: 'Burger King', industry: 'Quick-Service Food', result: 'A foot-traffic and limited-time-offer push near restaurant clusters, timed to peak meal times.', metric: 'Peak', metricLabel: 'Meal-time reach', logo: `${LOGOS}/burger-king-logo.webp`, slug: 'burger-king' },
+    { brand: 'AAA', industry: 'Travel & Mobility', result: 'A membership and roadside-assistance awareness plan carried through commuter corridors and travel hubs.', metric: 'Routes', metricLabel: 'Commuter reach', logo: `${LOGOS}/aaa-vector-logo.webp`, slug: 'aaa' },
+    { brand: 'Burger King', industry: 'Quick-Service Food', result: 'A foot-traffic and limited-time-offer push carried through restaurant trade areas all day — including every breakfast, lunch, and dinner rush.', metric: 'Peak', metricLabel: 'Meal-time reach', logo: `${LOGOS}/burger-king-logo.webp`, slug: 'burger-king' },
 ];
 
 const FEATURED_STATS = [
     { el: <CountUp value={96} prefix="+" suffix="%" />, label: 'Branded checking search clicks' },
     { el: <CountUp value={8} suffix="%" />, label: 'Lift in household production' },
     { el: <CountUp value={6802} comma />, label: 'Incremental checking households' },
-    { el: <><span className="align-top text-[0.5em]">&lt;</span><CountUp value={12} /></>, label: 'Month better-than-break-even ROMI' },
+    { el: <CountUp prefix="<" suffix=" months" value={12} />, label: 'Broke even in under 12 months' },
 ];
 
 const INDUSTRIES = [
@@ -346,7 +346,7 @@ export default function ProjectsPage() {
                 badge="Work"
                 title="THE RESULTS"
                 lead="National and local brands put their name on our fleet — then watched the search clicks, household growth and city-wide recall follow. Every campaign measured the same way."
-                primary={{ label: 'Start your campaign', href: '/contact' }}
+                primary={{ label: 'Start a Campaign', href: '/contact' }}
                 secondary={{ label: 'How we do it', href: '/services' }}
                 image={HOUSE_SHOTS.projectsHero}
                 imageAlt="A wrapped Advertising Wheels truck outside a retail centre"
