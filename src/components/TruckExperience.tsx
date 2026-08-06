@@ -41,10 +41,19 @@ const SUB_CARET =
 /**
  * Map markers scattered over the city plate.
  *
- * Deliberately off-grid: three of the four used to share `top-[44%]`, which
- * lined them up on one horizontal rule and read as a UI row rather than
- * points on a map. No two now share a `top` at any breakpoint, and the sizes
- * step up and down a little so they sit at different apparent depths.
+ * Deliberately off-grid: three of the original four used to share `top-[44%]`,
+ * which lined them up on one horizontal rule and read as a UI row rather than
+ * points on a map. No two share a `top` at any breakpoint, and the sizes step
+ * up and down so they sit at different apparent depths — the low ones are the
+ * largest and read as nearest the camera.
+ *
+ * They also stay out of the middle band, where the truck sits: the centre of
+ * the plate from roughly 20%–80% across and 30%–70% down belongs to the
+ * vehicle, so markers hug the edges or clear the roof.
+ *
+ * Each entry keeps to ONE horizontal anchor across breakpoints (all `left-*`
+ * or all `right-*`). Mixing them leaves the mobile side still applying at `lg`,
+ * where with a fixed width the `left` silently wins.
  */
 const pinPositions = [
     {
@@ -67,6 +76,38 @@ const pinPositions = [
         className: 'right-[32%] top-[32%] lg:right-[5%] 2xl:right-[7%] 3xl:right-[10%] lg:top-[44%]',
         size: 'w-[60px] h-[60px] lg:w-[76px] lg:h-[76px]',
     },
+    {
+        // Left flank, below the cab line
+        className: 'left-[14%] top-[44%] lg:left-[15%] lg:top-[42%]',
+        size: 'w-[58px] h-[58px] lg:w-[74px] lg:h-[74px]',
+    },
+    {
+        // High and inboard — well above the trailer roof, so it can sit over
+        // the centre without landing on the vehicle
+        className: 'left-[62%] top-[16%] lg:left-[30%] lg:top-[8%]',
+        size: 'w-[46px] h-[46px] lg:w-[56px] lg:h-[56px]',
+    },
+    {
+        // High right, mirroring the one above — smallest pair, furthest back
+        className: 'right-[14%] top-[52%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[34%] lg:top-[20%]',
+        size: 'w-[50px] h-[50px] lg:w-[60px] lg:h-[60px]',
+    },
+    {
+        // High right, mirroring the one above — smallest pair, furthest back
+        className: 'right-[14%] top-[52%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[24%] lg:top-[20%]',
+        size: 'w-[50px] h-[50px] lg:w-[60px] lg:h-[60px]',
+    },
+    {
+        // Right flank, low
+        className: 'right-[46%] top-[62%] lg:right-[9%] 2xl:right-[12%] 3xl:right-[10%] lg:top-[20%]',
+        size: 'w-[62px] h-[62px] lg:w-[78px] lg:h-[78px]',
+    },
+    {
+        // Far-left, upper — tucked into the corner
+        className: 'left-[4%] top-[70%] lg:left-[3%] lg:top-[21%]',
+        size: 'w-[48px] h-[48px] lg:w-[58px] lg:h-[58px]',
+    }
+
 ];
 
 export default function TruckExperience() {
@@ -154,20 +195,30 @@ export default function TruckExperience() {
                 .to(sub1Ref.current, { autoAlpha: 0, duration: 0.3 }, 1.45)
                 .to(sub2Ref.current, { autoAlpha: 1, duration: 0.4 }, 1.75);
 
-            // ── STEP 2 — signal + 4 pins reveal together on scroll ──────────
+            // ── STEP 2 — signal + the pins reveal together on scroll ────────
             // The GPS unit deploys at the same beat as the first pin, so the
             // broadcast and the map answers read as one event.
             tl.to(signalRef.current, { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(1.8)' }, 1.85);
-            pinRefs.current.forEach((pin, index) => {
-                if (pin) {
-                    tl.to(pin, {
-                        autoAlpha: 1,
-                        scale: 1,
-                        y: 0,
-                        duration: 0.3,
-                        ease: 'back.out(1.8)',
-                    }, 1.85 + index * 0.2);
-                }
+
+            /* The step is derived from the pin COUNT rather than being a fixed
+               0.2 per pin: the whole set has to be up before the exit beat at
+               2.65, and a fixed step meant adding markers silently pushed the
+               last ones past it — they would have popped in already fading. */
+            const livePins = pinRefs.current.filter(Boolean) as HTMLDivElement[];
+            const PIN_IN_START = 1.85;
+            const PIN_IN_DURATION = 0.3;
+            const PIN_ALL_IN_BY = 2.55;
+            const lastStart = PIN_ALL_IN_BY - PIN_IN_DURATION;
+            const step = livePins.length > 1 ? (lastStart - PIN_IN_START) / (livePins.length - 1) : 0;
+
+            livePins.forEach((pin, index) => {
+                tl.to(pin, {
+                    autoAlpha: 1,
+                    scale: 1,
+                    y: 0,
+                    duration: PIN_IN_DURATION,
+                    ease: 'back.out(1.8)',
+                }, PIN_IN_START + index * step);
             });
 
             // ── TRANSITION 2 → 3 ──
@@ -273,7 +324,7 @@ export default function TruckExperience() {
                     style={{ background: 'linear-gradient(0deg, rgba(8,8,10,0.62) 0%, rgba(8,8,10,0.34) 42%, rgba(8,8,10,0) 100%)' }}
                 />
 
-                {/* 4 PINS — 1 on left side of truck, 3 on right side of truck aligned on the same horizontal line */}
+                {/* Map markers — see `pinPositions` for the placement rules */}
                 {pinPositions.map((pin, index) => (
                     <div
                         key={index}

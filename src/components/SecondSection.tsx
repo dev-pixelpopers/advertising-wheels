@@ -6,9 +6,11 @@
  *   1. HomeMarquee   — heading + partner logo rows. On desktop the rows are
  *                      scroll-driven (the CSS auto-scroll is switched off), so
  *                      the logos track with the scroll rather than looping on a
- *                      timer. Below `lg` they keep their own CSS loop.
- *   2. Testimonials  — slides in as the marquee slides out; the heading lands
- *                      and the quote rail then tracks sideways.
+ *                      timer. Below `lg` there are no rows at all — the marquee
+ *                      renders the whole roster as a static grid, so the tiles
+ *                      stagger in there instead.
+ *   2. Testimonials  — slides in from the right as the marquee slides out; the
+ *                      heading lands and the quote rail then tracks sideways.
  *
  * The case studies used to live here too; they now have their own pinned stage
  * (CaseStudySection) later in the page.
@@ -35,6 +37,7 @@ export default function SecondSection() {
             // ── Initial states ─────────────────────────────────────────────
             gsap.set(testiRef.current, { xPercent: 100 });
             gsap.set(q('.hm-heading, .hm-row1, .hm-row2'), { clipPath: 'inset(0% 0% 0% 100%)', opacity: 0 });
+            gsap.set(q('[data-hm-tile]'), { autoAlpha: 0, y: 18 });
             gsap.set(q('[data-tm-head] > *'), { y: 26, autoAlpha: 0 });
 
             const tl = gsap.timeline({
@@ -58,6 +61,16 @@ export default function SecondSection() {
             tl.to(q('.hm-heading'), { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: 0.9, ease: 'power2.out' }, 0)
                 .to(q('.hm-row1'), { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: 0.9, ease: 'power2.out' }, 0.3)
                 .to(q('.hm-row2'), { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: 0.9, ease: 'power2.out' }, 0.4);
+
+            // ── Phase 1a — below `lg` the rows don't exist; the grid fills in ──
+            // Harmless on desktop, where these tiles are display:none.
+            tl.to(q('[data-hm-tile]'), {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.45,
+                ease: 'power2.out',
+                stagger: { each: 0.03, from: 'start' },
+            }, 0.3);
 
             // ── Phase 1b — desktop: the logo rows track with the scroll ─────
             // Each track holds three copies of the set, so travelling exactly one
