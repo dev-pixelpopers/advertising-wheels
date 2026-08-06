@@ -247,7 +247,7 @@ function Gallery() {
                     // `Link | 'article'` component can't be typed cleanly against
                     // Link's required `href`).
                     const cardClass =
-                        'pj-card group flex shrink-0 flex-col rounded-[22px] border border-black/10 bg-white/60 p-8 transition-colors duration-300 hover:border-[#C8992B]/40 md:p-9 lg:w-[clamp(340px,30vw,420px)] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40';
+                        'pj-card group flex shrink-0 flex-col justify-between min-h-[430px] rounded-[22px] border border-black/10 bg-white/60 p-8 transition-colors duration-300 hover:border-[#C8992B]/40 md:p-9 lg:w-[clamp(340px,30vw,420px)] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40';
 
                     const inner = (
                         <>
@@ -275,11 +275,11 @@ function Gallery() {
                             <h3 className="mt-6 font-tommy-bold text-[26px] tracking-tight">{p.brand}</h3>
                             <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-white/60">{p.result}</p>
 
-                            {p.slug && (
-                                <span className="mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white/50 dark:group-hover:text-[#FCD119]">
-                                    Read the story <ArrowIcon />
-                                </span>
-                            )}
+
+                            <span className="mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white/50 dark:group-hover:text-[#FCD119]">
+                                Read the story <ArrowIcon />
+                            </span>
+
                         </>
                     );
 

@@ -326,9 +326,8 @@ export default function WhyChooseUs() {
                     trigger: rootRef.current,
                     start: 'top top',
                     end: 'bottom bottom',
-                    pin: screenRef.current,
-                    scrub: 0.5,
-                    anticipatePin: 1,
+                    scrub: 1,
+                    invalidateOnRefresh: true,
                 },
             });
 
@@ -425,17 +424,17 @@ export default function WhyChooseUs() {
                 3.4
             );
             // Exit: high-beams pulse a bright wash, then release the pin.
-            tl.fromTo(q('.wcu-beam'), { autoAlpha: 0 }, { autoAlpha: 0.85, duration: 0.08, ease: 'power1.in' }, 3.86);
-            tl.to(q('.wcu-beam'), { autoAlpha: 0, duration: 0.06 }, 3.94);
+            tl.fromTo(q('.wcu-beam'), { autoAlpha: 0 }, { autoAlpha: 0.85, duration: 0.08, ease: 'power1.in' }, 3.6);
+            tl.to(q('.wcu-beam'), { autoAlpha: 0, duration: 0.06 }, 3.7);
         },
         { scope: rootRef }
     );
 
     return (
         /* 400vh scroll track */
-        <div ref={rootRef} className="relative h-[400vh] w-full" style={{ backgroundColor: p.ink }}>
+        <div ref={rootRef} className="relative h-[600vh] w-full" style={{ backgroundColor: p.ink }}>
             {/* Pinned full-screen frame */}
-            <div ref={screenRef} className="flex h-screen w-full flex-col lg:flex-row overflow-hidden  !pt-8 lg:pt-0">
+            <div ref={screenRef} className="sticky top-0 flex h-screen w-full flex-col lg:flex-row overflow-hidden !pt-8 lg:pt-0">
                 {/* ------------------------------------------------ */}
                 {/* LEFT (45%): scroll-driven chapter copy            */}
                 {/* ------------------------------------------------ */}

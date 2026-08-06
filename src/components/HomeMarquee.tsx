@@ -1,248 +1,151 @@
 'use client';
 
 /**
- * HomeMarquee — the "trusted by" logo wall.
+ * HomeMarquee — Floating Brand Showcase.
  *
- * Two layouts, one roster:
- *
- *   • `lg` and up — the original two looping rows. On desktop the parent hands
- *     the horizontal movement to a ScrollTrigger (see `scrollDriven`), so the
- *     logos track with the scroll rather than looping on a timer.
- *   • below `lg` — a marquee is the wrong shape for a phone: the marks have to
- *     shrink to fit a track, and you only ever see a slice of the roster. So
- *     the small screens get every logo at once as a static grid, three to a row,
- *     sized to stay readable and to fit inside a single screen.
- *
- * Both layouts are rendered; CSS picks one. The images are the same URLs, so
- * the hidden layout costs DOM nodes, not requests.
+ * Requirements:
+ * 1. Spread Across Screen: Scattered floating layout (no orbits/lines) with RANDOM coordinates.
+ * 2. High Density: Tighter vertical packing so more logos are visible at once on desktop.
+ * 3. Top Aligned Text: Heading sits at the top.
+ * 4. Masking: A gradient mask fades out logos just below the text so they don't overlap it.
+ * 5. Blacked Out Default: Logos are silhouette/black by default, full color on hover.
+ * 6. Linked: Each logo is wrapped in an anchor tag leading to its site.
  */
 
 const LOGO_DIR = '/assets/images/clients-logo';
 
-/** Split across the two desktop rows; the mobile grid shows them all in order. */
-const ROW_1_LOGOS: string[] = [
-    'partner-nationwide.png',
-    'burger-king-logo.webp',
-    'hertz-logo.webp',
-    '5th_3rd.webp',
-    'partner-wendys.png',
-    'ab-inbev.webp',
-    'partner-xfinity.png',
-    'canes.webp',
-    'aaa-vector-logo.webp',
-    'partner-kaiser.png',
-    'titan.webp',
-    'dollar-car-rental-logo.webp',
+export interface LogoData {
+    id: string;
+    logo: string;
+    logoDark?: string;
+    layer: 'fast' | 'mid' | 'anchor';
+    top: string;
+    left: string;
+    mobileTop?: string;
+    mobileLeft?: string;
+    size?: 'sm' | 'md' | 'lg';
+    delay?: string;
+    url: string;
+}
+
+export const BUBBLES: LogoData[] = [
+    { id: 'b1', logo: 'partner-nationwide.png', layer: 'mid', top: '35%', left: '15%', mobileTop: '35%', mobileLeft: '10%', size: 'lg', delay: '0s', url: 'https://www.nationwide.com' },
+    { id: 'b2', logo: 'burger-king-logo.webp', layer: 'mid', top: '42%', left: '78%', mobileTop: '45%', mobileLeft: '70%', size: 'md', delay: '0.8s', url: 'https://www.bk.com' },
+    { id: 'b3', logo: 'hertz-logo.webp', layer: 'mid', top: '48%', left: '34%', mobileTop: '56%', mobileLeft: '20%', size: 'lg', delay: '1.4s', url: 'https://www.hertz.com' },
+    { id: 'b4', logo: '5th_3rd.webp', layer: 'mid', top: '55%', left: '88%', mobileTop: '64%', mobileLeft: '80%', size: 'md', delay: '2.1s', url: 'https://www.53.com' },
+    { id: 'b5', logo: 'partner-wendys.png', layer: 'mid', top: '61%', left: '12%', mobileTop: '75%', mobileLeft: '15%', size: 'lg', delay: '0.5s', url: 'https://www.wendys.com' },
+    { id: 'b6', logo: 'ab-inbev.webp', layer: 'mid', top: '66%', left: '52%', mobileTop: '86%', mobileLeft: '65%', size: 'sm', delay: '1.7s', url: 'https://www.ab-inbev.com' },
+    { id: 'b7', logo: 'partner-xfinity.png', layer: 'mid', top: '74%', left: '22%', mobileTop: '95%', mobileLeft: '85%', size: 'lg', delay: '2.5s', url: 'https://www.xfinity.com' },
+    { id: 'b8', logo: 'canes.webp', layer: 'mid', top: '79%', left: '71%', mobileTop: '104%', mobileLeft: '30%', size: 'md', delay: '1.1s', url: 'https://www.raisingcanes.com' },
+    { id: 'b9', logo: 'aaa-vector-logo.webp', layer: 'mid', top: '85%', left: '45%', mobileTop: '115%', mobileLeft: '75%', size: 'md', delay: '0.3s', url: 'https://www.aaa.com' },
+    { id: 'b10', logo: 'partner-kaiser.png', layer: 'mid', top: '92%', left: '85%', mobileTop: '126%', mobileLeft: '12%', size: 'sm', delay: '1.9s', url: 'https://healthy.kaiserpermanente.org/' },
+    { id: 'b11', logo: 'titan.webp', layer: 'mid', top: '98%', left: '18%', mobileTop: '135%', mobileLeft: '68%', size: 'lg', delay: '2.8s', url: 'https://www.titan.com/' },
+    { id: 'b12', logo: 'dollar-car-rental-logo.webp', layer: 'mid', top: '104%', left: '60%', mobileTop: '146%', mobileLeft: '22%', size: 'md', delay: '0.6s', url: 'https://www.dollar.com/' },
+    { id: 'b13', logo: 'partner-saks-white.webp', logoDark: 'partner-saks-dark.webp', layer: 'mid', top: '111%', left: '38%', mobileTop: '154%', mobileLeft: '82%', size: 'lg', delay: '1.2s', url: 'https://www.saksfifthavenue.com/' },
+    { id: 'b14', logo: 'partner-floor-decor.png', layer: 'mid', top: '118%', left: '92%', mobileTop: '165%', mobileLeft: '40%', size: 'md', delay: '2.3s', url: 'https://www.flooranddecor.com/' },
+    { id: 'b15', logo: 'beringer.webp', layer: 'mid', top: '124%', left: '11%', mobileTop: '176%', mobileLeft: '18%', size: 'sm', delay: '0.9s', url: 'https://www.beringer.com/' },
+    { id: 'b16', logo: 'partner-echo.png', layer: 'mid', top: '130%', left: '75%', mobileTop: '185%', mobileLeft: '76%', size: 'lg', delay: '1.6s', url: 'https://www.echo.com/' },
+    { id: 'b17', logo: 'dc-united.webp', layer: 'mid', top: '136%', left: '28%', mobileTop: '195%', mobileLeft: '28%', size: 'md', delay: '2.0s', url: 'https://www.dcunited.com/' },
+    { id: 'b18', logo: 'partner-razorbacks.png', layer: 'mid', top: '144%', left: '56%', mobileTop: '204%', mobileLeft: '88%', size: 'lg', delay: '0.7s', url: 'https://arkansasrazorbacks.com/' },
+    { id: 'b19', logo: 'partner-mote-museum.png', layer: 'mid', top: '151%', left: '84%', mobileTop: '215%', mobileLeft: '15%', size: 'sm', delay: '1.5s', url: 'https://mote.org/' },
+    { id: 'b20', logo: 'outer.webp', layer: 'mid', top: '158%', left: '20%', mobileTop: '226%', mobileLeft: '60%', size: 'lg', delay: '2.7s', url: 'https://liveouter.com/' },
+    { id: 'b21', logo: 'partner-penn811.png', layer: 'mid', top: '165%', left: '48%', mobileTop: '235%', mobileLeft: '22%', size: 'md', delay: '1.0s', url: 'https://www.pa1call.org/' },
+    { id: 'b22', logo: 'partner-reliable.png', layer: 'mid', top: '172%', left: '14%', mobileTop: '245%', mobileLeft: '78%', size: 'lg', delay: '0.4s', url: 'https://reliable.com/' },
+    { id: 'b23', logo: 'charly-logo-png_seeklogo-436078-removebg-preview.png', layer: 'mid', top: '178%', left: '77%', mobileTop: '256%', mobileLeft: '35%', size: 'sm', delay: '1.8s', url: 'https://www.charly.com/' },
 ];
 
-const ROW_2_LOGOS: string[] = [
-    'partner-saks-white.webp',
-    'partner-floor-decor.png',
-    'beringer.webp',
-    'partner-echo.png',
-    'dc-united.webp',
-    'partner-razorbacks.png',
-    'partner-mote-museum.png',
-    'outer.webp',
-    'partner-penn811.png',
-    'partner-reliable.png',
-    'charly-logo-png_seeklogo-436078-removebg-preview.png',
-];
-
-const ALL_LOGOS = [...ROW_1_LOGOS, ...ROW_2_LOGOS];
-
-/**
- * Dark-theme legibility WITHOUT inverting. Nearly every mark here is dark ink
- * or full colour on a transparent ground, so on the dark theme each one sits on
- * its own light chip and reads exactly as its artwork intends — inverting would
- * turn a coloured mark into a white blob. The light theme lets them float on
- * the cream ground unchipped.
- *
- * Chip classes must be `dark:`-prefixed so they only apply on the dark theme —
- * this project defines the variant as `@variant dark (&:where(.dark, .dark *))`.
- */
-const DARK_CHIP = 'dark:rounded-[6px] dark:bg-[#EEE8D9] dark:p-2 md:dark:p-3';
-
-/**
- * `scrollDriven` hands the horizontal movement to a parent ScrollTrigger on
- * desktop: the CSS auto-scroll is switched off at `lg` and up, and the parent
- * translates [data-hm-row] instead. The rows only exist at `lg` and up, so this
- * is the only mode that matters — below that the static grid takes over.
- */
 export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: boolean } = {}) {
-    // Three copies so each track can loop seamlessly (travelling one third lands on a boundary).
-    const row1Track = [...ROW_1_LOGOS, ...ROW_1_LOGOS, ...ROW_1_LOGOS];
-    const row2Track = [...ROW_2_LOGOS, ...ROW_2_LOGOS, ...ROW_2_LOGOS];
-
-    const renderTile = (logo: string, index: number) => {
-        const imgClass =
-            'w-[60px] md:w-[clamp(5rem,8.3vw,10rem)] h-[70px] md:h-[clamp(4rem,6.25vw,7.5rem)] object-contain opacity-[0.8] transition-all';
-
-        return (
-            <div key={index} className={`mr-2 shrink-0 ${DARK_CHIP}`}>
-                <img className={`${imgClass} dark:opacity-100`} src={`${LOGO_DIR}/${logo}`} alt="" />
-            </div>
-        );
-    };
-
-    // Animations are orchestrated by the parent SecondSection via the class hooks below.
     return (
-        <div className="home-marquee flex flex-col items-center overflow-hidden">
+        <div className="home-marquee relative w-full h-full overflow-hidden flex flex-col justify-between py-8 md:py-16">
             <style>{`
-                @keyframes marquee-right {
-                    from { transform: translateX(-50%); }
-                    to { transform: translateX(0); }
-                }
-                @keyframes marquee-left {
-                    from { transform: translateX(0); }
-                    to { transform: translateX(-50%); }
-                }
-                .hm-anim-right { animation: marquee-right 40s linear infinite; }
-                .hm-anim-left  { animation: marquee-left 40s linear infinite; }
-                ${scrollDriven
-                ? `/* Desktop hands the movement to the parent's ScrollTrigger. */
-                       @media (min-width: 1024px) {
-                           .hm-anim-right, .hm-anim-left { animation: none !important; }
-                       }`
-                : ''}
-                @media (prefers-reduced-motion: reduce) {
-                    .hm-anim-right, .hm-anim-left { animation: none !important; }
+                @keyframes float-wobble {
+                    0% { transform: translate(0px, 0px) rotate(0deg); }
+                    33% { transform: translate(12px, -24px) rotate(3deg); }
+                    66% { transform: translate(-14px, -10px) rotate(-3deg); }
+                    100% { transform: translate(4px, 15px) rotate(1.5deg); }
                 }
 
-                /* ── The small-screen wall ──────────────────────────────────
-                   Column widths are calc()'d against the row's own gap, which
-                   reads far better here than as escaped arbitrary values. The
-                   base rules are the phone ones; each media query widens them. */
-                .hm-grid {
-                    display: flex;
-                    flex-wrap: wrap;
-                    align-items: center;
-                    justify-content: center;
-                    /* Row gap is deliberately tight on phones: eight rows of
-                       cards, the heading, AND the reserved header strip all
-                       have to clear a single screen. */
-                    gap: 9px 12px;
+                .logo-wobble {
+                    animation: float-wobble 5s ease-in-out infinite alternate;
                 }
-                /* Only geometry lives here — the frosted look itself is the same
-                   utility recipe the CTA credential tiles use, applied on the
-                   element, so the two surfaces stay in step. */
-                .hm-tile {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: calc((100% - 2 * 12px) / 3);
-                    padding: 9px 10px;
-                }
-                /* Fixed mark height is what keeps every card in a row the same
-                   size, so the wall reads as a grid rather than a ragged stack. */
-                .hm-logo {
-                    max-width: 100%;
-                    height: clamp(38px, 6vh, 56px);
-                    object-fit: contain;
-                    opacity: 0.85;
-                }
-                .dark .hm-logo { opacity: 1; }
 
-                @media (min-width: 640px) {
-                    .hm-grid { gap: 18px 16px; }
-                    .hm-tile {
-                        width: calc((100% - 3 * 16px) / 4);
-                        padding: 12px 14px;
+                /* Mobile-specific position overrides */
+                ${BUBBLES.filter(b => b.mobileLeft).map(b => `
+                    @media (max-width: 767px) {
+                        [data-bubble-id="${b.id}"] {
+                            top: ${b.mobileTop || b.top} !important;
+                            left: ${b.mobileLeft || b.left} !important;
+                        }
                     }
-                    .hm-logo { height: clamp(46px, 6.6vh, 68px); }
-                }
-                @media (min-width: 768px) {
-                    .hm-grid { gap: 22px 20px; }
-                    .hm-tile {
-                        width: calc((100% - 4 * 20px) / 5);
-                        padding: 14px 16px;
-                    }
-                    .hm-logo { height: clamp(50px, 7vh, 78px); }
-                }
-                /* Short phones (SE-class, and anything in landscape-ish crops):
-                   eight rows plus a heading simply cannot hold the taller card
-                   on a ~667px screen, so the whole wall steps down a size
-                   rather than overflowing the pinned panel and getting cut. */
-                @media (max-width: 1023px) and (max-height: 740px) {
-                    .hm-grid { gap: 8px 10px; }
-                    .hm-tile { padding: 6px 8px; }
-                    .hm-logo { height: clamp(26px, 5.2vh, 44px); }
-                }
-
-                /* The site header is FIXED to the top of the viewport, and this
-                   panel is pinned to fill that same viewport — so a wall tall
-                   enough to nearly fill the screen puts its heading straight
-                   under the header. Reserve the header's height here, and note
-                   the sizes above are tuned so the wall still clears the screen
-                   WITH this padding added. Desktop needs none of it: the two
-                   marquee rows are far shorter and never reach the top. */
-                @media (max-width: 1023px) {
-                    .home-marquee { padding-top: 64px; }
-                }
-                @media (max-width: 1023px) and (max-height: 740px) {
-                    .home-marquee { padding-top: 52px; }
-                }
-
-                /* The grid hides itself here rather than with a \`lg:hidden\`
-                   utility: this sheet ships after Tailwind's, so at equal
-                   specificity \`.hm-grid { display: flex }\` would win and the
-                   wall would sit under the marquee on desktop. */
-                @media (min-width: 1024px) {
-                    .hm-grid { display: none; }
-                }
+                `).join('')}
             `}</style>
 
-            <div className="overflow-hidden py-[12px] md:py-[40px] lg:py-[60px]">
-                <p className="hm-heading text-black dark:text-white text-center font-tommy-regular leading-[133.33%]
-                text-[clamp(1.125rem,2vw,1.875rem)] capitalize transition-colors duration-300">Trusted by Fortune 500 brands —
-                    from financial services to QSR, retail, and automotive.</p>
+            {/* Section Heading - Top Aligned */}
+            <div className="relative z-20 mx-auto max-w-[840px] px-6 text-center pt-8 md:pt-16 pointer-events-none">
+                <p className="hm-heading text-center font-tommy-regular text-[clamp(1.125rem,2.2vw,2.1rem)] leading-[1.3] text-[#1A1917] dark:text-white transition-colors duration-300">
+                    Trusted by Fortune 500 brands — from financial services to QSR, retail, and automotive.
+                </p>
             </div>
 
-            {/* ── Desktop: the two looping rows ─────────────────────────── */}
-            <div className='hidden lg:block mt-[16px] md:mt-[22px] lg:mt-[30px] pb-[60px]'>
-                <div className="hm-row1 w-full overflow-hidden">
-                    <div
-                        data-hm-row="1"
-                        className="hm-anim-right flex flex-row gap-[20px] md:gap-[40px] lg:gap-[70px] xl:gap-[100px] 2xl:gap-[150px]"
-                    >
-                        {row1Track.map(renderTile)}
-                    </div>
-                </div>
+            {/* Pure Floating Unboxed Logos Stage with Top Mask */}
+            <div
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                style={{
+                    // This mask ensures logos fade out elegantly right below the text
+                    maskImage: 'linear-gradient(to bottom, transparent 0%, transparent 22%, black 35%, black 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, transparent 22%, black 35%, black 100%)'
+                }}
+            >
+                {BUBBLES.map((b) => {
+                    // A strict, uniform bounding box ensures all logos 
+                    // scale to a consistent maximum height or width.
+                    const uniformSize = 'h-[50px] w-[130px] md:h-[70px] md:w-[200px]';
 
-                <div className="hm-row2 w-full overflow-hidden mt-[24px] md:mt-[35px] lg:mt-[50px]">
-                    <div
-                        data-hm-row="2"
-                        className="hm-anim-left flex flex-row gap-[20px] md:gap-[40px] lg:gap-[70px] xl:gap-[100px] 2xl:gap-[150px]"
-                    >
-                        {row2Track.map(renderTile)}
-                    </div>
-                </div>
-            </div>
-
-            {/* ── Phone / tablet: the whole roster, one screen ───────────── */}
-            <div className="hm-grid mt-[14px] w-full px-4 pb-[10px] md:mt-[22px] md:px-8 md:pb-[24px]">
-                {/* The frosted tile from the CTA credential row, reused verbatim:
-                    translucent fill, bright edge, and an inner top highlight —
-                    the lift on hover is dropped because GSAP owns this element's
-                    transform for the reveal and would overwrite it.
-
-                    On the dark theme the fill flips to near-opaque light instead
-                    of staying translucent. Over the CTA's yellow band a 25% white
-                    works; over near-black it would leave this roster — mostly
-                    black ink on transparent — unreadable. */}
-                {ALL_LOGOS.map((file) => (
-                    <div
-                        key={file}
-                        data-hm-tile
-                        className="hm-tile group rounded-2xl border border-white/45 bg-white/25 shadow-[0_4px_20px_rgba(0,0,0,0.07),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md transition-all duration-300 hover:border-white/70 hover:bg-white/40 hover:shadow-[0_10px_28px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.85)] dark:border-white/25 dark:bg-white/[0.85]"
-                    >
-                        <img
-                            className="hm-logo transition-transform duration-300 group-hover:scale-[1.04]"
-                            src={`${LOGO_DIR}/${file}`}
-                            alt=""
-                        />
-                    </div>
-                ))}
+                    return (
+                        <div
+                            key={b.id}
+                            data-bubble-id={b.id}
+                            data-bubble-layer={b.layer}
+                            style={{
+                                top: b.top,
+                                left: b.left,
+                            }}
+                            className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-auto"
+                        >
+                            <a
+                                href={b.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ animationDelay: b.delay }}
+                                className="group logo-wobble block transition-transform duration-300 hover:scale-[1.15]"
+                            >
+                                {b.logoDark ? (
+                                    <>
+                                        <img
+                                            src={`${LOGO_DIR}/${b.logo}`}
+                                            alt="Brand logo"
+                                            className={`${uniformSize} object-contain transition-all duration-400 opacity-40 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 block dark:hidden`}
+                                            loading="lazy"
+                                        />
+                                        <img
+                                            src={`${LOGO_DIR}/${b.logoDark}`}
+                                            alt="Brand logo"
+                                            className={`${uniformSize} object-contain transition-all duration-400 opacity-40 group-hover:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 hidden dark:block`}
+                                            loading="lazy"
+                                        />
+                                    </>
+                                ) : (
+                                    <img
+                                        src={`${LOGO_DIR}/${b.logo}`}
+                                        alt="Brand logo"
+                                        className={`${uniformSize} object-contain transition-all duration-400 opacity-40 dark:invert group-hover:dark:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100`}
+                                        loading="lazy"
+                                    />
+                                )}
+                            </a>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );

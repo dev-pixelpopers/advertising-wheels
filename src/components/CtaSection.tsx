@@ -174,8 +174,7 @@ export default function CtaSection() {
                         On The Road.
                     </h2>
                     <p className="mt-2 md:mt-4 lg:mt-6 lg:max-w-[520px] font-tommy-regular text-[13px] md:text-[15px] lg:text-[17px] leading-[1.65] text-black/65 ">
-                        From artwork to on the road in days — wrap a fleet,
-                        roll through where life happens, and watch the impressions climb
+                        From artwork to on the road in days — wrap a fleet, roll through where life happens, and watch the impressions climb.
                     </p>
                     <div className="mt-6 md:mt-8 lg:mt-10 flex flex-col items-center gap-2 md:gap-4 sm:flex-row sm:gap-6">
                         <a

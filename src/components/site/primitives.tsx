@@ -269,7 +269,7 @@ export function formatCount(
 }
 
 interface CountUpProps extends CountFormat {
-    value: number;
+    value: number | string;
     className?: string;
     duration?: number;
 }
@@ -300,6 +300,7 @@ export function CountUp({ value, prefix = '', suffix = '', decimals = 0, comma =
             const render = () => {
                 el.textContent = formatCount(counter.v, fmt);
             };
+            if (typeof value != 'number') return;
             gsap.to(counter, {
                 v: value,
                 duration,
@@ -320,5 +321,5 @@ export function CountUp({ value, prefix = '', suffix = '', decimals = 0, comma =
         { scope: ref }
     );
 
-    return <span ref={ref} className={className}>{formatCount(value, fmt)}</span>;
+    return <span ref={ref} className={className}>{typeof value != 'number' ? value : formatCount(value, fmt)}</span>;
 }

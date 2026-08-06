@@ -28,7 +28,7 @@ import { Reveal, CountUp, Eyebrow, Dot } from '@/components/site/primitives';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
-const STORY_IMG = '/assets/images/background.avif';
+const STORY_IMG = '/assets/images/clients/hertz/hero-04.webp';
 
 /* ------------------------------------------------------------------ */
 /*  Data — from the customer's about.html                              */
@@ -46,8 +46,10 @@ const MILESTONES = [
 
 /* The three functions that report into the owner — they become the orbit. */
 const LEADERSHIP = [
-    { title: 'National Operations', role: 'Fleets · Markets · Activation', mono: '01', icon: 'M3 13l2-7h11l3 4h2v5h-2M5 13H3v3h2m0-3a2 2 0 104 0m10 0a2 2 0 10-4 0', body: 'Thousands of trucks activated over 25 years — with the operational muscle to run concurrent, multi-market campaigns across DMAs nationwide, launched and managed as one coordinated flight.' },
-    { title: 'Measurement & Analytics', role: 'StreetMetrics · Independent Verification', mono: '02', icon: 'M3 3v18h18M7 15l4-5 3 3 5-7', body: `Impressions, reach, and frequency independently measured and verified by StreetMetrics — the same accountability standard you'd demand from a digital buy.` },
+    {
+        title: 'National Operations', role: 'Fleets · Markets · Activation', mono: '01', icon: 'M3 13l2-7h11l3 4h2v5h-2M5 13H3v3h2m0-3a2 2 0 104 0m10 0a2 2 0 10-4 0', body: 'Thousands of trucks activated. Concurrent campaigns across DMAs coast to coast. One team running national scale as a single, coordinated operation.'
+    },
+    { title: 'Third-Party Verified', role: 'StreetMetrics · Independent Verification', mono: '02', icon: 'M3 3v18h18M7 15l4-5 3 3 5-7', body: `GPS data from every truck flows to our measurement partner StreetMetrics, where impressions, reach, and frequency are independently modeled and verified — not self-reported.` },
     { title: 'Creative & Production', role: 'Wraps · Print · Install · Maintain', mono: '03', icon: 'M15 5l4 4M3 21l1.2-4.4a2 2 0 01.5-.9l9.4-9.4a2 2 0 012.8 0l1.4 1.4a2 2 0 010 2.8l-9.4 9.4a2 2 0 01-.9.5L3 21z', body: 'Over 1 million square feet of premium cast vinyl installed — and counting. Precision printing, expert installation, and regular inspections keep every wrap campaign-sharp from first mile to last.' },
 ];
 
@@ -152,15 +154,15 @@ function Stats() {
     const items = [
         { el: <CountUp value={25} suffix="+" />, label: 'Years in truckside advertising' },
         { el: <CountUp value={50} />, label: 'DMAs covered through one accountable partner' },
-        { el: <CountUp value={1} suffix="M+" />, label: 'Sq ft of premium cast vinyl installed' },
-        { el: <CountUp value={1000} />, label: 'Trucks activated over 25 years' },
+        { el: <CountUp value={"BILLIONS OF IMPRESSIONS"} />, label: 'Ready for retargeting' },
+        { el: <CountUp value={"360 Degree Service"} />, label: 'From start to finish, we handle everything.' },
     ];
     return (
         <section className="w-full border-y border-black/10 bg-[#EEE8D9] transition-colors duration-300 py-12 md:py-16 lg:py-24 dark:border-white/10 dark:bg-[#0A0A0A]">
-            <Reveal className="mx-auto grid max-w-[1200px] grid-cols-2 gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-12 px-3 md:px-6 lg:px-12 lg:grid-cols-4" y={30} stagger={0.14}>
+            <Reveal className="mx-auto grid max-w-[80%] grid-cols-2 gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-12 px-3 md:px-6 lg:px-12 lg:grid-cols-4" y={30} stagger={0.14}>
                 {items.map((s, i) => (
                     <div key={i} className="border-l border-black/10 pl-2 md:pl-4 lg:pl-6 dark:border-white/10">
-                        <p className="font-tommy-bold text-[clamp(40px,5.5vw,72px)] leading-none tracking-tight text-[#1A1917] dark:text-white">{s.el}</p>
+                        <p className="font-tommy-bold text-[clamp(30px,4.5vw,50px)] leading-none tracking-tight text-[#1A1917] dark:text-white">{s.el}</p>
                         <p className="mt-3 max-w-[200px] font-tommy-regular text-[12.5px] leading-[1.4] text-[#6F6A60] dark:text-[#9A968E]">{s.label}</p>
                     </div>
                 ))}
@@ -323,12 +325,10 @@ function PullQuote() {
             <div className="mx-auto max-w-[960px] px-6 text-center md:px-12">
                 <span data-pq-mark className="inline-block font-tommy-bold text-[90px] leading-[0.6] text-[#C8992B] dark:text-[#FCD119]">“</span>
                 <blockquote ref={quoteRef} className="mt-4 font-tommy-medium text-[clamp(23px,3.1vw,40px)] leading-[1.34] tracking-[-0.01em]">
-                    A lot of mobile OOH partners disappear between the sale and the report. Advertising Wheels runs the whole operation —
-                    sourcing the fleets, managing the installs, inspecting the wraps, and jumping on any issue before we even hear about it.
-                    Our brand is on the side of a truck; they treat it like it's their own reputation out there.
+                    Our brand standards are strict, and putting the logo on hundreds of trucks made our team nervous. Advertising Wheels' process erased that worry — meticulous installs, ongoing inspections, and immediate action on anything less than perfect. They protect our brand like we do.
                 </blockquote>
                 <cite data-pq-cite className="mt-9 block font-tommy-regular text-[13px] uppercase not-italic tracking-[3px] text-[#6F6A60] dark:text-[#9A968E]">
-                    — Group Account Director, top-3 global media network
+                    Nick Ferrugia - Director, Brand and Performance Marketing, Fifth Third Bank
                 </cite>
             </div>
         </section>

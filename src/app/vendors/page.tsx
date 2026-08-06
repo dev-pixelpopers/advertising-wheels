@@ -48,7 +48,7 @@ const REQUIREMENTS = [
 ];
 
 const NETWORK_STATS = [
-    { el: <CountUp value={100} suffix="s" />, label: 'Partner trucks nationwide' },
+    { el: <CountUp value={100} suffix="s" />, label: 'Partner trucks in the network' },
     { el: <CountUp value={50} />, label: 'DMAs covered' },
     { el: <CountUp value={24} suffix="/7" />, label: 'GPS tracking & support' },
     { el: <CountUp value={7} />, label: 'Days to first wrap' },

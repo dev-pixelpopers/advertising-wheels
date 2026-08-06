@@ -204,7 +204,7 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                     {/* Client mark on a white chip — the supplied logos are
                                         light-background assets, so the chip keeps them
                                         legible on the dark card too. */}
-                                    <span className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex h-[40px] md:h-[40px] lg:h-[50px] 2xl:h-[60px] w-[90px] md:w-[100px] lg:w-[130px] 2xl:w-[150px] shrink-0 items-center justify-center overflow-hidden rounded-[14px] bg-white/0 px-3 ring-1 ring-black/[0.08] sm:mb-7 sm:h-[72px] sm:w-[168px] md:mb-8 dark:ring-white/10 lg:p-[6px] 2xl:p-[10px]">
+                                    <span className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex h-[40px] md:h-[40px] lg:h-[50px] 2xl:h-[60px] w-[90px] md:w-[100px] lg:w-[130px] 2xl:w-[150px] shrink-0 items-center justify-center overflow-hidden rounded-[14px] bg-white/0 px-3 sm:mb-7 sm:h-[72px] sm:w-[168px] md:mb-8 dark:ring-white/10 lg:p-[6px] 2xl:p-[10px]">
                                         {t.logoDark ? (
                                             <>
                                                 <img

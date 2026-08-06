@@ -435,9 +435,9 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                                 {hub.mono && (
                                     <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2.5px] text-black/55">{hub.mono}</span>
                                 )}
-                                <p className="mt-1.5 font-tommy-bold text-[clamp(15px,1.7vw,20px)] leading-[1.1] tracking-tight text-black">
-                                    {hub.title}
-                                </p>
+                                <div className="mt-1.5 font-tommy-bold text-[clamp(15px,1.7vw,20px)] leading-[1.1] tracking-tight text-black">
+                                    <img src="/assets/images/logo.svg" className="w-[90px]" />
+                                </div>
                                 {hub.role && (
                                     <p className="mt-1 font-tommy-regular text-[9.5px] uppercase tracking-[1.5px] text-black/60">{hub.role}</p>
                                 )}

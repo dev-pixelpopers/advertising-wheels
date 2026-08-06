@@ -266,7 +266,7 @@ export const POSTS: Post[] = [
         category: 'Strategy',
         date: 'May 28, 2026',
         read: '6 min read',
-        image: '/assets/images/campaings-img.png',
+        image: '/assets/images/clients/floor-and-decor/hero-05.webp',
         author: { name: 'Advertising Wheels', role: 'Strategy team' },
         lead:
             'The second impression is free. A truck that gets photographed keeps delivering long after it has left the intersection — but only if the creative gives someone a reason to lift their phone.',

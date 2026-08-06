@@ -45,14 +45,14 @@ const SERVICES: Service[] = [
         tag: 'Production',
         title: 'Fleet Wraps & Print',
         body: `Over 1 million square feet of premium cast vinyl installed. Precision printing, color-matched to your brand, expertly installed and QA'd — then inspected and maintained for the life of the campaign, so week eight looks like day one.`,
-        features: ['Premium cast vinyl, 1M+ sq ft installed', 'Expert installation & panel QA', 'Color-matched to brand standards', 'Ongoing inspection & maintenance'],
+        features: ['Premium HD cast vinyl, 1M+ sq ft installed', 'Expert installation & panel QA', 'Color-matched to brand standards', 'Ongoing inspection & maintenance'],
         icon: 'M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6-6.3 4.6L7.9 14 2 9.4h7.6z',
     },
     {
         tag: 'Targeting',
-        title: 'ZIP-Level Targeting & Retargeting',
-        body: 'We match your campaign to fleets whose daily delivery routes cover your target ZIP codes — real trucks, moving through the right neighborhoods all day. GPS tracks every mile, and every exposed audience becomes retargetable online.',
-        features: ['ZIP-code-level fleet matching', 'Live 24/7 GPS telemetry', 'Verified in-market coverage', 'Digital retargeting of exposed audiences'],
+        title: 'From Street to Screen',
+        body: 'Campaigns are targeted at the ZIP level — matched to fleets delivering through those exact neighborhoods every day. GPS verifies where your brand traveled, and exposed devices carry your message onto their phones and feeds.',
+        features: ['ZIP-level geographic targeting', 'Real delivery routes, real frequency', 'Live GPS verification', 'Geofenced retargeting layer'],
         icon: 'M12 21s-7-6.3-7-11a7 7 0 1114 0c0 4.7-7 11-7 11zm0-8.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z',
     },
     {

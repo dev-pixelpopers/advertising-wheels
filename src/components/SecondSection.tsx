@@ -3,17 +3,10 @@
 /**
  * SecondSection — one pinned stage carrying two panels.
  *
- *   1. HomeMarquee   — heading + partner logo rows. On desktop the rows are
- *                      scroll-driven (the CSS auto-scroll is switched off), so
- *                      the logos track with the scroll rather than looping on a
- *                      timer. Below `lg` there are no rows at all — the marquee
- *                      renders the whole roster as a static grid, so the tiles
- *                      stagger in there instead.
- *   2. Testimonials  — slides in from the right as the marquee slides out; the
- *                      heading lands and the quote rail then tracks sideways.
- *
- * The case studies used to live here too; they now have their own pinned stage
- * (CaseStudySection) later in the page.
+ *   1. HomeMarquee   — scattered floating brand showcase. On scroll, all logos translate
+ *                      upward in perfect unison so top logos exit and new ones float up from bottom.
+ *   2. Testimonials  — slides in from the right and physically pushes the HomeMarquee stage
+ *                      out of view to the left.
  */
 
 import { useRef } from 'react';
@@ -36,8 +29,8 @@ export default function SecondSection() {
 
             // ── Initial states ─────────────────────────────────────────────
             gsap.set(testiRef.current, { xPercent: 100 });
-            gsap.set(q('.hm-heading, .hm-row1, .hm-row2'), { clipPath: 'inset(0% 0% 0% 100%)', opacity: 0 });
-            gsap.set(q('[data-hm-tile]'), { autoAlpha: 0, y: 18 });
+            gsap.set(q('.hm-heading'), { autoAlpha: 0, y: 20 });
+            gsap.set(q('[data-bubble-layer]'), { autoAlpha: 0, scale: 0.85 });
             gsap.set(q('[data-tm-head] > *'), { y: 26, autoAlpha: 0 });
 
             const tl = gsap.timeline({
@@ -52,76 +45,56 @@ export default function SecondSection() {
                 },
             });
 
-            /* Positions are ABSOLUTE (not '+=') so the handoff points are exact:
-               the marquee owns 0 → 1.9, and the testimonials take over the moment
-               it finishes. Chaining with '+=' made the scroll-driven rows push the
-               testimonials far down the timeline. */
+            // ── Phase 1 — Heading & Logos Fade/Scale In ──────────
+            tl.to(q('.hm-heading'), { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0)
+                .to(q('[data-bubble-layer]'), {
+                    autoAlpha: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    stagger: { amount: 0.8, from: 'start' },
+                    ease: 'power2.out',
+                }, 0.1);
 
-            // ── Phase 1 — the marquee content wipes in from the right ───────
-            tl.to(q('.hm-heading'), { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: 0.9, ease: 'power2.out' }, 0)
-                .to(q('.hm-row1'), { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: 0.9, ease: 'power2.out' }, 0.3)
-                .to(q('.hm-row2'), { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: 0.9, ease: 'power2.out' }, 0.4);
+            // ── Phase 1b — Scroll-Driven Vertical Float ──────────
+            // As the user scrolls, all floating logos move upwards in perfect unison, 
+            // allowing the scattered layout to reveal the rest of the 23 logos from the bottom.
+            tl.to(q('[data-bubble-layer]'), { y: -1350, duration: 2.8, ease: 'none' }, 0.4);
 
-            // ── Phase 1a — below `lg` the rows don't exist; the grid fills in ──
-            // Harmless on desktop, where these tiles are display:none.
-            tl.to(q('[data-hm-tile]'), {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.45,
-                ease: 'power2.out',
-                stagger: { each: 0.03, from: 'start' },
-            }, 0.3);
+            // ── Phase 2 — Testimonials Enters from Right & Pushes Marquee Stage Left ──
+            // Testimonials slides in from 100% to 0%, physically pushing marqueeRef left.
+            tl.to(marqueeRef.current, { xPercent: -100, duration: 1.2, ease: 'power2.inOut' }, 3.2)
+                .to(testiRef.current, { xPercent: 0, duration: 1.2, ease: 'power2.inOut' }, 3.2);
 
-            // ── Phase 1b — desktop: the logo rows track with the scroll ─────
-            // Each track holds three copies of the set, so travelling exactly one
-            // third lands on a seamless boundary. Runs for the marquee's whole
-            // turn on stage and no longer.
-            if (window.matchMedia('(min-width: 1024px)').matches) {
-                const row1 = q('[data-hm-row="1"]')[0] as HTMLElement | undefined;
-                const row2 = q('[data-hm-row="2"]')[0] as HTMLElement | undefined;
-                if (row1) {
-                    tl.fromTo(row1, { x: () => -row1.scrollWidth / 3 }, { x: 0, duration: 1.9 }, 0);
-                }
-                if (row2) {
-                    tl.fromTo(row2, { x: 0 }, { x: () => -row2.scrollWidth / 3, duration: 1.9 }, 0);
-                }
-            }
-
-            // ── Phase 2 — the moment the marquee ends, the testimonials arrive ──
-            tl.to(marqueeRef.current, { xPercent: -100, duration: 1, ease: 'power2.inOut' }, 1.9)
-                .to(testiRef.current, { xPercent: 0, duration: 1, ease: 'power2.inOut' }, 1.9);
-
-            // ── Phase 3 — heading lands, then the quote rail tracks sideways ─
+            // ── Phase 3 — Testimonials Heading Lands, Rail Scrolls ─────────
             tl.to(q('[data-tm-head] > *'), {
                 y: 0,
                 autoAlpha: 1,
                 duration: 0.5,
                 stagger: 0.12,
                 ease: 'power3.out',
-            }, 2.8);
+            }, 4.4);
 
             const rail = q('[data-tm-rail]')[0] as HTMLElement | undefined;
             const tmView = q('[data-tm-viewport]')[0] as HTMLElement | undefined;
             if (rail && tmView) {
-                // Recomputed on refresh so a resize can't leave the rail short.
                 const travel = () => Math.max(0, rail.scrollWidth - tmView.clientWidth);
-                tl.fromTo(rail, { x: 0 }, { x: () => -travel(), duration: 3.2 }, 3.3);
+                tl.fromTo(rail, { x: 0 }, { x: () => -travel(), duration: 2.8 }, 4.9);
             }
 
             // Hold on the last quote before the pin releases.
-            tl.to({}, { duration: 0.4 }, 6.5);
+            tl.to({}, { duration: 0.4 }, 7.7);
         },
         { scope: rootRef }
     );
 
     return (
         <div ref={rootRef} className="second-section relative h-screen w-full overflow-hidden">
-            {/* Marquee panel */}
-            <div ref={marqueeRef} className="absolute inset-0 flex items-center justify-center">
+            {/* Marquee panel with scattered floating logos */}
+            <div ref={marqueeRef} className="absolute inset-0 w-full h-full">
                 <HomeMarquee scrollDriven />
             </div>
-            {/* Testimonials panel — starts off to the right */}
-            <div ref={testiRef} className="absolute inset-0">
+            {/* Testimonials panel — starts off to the right and pushes marquee left */}
+            <div ref={testiRef} className="absolute inset-0 w-full h-full">
                 <FloatingTestimonials embedded />
             </div>
         </div>
