@@ -4,12 +4,11 @@
  * HomeMarquee — Floating Brand Showcase.
  *
  * Requirements:
- * 1. Spread Across Screen: Scattered floating layout (no orbits/lines) with RANDOM coordinates.
- * 2. High Density: Tighter vertical packing so more logos are visible at once on desktop.
+ * 1. Spread Across Screen: Random coordinates pushed far out to create WIDE spaces.
+ * 2. Floating: High buoyancy wobble, decoupled from hover scaling.
  * 3. Top Aligned Text: Heading sits at the top.
- * 4. Masking: A gradient mask fades out logos just below the text so they don't overlap it.
- * 5. Blacked Out Default: Logos are silhouette/black by default, full color on hover.
- * 6. Linked: Each logo is wrapped in an anchor tag leading to its site.
+ * 4. Masking: Gradient mask fades out logos right below the text.
+ * 5. Uniform Sizing: Strict bounding box for consistent aspect ratio balancing.
  */
 
 const LOGO_DIR = '/assets/images/clients-logo';
@@ -23,35 +22,42 @@ export interface LogoData {
     left: string;
     mobileTop?: string;
     mobileLeft?: string;
-    size?: 'sm' | 'md' | 'lg';
     delay?: string;
     url: string;
 }
 
 export const BUBBLES: LogoData[] = [
-    { id: 'b1', logo: 'partner-nationwide.png', layer: 'mid', top: '35%', left: '15%', mobileTop: '35%', mobileLeft: '10%', size: 'lg', delay: '0s', url: 'https://www.nationwide.com' },
-    { id: 'b2', logo: 'burger-king-logo.webp', layer: 'mid', top: '42%', left: '78%', mobileTop: '45%', mobileLeft: '70%', size: 'md', delay: '0.8s', url: 'https://www.bk.com' },
-    { id: 'b3', logo: 'hertz-logo.webp', layer: 'mid', top: '48%', left: '34%', mobileTop: '56%', mobileLeft: '20%', size: 'lg', delay: '1.4s', url: 'https://www.hertz.com' },
-    { id: 'b4', logo: '5th_3rd.webp', layer: 'mid', top: '55%', left: '88%', mobileTop: '64%', mobileLeft: '80%', size: 'md', delay: '2.1s', url: 'https://www.53.com' },
-    { id: 'b5', logo: 'partner-wendys.png', layer: 'mid', top: '61%', left: '12%', mobileTop: '75%', mobileLeft: '15%', size: 'lg', delay: '0.5s', url: 'https://www.wendys.com' },
-    { id: 'b6', logo: 'ab-inbev.webp', layer: 'mid', top: '66%', left: '52%', mobileTop: '86%', mobileLeft: '65%', size: 'sm', delay: '1.7s', url: 'https://www.ab-inbev.com' },
-    { id: 'b7', logo: 'partner-xfinity.png', layer: 'mid', top: '74%', left: '22%', mobileTop: '95%', mobileLeft: '85%', size: 'lg', delay: '2.5s', url: 'https://www.xfinity.com' },
-    { id: 'b8', logo: 'canes.webp', layer: 'mid', top: '79%', left: '71%', mobileTop: '104%', mobileLeft: '30%', size: 'md', delay: '1.1s', url: 'https://www.raisingcanes.com' },
-    { id: 'b9', logo: 'aaa-vector-logo.webp', layer: 'mid', top: '85%', left: '45%', mobileTop: '115%', mobileLeft: '75%', size: 'md', delay: '0.3s', url: 'https://www.aaa.com' },
-    { id: 'b10', logo: 'partner-kaiser.png', layer: 'mid', top: '92%', left: '85%', mobileTop: '126%', mobileLeft: '12%', size: 'sm', delay: '1.9s', url: 'https://healthy.kaiserpermanente.org/' },
-    { id: 'b11', logo: 'titan.webp', layer: 'mid', top: '98%', left: '18%', mobileTop: '135%', mobileLeft: '68%', size: 'lg', delay: '2.8s', url: 'https://www.titan.com/' },
-    { id: 'b12', logo: 'dollar-car-rental-logo.webp', layer: 'mid', top: '104%', left: '60%', mobileTop: '146%', mobileLeft: '22%', size: 'md', delay: '0.6s', url: 'https://www.dollar.com/' },
-    { id: 'b13', logo: 'partner-saks-white.webp', logoDark: 'partner-saks-dark.webp', layer: 'mid', top: '111%', left: '38%', mobileTop: '154%', mobileLeft: '82%', size: 'lg', delay: '1.2s', url: 'https://www.saksfifthavenue.com/' },
-    { id: 'b14', logo: 'partner-floor-decor.png', layer: 'mid', top: '118%', left: '92%', mobileTop: '165%', mobileLeft: '40%', size: 'md', delay: '2.3s', url: 'https://www.flooranddecor.com/' },
-    { id: 'b15', logo: 'beringer.webp', layer: 'mid', top: '124%', left: '11%', mobileTop: '176%', mobileLeft: '18%', size: 'sm', delay: '0.9s', url: 'https://www.beringer.com/' },
-    { id: 'b16', logo: 'partner-echo.png', layer: 'mid', top: '130%', left: '75%', mobileTop: '185%', mobileLeft: '76%', size: 'lg', delay: '1.6s', url: 'https://www.echo.com/' },
-    { id: 'b17', logo: 'dc-united.webp', layer: 'mid', top: '136%', left: '28%', mobileTop: '195%', mobileLeft: '28%', size: 'md', delay: '2.0s', url: 'https://www.dcunited.com/' },
-    { id: 'b18', logo: 'partner-razorbacks.png', layer: 'mid', top: '144%', left: '56%', mobileTop: '204%', mobileLeft: '88%', size: 'lg', delay: '0.7s', url: 'https://arkansasrazorbacks.com/' },
-    { id: 'b19', logo: 'partner-mote-museum.png', layer: 'mid', top: '151%', left: '84%', mobileTop: '215%', mobileLeft: '15%', size: 'sm', delay: '1.5s', url: 'https://mote.org/' },
-    { id: 'b20', logo: 'outer.webp', layer: 'mid', top: '158%', left: '20%', mobileTop: '226%', mobileLeft: '60%', size: 'lg', delay: '2.7s', url: 'https://liveouter.com/' },
-    { id: 'b21', logo: 'partner-penn811.png', layer: 'mid', top: '165%', left: '48%', mobileTop: '235%', mobileLeft: '22%', size: 'md', delay: '1.0s', url: 'https://www.pa1call.org/' },
-    { id: 'b22', logo: 'partner-reliable.png', layer: 'mid', top: '172%', left: '14%', mobileTop: '245%', mobileLeft: '78%', size: 'lg', delay: '0.4s', url: 'https://reliable.com/' },
-    { id: 'b23', logo: 'charly-logo-png_seeklogo-436078-removebg-preview.png', layer: 'mid', top: '178%', left: '77%', mobileTop: '256%', mobileLeft: '35%', size: 'sm', delay: '1.8s', url: 'https://www.charly.com/' },
+    // Balanced interlocking scatter pattern to ensure zero large gaps.
+    { id: 'b1', logo: 'partner-nationwide.png', layer: 'mid', top: '42%', left: '15%', mobileTop: '35%', mobileLeft: '10%', delay: '0s', url: 'https://www.nationwide.com' },
+    { id: 'b2', logo: 'burger-king-logo.png', layer: 'mid', top: '38%', left: '50%', mobileTop: '45%', mobileLeft: '70%', delay: '0.8s', url: 'https://www.bk.com' },
+    { id: 'b3', logo: 'hertz-logo.png', layer: 'mid', top: '45%', left: '85%', mobileTop: '56%', mobileLeft: '20%', delay: '1.4s', url: 'https://www.hertz.com' },
+
+    { id: 'b4', logo: '5th_3rd.png', layer: 'mid', top: '62%', left: '30%', mobileTop: '64%', mobileLeft: '80%', delay: '2.1s', url: 'https://www.53.com' },
+    { id: 'b5', logo: 'partner-wendys.png', layer: 'mid', top: '58%', left: '70%', mobileTop: '75%', mobileLeft: '15%', delay: '0.5s', url: 'https://www.wendys.com' },
+    { id: 'b6', logo: 'ab-inbev.png', layer: 'mid', top: '75%', left: '10%', mobileTop: '86%', mobileLeft: '65%', delay: '1.7s', url: 'https://www.ab-inbev.com' },
+
+    { id: 'b7', logo: 'partner-xfinity.png', layer: 'mid', top: '82%', left: '88%', mobileTop: '95%', mobileLeft: '85%', delay: '2.5s', url: 'https://www.xfinity.com' },
+    { id: 'b8', logo: 'canes.png', layer: 'mid', top: '90%', left: '48%', mobileTop: '104%', mobileLeft: '30%', delay: '1.1s', url: 'https://www.raisingcanes.com' },
+    { id: 'b9', logo: 'aaa-vector-logo.png', layer: 'mid', top: '105%', left: '25%', mobileTop: '115%', mobileLeft: '75%', delay: '0.3s', url: 'https://www.aaa.com' },
+
+    { id: 'b10', logo: 'partner-kaiser.png', layer: 'mid', top: '112%', left: '75%', mobileTop: '126%', mobileLeft: '12%', delay: '1.9s', url: 'https://healthy.kaiserpermanente.org/' },
+    { id: 'b11', logo: 'titan.webp', layer: 'mid', top: '125%', left: '12%', mobileTop: '135%', mobileLeft: '68%', delay: '2.8s', url: 'https://www.titan.com/' },
+    { id: 'b12', logo: 'dollar-car-rental-logo.png', layer: 'mid', top: '132%', left: '52%', mobileTop: '146%', mobileLeft: '22%', delay: '0.6s', url: 'https://www.dollar.com/' },
+
+    { id: 'b13', logo: 'partner-saks-white.png', logoDark: 'partner-saks-dark.webp', layer: 'mid', top: '145%', left: '85%', mobileTop: '154%', mobileLeft: '82%', delay: '1.2s', url: 'https://www.saksfifthavenue.com/' },
+    { id: 'b14', logo: 'partner-floor-decor.png', layer: 'mid', top: '152%', left: '35%', mobileTop: '165%', mobileLeft: '40%', delay: '2.3s', url: 'https://www.flooranddecor.com/' },
+    { id: 'b15', logo: 'beringer.webp', layer: 'mid', top: '165%', left: '68%', mobileTop: '176%', mobileLeft: '18%', delay: '0.9s', url: 'https://www.beringer.com/' },
+
+    { id: 'b16', logo: 'partner-echo.png', layer: 'mid', top: '172%', left: '15%', mobileTop: '185%', mobileLeft: '76%', delay: '1.6s', url: 'https://www.echo.com/' },
+    { id: 'b17', logo: 'dc-united.png', layer: 'mid', top: '185%', left: '55%', mobileTop: '195%', mobileLeft: '28%', delay: '2.0s', url: 'https://www.dcunited.com/' },
+    { id: 'b18', logo: 'partner-razorbacks.png', layer: 'mid', top: '192%', left: '90%', mobileTop: '204%', mobileLeft: '88%', delay: '0.7s', url: 'https://arkansasrazorbacks.com/' },
+
+    { id: 'b19', logo: 'partner-mote-museum.png', layer: 'mid', top: '205%', left: '30%', mobileTop: '215%', mobileLeft: '15%', delay: '1.5s', url: 'https://mote.org/' },
+    { id: 'b20', logo: 'outer.png', layer: 'mid', top: '212%', left: '72%', mobileTop: '226%', mobileLeft: '60%', delay: '2.7s', url: 'https://liveouter.com/' },
+    { id: 'b21', logo: 'partner-penn811.png', layer: 'mid', top: '225%', left: '10%', mobileTop: '235%', mobileLeft: '22%', delay: '1.0s', url: 'https://www.pa1call.org/' },
+
+    { id: 'b22', logo: 'partner-reliable.png', layer: 'mid', top: '232%', left: '50%', mobileTop: '245%', mobileLeft: '78%', delay: '0.4s', url: 'https://reliable.com/' },
+    { id: 'b23', logo: 'charly-logo-png_seeklogo-436078-removebg-preview.png', layer: 'mid', top: '245%', left: '85%', mobileTop: '256%', mobileLeft: '35%', delay: '1.8s', url: 'https://www.charly.com/' },
 ];
 
 export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: boolean } = {}) {
@@ -60,13 +66,13 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
             <style>{`
                 @keyframes float-wobble {
                     0% { transform: translate(0px, 0px) rotate(0deg); }
-                    33% { transform: translate(12px, -24px) rotate(3deg); }
-                    66% { transform: translate(-14px, -10px) rotate(-3deg); }
-                    100% { transform: translate(4px, 15px) rotate(1.5deg); }
+                    33% { transform: translate(16px, -30px) rotate(4deg); }
+                    66% { transform: translate(-18px, -15px) rotate(-4deg); }
+                    100% { transform: translate(6px, 20px) rotate(2deg); }
                 }
 
                 .logo-wobble {
-                    animation: float-wobble 5s ease-in-out infinite alternate;
+                    animation: float-wobble 5.5s ease-in-out infinite alternate;
                 }
 
                 /* Mobile-specific position overrides */
@@ -99,7 +105,7 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                 {BUBBLES.map((b) => {
                     // A strict, uniform bounding box ensures all logos 
                     // scale to a consistent maximum height or width.
-                    const uniformSize = 'h-[50px] w-[130px] md:h-[70px] md:w-[200px]';
+                    const uniformSize = 'h-[60px] w-[130px] md:h-[100px] md:w-[300px]';
 
                     return (
                         <div
@@ -117,20 +123,20 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{ animationDelay: b.delay }}
-                                className="group logo-wobble block transition-transform duration-300 hover:scale-[1.15]"
+                                className="group logo-wobble block"
                             >
                                 {b.logoDark ? (
                                     <>
                                         <img
                                             src={`${LOGO_DIR}/${b.logo}`}
                                             alt="Brand logo"
-                                            className={`${uniformSize} object-contain transition-all duration-400 opacity-40 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 block dark:hidden`}
+                                            className={`${uniformSize} object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 block dark:hidden`}
                                             loading="lazy"
                                         />
                                         <img
                                             src={`${LOGO_DIR}/${b.logoDark}`}
                                             alt="Brand logo"
-                                            className={`${uniformSize} object-contain transition-all duration-400 opacity-40 group-hover:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 hidden dark:block`}
+                                            className={`${uniformSize} object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 hidden dark:block`}
                                             loading="lazy"
                                         />
                                     </>
@@ -138,7 +144,7 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                                     <img
                                         src={`${LOGO_DIR}/${b.logo}`}
                                         alt="Brand logo"
-                                        className={`${uniformSize} object-contain transition-all duration-400 opacity-40 dark:invert group-hover:dark:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100`}
+                                        className={`${uniformSize} object-contain transition-all duration-400 opacity-90 dark:invert group-hover:scale-[1.15] group-hover:dark:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100`}
                                         loading="lazy"
                                     />
                                 )}
