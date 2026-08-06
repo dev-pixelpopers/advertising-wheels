@@ -119,8 +119,9 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                     align-items: center;
                     justify-content: center;
                     /* Row gap is deliberately tight on phones: eight rows of
-                       cards plus the heading have to clear a single screen. */
-                    gap: 11px 12px;
+                       cards, the heading, AND the reserved header strip all
+                       have to clear a single screen. */
+                    gap: 9px 12px;
                 }
                 /* Only geometry lives here — the frosted look itself is the same
                    utility recipe the CTA credential tiles use, applied on the
@@ -136,7 +137,7 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                    size, so the wall reads as a grid rather than a ragged stack. */
                 .hm-logo {
                     max-width: 100%;
-                    height: clamp(40px, 6.3vh, 58px);
+                    height: clamp(38px, 6vh, 56px);
                     object-fit: contain;
                     opacity: 0.85;
                 }
@@ -168,6 +169,20 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                     .hm-logo { height: clamp(26px, 5.2vh, 44px); }
                 }
 
+                /* The site header is FIXED to the top of the viewport, and this
+                   panel is pinned to fill that same viewport — so a wall tall
+                   enough to nearly fill the screen puts its heading straight
+                   under the header. Reserve the header's height here, and note
+                   the sizes above are tuned so the wall still clears the screen
+                   WITH this padding added. Desktop needs none of it: the two
+                   marquee rows are far shorter and never reach the top. */
+                @media (max-width: 1023px) {
+                    .home-marquee { padding-top: 64px; }
+                }
+                @media (max-width: 1023px) and (max-height: 740px) {
+                    .home-marquee { padding-top: 52px; }
+                }
+
                 /* The grid hides itself here rather than with a \`lg:hidden\`
                    utility: this sheet ships after Tailwind's, so at equal
                    specificity \`.hm-grid { display: flex }\` would win and the
@@ -177,7 +192,7 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                 }
             `}</style>
 
-            <div className="overflow-hidden py-[20px] md:py-[40px] lg:py-[60px]">
+            <div className="overflow-hidden py-[12px] md:py-[40px] lg:py-[60px]">
                 <p className="hm-heading text-black dark:text-white text-center font-tommy-regular leading-[133.33%]
                 text-[clamp(1.125rem,2vw,1.875rem)] capitalize transition-colors duration-300">Trusted by Fortune 500 brands —
                     from financial services to QSR, retail, and automotive.</p>
@@ -205,7 +220,7 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
             </div>
 
             {/* ── Phone / tablet: the whole roster, one screen ───────────── */}
-            <div className="hm-grid mt-[14px] w-full px-4 pb-[24px] md:mt-[22px] md:px-8">
+            <div className="hm-grid mt-[14px] w-full px-4 pb-[10px] md:mt-[22px] md:px-8 md:pb-[24px]">
                 {/* The frosted tile from the CTA credential row, reused verbatim:
                     translucent fill, bright edge, and an inner top highlight —
                     the lift on hover is dropped because GSAP owns this element's
