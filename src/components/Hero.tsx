@@ -13,7 +13,7 @@ const FRAME_COUNT = 160;
 
 const getFrameSrc = (index: number): string => {
   const frameNumber = (FRAME_COUNT - index).toString().padStart(3, '0');
-  return `/assets/images/hero_11/frame_${frameNumber}.jpg`;
+  return `/assets/images/hero_11/frame_${frameNumber}.png`;
 };
 
 interface HeroProps {
