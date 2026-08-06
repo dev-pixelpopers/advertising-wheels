@@ -12,7 +12,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 const FRAME_COUNT = 160;
 
 const getFrameSrc = (index: number): string => {
-  const frameNumber = (index + 1).toString().padStart(3, '0');
+  const frameNumber = (FRAME_COUNT - index).toString().padStart(3, '0');
   return `/assets/images/hero_10/frame_${frameNumber}.jpg`;
 };
 
