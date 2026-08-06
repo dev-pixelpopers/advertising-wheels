@@ -89,7 +89,7 @@ const pinPositions = [
     },
     {
         // High right, mirroring the one above — smallest pair, furthest back
-        className: 'right-[14%] top-[52%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[34%] lg:top-[20%]',
+        className: 'right-[14%] top-[52%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[44%] lg:top-[20%]',
         size: 'w-[50px] h-[50px] lg:w-[60px] lg:h-[60px]',
     },
     {
