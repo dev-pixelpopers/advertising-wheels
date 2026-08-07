@@ -1,588 +1,182 @@
 'use client';
 
-/**
- * WhyChooseUs — Apple-style pinned scroll story: "Why Choose Us".
- *
- * A 400vh scroll track pins a full-screen split view (copy left 45%,
- * visualization right 55%) and scrubs a single master timeline through
- * four chapters:
- *
- *   1. The Smart Play          — HUD frame slices in around an isometric
- *                                truck chassis; a surface-area flag deploys.
- *   2. The Everywhere Illusion — the truck "rotates" to side view
- *                                (perspective rotateY crossfade), a liquid
- *                                brand-wrap bar floods the panel, social
- *                                particles drift from the tires.
- *   3. Your Canvas, Your Rules — camera pulls back, wireframe ghost fleet
- *                                fans out, geo pins pop over three cities.
- *   4. The Proof is in the     — the truck turns to glass revealing a neon
- *      Pavement                  grid engine; telemetry cards sprout with
- *                                live ticking impressions; high-beams pulse
- *                                to close the section.
- *
- * The "3D" is simulated with layered SVG assets + CSS perspective —
- * every scrubbed property is a compositor transform or opacity, so the
- * timeline stays at 60fps with no WebGL cost.
- */
-
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { useTheme } from '@/context/ThemeContext';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/* ------------------------------------------------------------------ */
-/*  Palette + copy                                                     */
-/* ------------------------------------------------------------------ */
-
-/**
- * Brand palette, per theme. These feed inline styles and SVG fill/stroke
- * attributes, which Tailwind's `dark:` variant cannot reach — so the theme is
- * read from context and the whole set is swapped at render.
- *
- * `brand` is the yellow used for fills and shapes; `accent` is its text-safe
- * counterpart, because #FCD119 on cream is illegible. On dark they coincide.
- */
-type Palette = {
-    ink: string; surface: string; panel: string; edge: string;
-    brand: string; accent: string; muted: string; text: string;
-    seam: string; hub: string; grid: string; glass: string; wrapArt: string;
-};
-
-const DARK: Palette = {
-    ink: '#0A0A0A',      // section ground
-    surface: '#1A1917',  // panel / body fill
-    panel: '#141414',    // recessed fill
-    edge: '#4A4640',     // warm structural stroke
-    brand: '#FCD119',
-    accent: '#FCD119',
-    muted: '#9A968E',
-    text: '#FFFFFF',
-    seam: '#33302B',
-    hub: '#6B655C',
-    grid: 'rgba(238,232,217,0.05)',
-    glass: 'rgba(252,209,25,0.07)',
-    wrapArt: 'rgba(26,25,23,0.9)',
-};
-
-const LIGHT: Palette = {
-    ink: '#EEE8D9',      // the site's cream ground
-    surface: '#DCD5C2',
-    panel: '#E6E0CF',
-    edge: '#A8A08C',
-    brand: '#FCD119',
-    accent: '#B8860B',   // text-safe yellow for cream backgrounds
-    muted: '#6F6A60',
-    text: '#1A1917',
-    seam: '#C4BCA6',
-    hub: '#8C8472',
-    grid: 'rgba(26,25,23,0.05)',
-    glass: 'rgba(200,153,43,0.12)',
-    wrapArt: 'rgba(26,25,23,0.9)',
-};
-
 const CHAPTERS = [
     {
-        tag: '01 — Efficiency',
+        tag: '01 Efficiency',
         title: 'The Smart Play',
         body: `One truck. 600 square feet of uninterrupted brand canvas moving through daily life — seen up close, in motion, and again tomorrow. Presence a static board can't match, at a fraction of the cost.`,
     },
     {
-        tag: '02 — Reach',
+        tag: '02 Reach',
         title: 'The Everywhere Illusion',
         body: 'The same truck seen on five streets feels like fifty. Sightings become photos, photos become posts — the earned-media flywheel starts spinning on its own.',
     },
     {
-        tag: '03 — Scale',
+        tag: '03 Scale',
         title: 'Real Trucks. Real Routes.',
         body: 'Your brand rides working delivery fleets — moving through the neighborhoods, retail corridors, and commercial zones of your DMA all day, every day. Start with a handful of trucks in one market. Scale to fleets across 50 DMAs.',
     },
     {
-        tag: '04 — Proof',
-        title: 'The Proof is in the Pavement',
+        tag: '04 Proof',
+        title: 'Proof in the Pavement',
         body: 'Every mile is measured. 24/7 GPS telemetry, impressions independently verified by StreetMetrics, and wrap condition reporting — analytics that outlive any campaign flight.',
     },
 ];
 
-
-
-/* Social-burst particles: position (viewport %) near the tires. */
-const PARTICLES = [
-    { left: '30%', top: '70%', kind: 'ring' },
-    { left: '34%', top: '74%', kind: 'dot' },
-    { left: '38%', top: '69%', kind: 'plus' },
-    { left: '52%', top: '73%', kind: 'dot' },
-    { left: '56%', top: '69%', kind: 'ring' },
-    { left: '60%', top: '74%', kind: 'plus' },
-    { left: '44%', top: '75%', kind: 'dot' },
-    { left: '48%', top: '68%', kind: 'ring' },
-] as const;
-
-/* ------------------------------------------------------------------ */
-/*  SVG truck assets                                                   */
-/* ------------------------------------------------------------------ */
-
-/**
- * Side-profile box truck, facing right.
- * `mode` swaps the material treatment:
- *   solid — dark body + liquid brand-wrap layer (class .wcu-wrapbar)
- *   ghost — neon wireframe silhouette (fleet duplicates)
- *   glass — translucent panels + internal neon grid "engine"
- */
-function TruckSide({ mode, p }: { mode: 'solid' | 'ghost' | 'glass'; p: Palette }) {
-    const ghost = mode === 'ghost';
-    const glass = mode === 'glass';
-    const bodyFill = ghost ? 'none' : glass ? p.glass : p.surface;
-    const stroke = ghost ? p.accent : glass ? p.accent : p.edge;
-
-    return (
-        <svg viewBox="0 0 520 260" className="h-auto w-full" aria-hidden="true">
-            {mode === 'solid' && (
-                <defs>
-                    <linearGradient id="wcu-wrapgrad" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0" stopColor="#C8992B" />
-                        <stop offset="0.55" stopColor={p.brand} />
-                        <stop offset="1" stopColor="#FFE98A" />
-                    </linearGradient>
-                    <clipPath id="wcu-wrapclip">
-                        <rect x="30" y="52" width="298" height="116" rx="6" />
-                    </clipPath>
-                </defs>
-            )}
-
-            {/* Trailer box */}
-            <rect x="22" y="42" width="314" height="136" rx="10" fill={bodyFill} stroke={stroke} strokeWidth={ghost ? 2 : 1.5} />
-
-            {/* Liquid brand-wrap: floods cab → tail via scaleX scrub */}
-            {mode === 'solid' && (
-                <g clipPath="url(#wcu-wrapclip)">
-                    <rect className="wcu-wrapbar" x="30" y="52" width="298" height="116" fill="url(#wcu-wrapgrad)" />
-                    {/* Simple brand shapes riding on the wrap */}
-                    {/* Dark-on-yellow, the way the brand actually sits on a wrap. */}
-                    <circle className="wcu-wrapbar-art" cx="90" cy="110" r="26" fill={p.wrapArt} />
-                    <rect className="wcu-wrapbar-art" x="140" y="96" width="120" height="10" rx="5" fill={p.wrapArt} />
-                    <rect className="wcu-wrapbar-art" x="140" y="118" width="76" height="10" rx="5" fill="rgba(26,25,23,0.55)" />
-                </g>
-            )}
-
-            {/* Internal neon grid engine (glass mode only) */}
-            {glass && (
-                <g className="wcu-engine" stroke={p.accent} strokeWidth="0.8" opacity="0.55">
-                    {[70, 118, 166, 214, 262, 310].map((x) => (
-                        <line key={x} x1={x} y1="48" x2={x} y2="172" />
-                    ))}
-                    {[74, 106, 138].map((y) => (
-                        <line key={y} x1="26" y1={y} x2="332" y2={y} />
-                    ))}
-                    {/* Glowing engine core */}
-                    <circle cx="360" cy="150" r="16" fill={p.accent} opacity="0.25" stroke="none" />
-                    <circle cx="360" cy="150" r="7" fill={p.accent} stroke="none" />
-                </g>
-            )}
-
-            {/* Cab */}
-            <path
-                d="M 346 92 L 412 92 L 452 132 L 458 158 L 458 178 L 346 178 Z"
-                fill={ghost ? 'none' : glass ? p.glass : p.panel}
-                stroke={stroke}
-                strokeWidth={ghost ? 2 : 1.5}
-            />
-            {/* Windshield */}
-            <path d="M 354 100 L 406 100 L 434 130 L 354 130 Z" fill={ghost || glass ? 'none' : p.ink} stroke={stroke} strokeWidth="1" />
-            {/* Headlight (high-beam anchor) */}
-            <rect x="452" y="150" width="8" height="12" rx="2" fill={ghost ? 'none' : p.brand} stroke={stroke} strokeWidth="0.8" />
-
-            {/* Underbody + wheels */}
-            <line x1="22" y1="192" x2="458" y2="192" stroke={stroke} strokeWidth="1" opacity="0.5" />
-            {[92, 168, 398].map((cx) => (
-                <g key={cx}>
-                    <circle cx={cx} cy="200" r="26" fill={ghost ? 'none' : p.ink} stroke={stroke} strokeWidth={ghost ? 2 : 1.5} />
-                    <circle cx={cx} cy="200" r="9" fill="none" stroke={ghost || glass ? p.accent : p.hub} strokeWidth="1.5" />
-                </g>
-            ))}
-        </svg>
-    );
-}
-
-/**
- * 3/4 isometric box truck, facing front-right — the chapter-one hero.
- *
- * Hand-projected dimetric: the truck's length runs along (0.97, 0.17), its
- * width along (0.89, -0.45) scaled to 51px, and height is straight vertical.
- * Every corner of every face derives from those three axes, which is what
- * keeps the panels reading as one rigid body instead of a loose stack of
- * parallelograms (the previous drawing's box and cab disagreed about the
- * projection, so it never resolved into a truck).
- *
- * The surface-area callout lives inside the SVG, pinned to the roof, so it
- * scales and moves with the truck at every viewport — the scrub timeline
- * still finds it by the same .wcu-flag-* classes the old HTML overlay used.
- */
-function TruckIso({ p }: { p: Palette }) {
-    return (
-        <svg viewBox="0 0 520 330" className="h-auto w-full" aria-hidden="true">
-            {/* HUD measure line under the rocker */}
-            <g stroke={p.accent} strokeWidth="1" opacity="0.5">
-                <line x1="36" y1="240" x2="346" y2="292" strokeDasharray="4 6" />
-                <line x1="36" y1="234" x2="36" y2="246" />
-                <line x1="346" y1="286" x2="346" y2="298" />
-            </g>
-
-            {/* Wheels — drawn first so the rocker panels cover the axle tops */}
-            {([[104, 235], [166, 246], [405, 286]] as const).map(([cx, cy]) => (
-                <g key={cx}>
-                    <ellipse cx={cx} cy={cy} rx="27" ry="25" fill={p.ink} stroke={p.edge} strokeWidth="1.5" />
-                    <ellipse cx={cx} cy={cy} rx="10" ry="9" fill="none" stroke={p.hub} strokeWidth="1.5" />
-                    <ellipse cx={cx} cy={cy} rx="3.5" ry="3" fill={p.accent} opacity="0.7" />
-                </g>
-            ))}
-
-            {/* Trailer box — side, front face, roof */}
-            <polygon points="36,56 346,108 346,258 36,206" fill={p.surface} stroke={p.edge} strokeWidth="1.5" strokeLinejoin="round" />
-            <polygon points="346,108 392,85 392,235 346,258" fill={p.panel} stroke={p.edge} strokeWidth="1.5" strokeLinejoin="round" />
-            <polygon points="36,56 346,108 392,85 82,33" fill={p.panel} stroke={p.edge} strokeWidth="1.2" strokeLinejoin="round" />
-
-            {/* Panel seams + skirt line on the ad face */}
-            <g stroke={p.seam} strokeWidth="1">
-                <line x1="113" y1="69" x2="113" y2="219" />
-                <line x1="190" y1="82" x2="190" y2="232" />
-                <line x1="267" y1="95" x2="267" y2="245" />
-                <line x1="36" y1="196" x2="346" y2="248" />
-            </g>
-
-            {/* Cab — side profile, roof, windshield, hood, front */}
-            <polygon points="346,166 375,171 399,205 419,212 419,270 346,258" fill={p.panel} stroke={p.edge} strokeWidth="1.5" strokeLinejoin="round" />
-            <polygon points="346,166 375,171 421,148 392,143" fill={p.panel} stroke={p.edge} strokeWidth="1.2" strokeLinejoin="round" />
-            <polygon points="375,171 421,148 445,182 399,205" fill={p.ink} stroke={p.edge} strokeWidth="1.2" strokeLinejoin="round" />
-            <polygon points="399,205 445,182 465,189 419,212" fill={p.panel} stroke={p.edge} strokeWidth="1.2" strokeLinejoin="round" />
-            <polygon points="419,212 465,189 465,247 419,270" fill={p.surface} stroke={p.edge} strokeWidth="1.5" strokeLinejoin="round" />
-
-            {/* Cab side window */}
-            <polygon points="352,173 371,177 376,196 354,191" fill={p.ink} stroke={p.seam} strokeWidth="1" />
-
-            {/* Front details: grille lines, bumper, headlight */}
-            <g stroke={p.seam} strokeWidth="1">
-                <line x1="423" y1="222" x2="461" y2="203" />
-                <line x1="423" y1="228" x2="461" y2="209" />
-            </g>
-            <polygon points="419,258 465,235 465,247 419,270" fill={p.panel} stroke={p.edge} strokeWidth="1" strokeLinejoin="round" />
-            <polygon points="421,242 436,235 436,243 421,250" fill={p.brand} />
-
-            {/* Surface-area callout — stem grows out of the roof, label unfolds */}
-            <rect className="wcu-flag-stem" x="197" y="10" width="1.5" height="58" fill={p.accent} />
-            <g className="wcu-flag-label">
-                <rect x="206" y="2" width="220" height="24" rx="4" fill={p.ink} fillOpacity="0.85" stroke={p.accent} strokeOpacity="0.55" />
-                <text x="217" y="18.5" className="font-tommy-medium" fontSize="11" letterSpacing="2" fill={p.accent}>
-                    SURFACE AREA — 600 SQ. FT.
-                </text>
-            </g>
-        </svg>
-    );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Component                                                          */
-/* ------------------------------------------------------------------ */
-
 export default function WhyChooseUs() {
     const rootRef = useRef<HTMLDivElement>(null);
-    const screenRef = useRef<HTMLDivElement>(null);
-    const impressionsRef = useRef<HTMLSpanElement>(null);
+    const textContainerRef = useRef<HTMLDivElement>(null);
+    const [activeIndex, setActiveIndex] = useState(-1);
 
-    const [isMobile, setIsMobile] = useState<Boolean>(false);
-
-    const PINS = [
-        { label: 'Manhattan, NY', left: !isMobile ? '16%' : "8%", top: '16%' },
-        { label: 'Chicago, IL', left: !isMobile ? '44%' : "35%", top: '8%' },
-        { label: 'Los Angeles, CA', left: !isMobile ? '68%' : '55%', top: '18%' },
-    ];
-
-    useEffect(() => {
-        setIsMobile(window.innerWidth <= 768);
-    }, [])
-
-    // const { theme } = useTheme();
-    const p = LIGHT;
+    // We use a ref to track active index inside the GSAP loop without triggering constant re-renders
+    const activeIndexRef = useRef(-1);
 
     useGSAP(
         () => {
-            const q = gsap.utils.selector(rootRef);
-
-            /* Park everything that enters later. */
-            gsap.set(q('[data-wcu-chapter]'), { autoAlpha: 0 });
-            gsap.set(q('.wcu-truck-side, .wcu-ghost, .wcu-pin, .wcu-card, .wcu-flag-stem, .wcu-flag-label, .wcu-particle, .wcu-truck-glass'), { autoAlpha: 0 });
-            gsap.set(q('.wcu-wrapbar, .wcu-wrapbar-art'), { scaleX: 0, transformOrigin: 'left center' });
-            gsap.set(q('.wcu-frame-h'), { scaleX: 0 });
-            gsap.set(q('.wcu-frame-v'), { scaleY: 0 });
-            gsap.set(q('.wcu-corner'), { autoAlpha: 0, scale: 0.4 });
-            gsap.set(q('.wcu-intro-item'), { autoAlpha: 0, y: -18 });
-
-            /* Master timeline: duration 4 = one unit per chapter. */
             const tl = gsap.timeline({
-                defaults: { ease: 'power2.inOut' },
                 scrollTrigger: {
                     trigger: rootRef.current,
                     start: 'top top',
                     end: 'bottom bottom',
-                    scrub: 1,
+                    scrub: 0.1, // Slight smoothing
                     invalidateOnRefresh: true,
                 },
             });
 
-            /* Heading then description settle first, and hold for the whole section. */
-            tl.to(q('.wcu-intro-item'), { autoAlpha: 1, y: 0, duration: 0.2, stagger: 0.07, ease: 'power2.out' }, 0);
+            // Set initial states
+            gsap.set('.wcu-heading', { autoAlpha: 0, y: 30 });
+            gsap.set('.wcu-video-block', { y: '80vh', autoAlpha: 0 });
+            gsap.set('.wcu-body-text', { autoAlpha: 0, yPercent: 100 });
 
-            /* ---------------- Chapter copy in / out ---------------- */
-            // CH.01 — letter-by-letter stagger.
-            tl.fromTo(q('.wcu-ch1-letter'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.18, stagger: 0.012, ease: 'power2.out' }, 0.02);
-            tl.fromTo(q('[data-wcu-chapter="0"] .wcu-sub'), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.22 }, 0.12);
-            tl.set(q('[data-wcu-chapter="0"]'), { autoAlpha: 1 }, 0);
-            tl.to(q('[data-wcu-chapter="0"]'), { yPercent: -55, autoAlpha: 0, duration: 0.2 }, 0.84);
+            // 1. Heading appears
+            tl.to('.wcu-heading', { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' });
 
-            // CH.02–04 glide in; 02 + 03 glide back out.
-            [1, 2, 3].forEach((i) => {
-                tl.fromTo(
-                    q(`[data-wcu-chapter="${i}"]`),
-                    { autoAlpha: 0, yPercent: 30 },
-                    { autoAlpha: 1, yPercent: 0, duration: 0.25, ease: 'power2.out' },
-                    i + 0.05
-                );
-                if (i < 3) tl.to(q(`[data-wcu-chapter="${i}"]`), { yPercent: -55, autoAlpha: 0, duration: 0.2 }, i + 0.84);
+            // 2. Video block scrolls up from bottom
+            tl.to('.wcu-video-block', { y: 0, autoAlpha: 1, duration: 1.2, ease: 'power2.out' }, '+=0.2');
+
+            // 3. Tab animations (takes up the rest of the scroll)
+            // We animate a dummy object from -0.1 to CHAPTERS.length - 0.01
+            const progressObj = { value: -0.1 };
+
+            tl.to(progressObj, {
+                value: CHAPTERS.length - 0.01,
+                duration: CHAPTERS.length, // Scales this phase to be the longest
+                ease: 'none',
+                onUpdate: () => {
+                    if (progressObj.value < 0) return; // Wait until it crosses 0
+
+                    const newIndex = Math.floor(progressObj.value);
+                    if (newIndex !== activeIndexRef.current) {
+                        const oldIndex = activeIndexRef.current;
+                        activeIndexRef.current = newIndex;
+                        setActiveIndex(newIndex);
+
+                        if (oldIndex >= 0) {
+                            // Animate old text down (out) and fade
+                            gsap.to(`.wcu-body-text-${oldIndex}`, {
+                                yPercent: 100,
+                                autoAlpha: 0,
+                                duration: 0.3,
+                                ease: 'power2.inOut'
+                            });
+                        }
+
+                        // Animate new text up (in) from bottom
+                        gsap.fromTo(`.wcu-body-text-${newIndex}`,
+                            { yPercent: 100, autoAlpha: 0 },
+                            { yPercent: 0, autoAlpha: 1, duration: 0.4, ease: 'power2.out', delay: 0.1 }
+                        );
+                    }
+                }
             });
 
-            /* ---------------- Phase 1: The Smart Play ---------------- */
-            // HUD frame slices around the viewport.
-            tl.to(q('.wcu-frame-h'), { scaleX: 1, duration: 0.22, stagger: 0.04 }, 0.02);
-            tl.to(q('.wcu-frame-v'), { scaleY: 1, duration: 0.22, stagger: 0.04 }, 0.06);
-            tl.to(q('.wcu-corner'), { autoAlpha: 1, scale: 1, duration: 0.15, stagger: 0.03, ease: 'back.out(2)' }, 0.14);
-            // Iso chassis rises into frame.
-            tl.fromTo(q('.wcu-truck-iso'), { autoAlpha: 0, y: 46 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power3.out' }, 0.08);
-            // Surface-area flag deploys: stem draws up, label expands.
-            tl.fromTo(q('.wcu-flag-stem'), { autoAlpha: 1, scaleY: 0, transformOrigin: 'bottom center' }, { scaleY: 1, duration: 0.12 }, 0.42);
-            tl.fromTo(q('.wcu-flag-label'), { autoAlpha: 0, scaleX: 0, transformOrigin: 'left center' }, { autoAlpha: 1, scaleX: 1, duration: 0.16 }, 0.52);
+            // Set initial state for text boxes
+            gsap.set('.wcu-body-text', { autoAlpha: 0, yPercent: 100 });
+            gsap.set(`.wcu-body-text-0`, { autoAlpha: 1, yPercent: 0 });
 
-            /* ------------- Phase 2: The Everywhere Illusion ---------- */
-            tl.to(q('.wcu-flag-stem, .wcu-flag-label'), { autoAlpha: 0, duration: 0.12 }, 1.0);
-            // Simulated 90° yaw: iso face rotates away, side face rotates in.
-            tl.to(q('.wcu-truck-iso'), { rotationY: 80, autoAlpha: 0, duration: 0.4 }, 1.05);
-            tl.fromTo(q('.wcu-truck-side'), { rotationY: -80, autoAlpha: 0 }, { rotationY: 0, autoAlpha: 1, duration: 0.4 }, 1.32);
-            // Liquid wrap floods cab → tail.
-            tl.to(q('.wcu-wrapbar'), { scaleX: 1, duration: 0.42, ease: 'power1.inOut' }, 1.5);
-            tl.to(q('.wcu-wrapbar-art'), { scaleX: 1, duration: 0.2 }, 1.78);
-            // Social particles burst from the tires and drift up.
-            tl.fromTo(
-                q('.wcu-particle'),
-                { autoAlpha: 0, y: 0, scale: 0.5 },
-                { autoAlpha: 1, y: -110, scale: 1, duration: 0.3, stagger: 0.035, ease: 'power1.out' },
-                1.62
-            );
-            tl.to(q('.wcu-particle'), { autoAlpha: 0, y: -160, duration: 0.18, stagger: 0.02 }, 1.95);
-
-            /* ------------- Phase 3: Your Canvas, Your Rules ---------- */
-            // Camera pulls back.
-            tl.to(q('.wcu-truckstage'), { scale: 0.78, y: 26, duration: 0.3 }, 2.02);
-            // Ghost fleet fans out symmetrically behind the hero truck.
-            tl.fromTo(q('.wcu-ghost--l'), { autoAlpha: 0, xPercent: 0, scale: 0.7 }, { autoAlpha: 0.5, xPercent: -50, scale: 0.82, duration: 0.3 }, 2.12);
-            tl.fromTo(q('.wcu-ghost--r'), { autoAlpha: 0, xPercent: 0, scale: 0.7 }, { autoAlpha: 0.5, xPercent: 57, scale: 0.82, duration: 0.3 }, 2.12);
-            // Geo pins pop above the fleet.
-            tl.fromTo(
-                q('.wcu-pin'),
-                { autoAlpha: 0, scale: 0, transformOrigin: 'bottom center' },
-                { autoAlpha: 1, scale: 1, duration: 0.16, stagger: 0.08, ease: 'back.out(2.2)' },
-                2.42
-            );
-
-            /* --------- Phase 4: The Proof is in the Pavement --------- */
-            // Fleet + pins clear the stage.
-            tl.to(q('.wcu-pin, .wcu-ghost'), { autoAlpha: 0, duration: 0.15 }, 3.02);
-            tl.to(q('.wcu-truckstage'), { scale: 0.88, y: 10, duration: 0.25 }, 3.05);
-            // Panels turn to glass: solid crossfades into the neon-grid variant.
-            tl.to(q('.wcu-truck-side'), { autoAlpha: 0, duration: 0.22 }, 3.12);
-            tl.fromTo(q('.wcu-truck-glass'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, 3.18);
-            // Telemetry cards sprout into the black space.
-            tl.fromTo(
-                q('.wcu-card'),
-                { autoAlpha: 0, scale: 0.7, y: 20 },
-                { autoAlpha: 1, scale: 1, y: 0, duration: 0.2, stagger: 0.08, ease: 'back.out(1.6)' },
-                3.3
-            );
-            // Live ticking impressions counter.
-            const imp = { v: 0 };
-            tl.to(
-                imp,
-                {
-                    v: 2431882,
-                    duration: 0.55,
-                    ease: 'none',
-                    onUpdate: () => {
-                        if (impressionsRef.current)
-                            impressionsRef.current.textContent = Math.floor(imp.v).toLocaleString('en-US');
-                    },
-                },
-                3.4
-            );
-            // Exit: high-beams pulse a bright wash, then release the pin.
-            tl.fromTo(q('.wcu-beam'), { autoAlpha: 0 }, { autoAlpha: 0.85, duration: 0.08, ease: 'power1.in' }, 3.6);
-            tl.to(q('.wcu-beam'), { autoAlpha: 0, duration: 0.06 }, 3.7);
         },
         { scope: rootRef }
     );
 
     return (
-        /* 400vh scroll track */
-        <div ref={rootRef} className="relative h-[600vh] w-full" style={{ backgroundColor: p.ink }}>
-            {/* Pinned full-screen frame */}
-            <div ref={screenRef} className="sticky top-0 flex h-screen w-full flex-col lg:flex-row overflow-hidden !pt-8 lg:pt-0">
-                {/* ------------------------------------------------ */}
-                {/* LEFT (45%): scroll-driven chapter copy            */}
-                {/* ------------------------------------------------ */}
-                {/* Intro and reasons are centred as one group, so the heading clears
-                    the site header and the gap between them stays deliberate. */}
-                <div className="relative order-2 flex h-[35vh] w-full lg:w-[45%] flex-col justify-center px-7 md:order-1 md:h-full lg:px-10 xl:px-16">
-                    {/* Section intro — holds for the whole section while the four
-                        reasons cycle underneath it. */}
-                    {/* Sits above the chapter copy that scrolls underneath it, so it
-                        needs the section's own ground — taken from the palette, not a
-                        hard-coded cream, or it stays light in dark mode. */}
-                    <div className="relative z-[100] shrink-0" style={{ backgroundColor: p.ink }}>
-                        <h2 className="wcu-intro-item font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[clamp(1.75rem,3vw,2.875rem)]" style={{ color: p.text }}>
-                            Why Choose Us<span style={{ color: p.accent }}>.</span>
-                        </h2>
-                        <p className="wcu-intro-item mt-3 max-w-[430px] font-tommy-regular text-[14px] leading-[1.6] md:text-[15px]" style={{ color: p.muted }}>
-                            Four reasons brands move budget onto the road — efficiency, reach,
-                            scale, and proof you can audit.
-                        </p>
-                    </div>
+        <div ref={rootRef} className="relative h-[400vh] w-full bg-[#EEE8D9] dark:bg-[#0A0A0A] pb-[100px]">
+            <div className="sticky top-0 flex h-screen w-full flex-col px-4 md:px-8 lg:px-12 pt-20 pb-3">
 
-                    {/* The four reasons — each swaps in as you scroll. Fixed height so
-                        the block never resizes as the copy changes underneath. */}
-                    <div className="relative shrink-0 mt-3 md:mt-5 lg:mt-11 h-[120px] lg:h-[280px]">
-                        {CHAPTERS.map((ch, i) => (
-                            <div
-                                key={i}
-                                data-wcu-chapter={i}
-                                className="absolute inset-0 flex flex-col justify-start"
-                            >
-                                <p className="font-tommy-medium text-[12px] uppercase tracking-[4px]" style={{ color: p.accent }}>
-                                    {ch.tag}
-                                </p>
-                                <h3 className="mt-3 font-tommy-bold text-[25px] md:text-[clamp(2rem,3.6vw,3.5rem)] leading-[1.02] tracking-[-1px] md:tracking-[-2px]" style={{ color: p.text }}>
-                                    {i === 0
-                                        ? // CH.01 headline is split for the letter-stagger.
-                                        ch.title.split('').map((c, j) => (
-                                            <span key={j} className="wcu-ch1-letter inline-block">
-                                                {c === ' ' ? ' ' : c}
-                                            </span>
-                                        ))
-                                        : ch.title}
-                                </h3>
-                                <p className={`mt-2 md:mt-4 lg:mt-5 max-w-[420px] font-tommy-regular text-[14px] leading-[1.7] md:text-[16px] ${i === 0 ? 'wcu-sub' : ''}`} style={{ color: p.muted }}>
-                                    {ch.body}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                {/* Heading and Intro Text */}
+                <div className="wcu-heading mb-[10px] text-center shrink-0">
+                    <h2 className="font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[clamp(1.75rem,3vw,2.875rem)] text-[#1A1917] dark:text-white">
+                        Why Choose Us<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                    </h2>
+                    <p className="mt-1 md:mt-2 max-w-[430px] mx-auto font-tommy-regular text-[14px] leading-[1.6] md:text-[15px] text-[#6F6A60] dark:text-[#9A968E]">
+                        Four reasons brands move budget onto the road — efficiency, reach,
+                        scale, and proof you can audit.
+                    </p>
                 </div>
 
-                {/* ------------------------------------------------ */}
-                {/* RIGHT (55%): the visualization viewport           */}
-                {/* ------------------------------------------------ */}
-                <div className="relative order-1 h-[50vh] lg:h-full w-full md:w-[80%] md:order-2 md:h-full mx-auto lg:my-auto xl:my-0 ">
-                    {/* Minimalist gray grid backdrop */}
-                    {/* <div
-                        className="absolute inset-0"
-                        style={{
-                            backgroundImage: `linear-gradient(${p.grid} 1px, transparent 1px), linear-gradient(90deg, ${p.grid} 1px, transparent 1px)`,
-                            backgroundSize: '44px 44px',
-                        }}
-                    /> */}
+                {/* Video and Tabs Wrapper */}
+                <div className="wcu-video-block flex-1 w-full flex flex-col">
+                    {/* 1. Large Rounded Video Container */}
+                    <div className="relative flex-1 w-full rounded-[16px] md:rounded-[32px] overflow-hidden bg-black shadow-2xl">
+                        {/* VIDEO PLACEHOLDER */}
+                        <div className="relative inset-0 w-full h-full">
+                            <div className='absolute top-0 left-0 w-full h-full z-100' style={{
+                                background: "linear-gradient(180deg, rgba(0, 0, 0, 0) 65.21%, rgba(0, 0, 0, 0.46) 84.67%)"
+                            }}>
 
-                    {/* HUD frame: slicing border lines + corner brackets */}
-                    <div className="wcu-frame-h absolute left-[6%] right-[6%] top-[7%] h-px origin-left" style={{ backgroundColor: `${p.accent}55` }} />
-                    <div className="wcu-frame-h absolute bottom-[7%] left-[6%] right-[6%] h-px origin-right" style={{ backgroundColor: `${p.accent}55` }} />
-                    <div className="wcu-frame-v absolute bottom-[7%] left-[6%] top-[7%] w-px origin-top" style={{ backgroundColor: `${p.accent}55` }} />
-                    <div className="wcu-frame-v absolute bottom-[7%] right-[6%] top-[7%] w-px origin-bottom" style={{ backgroundColor: `${p.accent}55` }} />
-                    {(['left-[6%] top-[7%] border-l-2 border-t-2', 'right-[6%] top-[7%] border-r-2 border-t-2', 'bottom-[7%] left-[6%] border-b-2 border-l-2', 'bottom-[7%] right-[6%] border-b-2 border-r-2'] as const).map((pos, i) => (
-                        <div key={i} className={`wcu-corner absolute h-5 w-5 ${pos}`} style={{ borderColor: p.accent }} />
-                    ))}
+                            </div>
+                            <video src="/assets/videos/why-choose-video.mp4" className="absolute inset-0 w-full h-full object-cover" loop autoPlay muted>
+                            </video>
+                        </div>
 
-                    {/* Perspective stage for the simulated yaw rotation */}
-                    <div className="absolute inset-[12%] [perspective:1200px]">
-                        <div className="wcu-truckstage relative h-full w-full will-change-transform">
-                            {/* Ghost fleet (phase 3) — behind the hero truck */}
-                            <div className="wcu-ghost wcu-ghost--l absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform  w-[200px] md:w-auto">
-                                <TruckSide mode="ghost" p={p} />
-                            </div>
-                            <div className="wcu-ghost wcu-ghost--r absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform  w-[200px] md:w-auto">
-                                <TruckSide mode="ghost" p={p} />
-                            </div>
-                            {/* Hero truck: three material states, crossfaded */}
-                            {/* Flex-centred wrapper, not translate-centred: the timeline
-                                tweens `y` on .wcu-truck-iso, and a GSAP y tween replaces
-                                any CSS -translate-y-1/2 — which is what was shoving the
-                                chassis into the bottom of the frame. */}
-                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                                <div className="wcu-truck-iso w-full max-w-[820px] will-change-transform">
-                                    <TruckIso p={p} />
+                        {/* Dark text overlay boxes */}
+                        <div className="absolute inset-0 w-full flex flex-row gap-2 md:gap-4 px-2 md:px-6 lg:px-8 pointer-events-none">
+                            {CHAPTERS.map((ch, i) => (
+                                <div key={i} className="flex-1 relative h-full">
+                                    <div style={{
+                                        background: "linear-gradient(0deg, rgba(255, 255, 255, 0.3) 0%, rgba(23, 23, 23, 0.3) 100%)"
+                                    }}
+                                        className={`wcu-body-text wcu-body-text-${i} absolute bottom-0 w-full h-auto bg-black/70 backdrop-blur-lg px-4 pt-4 pb-8 rounded-t-[12px] md:rounded-t-[6px] pointer-events-auto z-[9999999]`}
+                                    >
+                                        <p className="font-tommy-medium text-[11px] md:text-[14px] lg:text-[16px] leading-[1.6] text-white/90">
+                                            {ch.body}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="wcu-truck-side absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform w-[200px] md:w-auto">
-                                <TruckSide mode="solid" p={p} />
-                            </div>
-                            <div className="wcu-truck-glass absolute inset-x-[8%] top-1/2 -translate-y-1/2 will-change-transform">
-                                <TruckSide mode="glass" p={p} />
-                            </div>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Phase 1's surface-area callout lives inside TruckIso now, so it
-                        stays pinned to the roof instead of floating at viewport
-                        percentages that only lined up at one screen size. */}
-
-                    {/* Phase 2: social particles rising from the tires */}
-                    {PARTICLES.map((particle, i) => (
-                        <div key={i} className="wcu-particle absolute will-change-transform" style={{ left: particle.left, top: particle.top }}>
-                            {particle.kind === 'ring' && <div className="h-3 w-3 rounded-full border-2" style={{ borderColor: p.accent }} />}
-                            {particle.kind === 'dot' && <div className="h-2 w-2 rounded-full" style={{ backgroundColor: p.accent }} />}
-                            {particle.kind === 'plus' && (
-                                <span className="font-tommy-bold text-[13px]" style={{ color: p.accent }}>+</span>
-                            )}
-                        </div>
-                    ))}
-
-                    {/* Phase 3: floating geolocation pins */}
-                    {PINS.map((pin, i) => (
-                        <div key={i} className="wcu-pin absolute flex flex-col items-center" style={{ left: pin.left, top: pin.top }}>
-                            <span className="whitespace-nowrap rounded-[4px] border px-2.5 py-1 font-tommy-medium text-[9px] uppercase tracking-[1.5px] md:text-[10px]" style={{ borderColor: `${p.accent}88`, color: p.accent, backgroundColor: `${p.ink}cc` }}>
-                                {pin.label}
-                            </span>
-                            <span className="mt-px h-0 w-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent" style={{ borderTopColor: p.accent }} />
-                        </div>
-                    ))}
-
-                    {/* Phase 4: telemetry dashboard cards */}
-                    <div className="wcu-card absolute right-[8%] top-[18%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${p.accent}55`, backgroundColor: `${p.ink}b3` }}>
-                        <p className="font-tommy-medium text-[10px] uppercase tracking-[2px]" style={{ color: p.muted }}>Telemetry</p>
-                        <p className="mt-1 flex items-center gap-2 font-tommy-medium text-[12px] uppercase tracking-[1px]" style={{ color: p.accent }}>
-                            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full" style={{ backgroundColor: p.accent }} />
-                            24/7 ACTIVE GPS
-                        </p>
+                    {/* 2. Bottom Navigation Bar */}
+                    <div className="flex flex-row w-full overflow-hidden shrink-0 z-10 px-2 md:px-6 lg:px-8 gap-2 md:gap-4">
+                        {CHAPTERS.map((ch, i) => {
+                            const isActive = activeIndex === i;
+                            return (
+                                <div
+                                    key={i}
+                                    className={`flex-1 rounded-b-[6px] bg-white flex flex-col justify-center px-3 py-3 md:px-5 md:py-4 lg:py-5 transition-colors duration-500 ${isActive
+                                        ? 'bg-[#F5F2EA] dark:bg-[#1A1A1A] shadow-inner border border-black/5 dark:border-white/5'
+                                        : 'bg-transparent hover:bg-black/[0.02] dark:hover:bg-white/[0.02] cursor-pointer border border-transparent'
+                                        }`}
+                                >
+                                    <p className={`font-tommy-medium text-[8px] md:text-[11px] lg:text-[20px] tracking-[1px] md:tracking-[2px] transition-colors duration-500 ${isActive ? 'text-[#C8992B] dark:text-[#FCD119]' : 'text-[#8A857C] dark:text-[#6F6A60]'}`}>
+                                        {ch.tag}
+                                    </p>
+                                    <h4 className={`font-tommy-bold text-[12px] md:text-[16px] lg:text-[30px] leading-[1.1] transition-colors duration-500 ${isActive ? 'text-[#1A1917] dark:text-white' : 'text-[#1A1917]/50 dark:text-white/50'}`}>
+                                        {ch.title}
+                                    </h4>
+                                </div>
+                            );
+                        })}
                     </div>
-                    <div className="wcu-card absolute bottom-[16%] left-[8%] rounded-[8px] border px-4 py-3 backdrop-blur-sm" style={{ borderColor: `${p.accent}55`, backgroundColor: `${p.ink}b3` }}>
-                        <p className="font-tommy-medium text-[10px] uppercase tracking-[2px]" style={{ color: p.muted }}>Impressions</p>
-                        <p className="mt-1 font-tommy-bold text-[17px] tracking-[0.5px] tabular-nums" style={{ color: p.accent }}>
-                            <span ref={impressionsRef}>Calculating…</span>
-                        </p>
-                    </div>
-
-                    {/* Exit high-beam wash */}
-                    <div
-                        className="wcu-beam pointer-events-none absolute inset-0"
-                        style={{ background: `radial-gradient(ellipse at 78% 55%, ${p.accent}cc 0%, rgba(255,255,255,0.5) 30%, transparent 70%)`, opacity: 0 }}
-                    />
                 </div>
+
             </div>
         </div>
     );

@@ -47,7 +47,7 @@ const MILESTONES = [
 /* The three functions that report into the owner — they become the orbit. */
 const LEADERSHIP = [
     {
-        title: 'National Operations', role: 'Fleets · Markets · Activation', mono: '01', icon: 'M3 13l2-7h11l3 4h2v5h-2M5 13H3v3h2m0-3a2 2 0 104 0m10 0a2 2 0 10-4 0', body: 'Thousands of trucks activated. Concurrent campaigns across DMAs coast to coast. One team running national scale as a single, coordinated operation.'
+        title: 'National Operations', role: 'Fleets · Markets · Activation', mono: '01', icon: 'M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14M8 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM17 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z', body: 'Thousands of trucks activated. Concurrent campaigns across DMAs coast to coast. One team running national scale as a single, coordinated operation.'
     },
     { title: 'Third-Party Verified', role: 'StreetMetrics · Independent Verification', mono: '02', icon: 'M3 3v18h18M7 15l4-5 3 3 5-7', body: `GPS data from every truck flows to our measurement partner StreetMetrics, where impressions, reach, and frequency are independently modeled and verified — not self-reported.` },
     { title: 'Creative & Production', role: 'Wraps · Print · Install · Maintain', mono: '03', icon: 'M15 5l4 4M3 21l1.2-4.4a2 2 0 01.5-.9l9.4-9.4a2 2 0 012.8 0l1.4 1.4a2 2 0 010 2.8l-9.4 9.4a2 2 0 01-.9.5L3 21z', body: 'Over 1 million square feet of premium cast vinyl installed — and counting. Precision printing, expert installation, and regular inspections keep every wrap campaign-sharp from first mile to last.' },
@@ -321,7 +321,7 @@ function PullQuote() {
     );
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden border-t border-black/10 bg-[#EEE8D9]  transition-colors duration-300 py-18 md:py-28 lg:py-40 dark:border-white/10 dark:bg-[#0A0A0A]">
+        <section ref={rootRef} className="relative w-full overflow-hidden border-t border-black/10 bg-[#EEE8D9]  transition-colors duration-300 py-18 md:py-28 lg:py-40">
             <div className="mx-auto max-w-[960px] px-6 text-center md:px-12">
                 <span data-pq-mark className="inline-block font-tommy-bold text-[90px] leading-[0.6] text-[#C8992B] dark:text-[#FCD119]">“</span>
                 <blockquote ref={quoteRef} className="mt-4 font-tommy-medium text-[clamp(23px,3.1vw,40px)] leading-[1.34] tracking-[-0.01em]">

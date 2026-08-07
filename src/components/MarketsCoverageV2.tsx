@@ -38,7 +38,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import Link from 'next/link';
 import Logo from '@/components/Logo';
+import { MARKET_SHOWINGS, type ShowingLevel } from '@/data/marketShowings';
 import {
     MARKETS,
     REGIONS,
@@ -211,6 +213,35 @@ function MarketPopup({
     const closingRef = useRef(false);
     /** Lets the swap effect below skip its mount pass. */
     const mountedRef = useRef(false);
+
+    // NEW: Dynamic Showing Data State & Refs
+    const maxTrucks = MARKET_SHOWINGS[market.rank]?.[100]?.units || 0;
+    const impsPerTruck = MARKET_SHOWINGS[market.rank]?.[100]
+        ? Math.round(MARKET_SHOWINGS[market.rank][100].impressions / MARKET_SHOWINGS[market.rank][100].units)
+        : market.impressions;
+
+    const [trucks, setTrucks] = useState<number>(MARKET_SHOWINGS[market.rank]?.[10]?.units || 0);
+
+    // Reset when market changes
+    useEffect(() => {
+        setTrucks(MARKET_SHOWINGS[market.rank]?.[10]?.units || 0);
+    }, [market.rank]);
+
+    // Lock body scroll while the popup is open
+    useEffect(() => {
+        const originalStyle = window.getComputedStyle(document.body).overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = originalStyle;
+        };
+    }, []);
+
+    const activeImpressions = trucks * impsPerTruck;
+    const effectiveShowing = maxTrucks > 0 ? (trucks / maxTrucks) * 100 : 0;
+
+    const dynamicImpsRef = useRef<HTMLParagraphElement>(null);
+    const dynamicShowingRef = useRef<HTMLSpanElement>(null);
+    const proxyRef = useRef({ i: 0, s: 0 });
 
     /**
      * NOTE ON WHAT IS *NOT* SHOWN HERE.
@@ -461,6 +492,32 @@ function MarketPopup({
         { dependencies: [market.id], scope: overlayRef, revertOnUpdate: false }
     );
 
+    /**
+     * Handles the dynamic counting for the selected target coverage.
+     * Runs on initial mount (with a delay to match the intro) and on trucks change.
+     */
+    useGSAP(() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            if (dynamicImpsRef.current) dynamicImpsRef.current.textContent = fmt(activeImpressions);
+            if (dynamicShowingRef.current) dynamicShowingRef.current.textContent = `${Math.round(effectiveShowing)}%`;
+            proxyRef.current = { i: activeImpressions, s: effectiveShowing };
+            return;
+        }
+
+        gsap.to(proxyRef.current, {
+            i: activeImpressions,
+            s: effectiveShowing,
+            duration: 0.9,
+            ease: 'power2.out',
+            // Delay on the very first mount so it counts up exactly when the rest of the popup settles.
+            delay: mountedRef.current ? 0 : 0.75,
+            onUpdate: () => {
+                if (dynamicImpsRef.current) dynamicImpsRef.current.textContent = fmt(Math.round(proxyRef.current.i));
+                if (dynamicShowingRef.current) dynamicShowingRef.current.textContent = `${Math.round(proxyRef.current.s)}%`;
+            }
+        });
+    }, { dependencies: [market.id, trucks], scope: overlayRef, revertOnUpdate: false });
+
     return (
         <div ref={overlayRef} className="absolute inset-0 z-[200] flex items-center justify-center p-4 md:p-8">
             <div
@@ -488,7 +545,7 @@ function MarketPopup({
                 role="dialog"
                 aria-modal="true"
                 aria-label={market.name}
-                className="relative z-10 w-full max-w-[1080px] overflow-hidden rounded-[16px] md:rounded-[20px] lg:rounded-[28px] bg-[#E7E0CE] shadow-[0_45px_130px_rgba(0,0,0,0.5)] dark:bg-[#141414]"
+                className="relative z-10 w-full max-w-[1240px] overflow-hidden rounded-[16px] md:rounded-[20px] lg:rounded-[28px] bg-[#E7E0CE] shadow-[0_45px_130px_rgba(0,0,0,0.5)] dark:bg-[#141414]"
             >
                 {/* Close sits on the CARD, not the photo — on desktop the photo
                     is only the left half, so anchoring it to the card keeps it
@@ -657,6 +714,106 @@ function MarketPopup({
                                     {market.audience}
                                 </p>
                             )}
+
+
+                            {/* Build Campaign CTA Form */}
+                            <div data-pop-item className="mt-8 rounded-[24px] bg-gradient-to-br from-[#1A1917] to-black dark:from-[#2A2825] dark:to-[#1A1917] p-5 md:p-8 border border-black/20 dark:border-white/10 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-none">
+                                {/* Background accent */}
+                                <div className="pointer-events-none absolute top-0 right-0 w-64 h-64 bg-[#C8992B]/15 dark:bg-[#FCD119]/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3" />
+
+                                <div className="relative z-10">
+                                    <h4 className="font-tommy-bold text-white text-[18px] md:text-[22px] tracking-wide mb-1">
+                                        Build your Campaign
+                                    </h4>
+                                    <p className="font-tommy-regular text-[11px] md:text-[13px] text-white/60 mb-6 md:mb-8">
+                                        Select a target coverage or enter a custom number of trucks.
+                                    </p>
+
+                                    {/* 1 Row for Coverage & Trucks */}
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5 md:gap-8 mb-8 pb-8 border-b border-white/10">
+                                        <div className="flex-1 w-full">
+                                            <label className="block font-tommy-medium text-[10px] uppercase tracking-[2px] text-white/50 mb-3">
+                                                Target Coverage
+                                            </label>
+                                            <div className="flex flex-wrap gap-1.5 md:gap-2">
+                                                {([10, 15, 25, 50, 75, 100] as ShowingLevel[]).map(level => {
+                                                    const levelTrucks = MARKET_SHOWINGS[market.rank]?.[level]?.units || 0;
+                                                    const isSelected = trucks === levelTrucks;
+                                                    return (
+                                                        <button
+                                                            key={level}
+                                                            onClick={() => setTrucks(levelTrucks)}
+                                                            className={`rounded-full px-3.5 md:px-4 py-1.5 md:py-2 text-[12px] md:text-[14px] font-tommy-medium transition-all duration-300 ${isSelected
+                                                                    ? 'bg-[#C8992B] text-black shadow-[0_0_12px_rgba(200,153,43,0.4)] dark:bg-[#FCD119] dark:shadow-[0_0_12px_rgba(252,209,25,0.4)]'
+                                                                    : 'bg-white/5 text-white hover:bg-white/15'
+                                                                }`}
+                                                        >
+                                                            {level}%
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        <div className="hidden sm:block pb-2 font-tommy-regular text-[12px] text-white/30 uppercase tracking-[2px]">
+                                            or
+                                        </div>
+
+                                        <div className="w-full sm:w-40 shrink-0">
+                                            <label className="block font-tommy-medium text-[10px] uppercase tracking-[2px] text-white/50 mb-3">
+                                                Custom Trucks
+                                            </label>
+                                            <div className="relative">
+                                                <input
+                                                    type="number"
+                                                    min={0}
+                                                    max={maxTrucks}
+                                                    value={trucks || ''}
+                                                    onChange={(e) => {
+                                                        const val = parseInt(e.target.value, 10);
+                                                        if (isNaN(val)) setTrucks(0);
+                                                        else setTrucks(Math.min(maxTrucks, Math.max(0, val)));
+                                                    }}
+                                                    className="w-full bg-black/40 border border-white/10 rounded-2xl px-4 py-3 font-tommy-bold text-[18px] text-white focus:outline-none focus:border-[#C8992B] dark:focus:border-[#FCD119] transition-colors"
+                                                />
+                                                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-tommy-regular text-[11px] text-white/30">
+                                                    / {maxTrucks}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Impressions generated & CTA below */}
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
+                                        <div>
+                                            <p className="font-tommy-medium text-[10px] uppercase tracking-[2px] text-white/50 mb-1">
+                                                Estimated Impressions (4-Wk)
+                                            </p>
+                                            <div className="flex items-end gap-3 md:gap-4">
+                                                <p
+                                                    ref={dynamicImpsRef}
+                                                    className="font-tommy-bold text-[36px] md:text-[48px] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B] dark:text-[#FCD119]"
+                                                >
+                                                    0
+                                                </p>
+                                                {/* <div className="bg-white/10 rounded-full px-2.5 py-1 mb-[3px]">
+                                                    <span className="font-tommy-medium text-[10px] text-white tracking-[1.5px]">
+                                                        <span ref={dynamicShowingRef}>0%</span> COVERAGE
+                                                    </span>
+                                                </div> */}
+                                            </div>
+                                        </div>
+
+                                        <Link
+                                            href="/contact"
+                                            className="group w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#C8992B] dark:bg-[#FCD119] text-black font-tommy-bold text-[14px] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] dark:shadow-[0_4px_14px_0_rgba(252,209,25,0.3)] shrink-0"
+                                        >
+                                            Start Campaign
+                                            <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
 
                             {/* Somewhere to go next — see `related` above. Set as
                                 its own accented panel rather than a footnote:

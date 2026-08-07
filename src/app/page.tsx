@@ -37,7 +37,7 @@ export default function Home() {
       <Hero isReady={isPreloaderDone} />
       {/* </div > */}
       <div className='relative z-[80] w-full bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 pt-[100px] second-home-section -mt-[100vh]'>
-        <div className='max-w-none lg:max-w-[95%] px-[16px] md:px-[25px] lg:px-[40px] xl:px-[50px] 2xl:px-[60px] w-full mx-auto'>
+        <div className='max-w-none w-full mx-auto'>
           {/* <Campaigns /> */}
           <SecondSection />
           {/* <Process /> */}

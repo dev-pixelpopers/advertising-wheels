@@ -82,7 +82,7 @@ export default function AdvertisingLeader() {
     return (
         <div ref={rootRef} className='relative h-[250vh] w-full'>
             <div className='sticky top-0 z-10 w-full h-dvh overflow-hidden rounded-[20px] bg-white dark:bg-[#141414] mx-auto mt-[20px] transition-colors duration-300 shadow-sm dark:shadow-black/50  max-w-[95%]'>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+                <div className="absolute top-[56%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
                     <svg
                         ref={svgRef}
                         width="800"
@@ -98,7 +98,10 @@ export default function AdvertisingLeader() {
                 </div>
                 {/* THE STATEMENT — own layer, centred on the stage. */}
                 <div ref={textSceneRef} className="relative w-full h-full inset-0 z-10 flex flex-col items-center justify-center px-[3%] lg:px-[2%] xl:px-[5%] 2xl:px-[10%]">
-                    <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[20px] md:text-[25px] lg:text-[clamp(1.1rem,2.2vw,2.25rem)] leading-[183%] font-tommy-medium text-center capitalize w-full">
+                    <div className='w-[1px] h-[100px] bg-[#2C2C2B] mx-auto'>
+
+                    </div>
+                    <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[20px] md:text-[25px] lg:text-[clamp(1.1rem,2.2vw,40px)] leading-[183%] font-tommy-medium text-center capitalize w-full max-w-[75%]">
                         The leader in truckside billboard advertising for 25+ years —
                         <span className="text-[#D5CCB4] dark:text-[#8C8472]"> one of the country's largest truckside networks, GPS-verified —</span> and measured by StreetMetrics.
                     </p>

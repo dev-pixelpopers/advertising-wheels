@@ -57,6 +57,29 @@ const SOCIALS = [
     },
 ];
 
+interface CredentialLogo {
+    src: string;
+    alt: string;
+    size: string;
+    className?: string;
+}
+
+const DARKEN = 'brightness-0 dark:brightness-100';
+
+const CREDENTIALS: { logos: CredentialLogo[] }[] = [
+    {
+        logos: [
+            { src: '/assets/images/cta/5x.png', alt: 'Five-time Inc. 5000 honoree', size: 'h-[42px] md:h-[52px]', className: DARKEN },
+            { src: '/assets/images/cta/inc-5000-seal.webp', alt: '', size: 'h-[60px] md:h-[72px]' },
+        ],
+    },
+    { logos: [{ src: '/assets/images/cta/25-years.webp', alt: '25 years in business', size: 'h-[50px] md:h-[58px]', className: 'dark:invert' }] },
+    { logos: [{ src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council', size: 'h-[42px] md:h-[50px]' }] },
+    { logos: [{ src: '/assets/images/cta/mbe-certified.webp', alt: 'Minority Business Enterprise certified', size: 'h-[48px] md:h-[56px]' }] },
+    { logos: [{ src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[24px] md:h-[28px]', className: 'dark:invert' }] },
+    { logos: [{ src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[22px] md:h-[26px]', className: 'dark:invert' }] },
+];
+
 export default function Footer() {
     const rootRef = useRef<HTMLElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
@@ -115,6 +138,13 @@ export default function Footer() {
                     ease: 'power2.inOut',
                     transformOrigin: 'left center',
                 }, 0.5)
+                .from(q('[data-foot-logos] > div'), {
+                    y: 16,
+                    autoAlpha: 0,
+                    duration: 0.6,
+                    stagger: 0.08,
+                    ease: 'power3.out',
+                }, 0.6)
                 .from(q('[data-foot-bottom] > *'), {
                     y: 16,
                     autoAlpha: 0,
@@ -282,6 +312,23 @@ export default function Footer() {
                     </div>
                 </div>
 
+                {/* ================= Industry Associations & Credentials ================= */}
+                <div data-foot-logos className="flex flex-wrap items-center justify-center gap-6 md:gap-10 pb-[10px] md:pb-[16px] lg:pb-[20px] px-4">
+                    {CREDENTIALS.map((card, idx) => (
+                        <div key={idx} className="flex items-center gap-3 md:gap-4">
+                            {card.logos.map((c) => (
+                                <img
+                                    key={c.src}
+                                    src={c.src}
+                                    alt={c.alt}
+                                    loading="lazy"
+                                    className={`${c.size} ${c.className ?? ''} w-auto max-w-full object-contain`}
+                                />
+                            ))}
+                        </div>
+                    ))}
+                </div>
+
                 {/* ================= Bottom bar ================= */}
                 <div
                     data-foot-hr
@@ -341,7 +388,7 @@ export default function Footer() {
                 /* `leading-[0.8]` makes the line box shorter than the font's content
                    box, so the glyph box overhangs the footer by ~0.3em. The padding is
                    in vw to match the vw-based font size and cancel that at any width. */
-                className="pointer-events-none relative flex w-full select-none justify-center pb-[5vw]"
+                className="pointer-events-none relative flex w-full select-none justify-center -mb-[2%]"
             >
                 <span className="whitespace-nowrap font-tommy-bold text-[9.4vw] leading-[0.8] tracking-[-0.03em] text-black/[0.06] dark:text-white/[0.055]">
                     ADVERTISING WHEELS

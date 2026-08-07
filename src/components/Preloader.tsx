@@ -16,7 +16,6 @@ const SEQUENCE = [
   '2022',
   '2023',
   '2024',
-  '2025',
 ];
 
 interface PreloaderProps {
@@ -60,29 +59,37 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         if (percentRef.current) percentRef.current.textContent = Math.round(prog.v * 100) + '%';
       };
 
-      // ── Horizontal Appending Bump Animation ────────
+      // ── Sliding Push Animation ────────
       const q = gsap.utils.selector(containerRef.current);
       const slots = q('.year-slot');
-      const inners = q('.year-inner');
+
+      const outX = 120;
 
       slots.forEach((slot, i) => {
-        // As the width animates from 0 to full, the flex container (justify-center) 
-        // naturally pushes the previously revealed items to the left!
-        timeline.to(slot, {
-          width: window.innerWidth < 768 ? 64 : 90, // Match the fixed width of .year-inner
-          autoAlpha: 1,
-          duration: 0.6,
-          ease: 'power3.out'
-        }, i === 0 ? 0 : '+=0.25');
+        if (i === 0) {
+          timeline.to(slot, {
+            autoAlpha: 1,
+            duration: 0.6,
+            ease: 'power2.out'
+          });
+        } else {
+          timeline.fromTo(slot, {
+            x: outX,
+            autoAlpha: 0
+          }, {
+            x: 0,
+            autoAlpha: 1,
+            duration: 0.7,
+            ease: 'power3.out'
+          }, '+=0.2');
 
-        // Simultaneously slide the inner content from the right
-        timeline.fromTo(inners[i], {
-          x: 40 
-        }, {
-          x: 0,
-          duration: 0.6,
-          ease: 'power3.out'
-        }, '<');
+          timeline.to(slots[i - 1], {
+            x: -outX,
+            autoAlpha: 0,
+            duration: 0.7,
+            ease: 'power3.out'
+          }, '<');
+        }
       });
 
       timeline
@@ -135,26 +142,21 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         </svg>
 
         {/* The Inc 5000 + Year Accumulator */}
-        {/* All items end up sitting side-by-side. The container naturally centers them as it grows. */}
-        <div ref={rowRef} className="flex flex-row items-center justify-center" aria-hidden="true">
+        <div ref={rowRef} className="relative w-[120px] h-[100px] overflow-hidden" aria-hidden="true">
           
           {SEQUENCE.map((year) => (
             <div 
               key={year} 
-              className="year-slot overflow-hidden opacity-0"
-              style={{ width: 0 }} // Ships with 0 width, GSAP animates it to full
+              className="year-slot absolute inset-0 flex flex-col items-center justify-center opacity-0"
             >
-              {/* Inner wrapper holds the fixed width so content doesn't wrap/squish while animating */}
-              <div className="year-inner w-[64px] md:w-[90px] flex flex-col items-center justify-center">
-                <img
-                  src="/assets/images/cta/inc-1.png"
-                  alt={`Inc. 5000 ${year}`}
-                  className="h-[40px] md:h-[64px] w-auto object-contain brightness-0 invert"
-                />
-                <span className="font-tommy-regular text-[16px] md:text-[22px] leading-none tracking-wider text-[#F6D54D] mt-2 md:mt-3">
-                  {year}
-                </span>
-              </div>
+              <img
+                src="/assets/images/cta/inc-1.png"
+                alt={`Inc. 5000 ${year}`}
+                className="h-[40px] md:h-[64px] w-auto object-contain brightness-0 invert"
+              />
+              <span className="font-tommy-regular text-[16px] md:text-[22px] leading-none tracking-wider text-[#F6D54D] mt-2 md:mt-3">
+                {year}
+              </span>
             </div>
           ))}
 

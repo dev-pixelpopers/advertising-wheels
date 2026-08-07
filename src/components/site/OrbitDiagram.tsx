@@ -68,6 +68,24 @@ const SAT_START = [
  */
 const START_BOX = 148;
 
+/**
+ * Self-centring, applied to every element GSAP drives on the stage.
+ *
+ * The markup centres the hub and the cards with `left-1/2 top-1/2` plus
+ * `-translate-x-1/2 -translate-y-1/2`, which Tailwind v4 emits as the CSS
+ * `translate` PROPERTY. GSAP writes `translate: none` on anything it transforms
+ * — it has to, or its own `transform` would compose on top of a value it does
+ * not control — and that silently throws the centring away. The elements then
+ * hang off the stage centre by their own top-left corner, so every card sat
+ * half its own width right and half its height low of the orbit position the
+ * geometry had computed. Invisible in a small layout, glaring in a wide one:
+ * the offset is half the CARD, so it grew with the breakpoint.
+ *
+ * Doing the shift as xPercent/yPercent keeps it inside GSAP's transform, where
+ * it survives every later tween of x/y/scale and stays correct at any scale.
+ */
+const CENTRE = { xPercent: -50, yPercent: -50 } as const;
+
 export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stacked }: OrbitDiagramProps) {
     const rootRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
@@ -83,8 +101,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
             const hubEl = hubRef.current;
             if (!stage || !hubEl) return;
 
-            const satEls = satRefs.current.filter(Boolean) as HTMLDivElement[];
-            const n = satEls.length;
+            const n = nodes.length;
 
             const half = () => ({ w: stage.clientWidth / 2, h: stage.clientHeight / 2 });
 
@@ -105,8 +122,8 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
             const radii = () => {
                 const { w: halfW, h: halfH } = half();
                 const hubR = hubEl.offsetWidth / 2;
-                const satW = Math.max(...satEls.map((e) => e.offsetWidth), 0);
-                const satH = Math.max(...satEls.map((e) => e.offsetHeight), 0);
+                const satW = Math.max(...nodes.map((_, i) => satRefs.current[i]?.offsetWidth || 0), 0);
+                const satH = Math.max(...nodes.map((_, i) => satRefs.current[i]?.offsetHeight || 0), 0);
 
                 const cosMax = Math.max(...angles.map((a) => Math.abs(Math.cos(a))), 0.001);
                 const sinMax = Math.max(...angles.map((a) => Math.abs(Math.sin(a))), 0.001);
@@ -154,30 +171,66 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
              * stops flush against whichever side it meets.
              */
             const syncLines = () => {
-                const { w, h } = half();
-                const hubS = (gsap.getProperty(hubEl, 'scale') as number) || 1;
-                const hubR = (hubEl.offsetWidth * hubS) / 2;
-                satEls.forEach((el, i) => {
-                    const line = lineRefs.current[i];
-                    if (!line) return;
-                    const x = (gsap.getProperty(el, 'x') as number) || 0;
-                    const y = (gsap.getProperty(el, 'y') as number) || 0;
-                    const dist = Math.hypot(x, y) || 1;
-                    const ux = x / dist;
-                    const uy = y / dist;
+                /**
+                 * Everything here is MEASURED, not inferred from the tween values.
+                 *
+                 * The cards carry Tailwind's `-translate-x-1/2 -translate-y-1/2`
+                 * (the CSS `translate` property) as well as GSAP's `transform`,
+                 * and CSS applies `translate` BEFORE `transform`. So a card's real
+                 * centre is `x + (scale - 1) * width / 2`, not `x`. Reading the
+                 * tween's x/y directly was therefore right only at scale 1 — every
+                 * mid-flight frame drew the spoke toward a point up to half a
+                 * card's width away from where the card actually was, and the
+                 * error grew with the card, so the widest layouts hurt most.
+                 *
+                 * getBoundingClientRect already has every transform folded in, so
+                 * it cannot drift from what is on screen.
+                 */
+                const sRect = stage.getBoundingClientRect();
+                const hRect = hubEl.getBoundingClientRect();
+                const hubCx = hRect.left + hRect.width / 2 - sRect.left;
+                const hubCy = hRect.top + hRect.height / 2 - sRect.top;
+                // The hub is square and ends as a circle; min() keeps the start
+                // point on the disc no matter how far the morph has run.
+                const hubR = Math.min(hRect.width, hRect.height) / 2;
 
-                    // Where the ray leaves the card's rectangle (at its live scale).
-                    const s = (gsap.getProperty(el, 'scale') as number) || 1;
-                    const hw = (el.offsetWidth * s) / 2;
-                    const hh = (el.offsetHeight * s) / 2;
+                nodes.forEach((_, i) => {
+                    const el = satRefs.current[i];
+                    const line = lineRefs.current[i];
+                    if (!el || !line) return;
+
+                    const cRect = el.getBoundingClientRect();
+                    const cx = cRect.left + cRect.width / 2 - sRect.left;
+                    const cy = cRect.top + cRect.height / 2 - sRect.top;
+
+                    const dx = cx - hubCx;
+                    const dy = cy - hubCy;
+                    const dist = Math.hypot(dx, dy) || 1;
+                    const ux = dx / dist;
+                    const uy = dy / dist;
+
+                    // Where the ray leaves the card's rectangle, at its live size.
+                    const hw = cRect.width / 2;
+                    const hh = cRect.height / 2;
                     const tx = Math.abs(ux) > 1e-3 ? hw / Math.abs(ux) : Infinity;
                     const ty = Math.abs(uy) > 1e-3 ? hh / Math.abs(uy) : Infinity;
-                    const tCard = Math.min(tx, ty);
+                    let tCard = Math.min(tx, ty);
 
-                    const x1 = w + ux * (hubR + 4);
-                    const y1 = h + uy * (hubR + 4);
-                    const x2 = w + x - ux * tCard;
-                    const y2 = h + y - uy * tCard;
+                    // Stop on the rounded corner's arc rather than in the empty
+                    // square outside it. Radius scales with the card.
+                    const scale = el.offsetWidth ? cRect.width / el.offsetWidth : 1;
+                    const r = 22 * scale;
+                    if (Math.abs(ux) * tCard > hw - r && Math.abs(uy) * tCard > hh - r) {
+                        const B = Math.abs(ux) * (hw - r) + Math.abs(uy) * (hh - r);
+                        const C = Math.pow(hw - r, 2) + Math.pow(hh - r, 2) - Math.pow(r, 2);
+                        const disc = B * B - C;
+                        if (disc > 0) tCard = B + Math.sqrt(disc);
+                    }
+
+                    const x1 = hubCx + ux * (hubR + 4);
+                    const y1 = hubCy + uy * (hubR + 4);
+                    const x2 = cx - ux * tCard;
+                    const y2 = cy - uy * tCard;
 
                     // Hide the spoke while the card still overlaps the hub.
                     const visible = dist > hubR + tCard + 2;
@@ -192,10 +245,12 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
 
             /* Reduced motion → render the finished orbit. */
             if (reduced) {
-                gsap.set(hubEl, { x: 0, y: 0, scale: 1, borderRadius: '50%' });
-                satEls.forEach((el, i) => {
+                gsap.set(hubEl, { ...CENTRE, x: 0, y: 0, scale: 1, borderRadius: '50%' });
+                nodes.forEach((_, i) => {
+                    const el = satRefs.current[i];
+                    if (!el) return;
                     const p = posFor(i);
-                    gsap.set(el, { x: p.x, y: p.y, scale: 1 });
+                    gsap.set(el, { ...CENTRE, x: p.x, y: p.y, scale: 1 });
                 });
                 gsap.set('[data-sat-icon]', { autoAlpha: 0 });
                 gsap.set('[data-sat-copy]', { autoAlpha: 1 });
@@ -213,14 +268,18 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                 START_BOX / Math.max(el.offsetWidth, el.offsetHeight, 1);
 
             gsap.set(hubEl, {
+                ...CENTRE,
                 x: () => HUB_START.x * half().w,
                 y: () => HUB_START.y * half().h,
                 scale: () => startScale(hubEl),
                 borderRadius: '30px',
             });
-            satEls.forEach((el, i) => {
+            nodes.forEach((_, i) => {
+                const el = satRefs.current[i];
+                if (!el) return;
                 const p = SAT_START[i] ?? SAT_START[0];
                 gsap.set(el, {
+                    ...CENTRE,
                     x: () => p.x * half().w,
                     y: () => p.y * half().h,
                     scale: () => startScale(el),
@@ -232,11 +291,23 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
             gsap.set('[data-sat-copy]', { autoAlpha: 0 });
             gsap.set('[data-hub-logo]', { autoAlpha: 1 });
             gsap.set('[data-hub-copy]', { autoAlpha: 0 });
-            lineRefs.current.forEach((l) => l && gsap.set(l, { autoAlpha: 0, strokeDashoffset: 300 }));
+            lineRefs.current.forEach((l) => l && gsap.set(l, { autoAlpha: 0, strokeDashoffset: 1 }));
             syncLines();
 
             const tl = gsap.timeline({
                 defaults: { ease: 'power2.inOut' },
+                /**
+                 * Redraw the spokes on every frame the PLAYHEAD moves — not on
+                 * every frame the SCROLL moves.
+                 *
+                 * `scrub` keeps easing this timeline for a beat after the last
+                 * scroll event, and the trigger's own `onUpdate` does not fire
+                 * during that catch-up. Driving the spokes from there left them
+                 * frozen wherever scrolling stopped while the cards glided on to
+                 * their final positions — visibly detached, worst on whichever
+                 * card settles last (the third, whose tween starts latest).
+                 */
+                onUpdate: syncLines,
                 scrollTrigger: {
                     trigger: rootRef.current,
                     start: 'top top',
@@ -245,7 +316,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                     anticipatePin: 1,
                     scrub: 0.8,
                     invalidateOnRefresh: true,
-                    onUpdate: syncLines,
+                    // Resize / re-measure still has to redraw them.
                     onRefresh: syncLines,
                 },
             });
@@ -254,7 +325,9 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
             tl.to(hubEl, { x: 0, y: 0, scale: 1, borderRadius: '50%', duration: 1 }, 0);
 
             // The others settle onto the orbit and expand to full size.
-            satEls.forEach((el, i) => {
+            nodes.forEach((_, i) => {
+                const el = satRefs.current[i];
+                if (!el) return;
                 tl.to(
                     el,
                     { x: () => posFor(i).x, y: () => posFor(i).y, scale: 1, duration: 1 },
@@ -410,7 +483,8 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                                     stroke="currentColor"
                                     strokeWidth="2"
                                     strokeLinecap="round"
-                                    strokeDasharray="300"
+                                    strokeDasharray="1"
+                                    pathLength="1"
                                     opacity="0"
                                 />
                             ))}

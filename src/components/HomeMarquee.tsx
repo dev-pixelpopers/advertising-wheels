@@ -41,12 +41,12 @@ export const BUBBLES: LogoData[] = [
     { id: 'b9', logo: 'aaa-vector-logo.png', layer: 'mid', top: '105%', left: '25%', mobileTop: '115%', mobileLeft: '75%', delay: '0.3s', url: 'https://www.aaa.com' },
 
     { id: 'b10', logo: 'partner-kaiser.png', layer: 'mid', top: '112%', left: '75%', mobileTop: '126%', mobileLeft: '12%', delay: '1.9s', url: 'https://healthy.kaiserpermanente.org/' },
-    { id: 'b11', logo: 'titan.webp', layer: 'mid', top: '125%', left: '12%', mobileTop: '135%', mobileLeft: '68%', delay: '2.8s', url: 'https://www.titan.com/' },
+    { id: 'b11', logo: 'titan.png', layer: 'mid', top: '125%', left: '12%', mobileTop: '135%', mobileLeft: '68%', delay: '2.8s', url: 'https://www.titan.com/' },
     { id: 'b12', logo: 'dollar-car-rental-logo.png', layer: 'mid', top: '132%', left: '52%', mobileTop: '146%', mobileLeft: '22%', delay: '0.6s', url: 'https://www.dollar.com/' },
 
-    { id: 'b13', logo: 'partner-saks-white.png', logoDark: 'partner-saks-dark.webp', layer: 'mid', top: '145%', left: '85%', mobileTop: '154%', mobileLeft: '82%', delay: '1.2s', url: 'https://www.saksfifthavenue.com/' },
+    { id: 'b13', logo: 'partner-saks-white.png', logoDark: 'partner-saks-dark.png', layer: 'mid', top: '145%', left: '85%', mobileTop: '154%', mobileLeft: '82%', delay: '1.2s', url: 'https://www.saksfifthavenue.com/' },
     { id: 'b14', logo: 'partner-floor-decor.png', layer: 'mid', top: '152%', left: '35%', mobileTop: '165%', mobileLeft: '40%', delay: '2.3s', url: 'https://www.flooranddecor.com/' },
-    { id: 'b15', logo: 'beringer.webp', layer: 'mid', top: '165%', left: '68%', mobileTop: '176%', mobileLeft: '18%', delay: '0.9s', url: 'https://www.beringer.com/' },
+    { id: 'b15', logo: 'beringer.png', layer: 'mid', top: '165%', left: '68%', mobileTop: '176%', mobileLeft: '18%', delay: '0.9s', url: 'https://www.beringer.com/' },
 
     { id: 'b16', logo: 'partner-echo.png', layer: 'mid', top: '172%', left: '15%', mobileTop: '185%', mobileLeft: '76%', delay: '1.6s', url: 'https://www.echo.com/' },
     { id: 'b17', logo: 'dc-united.png', layer: 'mid', top: '185%', left: '55%', mobileTop: '195%', mobileLeft: '28%', delay: '2.0s', url: 'https://www.dcunited.com/' },
@@ -105,7 +105,7 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                 {BUBBLES.map((b) => {
                     // A strict, uniform bounding box ensures all logos 
                     // scale to a consistent maximum height or width.
-                    const uniformSize = 'h-[60px] w-[130px] md:h-[100px] md:w-[300px]';
+                    const uniformSize = 'w-[200px] h-auto';
 
                     return (
                         <div

@@ -15,59 +15,6 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/**
- * Accreditation and recognition marks, shown as a plain logo row.
- *
- * Heights are set per mark rather than by one shared class: the artwork runs
- * from a square seal (MBE) to very wide, thin wordmarks (OAAA, GeoPath), so a
- * single height would leave the wordmarks either hairline-thin or enormous.
- * Sizing on height keeps the optical weight even across the row.
- *
- * `25-years` is a generated black-on-transparent derivative; the 5X mark is the
- * supplied white art darkened in CSS (see DARKEN). Either way the reason is the
- * same — the supplied art is white, which is invisible on this yellow band.
- */
-interface CredentialLogo {
-    src: string;
-    alt: string;
-    size: string;
-    /** Extra classes — e.g. the filter that darkens white-on-transparent art. */
-    className?: string;
-}
-
-/* The supplied marks are white on transparent, which is invisible on this
-   yellow band. `brightness(0)` collapses any colour to black while leaving the
-   alpha channel intact — the same trick the Preloader uses in reverse to get a
-   white silhouette on its dark ground. Cheaper than maintaining a second,
-   recolored copy of the artwork. */
-const DARKEN = '[filter:brightness(0)]';
-
-interface CredentialCard {
-    /** One mark, or a pair that only means anything together. */
-    logos: CredentialLogo[];
-    /** Double-width tile — room for a pair without cramping either mark. */
-    wide?: boolean;
-}
-
-const CREDENTIALS: CredentialCard[] = [
-    {
-        /* The count mark is the count for the seal beside it: a five-time Inc.
-           5000 honoree is a single credential, so it gets a single tile. Split
-           across two tiles the number read as its own unexplained award. */
-        wide: true,
-        logos: [
-            { src: '/assets/images/cta/5x.png', alt: 'Five-time Inc. 5000 honoree', size: 'h-[42px] md:h-[52px]', className: DARKEN },
-            // Decorative: the mark above already carries the full credential,
-            // so this would only make a screen reader say it twice.
-            { src: '/assets/images/cta/inc-5000-seal.webp', alt: '', size: 'h-[60px] md:h-[72px]' },
-        ],
-    },
-    { logos: [{ src: '/assets/images/cta/25-years.webp', alt: '25 years in business', size: 'h-[50px] md:h-[58px]' }] },
-    { logos: [{ src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council', size: 'h-[42px] md:h-[50px]' }] },
-    { logos: [{ src: '/assets/images/cta/mbe-certified.webp', alt: 'Minority Business Enterprise certified', size: 'h-[48px] md:h-[56px]' }] },
-    { logos: [{ src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[24px] md:h-[28px]' }] },
-    { logos: [{ src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[22px] md:h-[26px]' }] },
-];
 
 export default function CtaSection() {
     const rootRef = useRef<HTMLDivElement>(null);
@@ -123,21 +70,6 @@ export default function CtaSection() {
                 }
             );
 
-            // Industry-associations block — heading first, then the cards cascade.
-            gsap.from('[data-assoc-heading]', {
-                y: 14,
-                autoAlpha: 0,
-                duration: 0.6,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: '[data-assoc-row]', start: 'top 88%', once: true },
-            });
-            gsap.from('[data-assoc-marquee]', {
-                y: 20,
-                autoAlpha: 0,
-                duration: 0.7,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: '[data-assoc-row]', start: 'top 85%', once: true },
-            });
         },
         { scope: rootRef }
     );
@@ -195,52 +127,7 @@ export default function CtaSection() {
                     </div>
                 </div>
 
-                {/* ---------------- Industry Associations & Certifications ---------------- */}
-                <div
-                    data-assoc-row
-                    className="relative z-10 mx-auto mt-8 w-full max-w-[1000px] md:mt-12"
-                >
-                    <h3
-                        data-assoc-heading
-                        className="text-center font-tommy-bold text-[18px] leading-tight tracking-[-0.5px] text-black md:text-[22px]"
-                    >
-                        Industry Associations &amp; Credentials
-                    </h3>
 
-                    <div
-                        data-assoc-marquee
-                        /* Capped at 648px, which is exactly the double-width
-                           Inc. 5000 tile plus two singles and their gaps
-                           (312 + 148 + 148 + 2×16 = 640). A fourth tile cannot
-                           fit, so the six cards break 3-over-3 and
-                           `justify-center` centres the second row. Uncapped
-                           below md, where the row wraps on its own. */
-                        className="mx-auto mt-7 flex flex-wrap items-stretch justify-center gap-3 md:mt-9 md:max-w-[648px] md:gap-4"
-                    >
-                        {/* Each mark sits on its own frosted tile. The band behind
-                            is flat yellow, so the "glass" is built from a light
-                            translucent fill plus a bright top edge and a soft
-                            inner highlight — backdrop-blur alone reads as nothing
-                            against a solid colour. */}
-                        {CREDENTIALS.map((card) => (
-                            <div
-                                key={card.logos[0].src}
-                                className={`group flex h-[92px] items-center justify-center gap-4 rounded-2xl border border-white/45 bg-white/25 px-4 shadow-[0_4px_20px_rgba(0,0,0,0.07),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/40 hover:shadow-[0_10px_28px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.85)] md:h-[104px] md:gap-5 ${card.wide ? 'w-[272px] md:w-[312px]' : 'w-[128px] md:w-[148px]'
-                                    }`}
-                            >
-                                {card.logos.map((c) => (
-                                    <img
-                                        key={c.src}
-                                        src={c.src}
-                                        alt={c.alt}
-                                        loading="lazy"
-                                        className={`${c.size} ${c.className ?? ''} w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]`}
-                                    />
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                </div>
             </div>
         </div>
     );

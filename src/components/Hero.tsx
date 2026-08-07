@@ -38,6 +38,7 @@ export default function Hero({ isReady }: HeroProps) {
   const headingWrapRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const scrollArrowRef = useRef<HTMLDivElement>(null);
 
   const [hasScrolledPast, setHasScrolledPast] = useState(false);
 
@@ -139,35 +140,7 @@ export default function Hero({ isReady }: HeroProps) {
       gsap.set(carets, { autoAlpha: 0 });
       ctaRef.current?.querySelector('[data-cta-stack]')?.classList.remove('cta-pre');
 
-      /* Each tier types out, then the caret steps down to the next one. The
-         pause between tiers is what makes the three lines read as a stack
-         rather than one long sentence that happens to wrap. */
-      const CHAR = 0.005; // 50ms per character
-      const typeTl = gsap.timeline({ paused: true })
-        .set(carets[0], { autoAlpha: 1 })
-        .to(t1, { autoAlpha: 1, duration: 0.01, ease: 'none', stagger: CHAR })
-        .set(carets[0], { autoAlpha: 0 }, '+=0.35')
-
-        .set(carets[1], { autoAlpha: 1 })
-        .to(t2, { autoAlpha: 1, duration: 0.01, ease: 'none', stagger: CHAR })
-        .set(carets[1], { autoAlpha: 0 }, '+=0.35')
-
-        .set(carets[2], { autoAlpha: 1 })
-        .to(t3, { autoAlpha: 1, duration: 0.01, ease: 'none', stagger: CHAR })
-        // The last caret stays and keeps blinking, as a terminal would.
-        .to(carets[2], { autoAlpha: 0, duration: 0.45, repeat: -1, yoyo: true }, '+=0.35');
-
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        // ~85% through the scrubbed hero, where the scrim and CTA phase land.
-        start: () => 'top+=' + window.innerHeight * 2.55 + ' top',
-        onEnter: () => typeTl.play(),
-        onLeaveBack: () => {
-          typeTl.pause(0);
-          gsap.set(ctaChars, { autoAlpha: 0 });
-          gsap.set(carets, { autoAlpha: 0 });
-        },
-      });
+      /* Typing effect has been moved to Phase 4 on the scrubbed timeline below */
 
       gsap.set(ctaButtonsRef.current, { y: 40, autoAlpha: 0 });
       gsap.set(scrimRef.current, { autoAlpha: 0 });
@@ -183,10 +156,10 @@ export default function Hero({ isReady }: HeroProps) {
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          // Animation spans 300vh of scroll and then finishes; the section is 500vh,
+          // Animation spans 400vh of scroll and then finishes; the section is 500vh,
           // so the sticky stays pinned for another 100vh — a "hold" on the finished
           // Hero during which the next section rises up over it.
-          end: () => '+=' + window.innerHeight * 3,
+          end: () => '+=' + window.innerHeight * 4,
           onLeave: () => setHasScrolledPast(true),        // Scrolling DOWN past section
           onEnter: () => setHasScrolledPast(false),
           onEnterBack: () => setHasScrolledPast(false),
@@ -195,6 +168,17 @@ export default function Hero({ isReady }: HeroProps) {
       });
 
       // ── PHASE 1 (first stretch of scroll) ──────────────────────────────
+      // The scroll arrow fades out immediately when scrolling starts.
+      tl.to(
+        scrollArrowRef.current,
+        {
+          autoAlpha: 0,
+          ease: 'power1.out',
+          duration: 0.15,
+        },
+        0
+      );
+
       // The blurred woman fades in as soon as scrolling starts...
       tl.to(
         canvasRef.current,
@@ -290,9 +274,23 @@ export default function Hero({ isReady }: HeroProps) {
         '>'
       );
 
-      // ── PHASE 4 (final) ────────────────────────────────────────────────
+      // ── PHASE 4 (CTA text typing) ──────────────────────────────────────
+      // The text types in, scrubbed by the scroll position.
+      const CHAR = 0.02; // Stagger per character (scrubbed)
+      
+      tl.set(carets[0], { autoAlpha: 1 })
+        .to(t1, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
+        .set(carets[0], { autoAlpha: 0 })
+        
+        .set(carets[1], { autoAlpha: 1 })
+        .to(t2, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
+        .set(carets[1], { autoAlpha: 0 })
+        
+        .set(carets[2], { autoAlpha: 1 })
+        .to(t3, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
+        .set(carets[2], { autoAlpha: 0 });
+
       // The header drops in from the top once the CTA is fully revealed.
-      // fromTo owns both endpoints so it always seats at yPercent: 100.
       tl.fromTo(
         headerRef.current,
         {
@@ -302,14 +300,8 @@ export default function Hero({ isReady }: HeroProps) {
           yPercent: 0,
           ease: 'power3.out',
           duration: 0.6,
-        },
-        '>-0.1'
+        }
       );
-
-      // The CTA lines are no longer revealed here — they type themselves in,
-      // in real time, off the dedicated trigger created above.
-
-
 
       // ...then the buttons show up.
       tl.to(
@@ -321,6 +313,30 @@ export default function Hero({ isReady }: HeroProps) {
           duration: 0.5,
         }
       );
+
+      // ── PHASE 5 (Scale up Tier 3) ──────────────────────────────────────
+      const tier1El = ctaRef.current?.querySelector('[data-tier="1"]');
+      const tier2El = ctaRef.current?.querySelector('[data-tier="2"]');
+      const tier3El = ctaRef.current?.querySelector('[data-tier="3"]');
+      
+      if (tier3El) {
+        tl.addLabel('scaleUp', '+=0.5'); // wait a bit before scaling
+        
+        // Fade out other elements
+        tl.to([tier1El, tier2El, ctaButtonsRef.current], {
+          autoAlpha: 0,
+          duration: 0.5,
+          ease: 'power1.inOut'
+        }, 'scaleUp');
+        
+        // Scale up Tier 3 massively without fading it out
+        tl.to(tier3El, {
+          scale: 80,
+          duration: 2.5,
+          ease: 'power2.in',
+          transformOrigin: '50% 50%'
+        }, 'scaleUp');
+      }
 
 
 
@@ -466,11 +482,12 @@ export default function Hero({ isReady }: HeroProps) {
                 <div data-cta-stack className='cta-pre flex flex-col items-center text-center text-white'>
                   {/* TIER 1 — the subject */}
                   <h2
+                    data-tier='1'
                     data-cta-part
                     data-cta-line='1'
                     className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[35px] md:text-[clamp(2rem,5vw,5.5rem)]'
                   >
-                    Unskippable on the street.
+                    Unskippable on the <span className="text-[#FCD119]">street.</span>
                     <span
                       data-caret='1'
                       aria-hidden='true'
@@ -479,7 +496,7 @@ export default function Hero({ isReady }: HeroProps) {
                   </h2>
 
                   {/* TIER 2 — the claim */}
-                  <p className='mt-[0.18em] font-tommy-medium capitalize leading-[1.15] text-[clamp(1.35rem,4.6vw,3.6rem)]'>
+                  <p data-tier='2' className='mt-[0.18em] font-tommy-medium capitalize leading-[1.15] text-[clamp(1.35rem,4.6vw,3.6rem)]'>
                     <span data-cta-part data-cta-line='2'>Measurable like a screen </span>
                     {/* <span data-cta-part data-cta-line='2' className='font-tommy-bold italic text-[#FCD119]'>
                     </span>
@@ -491,7 +508,7 @@ export default function Hero({ isReady }: HeroProps) {
                   </p>
 
                   {/* TIER 3 — the method */}
-                  <p className='mt-[0.75em] font-tommy-regular uppercase leading-[1.15] tracking-[0.14em] text-white/85 text-[12px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
+                  <p data-tier='3' className='mt-[0.75em] font-tommy-regular uppercase leading-[1.15] tracking-[0.14em] text-white/85 text-[12px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
                     <span data-cta-part data-cta-line='3'>GPS-enabled billboard trucks that capture real impressions data -<br /> so you can retarget every viewer online</span>
                     <span
                       data-caret='3'
@@ -523,6 +540,14 @@ export default function Hero({ isReady }: HeroProps) {
                   </a>
                 </div>
               </div>
+            </div>
+
+            {/* Scroll Indicator */}
+            <div ref={scrollArrowRef} className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 animate-bounce flex flex-col items-center gap-2 md:gap-3 opacity-90">
+              <span className="text-[#1A1917] dark:text-[#FCD119] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#1A1917] dark:text-[#FCD119] w-[32px] h-[32px] md:w-[44px] md:h-[44px]">
+                <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </div>
           </div>
         </div>

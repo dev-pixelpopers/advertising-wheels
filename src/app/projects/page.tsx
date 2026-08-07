@@ -23,7 +23,7 @@ import { HOUSE_SHOTS } from '@/data/clientShots';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const LOGOS = '/assets/images/review/logo';
+const LOGOS = '/assets/images/clients-logo';
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -45,25 +45,26 @@ interface Project {
      * a dead "Read the story" affordance is worse than none at all.
      */
     slug?: string;
+    url: string;
 }
 
 const PROJECTS: Project[] = [
-    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/partner-hertz.webp`, slug: 'hertz' },
-    { brand: 'Nationwide', industry: 'Insurance', result: 'Mobile billboards became the highlight of Nationwide’s market presence — and are still talked about today.', metric: 'City', metricLabel: 'Wide recall', logo: `${LOGOS}/partner-nationwide.png`, slug: 'nationwide' },
-    { brand: 'Wendy’s', industry: 'Quick-Service Food', result: 'High-impact visual messaging, quick to implement, unusually cost-effective and highly measurable.', metric: 'Days', metricLabel: 'To launch', logo: `${LOGOS}/partner-wendys.png`, slug: 'wendys' },
-    { brand: 'Saks Fifth Avenue', industry: 'Luxury Retail', result: 'The team executed outstanding results — recognition was city-wide, and memorable.', metric: '#1', metricLabel: 'In-market buzz', logo: `${LOGOS}/partner-saks-white.webp`, logoDark: `${LOGOS}/partner-saks-dark.webp` },
-    { brand: 'Volkswagen', industry: 'Automotive', result: 'Synchronized routes blanketed launch corridors, turning highway miles into launch-week presence.', metric: '50', metricLabel: 'Markets ready', logo: `${LOGOS}/partner-vw.png` },
-    { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png`, slug: 'cuyahoga-community-college' },
-    { brand: 'FanDuel', industry: 'Sports & Gaming', result: 'Fleets covering stadium districts and sports-bar corridors carried the brand through game-day crowds, right where intent peaks.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/partner-fanduel.webp` },
-    { brand: 'Xfinity', industry: 'Telecom', result: 'ZIP-targeted fleet coverage carried the offer into target neighborhoods across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png`, slug: 'xfinity' },
-    { brand: 'Raising Cane’s', industry: 'Quick-Service Food', result: 'Pre-opening trade-area flights introduced the brand weeks before each new restaurant opened its lane.', metric: '3wk', metricLabel: 'Pre-opening presence', logo: `${LOGOS}/partner-raising-canes.png`, slug: 'raising-canes' },
-    { brand: 'Floor & Decor', industry: 'Specialty Retail', result: `A six-truck Boston fleet carried two simultaneous store openings through the metro's homeowner neighborhoods and retail corridors.`, metric: '2', metricLabel: 'Stores launched', logo: `${LOGOS}/partner-floor-decor.png`, slug: 'floor-and-decor' },
-    { brand: 'Reliable Heating & Air', industry: 'Home Services', result: 'Offer-led wraps kept a hard system price on residential streets across the Atlanta service area, season after season.', metric: '100%', metricLabel: 'In-footprint miles', logo: `${LOGOS}/partner-reliable.png`, slug: 'reliable-heating-cooling' },
-    { brand: 'Outer', industry: 'DTC Home & Outdoor', result: 'A digitally-native furniture brand gained a seven-day physical presence on LA’s Westside design streets.', metric: '7d', metricLabel: 'Weekly presence', logo: `${LOGOS}/partner-outer.png`, slug: 'outer' },
-    { brand: 'Titan Insurance Sales', industry: 'Insurance', result: 'Fleets working retail-plaza corridors put the rate message where value-conscious drivers shop and park every day.', metric: '90s', metricLabel: 'Dwell at anchors', logo: `${LOGOS}/partner-titan.png`, slug: 'titan' },
-    { brand: 'Dollar', industry: 'Car Rental', result: 'An OOH-vs-control study lifted Dollar.com peak-week visits +32% YoY in target markets, outperforming control in every flight.', metric: '+32%', metricLabel: 'YoY site visits', logo: `${LOGOS}/dollar-car-rental-logo.webp`, slug: 'dollar' },
-    { brand: 'AAA', industry: 'Travel & Mobility', result: 'A membership and roadside-assistance awareness plan carried through commuter corridors and travel hubs.', metric: 'Routes', metricLabel: 'Commuter reach', logo: `${LOGOS}/aaa-vector-logo.webp`, slug: 'aaa' },
-    { brand: 'Burger King', industry: 'Quick-Service Food', result: 'A foot-traffic and limited-time-offer push carried through restaurant trade areas all day — including every breakfast, lunch, and dinner rush.', metric: 'Peak', metricLabel: 'Meal-time reach', logo: `${LOGOS}/burger-king-logo.webp`, slug: 'burger-king' },
+    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/hertz-logo.png`, slug: 'hertz', url: 'https://www.hertz.com' },
+    { brand: 'Nationwide', industry: 'Insurance', result: 'Mobile billboards became the highlight of Nationwide’s market presence — and are still talked about today.', metric: 'City', metricLabel: 'Wide recall', logo: `${LOGOS}/partner-nationwide.png`, slug: 'nationwide', url: 'https://www.nationwide.com' },
+    { brand: 'Wendy’s', industry: 'Quick-Service Food', result: 'High-impact visual messaging, quick to implement, unusually cost-effective and highly measurable.', metric: 'Days', metricLabel: 'To launch', logo: `${LOGOS}/partner-wendys.png`, slug: 'wendys', url: 'https://www.wendys.com' },
+    { brand: 'Saks Fifth Avenue', industry: 'Luxury Retail', result: 'The team executed outstanding results — recognition was city-wide, and memorable.', metric: '#1', metricLabel: 'In-market buzz', logo: `${LOGOS}/partner-saks-white.png`, url: 'https://www.saksfifthavenue.com' },
+    { brand: 'Fifth Third Bank', industry: 'Financial Services', result: 'Synchronized routes blanketed launch corridors, turning highway miles into launch-week presence.', metric: '50', metricLabel: 'Markets ready', logo: `${LOGOS}/5th_3rd.png`, url: 'https://www.53.com' },
+    { brand: 'Cuyahoga CC', industry: 'Education', result: 'Campaign earned a regional gold medal for outdoor advertising from the NCMPR — and a national nomination.', metric: 'Gold', metricLabel: 'NCMPR award', logo: `${LOGOS}/partner-cuyahoga.png`, slug: 'cuyahoga-community-college', url: 'https://www.tri-c.edu' },
+    { brand: 'AB InBev', industry: 'Beverage', result: 'Fleets covering stadium districts and sports-bar corridors carried the brand through game-day crowds, right where intent peaks.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/ab-inbev.png`, url: 'https://www.ab-inbev.com' },
+    { brand: 'Xfinity', industry: 'Telecom', result: 'ZIP-targeted fleet coverage carried the offer into target neighborhoods across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.png`, slug: 'xfinity', url: 'https://www.xfinity.com' },
+    { brand: 'Raising Cane’s', industry: 'Quick-Service Food', result: 'Pre-opening trade-area flights introduced the brand weeks before each new restaurant opened its lane.', metric: '3wk', metricLabel: 'Pre-opening presence', logo: `${LOGOS}/canes.png`, slug: 'raising-canes', url: 'https://www.raisingcanes.com' },
+    { brand: 'Floor & Decor', industry: 'Specialty Retail', result: `A six-truck Boston fleet carried two simultaneous store openings through the metro's homeowner neighborhoods and retail corridors.`, metric: '2', metricLabel: 'Stores launched', logo: `${LOGOS}/partner-floor-decor.png`, slug: 'floor-and-decor', url: 'https://www.flooranddecor.com' },
+    { brand: 'Reliable Heating & Air', industry: 'Home Services', result: 'Offer-led wraps kept a hard system price on residential streets across the Atlanta service area, season after season.', metric: '100%', metricLabel: 'In-footprint miles', logo: `${LOGOS}/partner-reliable.png`, slug: 'reliable-heating-cooling', url: 'https://reliable.com' },
+    { brand: 'Outer', industry: 'DTC Home & Outdoor', result: 'A digitally-native furniture brand gained a seven-day physical presence on LA’s Westside design streets.', metric: '7d', metricLabel: 'Weekly presence', logo: `${LOGOS}/outer.png`, slug: 'outer', url: 'https://liveouter.com' },
+    { brand: 'Titan Insurance Sales', industry: 'Insurance', result: 'Fleets working retail-plaza corridors put the rate message where value-conscious drivers shop and park every day.', metric: '90s', metricLabel: 'Dwell at anchors', logo: `${LOGOS}/titan.png`, slug: 'titan', url: 'https://www.titan.com' },
+    { brand: 'Dollar', industry: 'Car Rental', result: 'An OOH-vs-control study lifted Dollar.com peak-week visits +32% YoY in target markets, outperforming control in every flight.', metric: '+32%', metricLabel: 'YoY site visits', logo: `${LOGOS}/dollar-car-rental-logo.png`, slug: 'dollar', url: 'https://www.dollar.com' },
+    { brand: 'AAA', industry: 'Travel & Mobility', result: 'A membership and roadside-assistance awareness plan carried through commuter corridors and travel hubs.', metric: 'Routes', metricLabel: 'Commuter reach', logo: `${LOGOS}/aaa-vector-logo.png`, slug: 'aaa', url: 'https://www.aaa.com' },
+    { brand: 'Burger King', industry: 'Quick-Service Food', result: 'A foot-traffic and limited-time-offer push carried through restaurant trade areas all day — including every breakfast, lunch, and dinner rush.', metric: 'Peak', metricLabel: 'Meal-time reach', logo: `${LOGOS}/burger-king-logo.png`, slug: 'burger-king', url: 'https://www.bk.com' },
 ];
 
 const FEATURED_STATS = [
@@ -252,15 +253,16 @@ function Gallery() {
                     const inner = (
                         <>
                             <div className="flex items-start justify-between">
-                                <span className="inline-flex h-[64px] w-[132px] items-center justify-start">
-                                    {p.logoDark ? (
-                                        <>
-                                            <img src={p.logo} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain block dark:hidden" loading="lazy" />
-                                            <img src={p.logoDark} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain hidden dark:block" loading="lazy" />
-                                        </>
-                                    ) : (
-                                        <img src={p.logo} alt={p.brand} className="max-h-[46px] max-w-[120px] object-contain" loading="lazy" />
-                                    )}
+                                <span
+                                    className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex w-[180px] h-[80px] overflow-hidden rounded-[14px] bg-white/0 sm:mb-7 md:mb-8 dark:ring-white/10 "
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        window.open(p.url, '_blank');
+                                    }}
+                                >
+                                    <img src={p.logo} alt={p.brand} className="h-full object-contain" loading="lazy" />
+
                                 </span>
                                 <span className="rounded-full border border-black/15 px-3 py-1 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:border-white/15 dark:text-white/50">
                                     {p.industry}

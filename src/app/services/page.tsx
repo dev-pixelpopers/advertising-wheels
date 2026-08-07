@@ -39,7 +39,7 @@ const SERVICES: Service[] = [
         title: 'Mobile Billboards',
         body: '600 square feet of uninterrupted brand canvas moving through daily life — commuter streets, retail corridors, event crowds, and the exact ZIP codes you want to own. Too big to miss, too close to skip, and seen again tomorrow.',
         features: ['Full-truck & trailer formats', 'Event & venue presence', 'ZIP-level market coverage', 'Repeated daily exposure'],
-        icon: 'M3 13l2-7h11l3 4h2v5h-2M5 13H3v3h2m0-3a2 2 0 104 0m10 0a2 2 0 10-4 0',
+        icon: 'M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14M8 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM17 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z',
     },
     {
         tag: 'Production',
