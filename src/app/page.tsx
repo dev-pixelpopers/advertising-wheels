@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Preloader from '@/components/Preloader';
 import Hero from '@/components/Hero';
 import CaseStudySection from '@/components/CaseStudySection';
@@ -19,6 +19,11 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   const [isPreloaderDone, setIsPreloaderDone] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className='w-full bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 relative'>
 

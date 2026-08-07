@@ -148,7 +148,7 @@ function buildRows(groups: StateGroup[], expanded: string | null): Row[] {
     const rows: Row[] = [];
     for (const g of groups) {
         rows.push({ kind: 'state', key: g.state, group: g });
-        if (g.markets.length > 1 && expanded === g.state) {
+        if (expanded === g.state) {
             for (const m of g.markets) rows.push({ kind: 'market', key: m.id, market: m });
         }
     }
@@ -997,25 +997,20 @@ export default function MarketsCoverageV2() {
     );
 
     /**
-     * A state click either opens its dropdown (multi-market) or its popup
-     * directly (single-market — there are no cities beneath it to reveal).
+     * A state click expands/collapses its dropdown to show markets or cities.
+     * Single-market states now expand to show their market in the list.
      *
-     * Neither path scrolls the list. Clicking a row used to drag it to the
+     * Clicking a row does not scroll the list. Clicking a row used to drag it to the
      * reading line first, which meant the thing you clicked jumped out from
      * under the pointer — worst for the top rows, which could only ever be
      * dragged downwards.
      */
     const onStateClick = useCallback(
         (g: StateGroup, index: number) => {
-            if (g.markets.length === 1) {
-                hideCursorRef.current?.();
-                setPopupMarketId(g.markets[0].id);
-            } else {
-                // The row set is about to change, so the effect watching `rows`
-                // restores the position instead. Seating on the OLD index here
-                // would scroll to a row that is about to stop existing.
-                toggleExpand(g.state, index);
-            }
+            // The row set is about to change, so the effect watching `rows`
+            // restores the position instead. Seating on the OLD index here
+            // would scroll to a row that is about to stop existing.
+            toggleExpand(g.state, index);
         },
         [toggleExpand]
     );
