@@ -273,8 +273,8 @@ function Leadership({ stacked }: { stacked: boolean }) {
             }
             hub={{
                 title: 'Roopanjan Dey',
-                role: 'Founder',
-                mono: 'Founder-led',
+                role: '',
+                mono: '',
                 body: 'Two and a half decades in truckside, still personally involved in every major client relationship.',
             }}
             nodes={LEADERSHIP}

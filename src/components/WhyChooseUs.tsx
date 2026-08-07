@@ -97,7 +97,7 @@ const CHAPTERS = [
     {
         tag: '03 — Scale',
         title: 'Real Trucks. Real Routes.',
-        body: 'Your brand rides working delivery fleets — moving through the neighborhoods, retail corridors, and commercial zones of your DMA all day, every day. Start with a handful of trucks in one market. Scale to fleets across fifty.',
+        body: 'Your brand rides working delivery fleets — moving through the neighborhoods, retail corridors, and commercial zones of your DMA all day, every day. Start with a handful of trucks in one market. Scale to fleets across 50 DMAs.',
     },
     {
         tag: '04 — Proof',

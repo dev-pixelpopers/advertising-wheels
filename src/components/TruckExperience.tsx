@@ -33,7 +33,7 @@ const SUB_LABEL =
 const SUB_TYPE =
     'mt-3 md:mt-4 font-tommy-bold capitalize leading-[1.06] tracking-[-0.01em] text-[#EEE8D9] text-[clamp(1.3rem,3.4vw,3.1rem)]';
 
-const SUB_ACCENT = 'italic text-[#FCD119]';
+const SUB_ACCENT = 'text-[#FCD119]';
 
 const SUB_CARET =
     'aw-caret ml-[0.12em] inline-block h-[0.78em] w-[0.05em] translate-y-[0.06em] bg-[#FCD119] align-middle';
