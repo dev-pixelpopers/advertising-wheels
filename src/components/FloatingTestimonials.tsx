@@ -171,8 +171,14 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                 ref={frameRef}
                 className={`flex w-full items-center md:px-8 lg:px-4 ${embedded ? 'h-full' : 'h-screen h-[100dvh]'}`}
             >
-                {/* Plain container — cards sit straight on the section ground. */}
-                <div className="mx-auto w-full py-2 sm:py-4 md:py-8 3xl:py-0 lg:py-[7vh]">
+                {/* Plain container — cards sit straight on the section ground.
+
+                    Embedded, this box is also the physics obstacle the logo
+                    field has to divide around as the panel slides in: it is the
+                    card's actual painted extent, so it leaves a band of clear
+                    stage above and below for marks to curve through. Tagging the
+                    full-height panel instead would give them nowhere to go. */}
+                <div data-tm-obstacle className="mx-auto w-full py-2 sm:py-4 md:py-8 3xl:py-0 lg:py-[7vh]">
                     {/* ---------------- Header (left aligned) ---------------- */}
                     <div
                         data-tm-head
@@ -204,6 +210,13 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                             {TESTIMONIALS.map((t) => (
                                 <figure
                                     key={t.label}
+                                    /* Embedded, these cross the screen already set —
+                                       mark, quote and byline all legible while the
+                                       panel slides in, because a blank rounded box
+                                       reads as a loading state and the logo field is
+                                       supposed to be wrapping around a card. Kept as
+                                       a hook for the parent all the same. */
+                                    data-tm-card
                                     className="flex w-[220px] shrink-0 flex-col rounded-[18px] bg-white/20 p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 sm:w-[320px]  md:w-[350px] lg:w-[clamp(300px,26vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] transition-colors duration-300 dark:bg-[#1C1C1C] dark:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
                                 >
                                     {/* Client mark on a white chip — the supplied logos are
