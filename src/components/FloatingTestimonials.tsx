@@ -160,7 +160,12 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
     return (
         <section
             ref={rootRef}
-            className={`relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A] pt-[5%] ${embedded ? 'h-full' : ''}`}
+            /* Embedded, this panel carries NO background of its own. It slides in
+               over the logo field, and an opaque fill would read as a sheet being
+               wiped across the screen — the thing the hand-off is trying not to
+               be. The marquee clears itself out underneath instead, and the page
+               behind supplies the colour. Standalone it still needs its own. */
+            className={`relative w-full transition-colors duration-300 pt-[5%] ${embedded ? 'h-full' : 'bg-[#EEE8D9] dark:bg-[#0A0A0A]'}`}
         >
             <div
                 ref={frameRef}
