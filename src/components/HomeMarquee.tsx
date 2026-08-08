@@ -30,14 +30,14 @@ export const BUBBLES: LogoData[] = [
     // Balanced interlocking scatter pattern to ensure zero large gaps.
     { id: 'b1', logo: 'partner-nationwide.png', layer: 'mid', top: '42%', left: '15%', mobileTop: '35%', mobileLeft: '10%', delay: '0s', url: 'https://www.nationwide.com' },
     { id: 'b2', logo: 'burger-king-logo.png', layer: 'mid', top: '38%', left: '50%', mobileTop: '45%', mobileLeft: '70%', delay: '0.8s', url: 'https://www.bk.com' },
-    { id: 'b3', logo: 'hertz-logo.png', layer: 'mid', top: '45%', left: '85%', mobileTop: '56%', mobileLeft: '20%', delay: '1.4s', url: 'https://www.hertz.com' },
+    { id: 'b3', logo: 'partner-hertz.png', layer: 'mid', top: '45%', left: '85%', mobileTop: '56%', mobileLeft: '20%', delay: '1.4s', url: 'https://www.hertz.com' },
 
     { id: 'b4', logo: '5th_3rd.png', layer: 'mid', top: '62%', left: '30%', mobileTop: '64%', mobileLeft: '80%', delay: '2.1s', url: 'https://www.53.com' },
     { id: 'b5', logo: 'partner-wendys.png', layer: 'mid', top: '58%', left: '70%', mobileTop: '75%', mobileLeft: '15%', delay: '0.5s', url: 'https://www.wendys.com' },
     { id: 'b6', logo: 'ab-inbev.png', layer: 'mid', top: '75%', left: '10%', mobileTop: '86%', mobileLeft: '65%', delay: '1.7s', url: 'https://www.ab-inbev.com' },
 
     { id: 'b7', logo: 'partner-xfinity.png', layer: 'mid', top: '82%', left: '88%', mobileTop: '95%', mobileLeft: '85%', delay: '2.5s', url: 'https://www.xfinity.com' },
-    { id: 'b8', logo: 'canes.png', layer: 'mid', top: '90%', left: '48%', mobileTop: '104%', mobileLeft: '30%', delay: '1.1s', url: 'https://www.raisingcanes.com' },
+    { id: 'b8', logo: 'partner-raising-canes.png', layer: 'mid', top: '90%', left: '48%', mobileTop: '104%', mobileLeft: '30%', delay: '1.1s', url: 'https://www.raisingcanes.com' },
     { id: 'b9', logo: 'aaa-vector-logo.png', layer: 'mid', top: '105%', left: '25%', mobileTop: '115%', mobileLeft: '75%', delay: '0.3s', url: 'https://www.aaa.com' },
 
     { id: 'b10', logo: 'partner-kaiser.png', layer: 'mid', top: '112%', left: '75%', mobileTop: '126%', mobileLeft: '12%', delay: '1.9s', url: 'https://healthy.kaiserpermanente.org/' },
@@ -105,7 +105,7 @@ export default function HomeMarquee({ scrollDriven = false }: { scrollDriven?: b
                 {BUBBLES.map((b) => {
                     // A strict, uniform bounding box ensures all logos 
                     // scale to a consistent maximum height or width.
-                    const uniformSize = 'w-[200px] h-auto';
+                    const uniformSize = 'w-[90px] md:w-[450px] h-auto';
 
                     return (
                         <div

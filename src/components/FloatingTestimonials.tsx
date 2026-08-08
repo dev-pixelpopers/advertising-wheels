@@ -50,7 +50,7 @@ const TESTIMONIALS: Testimonial[] = [
         quote: 'Amid a transitional period requiring a shift in brand perception and tighter marketing budgets, Hertz leveraged truck advertising as its primary top-of-funnel tactic for high visibility and cost-effectiveness. The strategy reversed a five-year decline in eCommerce revenue.',
         name: 'Jeff Voorhees',
         role: 'Senior Director, Hertz',
-        logo: `${LOGOS}/hertz-logo.png`,
+        logo: `${LOGOS}/partner-hertz.png`,
         label: 'Hertz',
     },
     {
@@ -204,7 +204,7 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                     {/* Client mark on a white chip — the supplied logos are
                                         light-background assets, so the chip keeps them
                                         legible on the dark card too. */}
-                                    <span className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex w-[200px] h-[80px] overflow-hidden rounded-[14px] bg-white/0 sm:mb-7 md:mb-8 dark:ring-white/10 ">
+                                    <span className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex w-[100px] md:w-[200px] h-[40px] md:h-[80px] overflow-hidden bg-white/0 sm:mb-7 md:mb-8 dark:ring-white/10 ">
 
                                         <img
                                             src={t.logo}

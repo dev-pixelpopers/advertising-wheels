@@ -136,15 +136,26 @@ export default function WhyChooseUs() {
                         </div>
 
                         {/* Dark text overlay boxes */}
-                        <div className="absolute inset-0 w-full flex flex-row gap-2 md:gap-4 px-2 md:px-6 lg:px-8 pointer-events-none">
+                        <div className="absolute inset-0 w-full flex flex-row gap-0 xl:gap-4 px-0 xl:px-8 pointer-events-none">
                             {CHAPTERS.map((ch, i) => (
-                                <div key={i} className="flex-1 relative h-full">
+                                /* Below `lg` the four columns OVERLAP instead of sitting side
+                                   by side. A quarter of a phone screen is about 90px, which
+                                   shreds a paragraph into a ladder of two-word lines; even a
+                                   768px tablet only buys 152px, a 380px-tall ribbon of text.
+                                   The split needs roughly 260px a column to read, so it waits
+                                   for `lg`. Only one panel is ever visible at a time, so
+                                   stacking them costs nothing and hands the active one the
+                                   full width. */
+                                <div
+                                    key={i}
+                                    className="absolute inset-x-2 top-0 bottom-0 h-full xl:relative xl:inset-auto xl:flex-1"
+                                >
                                     <div style={{
                                         background: "linear-gradient(0deg, rgba(255, 255, 255, 0.3) 0%, rgba(23, 23, 23, 0.3) 100%)"
                                     }}
-                                        className={`wcu-body-text wcu-body-text-${i} absolute bottom-0 w-full h-auto bg-black/70 backdrop-blur-lg px-4 pt-4 pb-8 rounded-t-[12px] md:rounded-t-[6px] pointer-events-auto z-[9999999]`}
+                                        className={`wcu-body-text wcu-body-text-${i} absolute bottom-0 w-full h-auto bg-black/70 backdrop-blur-lg px-4 pt-4 pb-6 md:pb-8 rounded-t-[12px] md:rounded-t-[6px] pointer-events-auto z-[9999999]`}
                                     >
-                                        <p className="font-tommy-medium text-[11px] md:text-[14px] lg:text-[16px] leading-[1.6] text-white/90">
+                                        <p className="font-tommy-medium text-[13px] md:text-[14px] 2xl:text-[16px] leading-[1.55] md:leading-[1.6] text-white/90">
                                             {ch.body}
                                         </p>
                                     </div>
@@ -153,22 +164,32 @@ export default function WhyChooseUs() {
                         </div>
                     </div>
 
-                    {/* 2. Bottom Navigation Bar */}
-                    <div className="flex flex-row w-full overflow-hidden shrink-0 z-10 px-2 md:px-6 lg:px-8 gap-2 md:gap-4">
+                    {/* 2. Bottom Navigation Bar — 2×2 until `lg`, one strip above it.
+                           Four across at phone width gives each tab ~90px, which wraps
+                           "Real Trucks. Real Routes." onto four lines. Switches with the
+                           panels above so the two always agree. */}
+                    <div className="grid grid-cols-2 gap-2 w-full shrink-0 z-10 px-2 mt-2 xl:mt-0 xl:flex xl:flex-row xl:gap-4 xl:px-8">
                         {CHAPTERS.map((ch, i) => {
                             const isActive = activeIndex === i;
                             return (
                                 <div
                                     key={i}
-                                    className={`flex-1 rounded-b-[6px] bg-white flex flex-col justify-center px-3 py-3 md:px-5 md:py-4 lg:py-5 transition-colors duration-500 ${isActive
-                                        ? 'bg-[#F5F2EA] dark:bg-[#1A1A1A] shadow-inner border border-black/5 dark:border-white/5'
-                                        : 'bg-transparent hover:bg-black/[0.02] dark:hover:bg-white/[0.02] cursor-pointer border border-transparent'
+                                    /* One background per state — the old base `bg-white` sat
+                                       alongside a conditional `bg-transparent`, and which of
+                                       the two won came down to their order in the generated
+                                       stylesheet rather than anything intentional. */
+                                    className={`flex flex-col justify-center rounded-[10px] border px-3 py-2.5 transition-colors duration-500 md:px-5 md:py-4 xl:flex-1 xl:rounded-[0px] xl:rounded-b-[6px] xl:py-5 ${isActive
+                                        ? 'bg-[#F5F2EA] dark:bg-[#1A1A1A] shadow-inner border-black/5 dark:border-white/5'
+                                        : 'bg-white dark:bg-[#141414] border-transparent hover:bg-black/[0.02] dark:hover:bg-white/[0.02] cursor-pointer'
                                         }`}
                                 >
-                                    <p className={`font-tommy-medium text-[8px] md:text-[11px] lg:text-[20px] tracking-[1px] md:tracking-[2px] transition-colors duration-500 ${isActive ? 'text-[#C8992B] dark:text-[#FCD119]' : 'text-[#8A857C] dark:text-[#6F6A60]'}`}>
+                                    {/* The type only steps up once a tab is actually wide
+                                        enough for it — at 1024 a 30px title in a 202px tab
+                                        pushed the nav to 204px tall on its own. */}
+                                    <p className={`font-tommy-medium text-[10px] md:text-[11px] xl:text-[13px] 2xl:text-[16px] tracking-[1px] md:tracking-[2px] transition-colors duration-500 ${isActive ? 'text-[#C8992B] dark:text-[#FCD119]' : 'text-[#8A857C] dark:text-[#6F6A60]'}`}>
                                         {ch.tag}
                                     </p>
-                                    <h4 className={`font-tommy-bold text-[12px] md:text-[16px] lg:text-[30px] leading-[1.1] transition-colors duration-500 ${isActive ? 'text-[#1A1917] dark:text-white' : 'text-[#1A1917]/50 dark:text-white/50'}`}>
+                                    <h4 className={`font-tommy-bold text-[14px] md:text-[16px] xl:text-[22px] 2xl:text-[28px] leading-[1.15] md:leading-[1.1] transition-colors duration-500 ${isActive ? 'text-[#1A1917] dark:text-white' : 'text-[#1A1917]/50 dark:text-white/50'}`}>
                                         {ch.title}
                                     </h4>
                                 </div>

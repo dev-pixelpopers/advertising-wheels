@@ -431,6 +431,27 @@ export default function Hero({ isReady }: HeroProps) {
       <style>{`
         .cta-pre [data-cta-part],
         .cta-pre [data-caret] { visibility: hidden; }
+
+        /* Scroll arrow: drifts down and fades out, then re-enters from above.
+           The loop resets while the arrow is fully transparent, so the jump
+           back to the top is never seen — the fade is doing the cutting, which
+           is why the opacity hits 0 a little before the travel ends. */
+        @keyframes hero-scroll-arrow {
+          0%   { transform: translateY(-9px); opacity: 0; }
+          20%  { opacity: 1; }
+          65%  { opacity: 1; }
+          90%  { opacity: 0; }
+          100% { transform: translateY(15px); opacity: 0; }
+        }
+        .hero-scroll-arrow {
+          animation: hero-scroll-arrow 1.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          will-change: transform, opacity;
+        }
+        /* GSAP fades the WRAPPER out on scroll; this only ever touches the
+           arrow's own opacity, so the two never contend for the same property. */
+        @media (prefers-reduced-motion: reduce) {
+          .hero-scroll-arrow { animation: none; }
+        }
       `}</style>
 
       {/* The bar spans the full viewport at z-100, so it must not capture clicks in
@@ -542,10 +563,13 @@ export default function Hero({ isReady }: HeroProps) {
               </div>
             </div>
 
-            {/* Scroll Indicator */}
-            <div ref={scrollArrowRef} className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 animate-bounce flex flex-col items-center gap-2 md:gap-3 opacity-90">
+            {/* Scroll Indicator — the label is fixed, only the arrow travels.
+                `animate-bounce` used to sit on this wrapper, which moved the
+                word along with the arrow and made the pair look like it was
+                hopping. The animation now lives on the arrow alone. */}
+            <div ref={scrollArrowRef} className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 md:gap-3 opacity-90">
               <span className="text-[#1A1917] dark:text-[#FCD119] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#1A1917] dark:text-[#FCD119] w-[32px] h-[32px] md:w-[44px] md:h-[44px]">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="hero-scroll-arrow text-[#1A1917] dark:text-[#FCD119] w-[32px] h-[32px] md:w-[44px] md:h-[44px]">
                 <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>

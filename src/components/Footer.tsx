@@ -67,17 +67,18 @@ interface CredentialLogo {
 const DARKEN = 'brightness-0 dark:brightness-100';
 
 const CREDENTIALS: { logos: CredentialLogo[] }[] = [
+
+    { logos: [{ src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council', size: 'h-[20px] md:h-[100px]' }] },
     {
         logos: [
-            { src: '/assets/images/cta/5x.png', alt: 'Five-time Inc. 5000 honoree', size: 'h-[42px] md:h-[52px]', className: DARKEN },
-            { src: '/assets/images/cta/inc-5000-seal.webp', alt: '', size: 'h-[60px] md:h-[72px]' },
+            { src: '/assets/images/cta/5x.png', alt: 'Five-time Inc. 5000 honoree', size: 'h-[20px] md:h-[30px]', className: DARKEN },
+            { src: '/assets/images/cta/inc-5000-seal.webp', alt: '', size: 'h-[30px] md:h-[80px]' },
+
         ],
     },
-    { logos: [{ src: '/assets/images/cta/25-years.webp', alt: '25 years in business', size: 'h-[50px] md:h-[58px]', className: 'dark:invert' }] },
-    { logos: [{ src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council', size: 'h-[42px] md:h-[50px]' }] },
-    { logos: [{ src: '/assets/images/cta/mbe-certified.webp', alt: 'Minority Business Enterprise certified', size: 'h-[48px] md:h-[56px]' }] },
-    { logos: [{ src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[24px] md:h-[28px]', className: 'dark:invert' }] },
-    { logos: [{ src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[22px] md:h-[26px]', className: 'dark:invert' }] },
+    { logos: [{ src: '/assets/images/cta/mbe-certified.webp', alt: 'Minority Business Enterprise certified', size: 'h-[20px] md:h-[80px]' }] },
+    { logos: [{ src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[20px] md:h-[45px]', className: 'dark:invert' }] },
+    { logos: [{ src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[20px] md:h-[30px]', className: 'dark:invert' }] },
 ];
 
 export default function Footer() {
@@ -313,7 +314,7 @@ export default function Footer() {
                 </div>
 
                 {/* ================= Industry Associations & Credentials ================= */}
-                <div data-foot-logos className="flex flex-wrap items-center justify-center gap-6 md:gap-10 pb-[10px] md:pb-[16px] lg:pb-[20px] px-4">
+                <div data-foot-logos className="flex flex-wrap items-center justify-start gap-6 md:justify-between pb-[10px] md:pb-[16px] lg:pb-[20px] px-4">
                     {CREDENTIALS.map((card, idx) => (
                         <div key={idx} className="flex items-center gap-3 md:gap-4">
                             {card.logos.map((c) => (

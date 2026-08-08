@@ -81,7 +81,7 @@ export default function AdvertisingLeader() {
 
     return (
         <div ref={rootRef} className='relative h-[250vh] w-full'>
-            <div className='sticky top-0 z-10 w-full h-dvh overflow-hidden rounded-[20px] bg-white dark:bg-[#141414] mx-auto mt-[20px] transition-colors duration-300 shadow-sm dark:shadow-black/50  max-w-[95%]'>
+            <div className='sticky top-0 z-10 w-full h-dvh overflow-hidden rounded-[20px] bg-white dark:bg-[#141414] mx-auto mt-[20px] transition-colors duration-300 shadow-sm dark:shadow-black/50  lg:max-w-[95%]'>
                 <div className="absolute top-[56%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
                     <svg
                         ref={svgRef}
