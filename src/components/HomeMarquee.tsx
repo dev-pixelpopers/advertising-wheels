@@ -92,16 +92,16 @@ export const BUBBLES: LogoData[] = [
 
     // The lower half
     { id: 'b14', logo: 'partner-floor-decor.png', wave: 2, phase: 2.3, url: 'https://www.flooranddecor.com/', b: { x: 0.08, y: 0.70 }, bSm: { x: 0.82, y: 0.58 } },
-    { id: 'b22', logo: 'partner-reliable.png', wave: 2, phase: 0.4, url: 'https://reliable.com/', b: { x: 0.245, y: 0.70 }, bSm: { x: 0.18, y: 0.71 } },
-    { id: 'b11', logo: 'titan.png', wave: 2, phase: 2.8, url: 'https://www.titan.com/', b: { x: 0.59, y: 0.70 }, bSm: { x: 0.50, y: 0.71 } },
-    { id: 'b17', logo: 'dc-united.png', wave: 2, phase: 2.0, url: 'https://www.dcunited.com/', b: { x: 0.755, y: 0.70 }, bSm: { x: 0.82, y: 0.71 } },
+    { id: 'b22', logo: 'partner-reliable.png', wave: 2, phase: 0.4, url: 'https://reliable.com/', b: { x: 0.24, y: 0.50 }, bSm: { x: 0.18, y: 0.71 } },
+    { id: 'b11', logo: 'titan.png', wave: 2, phase: 2.8, url: 'https://www.titan.com/', b: { x: 0.50, y: 0.70 }, bSm: { x: 0.50, y: 0.71 } },
+    { id: 'b17', logo: 'dc-united.png', wave: 2, phase: 2.0, url: 'https://www.dcunited.com/', b: { x: 0.655, y: 0.70 }, bSm: { x: 0.82, y: 0.71 } },
     { id: 'b18', logo: 'partner-razorbacks.png', wave: 2, phase: 0.7, url: 'https://arkansasrazorbacks.com/', b: { x: 0.92, y: 0.70 }, bSm: { x: 0.18, y: 0.84 } },
 
     // The floor
-    { id: 'b20', logo: 'outer.png', wave: 2, phase: 2.7, url: 'https://liveouter.com/', b: { x: 0.08, y: 0.90 }, bSm: { x: 0.50, y: 0.84 } },
-    { id: 'b19', logo: 'partner-mote-museum.png', wave: 2, phase: 1.5, url: 'https://mote.org/', b: { x: 0.41, y: 0.90 }, bSm: { x: 0.82, y: 0.84 } },
-    { id: 'b21', logo: 'partner-penn811.png', wave: 2, phase: 1.0, url: 'https://www.pa1call.org/', b: { x: 0.59, y: 0.90 }, bSm: { x: 0.32, y: 0.95 } },
-    { id: 'b23', logo: 'charly-logo-png_seeklogo-436078-removebg-preview.png', wave: 2, phase: 1.8, url: 'https://www.charly.com/', b: { x: 0.92, y: 0.90 }, bSm: { x: 0.68, y: 0.95 } },
+    { id: 'b20', logo: 'outer.png', wave: 2, phase: 2.7, url: 'https://liveouter.com/', b: { x: 0.08, y: 0.86 }, bSm: { x: 0.50, y: 0.84 } },
+    { id: 'b19', logo: 'partner-mote-museum.png', wave: 2, phase: 1.5, url: 'https://mote.org/', b: { x: 0.41, y: 0.86 }, bSm: { x: 0.82, y: 0.84 } },
+    { id: 'b21', logo: 'partner-penn811.png', wave: 2, phase: 1.0, url: 'https://www.pa1call.org/', b: { x: 0.59, y: 0.86 }, bSm: { x: 0.32, y: 0.90 } },
+    { id: 'b23', logo: 'charly-logo-png_seeklogo-436078-removebg-preview.png', wave: 2, phase: 1.8, url: 'https://www.charly.com/', b: { x: 0.82, y: 0.86 }, bSm: { x: 0.68, y: 0.90 } },
 ];
 
 export default function HomeMarquee() {

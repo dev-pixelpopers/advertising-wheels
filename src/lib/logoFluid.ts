@@ -63,8 +63,8 @@ const SURGE = { ampX: 18, ampY: 30, rot: 5 };
  * mark pressed against the edge of the screen by a collider that ignores its
  * margins would hang over the edge and get clipped.
  */
-const COLLIDER_X = 0.8;
-const COLLIDER_Y = 0.74;
+const COLLIDER_X = 0.88;
+const COLLIDER_Y = 0.82;
 
 /**
  * The outward expansion force, in px of steady displacement. Modest, because the
@@ -72,20 +72,20 @@ const COLLIDER_Y = 0.74;
  * where neighbour pressure has squeezed the field inward, and pins it against the
  * walls. Raise it and it starts fighting the authored targets.
  */
-const OUTWARD = 12;
+const OUTWARD = 14;
 
 /** How much of a mutual overlap is resolved per pass. Low = soft, springy. */
-const PRESSURE = 0.55;
-const RELAX_PASSES = 4;
+const PRESSURE = 0.85;
+const RELAX_PASSES = 8;
 
 /** Easing applied to the soft offset, so pressure arrives as a swell. */
-const SMOOTH = 0.15;
+const SMOOTH = 0.2;
 
 /** How fast a barrier lets go once a mark has flowed clear of it. */
 const RELEASE = 0.1;
 
 /** Ceiling on how far the soft part may carry a mark from its own position. */
-const MAX_DRIFT = 190;
+const MAX_DRIFT = 300;
 
 export interface FluidObstacle {
     /** The barrier. Its live bounding box is re-read every frame, so it may move. */
@@ -217,9 +217,12 @@ export function createLogoFluid(cfg: {
         sy: 0,
         px: 0,
         py: 0,
-        freqX: 0.42 + (i % 5) * 0.055,
-        freqY: 0.61 + (i % 7) * 0.048,
-        freqR: 0.33 + (i % 4) * 0.06,
+        //freqX: 0.42 + (i % 5) * 0.055,
+        freqX: 0.42 + (Math.random() * 0.2),
+        // freqY: 0.61 + (i % 7) * 0.048,
+        freqY: 0.61 + (Math.random() * 0.3),
+        freqR: 0.33 + (Math.random() * 0.2),
+        // freqR: 0.33 + (i % 4) * 0.06,
     }));
 
     const bars = cfg.obstacles
@@ -254,7 +257,7 @@ export function createLogoFluid(cfg: {
     measure();
 
     if (cfg.enabled === false) {
-        return { swell, gain, walls, measure, destroy: () => {} };
+        return { swell, gain, walls, measure, destroy: () => { } };
     }
 
     /* Artwork is lazy-loaded, so the first measure lands on zero-height boxes.

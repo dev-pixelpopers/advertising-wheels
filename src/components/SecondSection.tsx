@@ -93,7 +93,7 @@ const SWEEP_AT = PANEL_AT + PANEL_DUR / 2;
 const SWEEP_DUR = 0.4;
 
 /** 23 marks in a stage sized for 12: the pool has to compress. */
-const FLOW_SCALE = 0.7;
+const FLOW_SCALE = 0.65;
 
 /** Where every mark starts, and where pool 2 waits: a full viewport below. */
 const OFFSCREEN = 1.2;
@@ -195,8 +195,8 @@ export default function SecondSection() {
                            whole way across — nothing has to script the wrap. */
                         el: q('[data-tm-obstacle]')[0] as HTMLElement | undefined,
                         prefer: 'y',
-                        bias: 0.42,
-                        pad: 24,
+                        bias: 0.35,
+                        pad: 30,
                     },
                 ],
                 /* Three walls flush with the viewport so the pool can fill it
