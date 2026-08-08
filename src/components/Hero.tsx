@@ -12,8 +12,8 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 const FRAME_COUNT = 160;
 
 const getFrameSrc = (index: number): string => {
-  const frameNumber = (FRAME_COUNT - index).toString().padStart(3, '0');
-  return `/assets/images/hero_11/Frame_${frameNumber}.png`;
+  const frameNumber = (FRAME_COUNT - index).toString().padStart(1, '0');
+  return `/assets/images/hero_12/Frame_${frameNumber}.jpg`;
 };
 
 interface HeroProps {
@@ -277,15 +277,15 @@ export default function Hero({ isReady }: HeroProps) {
       // ── PHASE 4 (CTA text typing) ──────────────────────────────────────
       // The text types in, scrubbed by the scroll position.
       const CHAR = 0.02; // Stagger per character (scrubbed)
-      
+
       tl.set(carets[0], { autoAlpha: 1 })
         .to(t1, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
         .set(carets[0], { autoAlpha: 0 })
-        
+
         .set(carets[1], { autoAlpha: 1 })
         .to(t2, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
         .set(carets[1], { autoAlpha: 0 })
-        
+
         .set(carets[2], { autoAlpha: 1 })
         .to(t3, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
         .set(carets[2], { autoAlpha: 0 });
@@ -318,17 +318,17 @@ export default function Hero({ isReady }: HeroProps) {
       const tier1El = ctaRef.current?.querySelector('[data-tier="1"]');
       const tier2El = ctaRef.current?.querySelector('[data-tier="2"]');
       const tier3El = ctaRef.current?.querySelector('[data-tier="3"]');
-      
+
       if (tier3El) {
         tl.addLabel('scaleUp', '+=0.5'); // wait a bit before scaling
-        
+
         // Fade out other elements
         tl.to([tier1El, tier2El, ctaButtonsRef.current], {
           autoAlpha: 0,
           duration: 0.5,
           ease: 'power1.inOut'
         }, 'scaleUp');
-        
+
         // Scale up Tier 3 massively without fading it out
         tl.to(tier3El, {
           scale: 80,
@@ -570,7 +570,7 @@ export default function Hero({ isReady }: HeroProps) {
             <div ref={scrollArrowRef} className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 md:gap-3 opacity-90">
               <span className="text-[#1A1917] dark:text-[#FCD119] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="hero-scroll-arrow text-[#1A1917] dark:text-[#FCD119] w-[32px] h-[32px] md:w-[44px] md:h-[44px]">
-                <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
           </div>
