@@ -86,6 +86,25 @@ const START_BOX = 148;
  */
 const CENTRE = { xPercent: -50, yPercent: -50 } as const;
 
+/**
+ * The two states of the diagram are the same two colours, inverted.
+ *
+ * While the cards sit in the opening grid the hub owns the yellow and the
+ * satellites are white. As the hub lands in the centre it hands the yellow
+ * over: the hub turns white, the three cards turn yellow. Nothing else about
+ * the palette moves.
+ *
+ * The swap runs at the very end of the morph, in the window AFTER the big icon
+ * pucks have dissolved (0.76) and BEFORE the card copy fades up (0.94). That
+ * gap is what keeps the type problem from existing at all — the card body is
+ * only ever read against yellow, the big puck only ever against white, so no
+ * element has to hold contrast on both grounds.
+ */
+const HUB_YELLOW = '#FCD119';
+const CARD_WHITE = 'rgba(255,255,255,0.9)';
+const SWAP_AT = 0.82;
+const SWAP_DUR = 0.18;
+
 export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stacked }: OrbitDiagramProps) {
     const rootRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
@@ -256,6 +275,9 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                 gsap.set('[data-sat-copy]', { autoAlpha: 1 });
                 gsap.set('[data-hub-logo]', { autoAlpha: 0 });
                 gsap.set('[data-hub-copy]', { autoAlpha: 1 });
+                // Reduced motion never plays the swap, so it starts already inverted.
+                gsap.set(hubEl, { backgroundColor: '#FFFFFF' });
+                gsap.set(satRefs.current.filter(Boolean), { backgroundColor: HUB_YELLOW });
                 gsap.set(lineRefs.current.filter(Boolean), { autoAlpha: 1, strokeDashoffset: 0 });
                 syncLines();
                 return;
@@ -287,6 +309,12 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
             });
             // Every card starts as just its icon / the mark. autoAlpha keeps the
             // copy's layout space, so the cards never resize when it appears.
+            /* Both ends of the swap are stated explicitly. The classes already say
+               as much, but `invalidateOnRefresh` re-reads starting values on every
+               refresh — and it would read whatever the tween had last written,
+               freezing the cards mid-inversion after a resize. */
+            gsap.set(hubEl, { backgroundColor: HUB_YELLOW });
+            gsap.set(satRefs.current.filter(Boolean), { backgroundColor: CARD_WHITE });
             gsap.set('[data-sat-icon]', { autoAlpha: 1 });
             gsap.set('[data-sat-copy]', { autoAlpha: 0 });
             gsap.set('[data-hub-logo]', { autoAlpha: 1 });
@@ -349,6 +377,17 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
             tl.fromTo('[data-hub-copy]', { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.35 }, 0.9);
             tl.fromTo('[data-sat-copy]', { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.07 }, 0.94);
 
+            /* ── The inversion ── the hub gives the yellow to the cards.
+               Tweened across the last stretch of the morph rather than cut, so it
+               resolves exactly as the circle settles. Scrubbed like everything
+               else here, so scrolling back up hands the yellow return to the hub. */
+            tl.to(hubEl, { backgroundColor: '#FFFFFF', duration: SWAP_DUR, ease: 'none' }, SWAP_AT);
+            nodes.forEach((_, i) => {
+                const el = satRefs.current[i];
+                if (!el) return;
+                tl.to(el, { backgroundColor: HUB_YELLOW, duration: SWAP_DUR, ease: 'none' }, SWAP_AT);
+            });
+
             // Hold on the finished diagram before releasing the pin.
             tl.to({}, { duration: 0.35 });
         },
@@ -375,8 +414,10 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                         </div>
                     )}
 
+                    {/* Stacked never animates, so it renders the FINISHED palette —
+                        white hub, yellow cards — to match where the orbit ends up. */}
                     <div
-                        className="mt-8 rounded-[22px] bg-[#FCD119] p-6 md:p-8 text-center"
+                        className="mt-8 rounded-[22px] border border-black/10 bg-white p-6 md:p-8 text-center"
                         style={{ boxShadow: '0 24px 60px -30px rgba(0,0,0,.4)' }}
                     >
                         <div className="mx-auto flex w-fit items-center justify-center [&_path]:!fill-[#1A1917]">
@@ -406,32 +447,32 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                         {nodes.map((nd) => (
                             <div
                                 key={nd.title}
-                                className="h-full rounded-[20px] border border-black/10 bg-white/90 p-5 md:p-6 text-left shadow-[0_18px_40px_-28px_rgba(0,0,0,.4)] dark:border-white/10 dark:bg-white/[0.06]"
+                                className="h-full rounded-[20px] border border-black/10 bg-[#FCD119] p-5 md:p-6 text-left shadow-[0_18px_40px_-28px_rgba(0,0,0,.4)]"
                             >
                                 <div className="flex items-center gap-2.5">
                                     {nd.icon && (
-                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FCD119] text-black">
+                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1A1917] text-[#FCD119]">
                                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                                                 <path d={nd.icon} stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
                                         </span>
                                     )}
                                     {nd.mono && (
-                                        <span className="font-tommy-bold text-[10.5px] uppercase tracking-[2px] text-[#C8992B] dark:text-[#FCD119]">
+                                        <span className="font-tommy-bold text-[10.5px] uppercase tracking-[2px] text-black/55">
                                             {nd.mono}
                                         </span>
                                     )}
                                 </div>
-                                <p className="mt-3 font-tommy-bold text-[16px] leading-[1.15] tracking-tight text-[#1A1917] dark:text-white">
+                                <p className="mt-3 font-tommy-bold text-[16px] leading-[1.15] tracking-tight text-[#1A1917]">
                                     {nd.title}
                                 </p>
                                 {nd.role && (
-                                    <p className="mt-1.5 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#8A857C] dark:text-[#9A968E]">
+                                    <p className="mt-1.5 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-black/60">
                                         {nd.role}
                                     </p>
                                 )}
                                 {nd.body && (
-                                    <p className="mt-3 font-tommy-regular text-[13px] leading-[1.55] text-[#5A554C] dark:text-[#A8A399]">
+                                    <p className="mt-3 font-tommy-regular text-[13px] leading-[1.55] text-black/70">
                                         {nd.body}
                                     </p>
                                 )}
@@ -533,7 +574,11 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                                 {/* Icon-only state — all the card shows until it lands. */}
                                 {nd.icon && (
                                     <div data-sat-icon className="absolute inset-0 flex items-center justify-center">
-                                        <span className="flex h-[104px] w-[104px] items-center justify-center rounded-full bg-[#FCD119] text-black">
+                                        {/* Charcoal puck, yellow glyph. The puck can no longer be
+                                            yellow — it would vanish into the card once the
+                                            inversion lands — and a black glyph would vanish into
+                                            the puck, so the accent moves to the icon itself. */}
+                                        <span className="flex h-[104px] w-[104px] items-center justify-center rounded-full bg-[#1A1917] text-[#FCD119]">
                                             <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
                                                 <path d={nd.icon} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
@@ -542,31 +587,36 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                                 )}
 
                                 {/* Full detail — revealed once the card reaches its orbit. */}
+                                {/* This copy only ever appears AFTER the inversion (it fades up
+                                    at 0.94, the swap finishes at 1.0), so every colour here is
+                                    chosen to sit on yellow — the same on-yellow scale the hub
+                                    already uses for its own copy. The old gold mono and grey
+                                    role would both have disappeared into the card. */}
                                 <div data-sat-copy>
                                     <div className="flex items-center gap-2.5">
                                         {nd.icon && (
-                                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FCD119] text-black">
+                                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1A1917] text-[#FCD119]">
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                                                     <path d={nd.icon} stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
                                             </span>
                                         )}
                                         {nd.mono && (
-                                            <span className="font-tommy-bold text-[10.5px] uppercase tracking-[2px] text-[#C8992B] dark:text-[#FCD119]">
+                                            <span className="font-tommy-bold text-[10.5px] uppercase tracking-[2px] text-black/55">
                                                 {nd.mono}
                                             </span>
                                         )}
                                     </div>
-                                    <p className="mt-3 font-tommy-bold text-[17px] leading-[1.15] tracking-tight text-[#1A1917] dark:text-white">
+                                    <p className="mt-3 font-tommy-bold text-[17px] leading-[1.15] tracking-tight text-[#1A1917]">
                                         {nd.title}
                                     </p>
                                     {nd.role && (
-                                        <p className="mt-1.5 font-tommy-regular text-[11px] uppercase tracking-[1.5px] text-[#8A857C] dark:text-[#9A968E]">
+                                        <p className="mt-1.5 font-tommy-regular text-[11px] uppercase tracking-[1.5px] text-black/60">
                                             {nd.role}
                                         </p>
                                     )}
                                     {nd.body && (
-                                        <p className="mt-3.5 font-tommy-regular text-[13px] leading-[1.55] text-[#5A554C] dark:text-[#A8A399]">
+                                        <p className="mt-3.5 font-tommy-regular text-[13px] leading-[1.55] text-black/70">
                                             {nd.body}
                                         </p>
                                     )}
