@@ -571,7 +571,7 @@ function MarketPopup({
                     <div className="relative h-[210px] overflow-hidden md:h-auto">
                         <img
                             ref={imgRef}
-                            src="/assets/images/dollar-hero.webp"
+                            src="/assets/images/pop-up.png"
                             alt=""
                             className="absolute inset-0 h-full w-full scale-[1.06] object-cover will-change-transform"
                         />
@@ -744,8 +744,8 @@ function MarketPopup({
                                                             key={level}
                                                             onClick={() => setTrucks(levelTrucks)}
                                                             className={`rounded-full px-3.5 md:px-4 py-1.5 md:py-2 text-[12px] md:text-[14px] font-tommy-medium transition-all duration-300 ${isSelected
-                                                                    ? 'bg-[#C8992B] text-black shadow-[0_0_12px_rgba(200,153,43,0.4)] dark:bg-[#FCD119] dark:shadow-[0_0_12px_rgba(252,209,25,0.4)]'
-                                                                    : 'bg-white/5 text-white hover:bg-white/15'
+                                                                ? 'bg-[#C8992B] text-black shadow-[0_0_12px_rgba(200,153,43,0.4)] dark:bg-[#FCD119] dark:shadow-[0_0_12px_rgba(252,209,25,0.4)]'
+                                                                : 'bg-white/5 text-white hover:bg-white/15'
                                                                 }`}
                                                         >
                                                             {level}%
@@ -805,7 +805,7 @@ function MarketPopup({
                                         </div>
 
                                         <Link
-                                            href="/contact"
+                                            href="/contact#form"
                                             className="group w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#C8992B] dark:bg-[#FCD119] text-black font-tommy-bold text-[14px] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] dark:shadow-[0_4px_14px_0_rgba(252,209,25,0.3)] shrink-0"
                                         >
                                             Start Campaign
@@ -1319,30 +1319,54 @@ export default function MarketsCoverageV2() {
                         Markets &amp; Coverage
                     </p>
                     <h2 className="mt-3 font-tommy-bold text-[clamp(30px,4.4vw,64px)] leading-[0.96] tracking-[-0.03em] text-[#1A1917] dark:text-white">
-                        Where We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                        How We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
                     </h2>
                     <p className="mx-auto mt-5 max-w-[620px] font-tommy-regular text-[14px] leading-[1.7] text-[#5A554C] md:text-[17px] dark:text-[#A8A399]">
                         {/* {TOTALS.count} metro markets across {STATE_GROUPS.length} states, reaching{' '}
                         {compact(TOTALS.adults)} adults 18+ inside our coverage areas — every mile
                         measured, every market accounted for. */}
-                        50 DMAs across 30 states + DC, reaching 83M adults 18+ inside our coverage areas — every mile measured, every market accounted for.
+                        {/* Second sentence removed deliberately. It used to run "Nationwide
+                            coverage through our partner fleet, matched to your target markets
+                            by ZIP code" — which is now word-for-word what the first two cards
+                            below say. The cards carry those two claims; this line just opens. */}
+                        Wherever your customers are, we&apos;re already rolling.
                     </p>
 
                     <div className="mx-auto mt-9 grid max-w-[900px] grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+                        {/* VALUE PROPS, NOT STATS — and the type scale is inverted from
+                            what it was, on purpose.
+
+                            These four used to be figures drawn from data/markets.ts, where
+                            the big line WAS the meaning ("83M") and the small line was only
+                            its unit ("Adults 18+ reached"). As value props that relationship
+                            flips: "TARGET ZIP" is just a category tag, and the claim itself
+                            is "ZIP-level fleet matching". Leaving the old ramp in place put
+                            34px on the label and 10px on the message, which read like a stat
+                            whose number had failed to load.
+
+                            So the tag is now a small accent kicker and the claim carries the
+                            readable weight. Read left to right the four are a funnel: where →
+                            who → how much → what happens next.
+
+                            `tabular-nums` is gone with the numbers it was aligning. */}
                         {[
-                            { k: String(TOTALS.count), l: 'Metro markets' },
-                            { k: compact(TOTALS.adults), l: 'Adults 18+ reached' },
-                            { k: compact(TOTALS.impressions), l: 'Impressions / flight' },
-                            { k: '4 Wks', l: 'Standard flight' },
+                            { k: 'USA', l: 'Nationwide coverage' },
+                            { k: 'TARGET ZIP', l: 'ZIP-level fleet matching' },
+                            { k: 'MASSIVE', l: 'Street-level impressions at scale' },
+                            { k: 'RETARGET', l: 'Viewers of your ad' },
                         ].map((s) => (
                             <div
-                                key={s.l}
+                                key={s.k}
                                 className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-4 text-left dark:border-white/10 dark:bg-white/[0.04]"
                             >
-                                <p className="font-tommy-bold text-[clamp(20px,2.4vw,34px)] leading-none tabular-nums text-[#1A1917] dark:text-white">
+                                <p className="font-tommy-bold uppercase text-[clamp(15px,1.5vw,20px)] leading-none tracking-[0.08em] text-[#C8992B] dark:text-[#FCD119]">
                                     {s.k}
                                 </p>
-                                <p className="mt-1.5 font-tommy-regular text-[10px] uppercase tracking-[2px] text-[#8A857C] dark:text-[#9A968E]">
+                                {/* Two lines are RESERVED even though only the third claim
+                                    needs them. The cards sit in one row, so letting each
+                                    descriptor take its natural height would drop the shorter
+                                    three onto a different baseline than the one that wraps. */}
+                                <p className="mt-2 min-h-[2.8em] font-tommy-regular text-[13px] leading-[1.4] text-[#1A1917] md:text-[15px] dark:text-[#E8E4DC]">
                                     {s.l}
                                 </p>
                             </div>
@@ -1368,7 +1392,7 @@ export default function MarketsCoverageV2() {
                                     Markets &amp; Coverage
                                 </p>
                                 <h3 className="mt-1.5 font-tommy-bold text-[clamp(19px,2.1vw,30px)] leading-[1] tracking-[-0.02em] text-[#1A1917] dark:text-white">
-                                    Where We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                                    How We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
                                 </h3>
                                 <p className="mt-1 font-tommy-regular text-[9px] uppercase tracking-[2px] text-[#8A857C] md:text-[10px] dark:text-[#9A968E]">
                                     Click any state or city to explore its record

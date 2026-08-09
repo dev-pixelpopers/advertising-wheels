@@ -110,7 +110,7 @@ export default function CtaSection() {
                     </p>
                     <div className="mt-6 md:mt-8 lg:mt-10 flex flex-col items-center gap-2 md:gap-4 sm:flex-row sm:gap-6">
                         <a
-                            href="/contact"
+                            href="/contact#form"
                             className="group flex items-center gap-2 lg:gap-3 rounded-full bg-black px-4 md:px-6 lg:px-8 py-3 lg:py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04]"
                         >
                             Start a Campaign

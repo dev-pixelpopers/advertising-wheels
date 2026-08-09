@@ -244,11 +244,11 @@ function VendorCta() {
                             earning within a week.
                         </p>
                         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
-                            <a href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-black px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04]">
+                            <a href="/contact#form" className="group inline-flex items-center gap-3 rounded-full bg-black px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04]">
                                 Apply to partner
                                 <ArrowIcon />
                             </a>
-                            <a href="/contact" className="rounded-full border-2 border-black px-8 py-4 font-tommy-medium text-[15px] text-black transition-colors duration-300 hover:bg-black hover:text-[#FCD119]">
+                            <a href="/contact#form" className="rounded-full border-2 border-black px-8 py-4 font-tommy-medium text-[15px] text-black transition-colors duration-300 hover:bg-black hover:text-[#FCD119]">
                                 Talk to our team
                             </a>
                         </div>
@@ -272,8 +272,8 @@ export default function VendorsPage() {
                 lead="Own box trucks, trailers or a full fleet? Turn the routes you already run into recurring advertising revenue — we handle the brands, the creative and the install."
                 primary={{ label: 'Apply to partner', href: '/contact' }}
                 secondary={{ label: 'How it works', href: '#how' }}
-                image="/assets/images/xfinity-img.webp"
-                imageAlt="An Advertising Wheels partner truck"
+                image="/assets/images/clients/banner image/Photo Nov 13, 8 53 14 AM 1.png"
+                imageAlt="An Advertising Wheels partner truck for Xfinity campaign"
             />
 
             <Benefits />

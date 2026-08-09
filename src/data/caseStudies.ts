@@ -319,7 +319,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         year: '2018',
         markets: 'Target booking markets',
         duration: 'Campaign flight',
-        hero: heroOf('dollar', '/assets/images/dollar-hero.webp'),
+        hero: heroOf('dollar', '/assets/images/pop-up.png'),
         logo: `${LOGOS}/dollar-car-rental-logo.webp`,
         stats: [
             { value: 32, prefix: '+', suffix: '%', label: 'Peak-week Dollar.com visits YoY (target)' },

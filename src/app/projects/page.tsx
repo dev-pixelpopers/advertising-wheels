@@ -351,7 +351,7 @@ export default function ProjectsPage() {
                 primary={{ label: 'Start a Campaign', href: '/contact' }}
                 secondary={{ label: 'How we do it', href: '/services' }}
                 image={HOUSE_SHOTS.projectsHero}
-                imageAlt="A wrapped Advertising Wheels truck outside a retail centre"
+                imageAlt="A wrapped Advertising Wheels truck for Nationwide on the road"
             />
 
             <Featured />

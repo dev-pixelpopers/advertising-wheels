@@ -217,7 +217,15 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                        supposed to be wrapping around a card. Kept as
                                        a hook for the parent all the same. */
                                     data-tm-card
-                                    className="flex w-[220px] shrink-0 flex-col rounded-[18px] bg-white/20 p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 sm:w-[320px]  md:w-[350px] lg:w-[clamp(300px,26vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] transition-colors duration-300 dark:bg-[#1C1C1C] dark:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
+                                    /* Opaque enough to actually be a card. At
+                                       white/20 the logo field showed straight
+                                       through the quotes — the marks were behind
+                                       these all along, but 20% hides nothing, so
+                                       it read as logos sitting on the text. The
+                                       panel around them still carries no fill,
+                                       so this is not the sheet-wipe the comment
+                                       above is guarding against. */
+                                    className="flex w-[220px] shrink-0 flex-col rounded-[18px] bg-[#F7F3E8] p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 sm:w-[320px]  md:w-[350px] lg:w-[clamp(300px,26vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] transition-colors duration-300 dark:bg-[#1C1C1C] dark:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
                                 >
                                     {/* Client mark on a white chip — the supplied logos are
                                         light-background assets, so the chip keeps them

@@ -11,26 +11,29 @@
  *   PHASE 1  On arrival, unscrubbed. Pool 1 (12 marks) rises out of the bottom
  *            of the screen on a 0.08s stagger and settles wall to wall around
  *            the block, five across the top, one per side strip, five across the
- *            bottom. From then on an idle ticker undulates each of them on
- *            sin(time * 2 + index * 0.5) * 15.
+ *            bottom. From then on the solver's swell carries them.
  *
- *   PHASE 2  First scroll, pinned and scrubbed. Pool 1 drifts up into the top
- *            two rows of a six-column grid; pool 2 (11 marks) floods in from
- *            120vh below on the same staggered entrance and interlocks beneath
- *            it. 23 marks, packed around the block.
+ *   PHASE 2  First scroll, pinned and scrubbed. Pool 1 drifts up as the top wall
+ *            opens; pool 2 (11 marks) floods in from 120vh below on the same
+ *            staggered entrance and fills in beneath it. The lid goes back on at
+ *            LID_BACK, and 23 marks sit packed around the block — on measured,
+ *            non-overlapping positions, not a grid.
  *
  *   PHASE 3  The block dissolves and the testimonial panel crosses in from
- *            x: 100vw. It is registered as a live collider, so the pool divides
- *            around it — marks above its edge get pushed up over the top, marks
- *            below get pushed down under the bottom.
+ *            x: 100vw. The RAIL is a live collider, and a ploughing one: every
+ *            mark its leading edge reaches is driven left, ahead of it, at full
+ *            size. The left wall opens as it comes so the displaced field has
+ *            somewhere to go. Nothing ends up behind the card, because nothing
+ *            is ever passed by it.
  *
- *   PHASE 4  The frame the panel's leading edge hits 50vw: a 0.4s sweep flushes
- *            all 23 off the left edge, and the headline, quote and byline fade
- *            and slide in on the card behind them.
+ *   PHASE 4  The frame the panel's leading edge sits on 3/4 of the stage — see
+ *            SWEEP_COVER, which has to be solved for rather than read off the
+ *            ease. A 0.4s sweep flushes all 23 off the left, and once the last
+ *            one is clear the headline lands on open stage.
  *
  * The timeline says where marks are headed. `src/lib/logoFluid` says how they
- * behave getting there — the idle sine, mutual pressure, the walls, and the
- * colliders for the block and the card. It runs on a ticker and writes to a
+ * behave getting there — the travelling swell, mutual pressure, the walls, and
+ * the colliders for the block and the card. It runs on a ticker and writes to a
  * nested element, so it never contends with GSAP for the same transform.
  */
 
@@ -78,6 +81,20 @@ const DRIFT_DUR = 1.6;
  */
 const W2_IN = DRIFT_AT + DRIFT_DUR * 0.75;
 
+/**
+ * The lid goes back on, a beat before wave 2 has fully landed.
+ *
+ * The top wall is opened at DRIFT_AT so the field has somewhere to stream to,
+ * and it used to be left open for the rest of the section — which meant that
+ * from the drift onward nothing was holding the pool down. The solver's outward
+ * pressure pushes every mark away from centre, so with no ceiling the upper
+ * band simply kept climbing and ran off the top of the viewport, clipped by the
+ * header. Sealing it again once the streaming is done is what makes the pool a
+ * contained body of water rather than one draining upward.
+ */
+const LID_BACK = W2_IN + waveSpan(11) - 0.5;
+const LID_DUR = 0.9;
+
 /** Both waves are down and settled before the block gives up the middle. */
 const SHIELD_OUT = W2_IN + waveSpan(11) + 0.2;
 const PANEL_AT = SHIELD_OUT + 0.6;
@@ -85,15 +102,29 @@ const PANEL_DUR = 1.7;
 const PANEL_END = PANEL_AT + PANEL_DUR;
 
 /**
- * The panel crosses on power2.inOut, which is exactly half done at half its
- * duration — so this beat IS the frame its leading edge sits on 50vw. No easing
- * inversion needed; the symmetry does it.
+ * The frame the panel's leading edge sits on THREE QUARTERS of the stage.
+ *
+ * The 50% case is free — `power2.inOut` is exactly half done at half its
+ * duration, so the midpoint of the tween is the midpoint of the screen. That
+ * symmetry holds at one point only, so 3/4 has to be solved for. Past halfway
+ * the ease is `1 − 2(1−p)²`; setting that to 0.75 gives p = 1 − √0.125 ≈ 0.646.
+ *
+ * Sweeping here rather than at the midpoint is what leaves the hull a crossing
+ * to make. It also has to happen BEFORE the card fills the stage: once it does,
+ * a mark still on the water has no way out that a wall does not close, and it
+ * ends up parked on a quote.
  */
-const SWEEP_AT = PANEL_AT + PANEL_DUR / 2;
+const SWEEP_COVER = 0.6464;
+const SWEEP_AT = PANEL_AT + PANEL_DUR * SWEEP_COVER;
 const SWEEP_DUR = 0.4;
+
+/** The last mark out: the tween itself plus the tail of its stagger. */
+const SWEEP_END = SWEEP_AT + SWEEP_DUR + 0.12;
+
 
 /** 23 marks in a stage sized for 12: the pool has to compress. */
 const FLOW_SCALE = 0.65;
+
 
 /** Where every mark starts, and where pool 2 waits: a full viewport below. */
 const OFFSCREEN = 1.2;
@@ -187,16 +218,46 @@ export default function SecondSection() {
                         media: '(min-width: 768px)',
                     },
                     {
-                        /* The testimonial card. `y` so the pool divides over and
-                           under it rather than piling against its leading edge,
-                           and a generous pad so marks wrap its border with a
-                           visible margin instead of grazing the quote text. Its
-                           box is read live every frame, so it is a collider the
-                           whole way across — nothing has to script the wrap. */
-                        el: q('[data-tm-obstacle]')[0] as HTMLElement | undefined,
-                        prefer: 'y',
-                        bias: 0.35,
-                        pad: 30,
+                        /* The testimonial cards — the hull.
+
+                           The RAIL, not the block around it. This used to point
+                           at [data-tm-obstacle], described there as the card's
+                           painted extent, which it is not: that box also carries
+                           7vh of padding top and bottom and the section
+                           headline, and the headline is held at autoAlpha 0
+                           until the very end but still takes its 105px of
+                           layout. Measured, the barrier came out 612px of a
+                           720px stage — 86px of clearance above, of which the
+                           top wall owns 64, and 22px below.
+
+                           That is why marks ended up behind the cards rather
+                           than around them. There was no around. Every route out
+                           was closed, so the resolution fell back to the
+                           shortest one and left them where they started, and
+                           `prefer: 'x'` only turned the failure sideways: the
+                           short way out of a full-width barrier is a long slide
+                           across its face, which is the drift.
+
+                           Dividing over and under it does not work either, and
+                           the reason is arithmetic. The rail leaves 199px above
+                           and 60px below. A mark at flow scale is up to 150px
+                           tall. Making them all fit means shrinking them to
+                           roughly a third — which is exactly the "they get
+                           relatively small" complaint. Full size and divide
+                           around a near-full-height barrier are incompatible;
+                           the room does not exist at any bias.
+
+                           So the card ploughs instead — see `push`. Everything
+                           the leading edge reaches is driven LEFT, ahead of it,
+                           at full size. Nothing is ever behind the card, because
+                           nothing is ever passed by it. The left wall opens as
+                           it comes so the water it displaces has somewhere to
+                           go, and the sweep clears whatever is still afloat. */
+                        el: q('[data-tm-viewport]')[0] as HTMLElement | undefined,
+                        prefer: 'x',
+                        bias: 0.4,
+                        push: 'left',
+                        pad: 14,
                     },
                 ],
                 /* Three walls flush with the viewport so the pool can fill it
@@ -305,6 +366,11 @@ export default function SecondSection() {
                top — the sides and floor stay rigid, which is what keeps the pool
                pinned edge to edge throughout. */
             tl.to(fluid.walls, { top: -700, duration: DRIFT_DUR * 0.5, ease: 'power2.in' }, DRIFT_AT);
+            /* …and closed again once wave 2 is nearly home. `power2.out` so the
+               ceiling arrives quickly and then eases the last of the way down,
+               which reads as the pool settling under it rather than as a lid
+               being slammed on a field that was mid-climb. */
+            tl.to(fluid.walls, { top: 64, duration: LID_DUR, ease: 'power2.out' }, LID_BACK);
 
             /* A plain `to`: its start is wherever wave 1's entrance left it, which
                on this one scrubbed timeline is deterministic — the entrance is
@@ -333,6 +399,23 @@ export default function SecondSection() {
                collider, so the pool relaxes back toward centre as it dissolves. */
             tl.to(q('.hm-text-shield'), { autoAlpha: 0, scale: 0.9, y: -34, duration: 0.55, ease: 'power2.in' }, SHIELD_OUT);
 
+            /* The left wall opens as the hull arrives, and only the left.
+               A ploughing barrier drives every mark it reaches the same way, so
+               without an opening on that side the field is pressed into a rigid
+               wall and compacts until marks are sitting on top of one another —
+               the container has to vent in the direction the water is going.
+               Same trick as the top wall at DRIFT_AT, same reason.
+
+               The opening has to be big, and -1200 was not: 23 marks at flow
+               scale need roughly 1500px of stage to sit in without touching, and
+               once the hull is three quarters across it has left them about 500.
+               A wall at -1200 caps the overflow at one screen, so the surplus had
+               nowhere to be except on top of itself — measured at the crossing,
+               31 overlapping pairs, the worst of them 92% of a mark. The number
+               below is not a position anything reaches; it is the guarantee that
+               the field is never asked to fit somewhere it does not. */
+            tl.to(fluid.walls, { left: -2600, duration: 0.7, ease: 'power2.in' }, PANEL_AT - 0.25);
+
             /* The testimonials arrive with NO background of their own, so there is
                no opaque sheet wiping across the screen; the content simply takes
                the space. The card box inside is a live `y` collider, so as its
@@ -351,6 +434,15 @@ export default function SecondSection() {
                The stagger is a tenth of the tween's own length and runs right to
                left, so it reads as one shove propagating across the pool rather
                than 23 separate exits. */
+            /* One shove, all of it left.
+               There is no astern group any more, and that is a consequence of
+               the plough rather than a change of mind: if every mark the hull
+               reaches has been driven forward, nothing is ever beside or behind
+               it, so nothing has an aft route to take. Sending marks right from
+               here would drag them back across the face of the card they just
+               spent the whole crossing staying ahead of.
+               Furthest forward leaves first, so it reads as the leading edge of
+               the bank spilling off the screen and the rest following. */
             tl.to(
                 layers,
                 {
@@ -358,14 +450,17 @@ export default function SecondSection() {
                     x: () => -stage.clientWidth * 0.35,
                     duration: SWEEP_DUR,
                     ease: 'power2.in',
-                    stagger: (_i, t) => (1 - aim(t, 'b').x) * 0.12,
+                    stagger: (_i, t) => aim(t, 'b').x * 0.12,
                 },
                 SWEEP_AT
             );
-            /* The solver lets go on the same beat. Left running it would keep
-               bobbing marks and shoving them back around the card while they are
-               supposed to be leaving. */
-            tl.to(fluid.gain, { value: 0, duration: 0.22, ease: 'power2.in' }, SWEEP_AT);
+            /* The solver lets go, but over half a unit rather than a fifth of
+               one. Left running it would keep shoving marks back around the card
+               while they are supposed to be leaving; cut too fast and every
+               mark's displacement collapses to nothing in a few frames, which
+               snaps the whole field back onto its targets just as it starts to
+               move. Fading it lets the water still be water on the way out. */
+            tl.to(fluid.gain, { value: 0, duration: 0.5, ease: 'power2.in' }, SWEEP_AT + 0.1);
 
             /* The section header lands once the sweep has cleared the stage — it
                sits over open background, so it would be landing through logos if
@@ -377,7 +472,7 @@ export default function SecondSection() {
                 duration: 0.5,
                 stagger: 0.12,
                 ease: 'power3.out',
-            }, PANEL_END + 0.05);
+            }, Math.max(PANEL_END, SWEEP_END) + 0.1);
 
             const rail = q('[data-tm-rail]')[0] as HTMLElement | undefined;
             const tmView = q('[data-tm-viewport]')[0] as HTMLElement | undefined;
@@ -402,7 +497,12 @@ export default function SecondSection() {
             </div>
             {/* Testimonials — crosses in from the right, and is a live collider to
                 the logo pool the whole way across. */}
-            <div ref={testiRef} className="absolute inset-0 w-full h-full">
+            {/* z-30 is not decoration. Both panels were `absolute` with an auto
+                z, so their order came from the DOM alone — which put the
+                testimonials on top, but only barely, and left the marquee's own
+                z-20 text block painting OVER them. Stating it removes the
+                ambiguity: the panel is above the water, always. */}
+            <div ref={testiRef} className="absolute inset-0 z-30 w-full h-full">
                 <FloatingTestimonials embedded />
             </div>
         </div>

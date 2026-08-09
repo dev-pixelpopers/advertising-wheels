@@ -9,11 +9,24 @@ import Header from '@/components/Header';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
-const FRAME_COUNT = 160;
+const FRAME_COUNT = 155;
+
+/* How much of the photo the CTA scrim is allowed to take away. The client asked
+   for the woman to stay legible underneath the headline rather than being wiped
+   out by it, so the wash is light and the blur is barely there — the CTA text
+   earns its contrast from its own shadow instead (see `cta-legible` below). */
+const SCRIM_TINT = 'rgba(0,0,0,0.22)';
+
+/* Applied to the canvas for the whole sequence. The frames themselves render
+   darker and harder on screen than the source art, so this lifts the midtones
+   and pulls the contrast back down a touch. Kept in one place because GSAP
+   tweens the `filter` property wholesale — the blur tween has to carry these
+   same functions or they get wiped the moment it runs. */
+const CANVAS_GRADE = 'brightness(1.12) contrast(0.9) saturate(1.04)';
 
 const getFrameSrc = (index: number): string => {
   const frameNumber = (FRAME_COUNT - index).toString().padStart(1, '0');
-  return `/assets/images/hero_12/Frame_${frameNumber}.jpg`;
+  return `/assets/images/hero_12/Frame_${frameNumber}.png`;
 };
 
 interface HeroProps {
@@ -152,10 +165,39 @@ export default function Hero({ isReady }: HeroProps) {
 
       // One scrubbed timeline drives the whole first-section sequence.
       const frameState = { frame: 0 };
+
+      /* The scroll comes to rest once the CTA is fully assembled — the moment
+         the headline, header and buttons are all in place, before the tier-3
+         zoom hands off to the next section. Resolved to a progress fraction
+         only after the timeline is built (its total duration isn't known until
+         then), which is why `snapTo` below reads it lazily rather than closing
+         over a fixed number. */
+      let restProgress = -1;
+      /* Asymmetric on purpose. Approaching from above, the pull starts late so
+         the snap never yanks the CTA back mid-type; past the rest point it
+         reaches further, which is what makes the section feel like it has
+         caught and held you. Scroll beyond this window and the snap lets go. */
+      const REST_ZONE_BEFORE = 0.015;
+      const REST_ZONE_AFTER = 0.07;
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
+          /* Returning the untouched value means "no snap here" — so the magnet
+             only exists in a narrow band around the rest point instead of
+             dragging the user to it from anywhere in the 400vh section. */
+          snap: {
+            snapTo: (value: number) => {
+              if (restProgress < 0) return value;
+              const delta = value - restProgress;
+              if (delta >= -REST_ZONE_BEFORE && delta <= REST_ZONE_AFTER) return restProgress;
+              return value;
+            },
+            duration: { min: 0.15, max: 0.5 },
+            delay: 0.05,
+            ease: 'power2.inOut',
+          },
           // Animation spans 400vh of scroll and then finishes; the section is 500vh,
           // so the sticky stays pinned for another 100vh — a "hold" on the finished
           // Hero during which the next section rises up over it.
@@ -195,7 +237,9 @@ export default function Hero({ isReady }: HeroProps) {
         canvasRef.current,
         {
           scale: 1,
-          filter: 'blur(0px)',
+          // The grade rides along with the blur — GSAP replaces the whole
+          // `filter` string, so dropping it here would undo the brightening.
+          filter: `blur(0px) ${CANVAS_GRADE}`,
           ease: 'none',
           duration: 1,
         },
@@ -314,13 +358,22 @@ export default function Hero({ isReady }: HeroProps) {
         }
       );
 
+      /* ── THE HOLD ──────────────────────────────────────────────────────
+         Everything has landed. This label marks the resting point, and the
+         empty stretch after it is scroll distance during which nothing moves
+         at all — roughly a third of a viewport of dead travel. That silence is
+         what makes the stop legible: the snap catches you here, the frame sits
+         still, and it takes a fresh scroll to break out and start the zoom. */
+      tl.addLabel('ctaRest');
+      const HOLD = 1;
+
       // ── PHASE 5 (Scale up Tier 3) ──────────────────────────────────────
       const tier1El = ctaRef.current?.querySelector('[data-tier="1"]');
       const tier2El = ctaRef.current?.querySelector('[data-tier="2"]');
       const tier3El = ctaRef.current?.querySelector('[data-tier="3"]');
 
       if (tier3El) {
-        tl.addLabel('scaleUp', '+=0.5'); // wait a bit before scaling
+        tl.addLabel('scaleUp', '+=' + HOLD); // the hold: dead scroll before the zoom
 
         // Fade out other elements
         tl.to([tier1El, tier2El, ctaButtonsRef.current], {
@@ -337,6 +390,11 @@ export default function Hero({ isReady }: HeroProps) {
           transformOrigin: '50% 50%'
         }, 'scaleUp');
       }
+
+      /* The timeline is complete, so its total duration is finally known and the
+         rest label can be expressed as the progress fraction `snapTo` needs. */
+      const totalDuration = tl.duration();
+      restProgress = totalDuration > 0 ? tl.labels.ctaRest / totalDuration : -1;
 
 
 
@@ -432,6 +490,17 @@ export default function Hero({ isReady }: HeroProps) {
         .cta-pre [data-cta-part],
         .cta-pre [data-caret] { visibility: hidden; }
 
+        /* The scrim used to be a heavy black wash that guaranteed contrast by
+           erasing the photo. It is now light enough to see her through, so the
+           headline carries its own legibility instead — a soft dark halo that
+           reads as depth rather than as a shadow. */
+        .cta-legible {
+          text-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.45),
+            0 2px 14px rgba(0, 0, 0, 0.38),
+            0 4px 44px rgba(0, 0, 0, 0.30);
+        }
+
         /* Scroll arrow: drifts down and fades out, then re-enters from above.
            The loop resets while the arrow is fully transparent, so the jump
            back to the top is never seen — the fade is doing the cutting, which
@@ -472,15 +541,18 @@ export default function Hero({ isReady }: HeroProps) {
                 opacity: 0,
                 visibility: 'hidden',
                 transform: 'scale(0.85)',
-                filter: 'blur(20px)'
+                filter: `blur(20px) ${CANVAS_GRADE}`
               }}
             />
             {/* Full-screen backdrop blur overlay — covers whole screen & reveals with CTA text */}
             <div
               ref={scrimRef}
-              className="absolute inset-0 z-[5] pointer-events-none backdrop-blur-xl bg-black/40 transition-all"
+              className="absolute inset-0 z-[5] pointer-events-none transition-all"
               style={{
                 opacity: 0,
+                backgroundColor: SCRIM_TINT,
+                backdropFilter: 'blur(3px)',
+                WebkitBackdropFilter: 'blur(3px)',
               }}
             />
             <div ref={contentRef} className='w-full h-full flex flex-col justify-center items-center relative z-10'>
@@ -500,7 +572,7 @@ export default function Hero({ isReady }: HeroProps) {
                     reads as one shape rather than three separate lines. Each tier
                     types in at 50ms per character with a beat between them, and the
                     caret walks down the tiers as they fill. */}
-                <div data-cta-stack className='cta-pre flex flex-col items-center text-center text-white'>
+                <div data-cta-stack className='cta-pre cta-legible flex flex-col items-center text-center text-white'>
                   {/* TIER 1 — the subject */}
                   <h2
                     data-tier='1'
@@ -555,7 +627,7 @@ export default function Hero({ isReady }: HeroProps) {
                       e.preventDefault();
                       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }}
-                    className='bg-black text-[16px] md:text-[20px] leading-[102%] font-tommy-regular text-[#FCD119] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'
+                    className='bg-black text-[16px] md:text-[20px] lg:text-[24px] leading-[102%] font-tommy-regular text-[#FCD119] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'
                   >
                     See the Data in Action
                   </a>

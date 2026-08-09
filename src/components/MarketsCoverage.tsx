@@ -137,23 +137,23 @@ const REGION_VIEWS: Record<Region, { x: number; y: number; w: number; h: number 
  * covered markets — no market sits off the network.
  */
 const CORRIDOR_ROUTES: { id: string; region: string; nodes: string[] }[] = [
-    { id: 'i5',   region: 'WEST',                     nodes: ['sea', 'pdx', 'sac', 'sfo', 'lax', 'san'] },
-    { id: 'i15',  region: 'WEST',                     nodes: ['slc', 'las', 'lax'] },
-    { id: 'i10',  region: 'WEST|CENTRAL|SOUTH',       nodes: ['san', 'phx', 'sat', 'hou', 'msy', 'jax'] },
-    { id: 'i25',  region: 'WEST',                     nodes: ['den', 'abq'] },
-    { id: 'i40',  region: 'WEST|CENTRAL|SOUTH',       nodes: ['abq', 'okc', 'mem', 'bna', 'rdu'] },
-    { id: 'i35',  region: 'CENTRAL',                  nodes: ['msp', 'mci', 'okc', 'dfw', 'aus', 'sat'] },
-    { id: 'i70',  region: 'WEST|CENTRAL|NORTHEAST',   nodes: ['den', 'mci', 'stl', 'ind', 'cvg', 'pit'] },
-    { id: 'i90',  region: 'CENTRAL|NORTHEAST',        nodes: ['ord', 'dtw', 'cle', 'buf', 'bos'] },
-    { id: 'i94',  region: 'CENTRAL',                  nodes: ['msp', 'ord'] },
-    { id: 'i96',  region: 'CENTRAL',                  nodes: ['ord', 'grr', 'dtw'] },
-    { id: 'i75',  region: 'CENTRAL|SOUTH',            nodes: ['dtw', 'cvg', 'atl', 'tpa', 'rsw', 'mia'] },
-    { id: 'i95',  region: 'NORTHEAST|SOUTH',          nodes: ['bos', 'pvd', 'bdl', 'nyc', 'phl', 'bwi', 'dca', 'ric', 'rdu'] },
-    { id: 'i95s', region: 'SOUTH',                    nodes: ['jax', 'mco', 'pbi', 'mia'] },
-    { id: 'i85',  region: 'SOUTH',                    nodes: ['atl', 'gsp', 'clt', 'rdu'] },
-    { id: 'i64',  region: 'CENTRAL|SOUTH',            nodes: ['stl', 'sdf', 'cvg'] },
-    { id: 'i64e', region: 'SOUTH',                    nodes: ['ric', 'orf'] },
-    { id: 'i4',   region: 'SOUTH',                    nodes: ['tpa', 'mco', 'jax'] },
+    { id: 'i5', region: 'WEST', nodes: ['sea', 'pdx', 'sac', 'sfo', 'lax', 'san'] },
+    { id: 'i15', region: 'WEST', nodes: ['slc', 'las', 'lax'] },
+    { id: 'i10', region: 'WEST|CENTRAL|SOUTH', nodes: ['san', 'phx', 'sat', 'hou', 'msy', 'jax'] },
+    { id: 'i25', region: 'WEST', nodes: ['den', 'abq'] },
+    { id: 'i40', region: 'WEST|CENTRAL|SOUTH', nodes: ['abq', 'okc', 'mem', 'bna', 'rdu'] },
+    { id: 'i35', region: 'CENTRAL', nodes: ['msp', 'mci', 'okc', 'dfw', 'aus', 'sat'] },
+    { id: 'i70', region: 'WEST|CENTRAL|NORTHEAST', nodes: ['den', 'mci', 'stl', 'ind', 'cvg', 'pit'] },
+    { id: 'i90', region: 'CENTRAL|NORTHEAST', nodes: ['ord', 'dtw', 'cle', 'buf', 'bos'] },
+    { id: 'i94', region: 'CENTRAL', nodes: ['msp', 'ord'] },
+    { id: 'i96', region: 'CENTRAL', nodes: ['ord', 'grr', 'dtw'] },
+    { id: 'i75', region: 'CENTRAL|SOUTH', nodes: ['dtw', 'cvg', 'atl', 'tpa', 'rsw', 'mia'] },
+    { id: 'i95', region: 'NORTHEAST|SOUTH', nodes: ['bos', 'pvd', 'bdl', 'nyc', 'phl', 'bwi', 'dca', 'ric', 'rdu'] },
+    { id: 'i95s', region: 'SOUTH', nodes: ['jax', 'mco', 'pbi', 'mia'] },
+    { id: 'i85', region: 'SOUTH', nodes: ['atl', 'gsp', 'clt', 'rdu'] },
+    { id: 'i64', region: 'CENTRAL|SOUTH', nodes: ['stl', 'sdf', 'cvg'] },
+    { id: 'i64e', region: 'SOUTH', nodes: ['ric', 'orf'] },
+    { id: 'i4', region: 'SOUTH', nodes: ['tpa', 'mco', 'jax'] },
 ];
 
 /**
@@ -749,7 +749,7 @@ export default function MarketsCoverage() {
                             Markets &amp; Coverage
                         </p>
                         <h2 className="mt-2 font-tommy-bold text-[22px] leading-[0.95] text-black sm:text-[28px] md:text-[clamp(1.75rem,3vw,2.75rem)] lg:tracking-[-1.5px] dark:text-white">
-                            Where We Roll<span className="text-[#FCD119]">.</span>
+                            How We Roll<span className="text-[#FCD119]">.</span>
                         </h2>
                         <p className="mx-auto mt-2 font-tommy-regular text-[11.5px] leading-[1.6] text-black/60 sm:mt-3 sm:text-[14px] sm:leading-[1.7] md:text-[16px] lg:mt-5 lg:max-w-[620px] dark:text-white/55">
                             {totals.count} metro markets from coast to coast, reaching{' '}

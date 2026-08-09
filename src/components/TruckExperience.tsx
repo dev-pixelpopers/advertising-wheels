@@ -165,7 +165,18 @@ export default function TruckExperience() {
                 defaults: { ease: 'none' },
                 scrollTrigger: {
                     trigger: rootRef.current,
-                    start: 'top top',
+                    /* Starts the instant the section's top touches the viewport
+                       BOTTOM, not when it reaches the top. The previous section
+                       is a 250vh parent around a 100vh sticky child, so its last
+                       100vh is that panel scrolling out — and this section is
+                       sliding up underneath it for that whole stretch. Waiting
+                       for 'top top' meant the timeline sat at progress 0 through
+                       all of it: an empty cream panel filling the screen with
+                       nothing but the step-01 subtitle riding along at its foot.
+                       Beginning on entry means the wrap step is already playing
+                       as the previous panel leaves, and the two moves read as
+                       one continuous hand-off. */
+                    start: 'top bottom',
                     end: 'bottom bottom',
                     scrub: 1,
                     // NO pin — the sticky child holds the visual in place.
@@ -245,7 +256,13 @@ export default function TruckExperience() {
     );
 
     return (
-        <section ref={rootRef} className="relative h-[500vh] w-full bg-[#EEE8D9]">
+        /* 400vh, down from 500vh. The trigger now spans 'top bottom' → 'bottom
+           bottom', which is the section's full height — where it used to span
+           'top top' → 'bottom bottom', i.e. height minus one viewport. Keeping
+           500vh would have stretched the same 4-unit timeline over 500vh of
+           scroll and made every step 25% slower; 400vh reclaims the dead
+           viewport instead, so the choreography keeps exactly the pace it had. */
+        <section ref={rootRef} className="relative h-[400vh] w-full bg-[#EEE8D9]">
             <style>{`
                 @keyframes aw-pulse {
                     0% { box-shadow: 0 0 0 0 rgba(252,209,25,0.55); }

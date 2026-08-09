@@ -8,7 +8,7 @@
  * presentation-only (no endpoint wired), so submit just shows the thank-you.
  */
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -72,6 +72,38 @@ function ContactHero() {
         { scope: rootRef }
     );
 
+    /* The native #form jump is not enough on its own here.
+       The browser performs it as soon as the element exists, but the PortalHero
+       above this section carries a large photograph with no reserved height —
+       when it decodes, everything below shifts down and the jump you already
+       made is now pointing at the wrong place, leaving the form half off-screen.
+       So the position is re-taken after layout settles and again on window load.
+       Bailing on any user scroll keeps this from fighting someone who has
+       already started moving the page themselves. */
+    useEffect(() => {
+        if (window.location.hash !== '#form') return;
+
+        let cancelled = false;
+        const stop = () => { cancelled = true; };
+        const seat = () => {
+            if (cancelled) return;
+            document.getElementById('form')?.scrollIntoView({ block: 'start' });
+        };
+
+        seat();
+        const t = window.setTimeout(seat, 300);
+        window.addEventListener('load', seat);
+        window.addEventListener('wheel', stop, { passive: true, once: true });
+        window.addEventListener('touchstart', stop, { passive: true, once: true });
+
+        return () => {
+            window.clearTimeout(t);
+            window.removeEventListener('load', seat);
+            window.removeEventListener('wheel', stop);
+            window.removeEventListener('touchstart', stop);
+        };
+    }, []);
+
     const inputClass =
         'w-full rounded-xl border border-black/12 bg-white/50 px-4 py-3.5 font-tommy-regular text-[15px] text-[#1A1917] placeholder:text-black/35 transition-colors duration-200 focus:border-[#C8992B] focus:outline-none dark:border-white/12 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/30 dark:focus:border-[#FCD119]';
     const labelClass = 'mb-2 block font-tommy-medium text-[12.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:text-[#9A968E]';
@@ -111,8 +143,17 @@ function ContactHero() {
                     </ul>
                 </div>
 
-                {/* Form card */}
-                <div data-ch-form className="relative">
+                {/* Form card.
+                    `id="form"` is the landing target for every CTA on the site.
+                    The page opens with a full PortalHero above this grid, so a bare
+                    /contact link drops you on "LET'S TALK" with the form roughly two
+                    viewports further down — the anchor skips that. The hero's own
+                    "Book a Strategy Call" button was already pointing at #form; until
+                    now there was nothing here with that id for it to reach.
+
+                    scroll-mt clears the 73px fixed header, plus a little air so the
+                    card doesn't sit flush under it. */}
+                <div id="form" data-ch-form className="relative scroll-mt-[96px] md:scroll-mt-[110px]">
                     <div className="rounded-[16px] md:rounded-[20px] lg:rounded-[26px] border border-black/10 bg-white/60 p-4 md:p-7 lg:p-10 shadow-[0_30px_80px_rgba(0,0,0,0.12)] backdrop-blur-sm  dark:border-white/10 dark:bg-white/[0.04]">
                         {sent ? (
                             <div className="flex min-h-[440px] flex-col items-center justify-center text-center">
@@ -262,8 +303,8 @@ export default function ContactPage() {
                 lead="Tell us what you want to move — a product, a perception, a whole market. We'll come back with routes, formats and a plan you can measure."
                 primary={{ label: 'Book a Strategy Call', href: '#form' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
-                image="/assets/images/clients/hertz/hero-03.webp"
-                imageAlt="Advertising Wheels production studio"
+                image="/assets/images/clients/banner image/CL9A0259 1.png"
+                imageAlt="Advertising Wheels fleet for reliable heating & air campaign"
             />
             <ContactHero />
             <Faq />

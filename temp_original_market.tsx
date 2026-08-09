@@ -514,7 +514,7 @@ function MarketPopup({
                     <div className="relative h-[210px] overflow-hidden md:h-auto">
                         <img
                             ref={imgRef}
-                            src="/assets/images/dollar-hero.webp"
+                            src="/assets/images/pop-up.png"
                             alt=""
                             className="absolute inset-0 h-full w-full scale-[1.06] object-cover will-change-transform"
                         />
@@ -1162,13 +1162,13 @@ export default function MarketsCoverageV2() {
                         Markets &amp; Coverage
                     </p>
                     <h2 className="mt-3 font-tommy-bold text-[clamp(30px,4.4vw,64px)] leading-[0.96] tracking-[-0.03em] text-[#1A1917] dark:text-white">
-                        Where We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                        How We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
                     </h2>
                     <p className="mx-auto mt-5 max-w-[620px] font-tommy-regular text-[14px] leading-[1.7] text-[#5A554C] md:text-[17px] dark:text-[#A8A399]">
                         {/* {TOTALS.count} metro markets across {STATE_GROUPS.length} states, reaching{' '}
                         {compact(TOTALS.adults)} adults 18+ inside our coverage areas ΓÇö every mile
                         measured, every market accounted for. */}
-                        50 DMAs across 30 states + DC, reaching 83M adults 18+ inside our coverage areas ΓÇö every mile measured, every market accounted for.
+                        Wherever your customers are, we're already rolling. Nationwide coverage through our partner fleet, matched to your target markets by ZIP code.
                     </p>
 
                     <div className="mx-auto mt-9 grid max-w-[900px] grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
@@ -1211,7 +1211,7 @@ export default function MarketsCoverageV2() {
                                     Markets &amp; Coverage
                                 </p>
                                 <h3 className="mt-1.5 font-tommy-bold text-[clamp(19px,2.1vw,30px)] leading-[1] tracking-[-0.02em] text-[#1A1917] dark:text-white">
-                                    Where We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                                    How We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
                                 </h3>
                                 <p className="mt-1 font-tommy-regular text-[9px] uppercase tracking-[2px] text-[#8A857C] md:text-[10px] dark:text-[#9A968E]">
                                     Click any state or city to explore its record

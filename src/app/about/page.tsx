@@ -261,7 +261,7 @@ function Leadership({ stacked }: { stacked: boolean }) {
             eyebrow={<Eyebrow>Leadership</Eyebrow>}
             heading={
                 <h2 className="mt-4 font-tommy-bold text-[clamp(28px,3.2vw,46px)] leading-[1.06] tracking-tight text-[#1A1917] dark:text-white">
-                    Decades of truckside expertise. Trusted by the world's biggest brands.<Dot />
+                    Decades of truckside expertise. Trusted by the world's biggest brands<Dot />
                 </h2>
             }
             intro={
