@@ -217,7 +217,7 @@ export default function Footer() {
                                 </span>
                             </li>
                             <li>
-                                <a href="mailto:BrandGrowth@advertisingwheels.com" className="group flex items-center gap-3">
+                                <a href="mailto:BrandGrowth@AdvertisingWheels.com" className="group flex items-center gap-3">
                                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] transition-colors duration-300 group-hover:border-[#C8992B]/40 group-hover:bg-[#FCD119]/20 dark:border-white/10 dark:bg-white/[0.06] dark:text-[#FCD119] dark:group-hover:bg-[#FCD119]/10">
                                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                                             <rect x="1.8" y="3.4" width="12.4" height="9.2" rx="1.6" stroke="currentColor" strokeWidth="1.3" />

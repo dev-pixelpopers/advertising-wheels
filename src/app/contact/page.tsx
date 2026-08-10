@@ -30,7 +30,7 @@ const DETAILS = [
     },
     {
         label: 'Email us',
-        value: 'BrandGrowth@advertisingwheels.com',
+        value: 'BrandGrowth@AdvertisingWheels.com',
         sub: 'We reply within one business day',
         icon: 'M1.8 3.4h12.4v9.2H1.8zM2.4 4.6l5.6 4 5.6-4',
     },

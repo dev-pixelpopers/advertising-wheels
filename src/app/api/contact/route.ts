@@ -129,7 +129,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(
             {
-                error: 'We could not send your message. Please email BrandGrowth@advertisingwheels.com directly.',
+                error: 'We could not send your message. Please email BrandGrowth@AdvertisingWheels.com directly.',
                 reason,
             },
             { status: 502 }

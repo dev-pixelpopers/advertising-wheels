@@ -26,7 +26,7 @@ export const metadata: Metadata = {
         'How Advertising Wheels collects, uses and protects personal information submitted through this website, and the rights you have over that information.',
 };
 
-const CONTACT_EMAIL = 'BrandGrowth@advertisingwheels.com';
+const CONTACT_EMAIL = 'BrandGrowth@AdvertisingWheels.com';
 const CONTACT_PHONE = '1-877-4-ADWHEELS (1-877-423-9433)';
 
 export default function PrivacyPolicyPage() {
