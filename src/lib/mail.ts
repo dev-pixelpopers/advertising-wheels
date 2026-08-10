@@ -19,10 +19,38 @@ export interface Inquiry {
     message: string;
 }
 
-function required(key: string): string {
-    const v = process.env[key];
-    if (!v) throw new Error(`Missing environment variable: ${key}`);
-    return v;
+/**
+ * Thrown when the mailbox is not configured at all, as opposed to configured
+ * and rejected. The two are indistinguishable to a visitor but need completely
+ * different fixes — one is "set the variables on the host", the other is "the
+ * credentials or the connection are wrong" — so the route can report which.
+ */
+export class MailConfigError extends Error {
+    readonly missing: string[];
+    constructor(missing: string[]) {
+        super(`Missing environment variable(s): ${missing.join(', ')}`);
+        this.name = 'MailConfigError';
+        this.missing = missing;
+    }
+}
+
+/**
+ * Everything the mailbox needs. CONTACT_FROM_EMAIL is deliberately absent —
+ * it falls back to SMTP_USER, so it is optional.
+ */
+const REQUIRED_KEYS = ['SMTP_HOST', 'SMTP_USER', 'SMTP_PASS', 'CONTACT_TO_EMAIL'] as const;
+
+/**
+ * Reports EVERY missing key at once.
+ *
+ * This must be called before anything else touches `process.env`, or the first
+ * individual lookup throws and the operator gets told about one variable per
+ * deploy — which is exactly what happened the first time this was written.
+ */
+function requireAll(keys: readonly string[]): Record<string, string> {
+    const missing = keys.filter((k) => !process.env[k]);
+    if (missing.length) throw new MailConfigError(missing);
+    return Object.fromEntries(keys.map((k) => [k, process.env[k] as string]));
 }
 
 /**
@@ -37,17 +65,18 @@ let cached: Transporter | null = null;
 export function getTransport(): Transporter {
     if (cached) return cached;
 
+    const cfg = requireAll(REQUIRED_KEYS);
     const port = Number(process.env.SMTP_PORT ?? 587);
 
     cached = nodemailer.createTransport({
-        host: required('SMTP_HOST'),
+        host: cfg.SMTP_HOST,
         port,
         // 465 is implicit TLS; 587 starts plaintext and upgrades via STARTTLS.
         // Getting this backwards is the most common cause of a hang on connect.
         secure: port === 465,
         auth: {
-            user: required('SMTP_USER'),
-            pass: required('SMTP_PASS'),
+            user: cfg.SMTP_USER,
+            pass: cfg.SMTP_PASS,
         },
     });
 
@@ -58,12 +87,15 @@ const esc = (s: string) =>
     s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export async function sendInquiry(data: Inquiry): Promise<void> {
-    const to = required('CONTACT_TO_EMAIL');
+    /* Validated FIRST, in one shot, so a host missing several variables is told
+       about all of them at once. */
+    const cfg = requireAll(REQUIRED_KEYS);
+    const to = cfg.CONTACT_TO_EMAIL;
     /* The From address must be a mailbox on YOUR domain that the SMTP account is
        allowed to send as. Putting the visitor's address here instead is what
        gets contact forms classed as spoofing and dropped — their address goes in
        Reply-To, so hitting reply still answers them directly. */
-    const from = process.env.CONTACT_FROM_EMAIL ?? required('SMTP_USER');
+    const from = process.env.CONTACT_FROM_EMAIL || cfg.SMTP_USER;
 
     const rows: [string, string][] = [
         ['Name', data.name],

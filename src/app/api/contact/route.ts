@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { sendInquiry, type Inquiry } from '@/lib/mail';
+import { sendInquiry, MailConfigError, type Inquiry } from '@/lib/mail';
 
 /* Nodemailer opens a TCP socket, which the edge runtime cannot do. */
 export const runtime = 'nodejs';
@@ -91,11 +91,24 @@ export async function POST(request: Request) {
         await sendInquiry(data);
         return NextResponse.json({ ok: true });
     } catch (err) {
-        // Logged for the operator; the visitor gets a generic message, since the
-        // detail here can name the mail host and the account it authenticates as.
-        console.error('[contact] send failed:', err);
+        /* The visitor always gets the same generic sentence — the underlying
+           detail can name the mail host and the account it authenticates as.
+           `reason` is the one extra bit that leaves the server: it says WHICH
+           kind of failure this was, never any value. That distinction is the
+           whole diagnosis ("the host has no config" vs "the credentials or the
+           connection are wrong") and guessing it from response latency, which
+           is the only alternative from outside, is miserable. */
+        const notConfigured = err instanceof MailConfigError;
+        if (notConfigured) {
+            console.error('[contact] NOT CONFIGURED — missing on this host:', err.missing.join(', '));
+        } else {
+            console.error('[contact] send failed:', err);
+        }
         return NextResponse.json(
-            { error: 'We could not send your message. Please email BrandGrowth@advertisingwheels.com directly.' },
+            {
+                error: 'We could not send your message. Please email BrandGrowth@advertisingwheels.com directly.',
+                reason: notConfigured ? 'not_configured' : 'send_failed',
+            },
             { status: 502 }
         );
     }
