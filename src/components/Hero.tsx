@@ -122,161 +122,78 @@ export default function Hero({ isReady }: HeroProps) {
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
 
-      /* ── CTA headline: typed out, one character at a time ──────────────
-         The lines are split into characters and hidden. They then type in at
-         a fixed 50ms per character — deliberately REAL TIME rather than tied
-         to the scrubbed master timeline, so the cadence reads as typing
-         instead of speeding up or reversing with the scroll wheel. The
-         trigger below starts it at the point in the scroll where the CTA
-         phase begins. */
-      /* The headline is three tiers; each is tagged with the tier it belongs to
-         so the typing can pause between them. Tier 2 is two elements because
-         the accent word carries its own styling. */
-      const ctaParts = ctaRef.current
-        ? (Array.from(ctaRef.current.querySelectorAll('[data-cta-part]')) as HTMLElement[])
-        : [];
-      const caretOf = (n: string) =>
-        ctaRef.current?.querySelector<HTMLElement>(`[data-caret="${n}"]`) ?? null;
+      const mm = gsap.matchMedia();
 
-      const splits = ctaParts.map((el) => new SplitText(el, { type: 'chars' }));
-      const tier = (n: string) =>
-        ctaParts.flatMap((el, i) => (el.getAttribute('data-cta-line') === n ? splits[i].chars : []));
-      const [t1, t2, t3] = ['1', '2', '3'].map(tier);
-      const ctaChars = [...t1, ...t2, ...t3];
-      const carets = ['1', '2', '3'].map(caretOf);
+      mm.add({
+        isMobile: "(max-width: 767px)",
+        isDesktop: "(min-width: 768px)"
+      }, (context) => {
+        const { isMobile } = context.conditions as { isMobile: boolean; isDesktop: boolean };
 
-      /* Hide the characters themselves, then un-arm the wrapper. The wrapper
-         carries `cta-pre` so nothing is painted before hydration; hiding the
-         PARENTS instead would mean revealing a child character does nothing,
-         because the parent's own opacity still wins. */
-      gsap.set(ctaChars, { autoAlpha: 0 });
-      gsap.set(carets, { autoAlpha: 0 });
-      ctaRef.current?.querySelector('[data-cta-stack]')?.classList.remove('cta-pre');
+        const ctaParts = ctaRef.current
+          ? (Array.from(ctaRef.current.querySelectorAll('[data-cta-part]')) as HTMLElement[])
+          : [];
+        const caretOf = (n: string) =>
+          ctaRef.current?.querySelector<HTMLElement>(`[data-caret="${n}"]`) ?? null;
+        const carets = ['1', '2', '3'].map(caretOf);
 
-      /* Typing effect has been moved to Phase 4 on the scrubbed timeline below */
+        let splits: SplitText[] = [];
 
-      gsap.set(ctaButtonsRef.current, { y: 40, autoAlpha: 0 });
-      gsap.set(scrimRef.current, { autoAlpha: 0 });
-      // Header starts tucked above the viewport; it drops in during Phase 4, after the CTA.
-      // Driven by a ref (not a '.header' string selector) so a Header re-render can't
-      // leave it stuck at this initial value.
+        if (isMobile) {
+          gsap.set(ctaParts, { clipPath: 'inset(0% 100% 0% 0%)' });
+          gsap.set(carets, { display: 'none' });
+        } else {
+          splits = ctaParts.map((el) => new SplitText(el, { type: 'chars' }));
+          const tier = (n: string) =>
+            ctaParts.flatMap((el, i) => (el.getAttribute('data-cta-line') === n ? splits[i].chars : []));
+          const [t1, t2, t3] = ['1', '2', '3'].map(tier);
+          const ctaChars = [...t1, ...t2, ...t3];
+          
+          gsap.set(ctaChars, { autoAlpha: 0 });
+          gsap.set(carets, { autoAlpha: 0, display: 'inline-block' });
+        }
+        
+        ctaRef.current?.querySelector('[data-cta-stack]')?.classList.remove('cta-pre');
 
-      // One scrubbed timeline drives the whole first-section sequence.
-      const frameState = { frame: 0 };
+        gsap.set(ctaButtonsRef.current, { y: 40, autoAlpha: 0 });
+        gsap.set(scrimRef.current, { autoAlpha: 0 });
 
-      /* The scroll comes to rest once the CTA is fully assembled — the moment
-         the headline, header and buttons are all in place, before the tier-3
-         zoom hands off to the next section. Resolved to a progress fraction
-         only after the timeline is built (its total duration isn't known until
-         then), which is why `snapTo` below reads it lazily rather than closing
-         over a fixed number. */
-      let restProgress = -1;
-      /* Asymmetric on purpose. Approaching from above, the pull starts late so
-         the snap never yanks the CTA back mid-type; past the rest point it
-         reaches further, which is what makes the section feel like it has
-         caught and held you. Scroll beyond this window and the snap lets go. */
-      const REST_ZONE_BEFORE = 0.015;
-      const REST_ZONE_AFTER = 0.07;
+        const frameState = { frame: 0 };
+        let restProgress = -1;
+        const REST_ZONE_BEFORE = 0.015;
+        const REST_ZONE_AFTER = 0.07;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          /* Returning the untouched value means "no snap here" — so the magnet
-             only exists in a narrow band around the rest point instead of
-             dragging the user to it from anywhere in the 400vh section. */
-          snap: {
-            snapTo: (value: number) => {
-              if (restProgress < 0) return value;
-              const delta = value - restProgress;
-              if (delta >= -REST_ZONE_BEFORE && delta <= REST_ZONE_AFTER) return restProgress;
-              return value;
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top top',
+            snap: {
+              snapTo: (value: number) => {
+                if (restProgress < 0) return value;
+                const delta = value - restProgress;
+                if (delta >= -REST_ZONE_BEFORE && delta <= REST_ZONE_AFTER) return restProgress;
+                return value;
+              },
+              duration: { min: 0.15, max: 0.5 },
+              delay: 0.05,
+              ease: 'power2.inOut',
             },
-            duration: { min: 0.15, max: 0.5 },
-            delay: 0.05,
-            ease: 'power2.inOut',
+            end: () => '+=' + window.innerHeight * 4,
+            scrub: 0.5,
+            invalidateOnRefresh: true,
           },
-          // Animation spans 400vh of scroll and then finishes; the section is 500vh,
-          // so the sticky stays pinned for another 100vh — a "hold" on the finished
-          // Hero during which the next section rises up over it.
-          end: () => '+=' + window.innerHeight * 4,
-          scrub: 0.5,
-        },
-      });
+        });
 
-      // ── PHASE 1 (first stretch of scroll) ──────────────────────────────
-      // The scroll arrow fades out immediately when scrolling starts.
-      tl.to(
-        scrollArrowRef.current,
-        {
-          autoAlpha: 0,
-          ease: 'power1.out',
-          duration: 0.15,
-        },
-        0
-      );
+        // ── PHASE 1 (first stretch of scroll) ──────────────────────────────
+        tl.to(scrollArrowRef.current, { autoAlpha: 0, ease: 'power1.out', duration: 0.15 }, 0);
+        tl.to(canvasRef.current, { autoAlpha: 1, ease: 'none', duration: 0.25 }, 0);
+        tl.to(canvasRef.current, { scale: 1, filter: `blur(0px) ${CANVAS_GRADE}`, ease: 'none', duration: 1 }, 0);
+        tl.to(subRef.current, { xPercent: -260, autoAlpha: 0, ease: 'none', duration: 1 }, 0);
+        tl.to(hapRef.current, { xPercent: -220, ease: 'none', duration: 1 }, 0)
+          .to(pensRef.current, { xPercent: 220, ease: 'none', duration: 1 }, 0);
 
-      // The blurred woman fades in as soon as scrolling starts...
-      tl.to(
-        canvasRef.current,
-        {
-          autoAlpha: 1,
-          ease: 'none',
-          duration: 0.25,
-        },
-        0
-      );
-
-      // ...then scales up to full size and loses its blur.
-      tl.to(
-        canvasRef.current,
-        {
-          scale: 1,
-          // The grade rides along with the blur — GSAP replaces the whole
-          // `filter` string, so dropping it here would undo the brightening.
-          filter: `blur(0px) ${CANVAS_GRADE}`,
-          ease: 'none',
-          duration: 1,
-        },
-        0
-      );
-
-      // Subheading slides out to the left, in step with the reveal.
-      tl.to(
-        subRef.current,
-        {
-          xPercent: -260,
-          autoAlpha: 0,
-          ease: 'none',
-          duration: 1,
-        },
-        0
-      );
-
-      // Main heading splits from the center: HAPP exits left, ENS. exits right.
-      tl.to(
-        hapRef.current,
-        {
-          xPercent: -220,
-          ease: 'none',
-          duration: 1,
-        },
-        0
-      ).to(
-        pensRef.current,
-        {
-          xPercent: 220,
-          ease: 'none',
-          duration: 1,
-        },
-        0
-      );
-
-      // ── PHASE 2 (remaining scroll) ─────────────────────────────────────
-      // Only after the reveal/split is the full 208-frame sequence scrubbed.
-      tl.to(
-        frameState,
-        {
+        // ── PHASE 2 (remaining scroll) ─────────────────────────────────────
+        tl.to(frameState, {
           frame: FRAME_COUNT - 1,
           ease: 'none',
           duration: 2.5,
@@ -287,115 +204,76 @@ export default function Hero({ isReady }: HeroProps) {
               renderFrame(frame);
             }
           },
-        },
-        1
-      );
+        }, 1);
 
-      // ── PHASE 3 (after the canvas animation completes) ─────────────────
-      // The bottom scrim fades in first to ground the text against the photo...
-      tl.to(
-        scrimRef.current,
-        {
+        // ── PHASE 3 (after the canvas animation completes) ─────────────────
+        tl.to(scrimRef.current, {
           autoAlpha: 1,
           ease: 'power1.out',
           duration: 0.8,
           onStart: () => {
-            if (typeof window !== 'undefined') {
-              window.dispatchEvent(new CustomEvent('heroHeaderShow', { detail: true }));
-            }
+            if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('heroHeaderShow', { detail: true }));
           },
           onReverseComplete: () => {
-            if (typeof window !== 'undefined') {
-              window.dispatchEvent(new CustomEvent('heroHeaderShow', { detail: false }));
-            }
+            if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('heroHeaderShow', { detail: false }));
           },
-        },
-        '>'
-      );
+        }, '>');
 
-      // ── PHASE 4 (CTA text typing) ──────────────────────────────────────
-      // The text types in, scrubbed by the scroll position.
-      const CHAR = 0.02; // Stagger per character (scrubbed)
+        // ── PHASE 4 (CTA text animation) ──────────────────────────────────────
+        if (isMobile) {
+          // Text reveal animation for mobile (clipPath left to right)
+          const t1 = ctaParts.filter(el => el.getAttribute('data-cta-line') === '1');
+          const t2 = ctaParts.filter(el => el.getAttribute('data-cta-line') === '2');
+          const t3 = ctaParts.filter(el => el.getAttribute('data-cta-line') === '3');
+          
+          tl.to(t1, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.15, ease: 'none' })
+            .to(t2, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.15, ease: 'none' })
+            .to(t3, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.15, ease: 'none' });
+        } else {
+          // Typing animation for desktop
+          const CHAR = 0.02;
+          const tier = (n: string) => ctaParts.flatMap((el, i) => (el.getAttribute('data-cta-line') === n ? splits[i].chars : []));
+          const [t1, t2, t3] = ['1', '2', '3'].map(tier);
 
-      tl.set(carets[0], { autoAlpha: 1 })
-        .to(t1, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
-        .set(carets[0], { autoAlpha: 0 })
-
-        .set(carets[1], { autoAlpha: 1 })
-        .to(t2, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
-        .set(carets[1], { autoAlpha: 0 })
-
-        .set(carets[2], { autoAlpha: 1 })
-        .to(t3, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
-        .set(carets[2], { autoAlpha: 0 });
-
-      // The header drops in from the top once the CTA is fully revealed.
-      tl.fromTo(
-        headerRef.current,
-        {
-          yPercent: -270
-        },
-        {
-          yPercent: 0,
-          ease: 'power3.out',
-          duration: 0.6,
+          tl.set(carets[0], { autoAlpha: 1 })
+            .to(t1, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
+            .set(carets[0], { autoAlpha: 0 })
+            .set(carets[1], { autoAlpha: 1 })
+            .to(t2, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
+            .set(carets[1], { autoAlpha: 0 })
+            .set(carets[2], { autoAlpha: 1 })
+            .to(t3, { autoAlpha: 1, duration: 0.1, ease: 'none', stagger: CHAR })
+            .set(carets[2], { autoAlpha: 0 });
         }
-      );
 
-      // ...then the buttons show up.
-      tl.to(
-        ctaButtonsRef.current,
-        {
-          y: 0,
-          autoAlpha: 1,
-          ease: 'power2.out',
-          duration: 0.5,
+        tl.fromTo(headerRef.current, { yPercent: -270 }, { yPercent: 0, ease: 'power3.out', duration: 0.6 });
+        tl.to(ctaButtonsRef.current, { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.5 });
+
+        // ── THE HOLD ──────────────────────────────────────────────────────
+        tl.addLabel('ctaRest');
+        const HOLD = 1;
+
+        // ── PHASE 5 (Scale up Tier 3) ──────────────────────────────────────
+        const tier1El = ctaRef.current?.querySelector('[data-tier="1"]');
+        const tier2El = ctaRef.current?.querySelector('[data-tier="2"]');
+        const tier3El = ctaRef.current?.querySelector('[data-tier="3"]');
+
+        if (tier3El) {
+          tl.addLabel('scaleUp', '+=' + HOLD);
+          tl.to([tier1El, tier2El, ctaButtonsRef.current], { autoAlpha: 0, duration: 0.5, ease: 'power1.inOut' }, 'scaleUp');
+          tl.to(tier3El, { scale: 80, duration: 2.5, ease: 'power2.in', transformOrigin: '50% 50%' }, 'scaleUp');
         }
-      );
 
-      /* ── THE HOLD ──────────────────────────────────────────────────────
-         Everything has landed. This label marks the resting point, and the
-         empty stretch after it is scroll distance during which nothing moves
-         at all — roughly a third of a viewport of dead travel. That silence is
-         what makes the stop legible: the snap catches you here, the frame sits
-         still, and it takes a fresh scroll to break out and start the zoom. */
-      tl.addLabel('ctaRest');
-      const HOLD = 1;
+        const totalDuration = tl.duration();
+        restProgress = totalDuration > 0 ? tl.labels.ctaRest / totalDuration : -1;
 
-      // ── PHASE 5 (Scale up Tier 3) ──────────────────────────────────────
-      const tier1El = ctaRef.current?.querySelector('[data-tier="1"]');
-      const tier2El = ctaRef.current?.querySelector('[data-tier="2"]');
-      const tier3El = ctaRef.current?.querySelector('[data-tier="3"]');
-
-      if (tier3El) {
-        tl.addLabel('scaleUp', '+=' + HOLD); // the hold: dead scroll before the zoom
-
-        // Fade out other elements
-        tl.to([tier1El, tier2El, ctaButtonsRef.current], {
-          autoAlpha: 0,
-          duration: 0.5,
-          ease: 'power1.inOut'
-        }, 'scaleUp');
-
-        // Scale up Tier 3 massively without fading it out
-        tl.to(tier3El, {
-          scale: 80,
-          duration: 2.5,
-          ease: 'power2.in',
-          transformOrigin: '50% 50%'
-        }, 'scaleUp');
-      }
-
-      /* The timeline is complete, so its total duration is finally known and the
-         rest label can be expressed as the progress fraction `snapTo` needs. */
-      const totalDuration = tl.duration();
-      restProgress = totalDuration > 0 ? tl.labels.ctaRest / totalDuration : -1;
+        return () => {
+          splits.forEach((s) => s.revert());
+        };
+      });
 
       return () => {
         window.removeEventListener('resize', resizeCanvas);
-        // Put the original markup back on unmount / HMR, or the split spans
-        // accumulate every time this effect re-runs.
-        splits.forEach((s) => s.revert());
       };
     },
     { scope: containerRef }
@@ -560,8 +438,8 @@ export default function Hero({ isReady }: HeroProps) {
                       moving video, REGULAR at 85% left about two pixels of
                       low-contrast stroke to carry the line. MEDIUM at full white
                       is what tier 2 already uses. */}
-                  <p data-tier='3' className='cta-fine mt-[0.75em] font-tommy-medium uppercase leading-[1.15] tracking-[0.14em] text-white text-[16px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
-                    <span data-cta-part data-cta-line='3'>GPS-enabled billboard trucks that capture real impressions data -<br /> so you can retarget every viewer online</span>
+                  <p data-tier='3' data-cta-part data-cta-line='3' className='cta-fine mt-[0.75em] font-tommy-medium uppercase leading-[1.15] tracking-[0.14em] text-white text-[14px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
+                    GPS-enabled billboard trucks that capture real impressions data -<br /> so you can retarget every viewer online
                     <span
                       data-caret='3'
                       aria-hidden='true'

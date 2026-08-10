@@ -57,112 +57,140 @@ export default function WhyChooseUs() {
 
     useGSAP(
         () => {
-            // Set initial states
-            gsap.set('.wcu-heading', { autoAlpha: 0, y: 30 });
-            gsap.set('.wcu-video-block', { y: '80vh', autoAlpha: 0 });
-            gsap.set('.wcu-body-text', { autoAlpha: 0, yPercent: 100 });
+            const mm = gsap.matchMedia();
 
-            /* Built first, WITHOUT its trigger, because the snap points are
-               positions on this timeline and cannot be computed until it has a
-               duration. The trigger is attached at the bottom. */
-            const tl = gsap.timeline();
+            mm.add({
+                isMobile: "(max-width: 1279px)",
+                isDesktop: "(min-width: 1280px)"
+            }, (context) => {
+                const { isMobile } = context.conditions as { isMobile: boolean; isDesktop: boolean };
 
-            // 1. Heading appears
-            tl.to('.wcu-heading', { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' });
-
-            /* 2. Video block scrolls up from bottom — the section "sticks first":
-               this whole entrance happens before chapter 1 is on deck. Kept short
-               relative to the four chapters on purpose. It is scroll the reader
-               spends watching one thing arrive, and at the original 1.9 units it
-               was a third of the section's travel before the content even began. */
-            tl.to('.wcu-video-block', { y: 0, autoAlpha: 1, duration: 0.95, ease: 'power2.out' }, '+=0.15');
-            tl.addLabel('chapters', '+=0.1');
-
-            /* 3. The chapters.
-
-               These are ON the scrubbed timeline, not fired as side effects from
-               an onUpdate. That distinction is the whole fix for the section
-               opening two panels at once: an onUpdate that hides `oldIndex` and
-               shows `newIndex` only ever accounts for TWO panels, so a fast
-               scroll that carries the playhead from chapter 0 to chapter 2 in one
-               frame leaves chapter 1 shown and never told to leave. Those tweens
-               also ran in real time, against a scrub that was still easing the
-               playhead, so two of them could be mid-flight in opposite
-               directions and whichever finished last won.
-
-               On the timeline there is no index to skip and no race. Every
-               panel's state is a pure function of the playhead: scrub anywhere,
-               at any speed, in either direction, and GSAP renders exactly the
-               one arrangement that position describes. */
-            CHAPTERS.forEach((_, i) => {
-                const at = `chapters+=${i * SEG}`;
-
-                if (i > 0) {
-                    tl.to(`.wcu-body-text-${i - 1}`,
-                        { yPercent: 100, autoAlpha: 0, duration: OUT_DUR, ease: 'power2.in' },
-                        at);
+                // Set initial states
+                gsap.set('.wcu-heading', { autoAlpha: 0, y: 30 });
+                gsap.set('.wcu-video-block', { y: '80vh', autoAlpha: 0 });
+                gsap.set('.wcu-body-text', { autoAlpha: 0, yPercent: 100 });
+                
+                if (isMobile) {
+                    CHAPTERS.forEach((_, i) => {
+                        if (i > 0) gsap.set(`.wcu-tab-mobile-${i}`, { autoAlpha: 0, yPercent: 100 });
+                    });
                 }
 
-                // Overlapped slightly, so the outgoing panel is already clearing
-                // as the next one rises rather than the two cross-fading in place.
-                tl.fromTo(`.wcu-body-text-${i}`,
-                    { yPercent: 100, autoAlpha: 0 },
-                    { yPercent: 0, autoAlpha: 1, duration: IN_DUR, ease: 'power2.out' },
-                    i > 0 ? `${at}+=${HANDOVER}` : at);
-            });
+                /* Built first, WITHOUT its trigger, because the snap points are
+                   positions on this timeline and cannot be computed until it has a
+                   duration. The trigger is attached at the bottom. */
+                const tl = gsap.timeline();
 
-            /* The last chapter needs the same rest as the others, and there is no
-               following handover to provide it — without this the timeline ends
-               the instant panel 4 lands and its snap point sits past the end. */
-            tl.to({}, { duration: SEG - IN_DUR }, `chapters+=${(CHAPTERS.length - 1) * SEG + IN_DUR}`);
+                // 1. Heading appears
+                tl.to('.wcu-heading', { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' });
 
-            const chaptersAt = tl.labels.chapters;
-            const total = tl.duration();
+                /* 2. Video block scrolls up from bottom — the section "sticks first":
+                   this whole entrance happens before chapter 1 is on deck. Kept short
+                   relative to the four chapters on purpose. It is scroll the reader
+                   spends watching one thing arrive, and at the original 1.9 units it
+                   was a third of the section's travel before the content even began. */
+                tl.to('.wcu-video-block', { y: 0, autoAlpha: 1, duration: 0.95, ease: 'power2.out' }, '+=0.15');
+                tl.addLabel('chapters', '+=0.1');
 
-            /* One resting place per chapter, plus the top of the section so the
-               entrance has somewhere to settle instead of being yanked straight
-               into chapter 1. This is what makes one scroll open one panel. */
-            const snapPoints = [
-                0,
-                ...CHAPTERS.map((_, i) => (chaptersAt + i * SEG + REST_AT) / total),
-            ];
+                /* 3. The chapters.
 
-            /* The tab highlight, derived from the playhead rather than tracked
-               alongside it — same reason as the panels. Reading `tl.time()` means
-               the label can never disagree with the panel that is showing.
+                   These are ON the scrubbed timeline, not fired as side effects from
+                   an onUpdate. That distinction is the whole fix for the section
+                   opening two panels at once: an onUpdate that hides `oldIndex` and
+                   shows `newIndex` only ever accounts for TWO panels, so a fast
+                   scroll that carries the playhead from chapter 0 to chapter 2 in one
+                   frame leaves chapter 1 shown and never told to leave. Those tweens
+                   also ran in real time, against a scrub that was still easing the
+                   playhead, so two of them could be mid-flight in opposite
+                   directions and whichever finished last won.
 
-               It flips at the HANDOVER, not at the segment boundary: the outgoing
-               panel is eased out with `power2.in`, whose first moments barely
-               move, so a boundary flip lit the next tab while the previous
-               paragraph was still sitting there at full opacity. */
-            const indexAt = (t: number) => {
-                if (t < chaptersAt) return -1;
-                const rel = t - chaptersAt;
-                const i = Math.min(CHAPTERS.length - 1, Math.floor(rel / SEG));
-                return i > 0 && rel - i * SEG < HANDOVER ? i - 1 : i;
-            };
+                   On the timeline there is no index to skip and no race. Every
+                   panel's state is a pure function of the playhead: scrub anywhere,
+                   at any speed, in either direction, and GSAP renders exactly the
+                   one arrangement that position describes. */
+                CHAPTERS.forEach((_, i) => {
+                    const at = `chapters+=${i * SEG}`;
 
-            tl.eventCallback('onUpdate', () => {
-                const i = indexAt(tl.time());
-                if (i !== activeIndexRef.current) {
-                    activeIndexRef.current = i;
-                    setActiveIndex(i);
-                }
-            });
+                    if (i > 0) {
+                        tl.to(`.wcu-body-text-${i - 1}`,
+                            { yPercent: 100, autoAlpha: 0, duration: OUT_DUR, ease: 'power2.in' },
+                            at);
+                            
+                        if (isMobile) {
+                            tl.to(`.wcu-tab-mobile-${i - 1}`,
+                                { yPercent: -100, autoAlpha: 0, duration: OUT_DUR, ease: 'power2.in' },
+                                at);
+                        }
+                    }
 
-            ScrollTrigger.create({
-                animation: tl,
-                trigger: rootRef.current,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 0.5,
-                invalidateOnRefresh: true,
-                snap: {
-                    snapTo: snapPoints,
-                    duration: { min: 0.2, max: 0.5 },
-                    delay: 0.06,
-                    ease: 'power2.inOut',
-                },
+                    // Overlapped slightly, so the outgoing panel is already clearing
+                    // as the next one rises rather than the two cross-fading in place.
+                    tl.fromTo(`.wcu-body-text-${i}`,
+                        { yPercent: 100, autoAlpha: 0 },
+                        { yPercent: 0, autoAlpha: 1, duration: IN_DUR, ease: 'power2.out' },
+                        i > 0 ? `${at}+=${HANDOVER}` : at);
+                        
+                    if (isMobile && i > 0) {
+                        tl.fromTo(`.wcu-tab-mobile-${i}`,
+                            { yPercent: 100, autoAlpha: 0 },
+                            { yPercent: 0, autoAlpha: 1, duration: IN_DUR, ease: 'power2.out' },
+                            `${at}+=${HANDOVER}`);
+                    }
+                });
+
+                /* The last chapter needs the same rest as the others, and there is no
+                   following handover to provide it — without this the timeline ends
+                   the instant panel 4 lands and its snap point sits past the end. */
+                tl.to({}, { duration: SEG - IN_DUR }, `chapters+=${(CHAPTERS.length - 1) * SEG + IN_DUR}`);
+
+                const chaptersAt = tl.labels.chapters;
+                const total = tl.duration();
+
+                /* One resting place per chapter, plus the top of the section so the
+                   entrance has somewhere to settle instead of being yanked straight
+                   into chapter 1. This is what makes one scroll open one panel. */
+                const snapPoints = [
+                    0,
+                    ...CHAPTERS.map((_, i) => (chaptersAt + i * SEG + REST_AT) / total),
+                ];
+
+                /* The tab highlight, derived from the playhead rather than tracked
+                   alongside it — same reason as the panels. Reading `tl.time()` means
+                   the label can never disagree with the panel that is showing.
+
+                   It flips at the HANDOVER, not at the segment boundary: the outgoing
+                   panel is eased out with `power2.in`, whose first moments barely
+                   move, so a boundary flip lit the next tab while the previous
+                   paragraph was still sitting there at full opacity. */
+                const indexAt = (t: number) => {
+                    if (t < chaptersAt) return -1;
+                    const rel = t - chaptersAt;
+                    const i = Math.min(CHAPTERS.length - 1, Math.floor(rel / SEG));
+                    return i > 0 && rel - i * SEG < HANDOVER ? i - 1 : i;
+                };
+
+                tl.eventCallback('onUpdate', () => {
+                    const i = indexAt(tl.time());
+                    if (i !== activeIndexRef.current) {
+                        activeIndexRef.current = i;
+                        setActiveIndex(i);
+                    }
+                });
+
+                ScrollTrigger.create({
+                    animation: tl,
+                    trigger: rootRef.current,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 0.5,
+                    invalidateOnRefresh: true,
+                    snap: {
+                        snapTo: snapPoints,
+                        duration: { min: 0.2, max: 0.5 },
+                        delay: 0.06,
+                        ease: 'power2.inOut',
+                    },
+                });
             });
         },
         { scope: rootRef }
@@ -304,9 +332,9 @@ export default function WhyChooseUs() {
                                     <div style={{
                                         background: "linear-gradient(0deg, rgba(255, 255, 255, 0.3) 0%, rgba(23, 23, 23, 0.3) 100%)"
                                     }}
-                                        className={`wcu-body-text wcu-body-text-${i} absolute bottom-0 w-full h-auto bg-black/70 backdrop-blur-lg px-4 pt-4 pb-6 md:pb-8 rounded-t-[12px] md:rounded-t-[6px] pointer-events-auto z-[9999999]`}
+                                        className={`wcu-body-text wcu-body-text-${i} absolute bottom-0 w-full h-auto bg-black/70 backdrop-blur-lg px-2 md:px-4 pt-2 md:pt-4 pb-3 md:pb-6 lg:pb-8 rounded-t-[12px] md:rounded-t-[6px] pointer-events-auto z-[9999999]`}
                                     >
-                                        <p className="font-tommy-medium text-[13px] md:text-[14px] 2xl:text-[16px] leading-[1.55] md:leading-[1.6] text-white/90">
+                                        <p className="font-tommy-medium text-[12px] md:text-[14px] 2xl:text-[16px] leading-[1.55] md:leading-[1.6] text-white/90">
                                             {ch.body}
                                         </p>
                                     </div>
@@ -315,37 +343,30 @@ export default function WhyChooseUs() {
                         </div>
                     </div>
 
-                    {/* 2. Bottom Navigation Bar — 2×2 until `lg`, one strip above it.
-                           Four across at phone width gives each tab ~90px, which wraps
-                           "Real Trucks. Real Routes." onto four lines. Switches with the
-                           panels above so the two always agree. */}
-                    <div className="grid grid-cols-2 gap-2 w-full shrink-0 z-10 px-2 mt-2 xl:mt-0 xl:flex xl:flex-row xl:gap-4 xl:px-8">
-                        {CHAPTERS.map((ch, i) => {
-                            const isActive = activeIndex === i;
-                            return (
-                                <div
-                                    key={i}
-                                    /* One background per state — the old base `bg-white` sat
-                                       alongside a conditional `bg-transparent`, and which of
-                                       the two won came down to their order in the generated
-                                       stylesheet rather than anything intentional. */
-                                    className={`flex flex-col justify-center rounded-[10px] border px-3 py-2.5 transition-colors duration-500 md:px-5 md:py-4 xl:flex-1 xl:rounded-[0px] xl:rounded-b-[6px] xl:py-5 ${isActive
-                                        ? 'bg-[#F5F2EA] dark:bg-[#1A1A1A] shadow-inner border-black/5 dark:border-white/5'
-                                        : 'bg-white dark:bg-[#141414] border-transparent hover:bg-black/[0.02] dark:hover:bg-white/[0.02] cursor-pointer'
-                                        }`}
-                                >
-                                    {/* The type only steps up once a tab is actually wide
-                                        enough for it — at 1024 a 30px title in a 202px tab
-                                        pushed the nav to 204px tall on its own. */}
-                                    <p className={`font-tommy-medium text-[10px] md:text-[11px] xl:text-[13px] 2xl:text-[16px] tracking-[1px] md:tracking-[2px] transition-colors duration-500 ${isActive ? 'text-[#C8992B] dark:text-[#FCD119]' : 'text-[#8A857C] dark:text-[#6F6A60]'}`}>
-                                        {ch.tag}
-                                    </p>
-                                    <h4 className={`font-tommy-bold text-[14px] md:text-[16px] xl:text-[22px] 2xl:text-[28px] leading-[1.15] md:leading-[1.1] transition-colors duration-500 ${isActive ? 'text-[#1A1917] dark:text-white' : 'text-[#1A1917]/50 dark:text-white/50'}`}>
-                                        {ch.title}
-                                    </h4>
-                                </div>
-                            );
-                        })}
+                    {/* 2. Bottom Navigation Bar — rolls as a single box until `xl`, one strip above it.
+                           Four across at phone width was wrapping titles too much. Now they roll 
+                           in a single shared container. Switches with the panels above. */}
+                    <div className="relative h-[85px] md:h-[105px] overflow-hidden w-full shrink-0 z-10 px-2 mt-2 xl:overflow-visible xl:h-auto xl:mt-0 xl:px-8">
+                        <div className="relative w-full h-full xl:flex xl:flex-row xl:gap-4">
+                            {CHAPTERS.map((ch, i) => {
+                                const isActive = activeIndex === i;
+                                return (
+                                    <div
+                                        key={i}
+                                        /* On mobile, this is always styled active since it's the only one shown,
+                                           while on desktop it transitions colors. */
+                                        className={`wcu-tab-mobile-${i} absolute inset-0 xl:relative xl:inset-auto flex flex-col justify-center rounded-[10px] border px-3 py-2.5 transition-colors duration-500 md:px-5 md:py-4 xl:flex-1 xl:rounded-[0px] xl:rounded-b-[6px] xl:py-5 cursor-pointer bg-[#F5F2EA] dark:bg-[#1A1A1A] shadow-inner border-black/5 dark:border-white/5 xl:shadow-none xl:border-transparent xl:bg-white xl:dark:bg-[#141414] xl:hover:bg-black/[0.02] xl:dark:hover:bg-white/[0.02] ${isActive ? 'xl:!bg-[#F5F2EA] xl:dark:!bg-[#1A1A1A] xl:!shadow-inner xl:!border-black/5 xl:dark:!border-white/5' : ''}`}
+                                    >
+                                        <p className={`font-tommy-medium text-[10px] md:text-[11px] xl:text-[13px] 2xl:text-[16px] tracking-[1px] md:tracking-[2px] transition-colors duration-500 text-[#C8992B] dark:text-[#FCD119] xl:text-[#8A857C] xl:dark:text-[#6F6A60] ${isActive ? 'xl:!text-[#C8992B] xl:dark:!text-[#FCD119]' : ''}`}>
+                                            {ch.tag}
+                                        </p>
+                                        <h4 className={`font-tommy-bold text-[14px] md:text-[16px] xl:text-[22px] 2xl:text-[28px] leading-[1.15] md:leading-[1.1] transition-colors duration-500 text-[#1A1917] dark:text-white xl:text-[#1A1917]/50 xl:dark:text-white/50 ${isActive ? 'xl:!text-[#1A1917] xl:dark:!text-white' : ''}`}>
+                                            {ch.title}
+                                        </h4>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
 

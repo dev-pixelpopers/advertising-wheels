@@ -58,7 +58,7 @@ const SUB_CARET =
 const pinPositions = [
     {
         // Near-left, low — largest, so it reads closest to camera
-        className: 'left-[20%] top-[15%] lg:left-[6%] lg:top-[34%]',
+        className: 'left-[17%] top-[10%] lg:left-[6%] lg:top-[34%]',
         size: 'w-[64px] h-[64px] lg:w-[82px] lg:h-[82px]',
     },
     {
@@ -89,12 +89,12 @@ const pinPositions = [
     },
     {
         // High right, mirroring the one above — smallest pair, furthest back
-        className: 'right-[14%] top-[52%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[44%] lg:top-[20%]',
+        className: 'right-[5%] top-[48%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[44%] lg:top-[20%]',
         size: 'w-[50px] h-[50px] lg:w-[60px] lg:h-[60px]',
     },
     {
         // High right, mirroring the one above — smallest pair, furthest back
-        className: 'right-[14%] top-[46%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[24%] lg:top-[20%]',
+        className: 'right-[14%] top-[40%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[24%] lg:top-[20%]',
         size: 'w-[50px] h-[50px] lg:w-[60px] lg:h-[60px]',
     },
     {
@@ -104,7 +104,7 @@ const pinPositions = [
     },
     {
         // Far-left, upper — tucked into the corner
-        className: 'left-[4%] top-[20%] lg:left-[3%] lg:top-[21%]',
+        className: 'left-[4%] top-[14%] lg:left-[3%] lg:top-[21%]',
         size: 'w-[48px] h-[48px] lg:w-[58px] lg:h-[58px]',
     }
 
@@ -280,7 +280,7 @@ export default function TruckExperience() {
             `}</style>
 
             {/* Sticky visual stage (no gsap pin) */}
-            <div className="sticky top-[3%] lg:top-[8%] h-screen w-full overflow-hidden">
+            <div className="sticky top-[7%] lg:top-[8%] h-screen w-full overflow-hidden">
 
                 {/* HEADING — built on the Hero's tier system: a small tracked label
                     over an oversized uppercase line, cream on a darkened plate, with
@@ -358,7 +358,7 @@ export default function TruckExperience() {
 
                 {/* TRUCK — enters from left, centre stage */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div ref={truckWrapRef} className="relative w-full lg:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[17%] 2xl:top-0">
+                    <div ref={truckWrapRef} className="relative w-full lg:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[15%] 2xl:top-0">
                         <img
                             src="/assets/images/process/truck.png"
                             alt="Advertising Wheels truck"
@@ -412,14 +412,14 @@ export default function TruckExperience() {
                         counters below drift on a timer. Labelling the panel keeps
                         its campaign-scale truck count from reading as a claim
                         about the size of the fleet. */}
-                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center md:text-left">
+                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center">
                         Sample campaign dashboard
                     </p>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-4 md:gap-y-0">
+                    <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-2 md:gap-y-4 lg:gap-y-0">
                         {/* Item 1: TOTAL IMPRESSIONS */}
                         <div className="flex flex-col justify-between pr-3 md:px-5 first:pl-0">
-                            <div className="flex flex-col lg:flex-row items-center gap-3">
+                            <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
@@ -444,7 +444,7 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Item 2: TOTAL MILEAGE */}
-                        <div className="flex flex-col justify-between xl:pr-3 px-3 md:px-2 xl:px-5 pt-3 md:pt-0">
+                        <div className="flex flex-col justify-between xl:pr-3 px-3 md:px-2 xl:px-5 pt-0">
                             <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
@@ -470,7 +470,7 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Item 3: ACTIVE TRUCKS */}
-                        <div className="flex flex-col justify-between xl:pr-3 lg:px-3 xl:px-5 pt-3 md:pt-0">
+                        <div className="flex flex-col justify-between xl:pr-3 lg:px-3 xl:px-5 pt-0">
                             <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
@@ -496,8 +496,8 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Item 4: ACTIVE CAMPAIGNS */}
-                        <div className="flex flex-col justify-between md:pl-5 pt-3 md:pt-0">
-                            <div className="flex flex-col lg:flex-row items-center gap-3">
+                        <div className="flex flex-col justify-between md:pl-5">
+                            <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M18 11c0-1.33-.52-2.54-1.37-3.45L19 5l-1.5-1.5-2.52 2.52C13.97 5.37 12.54 5 11 5c-3.87 0-7 3.13-7 7s3.13 7 7 7c1.54 0 2.97-.37 4-1.02L17.52 20.5 19 19l-2.37-2.55C17.48 13.54 18 12.33 18 11zm-7 4c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />

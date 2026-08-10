@@ -519,7 +519,7 @@ function MarketPopup({
     }, { dependencies: [market.id, trucks], scope: overlayRef, revertOnUpdate: false });
 
     return (
-        <div ref={overlayRef} className="absolute inset-0 z-[200] flex items-center justify-center p-4 md:p-8">
+        <div ref={overlayRef} className="absolute inset-0 z-[200] flex items-center justify-center p-4 md:p-8 overflow-scroll md:overflow-hidden">
             <div
                 ref={backdropRef}
                 className="absolute inset-0 bg-black/70 backdrop-blur-md"
@@ -545,7 +545,7 @@ function MarketPopup({
                 role="dialog"
                 aria-modal="true"
                 aria-label={market.name}
-                className="relative z-10 w-full max-w-[1240px] overflow-hidden rounded-[16px] md:rounded-[20px] lg:rounded-[28px] bg-[#E7E0CE] shadow-[0_45px_130px_rgba(0,0,0,0.5)] dark:bg-[#141414]"
+                className="relative z-10 w-full max-w-[1240px] overflow-hidden rounded-[16px] md:rounded-[20px] lg:rounded-[28px] bg-[#E7E0CE] shadow-[0_45px_130px_rgba(0,0,0,0.5)] dark:bg-[#141414] top-[22%] lg:top-0"
             >
                 {/* Close sits on the CARD, not the photo — on desktop the photo
                     is only the left half, so anchoring it to the card keeps it
@@ -608,7 +608,7 @@ function MarketPopup({
                         row height, and the photo column stretches to match.
                         min() so it can never fight the 86vh cap on a short
                         viewport (min-height would win and overflow). */}
-                    <div className="relative lg:max-h-[86vh] min-h-0 overflow-y-auto p-3 md:p-6 md:min-h-[min(430px,74vh)] lg:p-9">
+                    <div className="relative lg:max-h-[86vh] min-h-0 overflow-y-auto p-2 md:p-6 md:min-h-[min(430px,74vh)] lg:p-9">
                         {/* The rank, set as a watermark — gives the data column
                             its own piece of typography instead of leaving it a
                             plain stack of boxes. */}
@@ -648,7 +648,7 @@ function MarketPopup({
                                         <p
                                             data-count={value}
                                             data-count-format={format}
-                                            className="font-tommy-bold text-[13px] md:text-[17px] leading-none tabular-nums text-[#1A1917] lg:text-[22px] dark:text-white"
+                                            className="font-tommy-bold text-[11px] md:text-[17px] leading-none tabular-nums text-[#1A1917] lg:text-[22px] dark:text-white"
                                         >
                                             {fmt(value)}
                                         </p>
@@ -671,7 +671,7 @@ function MarketPopup({
                                             #{market.rank} of {TOTALS.count}
                                         </span>
                                     </div>
-                                    <div className="mt-2.5 h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+                                    <div className="mt-1.5 md:mt-2.5 h-[3px] md:h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
                                         <span
                                             ref={rankBarRef}
                                             className="block h-full rounded-full bg-gradient-to-r from-[#C8992B] to-[#FCD119]"
@@ -696,7 +696,7 @@ function MarketPopup({
                                     {/* Shares top out around 12%, so the track is
                                         scaled to that rather than to 100% — at true
                                         scale every market would read as an empty bar. */}
-                                    <div className="mt-2.5 h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+                                    <div className="mt-1.5 md:mt-2.5 h-[3px] md:h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
                                         <span
                                             ref={barRef}
                                             className="block h-full rounded-full bg-gradient-to-r from-[#C8992B] to-[#FCD119]"
@@ -725,12 +725,12 @@ function MarketPopup({
                                     <h4 className="font-tommy-bold text-white text-[18px] md:text-[22px] tracking-wide mb-1">
                                         Build your Campaign
                                     </h4>
-                                    <p className="font-tommy-regular text-[11px] md:text-[13px] text-white/60 mb-6 md:mb-8">
+                                    <p className="font-tommy-regular text-[11px] md:text-[13px] text-white/60 mb-3 md:mb-6 lg:mb-8">
                                         Select a target coverage or enter a custom number of trucks.
                                     </p>
 
                                     {/* 1 Row for Coverage & Trucks */}
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 md:gap-5 lg:gap-8 mb-3 md:mb-5 lg:mb-8 pb-3 md:pb-5 lg:pb-8 border-b border-white/10">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-2 md:gap-5 lg:gap-8 mb-3 md:mb-5 lg:mb-8 pb-3 md:pb-5 lg:pb-8 border-b border-white/10">
                                         <div className="flex-1 w-full">
                                             <label className="block font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1 md:mb-2 lg:mb-3">
                                                 Target Coverage
@@ -792,7 +792,7 @@ function MarketPopup({
                                             <div className="flex items-end gap-3 md:gap-4">
                                                 <p
                                                     ref={dynamicImpsRef}
-                                                    className="font-tommy-bold text-[26px] md:text-[36px] lg:text-[48px] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B] dark:text-[#FCD119]"
+                                                    className="font-tommy-bold text-[20px] md:text-[36px] lg:text-[48px] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B] dark:text-[#FCD119]"
                                                 >
                                                     0
                                                 </p>
@@ -822,12 +822,12 @@ function MarketPopup({
                             {related.length > 0 && (
                                 <div
                                     data-pop-item
-                                    className="mt-3 md:mt-5 lg:mt-7 rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-2 md:p-3 lg:p-5 text-center dark:border-[#FCD119]/25 dark:bg-[#FCD119]/[0.06]"
+                                    className="mt-2 md:mt-5 lg:mt-7 rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-2 md:p-3 lg:p-5 text-center dark:border-[#FCD119]/25 dark:bg-[#FCD119]/[0.06]"
                                 >
                                     <p className="font-tommy-medium text-[9px] md:text-[11px] uppercase tracking-[3px] text-[#8A6E1F] dark:text-[#FCD119]">
                                         {relatedLabel}
                                     </p>
-                                    <div className="mt-2 md:mt-3 lg:mt-4 flex flex-wrap justify-center gap-2.5">
+                                    <div className="mt-2 md:mt-3 lg:mt-4 flex flex-wrap justify-center gap-1.5 md:gap-2.5">
                                         {related.map((r) => (
                                             <button
                                                 key={r.id}
