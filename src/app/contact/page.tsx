@@ -59,6 +59,47 @@ const FAQS = [
 function ContactHero() {
     const rootRef = useRef<HTMLDivElement>(null);
     const [sent, setSent] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    /**
+     * Posts the form and only shows the thank-you once the server confirms.
+     *
+     * The form is NOT reset on failure and never unmounts mid-flight, so a
+     * network blip or a rejected field leaves everything the person typed
+     * exactly where it was — losing a long message to a failed request is the
+     * one outcome that guarantees they don't try again.
+     */
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (sending) return;
+
+        const form = e.currentTarget;
+        const fd = new FormData(form);
+        const payload = Object.fromEntries(fd.entries());
+
+        setSending(true);
+        setError(null);
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const json = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                setError(json.error ?? 'Something went wrong. Please try again.');
+                return;
+            }
+            form.reset();
+            setSent(true);
+        } catch {
+            setError('Could not reach the server. Please check your connection and try again.');
+        } finally {
+            setSending(false);
+        }
+    }
 
     useGSAP(
         () => {
@@ -173,7 +214,17 @@ function ContactHero() {
                                 </button>
                             </div>
                         ) : (
-                            <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="flex flex-col gap-5">
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                                {/* Honeypot. Hidden from people and from screen readers; bots
+                                    fill it in and the server silently discards the submission. */}
+                                <input
+                                    type="text"
+                                    name="website"
+                                    tabIndex={-1}
+                                    autoComplete="off"
+                                    aria-hidden="true"
+                                    className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                                />
                                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                                     <div>
                                         <label htmlFor="c-name" className={labelClass}>Full name</label>
@@ -198,7 +249,9 @@ function ContactHero() {
                                     <div className="flex flex-wrap gap-2.5">
                                         {INTERESTS.map((int, i) => (
                                             <label key={int} className="cursor-pointer">
-                                                <input type="radio" name="interest" defaultChecked={i === 0} className="peer sr-only" />
+                                                {/* `value` was missing, so every submission reported
+                                                    the interest as "on" regardless of the choice. */}
+                                                <input type="radio" name="interest" value={int} defaultChecked={i === 0} className="peer sr-only" />
                                                 <span className="inline-block rounded-full border border-black/12 px-4 py-2.5 font-tommy-regular text-[13.5px] text-[#5A554C] transition-colors duration-200 peer-checked:border-transparent peer-checked:bg-[#1A1917] peer-checked:text-[#FCD119] dark:border-white/12 dark:text-[#A8A399] dark:peer-checked:bg-[#FCD119] dark:peer-checked:text-black">
                                                     {int}
                                                 </span>
@@ -212,11 +265,21 @@ function ContactHero() {
                                     <textarea id="c-msg" name="message" rows={4} required placeholder="Markets, timing, goals — as much or as little as you like." className={`${inputClass} resize-none`} />
                                 </div>
 
+                                {error && (
+                                    <p
+                                        role="alert"
+                                        className="rounded-xl border border-[#B4342A]/25 bg-[#B4342A]/[0.06] px-4 py-3 font-tommy-regular text-[13.5px] leading-[1.5] text-[#8E2A22]"
+                                    >
+                                        {error}
+                                    </p>
+                                )}
+
                                 <button
                                     type="submit"
-                                    className="group mt-1 inline-flex items-center justify-center gap-3 rounded-full bg-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.02] dark:bg-[#FCD119] dark:text-black"
+                                    disabled={sending}
+                                    className="group mt-1 inline-flex items-center justify-center gap-3 rounded-full bg-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100 dark:bg-[#FCD119] dark:text-black"
                                 >
-                                    Send message <ArrowIcon />
+                                    {sending ? 'Sending…' : <>Send message <ArrowIcon /></>}
                                 </button>
                                 <p className="font-tommy-regular text-[11.5px] leading-[1.6] text-[#6F6A60]/85 dark:text-[#9A968E]/80">
                                     By submitting you agree to our{' '}
