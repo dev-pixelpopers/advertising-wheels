@@ -12,12 +12,10 @@ import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import SiteHeader from '@/components/SiteHeader';
-import Footer from '@/components/Footer';
 import CtaSection from '@/components/CtaSection';
 import HorizontalStatement from '@/components/site/HorizontalStatement';
 import PortalHero from '@/components/site/PortalHero';
-import { Reveal, Eyebrow, Dot, PrimaryLink, GhostLink } from '@/components/site/primitives';
+import { Reveal, Eyebrow, Dot } from '@/components/site/primitives';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -317,7 +315,7 @@ export default function ServicesPage() {
                 badge="Solutions"
                 title="WHAT WE DO"
                 lead="From the wrap on the truck to the readout on your desk — placement, production, targeting, measurement, creative and campaign management, handled end to end by one accountable team."
-                primary={{ label: 'Book a Strategy Call', href: '/contact' }}
+                primary={{ label: 'Book a Campaign', href: '/contact#form' }}
                 secondary={{ label: 'See the results', href: '/projects' }}
                 image="/assets/images/clients/floor-and-decor/hero-05.webp"
                 imageAlt="An Advertising Wheels truck on a city corridor at dusk"

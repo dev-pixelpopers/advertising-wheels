@@ -316,7 +316,7 @@ export const shotsFor = (slug: string): ClientShots | undefined => CLIENT_SHOTS[
  */
 export const HOUSE_SHOTS = {
     /** Wendy's — elevated view of a wrap parked at a retail centre (DJI_0768). */
-    projectsHero: '/assets/images/clients/banner image/20170822_091538 1.png',
+    projectsHero: '/assets/images/clients/banner image/The Results.webp',
     /** Wendy's — a wrap at speed on a multi-lane interstate (DSC06174). */
-    highway: '/assets/images/clients/raising-canes/hero-01.webp',
+    highway: '/assets/images/Blog-Featured.webp',
 };

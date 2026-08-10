@@ -31,7 +31,7 @@ export interface LogoData {
     id: string;
     logo: string;
     logoDark?: string;
-    /** Pool 1 (12) enters on load; pool 2 (11) enters on the first scroll. */
+    /** Pool 1 (11) enters on load; pool 2 (12) enters on the first scroll. */
     wave: 1 | 2;
     /** PHASE 1 target — pool 1 only. Where the first twelve settle on load. */
     a?: Target;
@@ -62,12 +62,15 @@ export interface LogoData {
    so a band is never at one height at any instant either. Placement breaks the
    average, the wave breaks the moment. Neither works alone. */
 
-/* ── PHASE 1 — twelve marks, wall to wall around the text block ───────────
-   Three rows: five across the top, two either side of the block, five across
+/* ── PHASE 1 — eleven marks, wall to wall around the text block ───────────
+   Three rows: five across the top, two either side of the block, four across
    the bottom. They tile the viewport exactly —
 
-     rows 1 and 3   5 marks a fifth of the width apart, about x .10/.30/.50/
+     row 1          5 marks a fifth of the width apart, about x .10/.30/.50/
                     .70/.90
+     row 3          4 marks a quarter of the width apart, about x .12/.37/
+                    .63/.88 — one short of row 1 since the duplicate Cane's
+                    came out, and re-spaced rather than left with a hole
      row 2          2 marks at about x .155/.845, scaled 1.55 so one mark
                     bridges the whole strip between a side wall and the block
      vertically     about y .23 / .525 / .84, which lands the top row's upper
@@ -103,14 +106,22 @@ export interface LogoData {
      even depth    a per-band quota, so the field cannot pile into one stripe
                    and leave a hole somewhere else. Currently 4/5/4/6/4.
 
+   Still the ORIGINAL solve. Burger King moving to phase 2 and Cane's changing
+   artwork both left the set of 23 phase-2 targets untouched — only which mark
+   sits on which one changed.
+
    Re-run the solver if the artwork, the count, or FLOW_SCALE changes — the
    numbers are only valid for the sizes they were solved against. */
 
 export const BUBBLES: LogoData[] = [
-    // ══ POOL 1 (12) — phase 1 row 1, drifting to phase 2 row 1 ══
+    // ══ POOL 1 (11) — phase 1 row 1, drifting to phase 2 row 1 ══
     { id: 'b1', logo: 'partner-nationwide.png', wave: 1, phase: 0, url: 'https://www.nationwide.com', a: { x: 0.104, y: 0.218 }, b: { x: 0.276, y: 0.911 }, aSm: { x: 0.18, y: 0.12 }, bSm: { x: 0.18, y: 0.06 } },
     { id: 'b5', logo: 'partner-wendys.png', wave: 1, phase: 0.5, url: 'https://www.wendys.com', a: { x: 0.293, y: 0.241 }, b: { x: 0.061, y: 0.884 }, aSm: { x: 0.50, y: 0.12 }, bSm: { x: 0.50, y: 0.06 } },
-    { id: 'b2', logo: 'burger-king-logo.png', wave: 1, phase: 0.8, url: 'https://www.bk.com', a: { x: 0.507, y: 0.226 }, b: { x: 0.787, y: 0.468 }, aSm: { x: 0.82, y: 0.12 }, bSm: { x: 0.82, y: 0.06 } },
+    /* The only Cane's mark. It holds the top-row centre slot Burger King vacated
+       in phase 1, and in phase 2 it inherits the slot the old bottom-row Cane's
+       was solved into — so the packed pool is the original solved 23, unchanged. */
+    { id: 'b24', logo: 'canes.png', wave: 1, phase: 1.1, url: 'https://www.raisingcanes.com', a: { x: 0.507, y: 0.226 }, b: { x: 0.546, y: 0.694 }, aSm: { x: 0.82, y: 0.12 }, bSm: { x: 0.18, y: 0.45 } },
+    { id: 'b13', logo: 'partner-saks-white.png', logoDark: 'partner-saks-dark.png', wave: 2, phase: 1.2, url: 'https://www.saksfifthavenue.com/', b: { x: 0.066, y: 0.158 }, bSm: { x: 0.18, y: 0.58 } },
     { id: 'b4', logo: '5th_3rd.png', wave: 1, phase: 2.1, url: 'https://www.53.com', a: { x: 0.694, y: 0.247 }, b: { x: 0.699, y: 0.156 }, aSm: { x: 0.18, y: 0.30 }, bSm: { x: 0.18, y: 0.19 } },
     { id: 'b12', logo: 'dollar-car-rental-logo.png', wave: 1, phase: 0.6, url: 'https://www.dollar.com/', a: { x: 0.905, y: 0.233 }, b: { x: 0.065, y: 0.693 }, aSm: { x: 0.50, y: 0.30 }, bSm: { x: 0.50, y: 0.19 } },
 
@@ -118,17 +129,18 @@ export const BUBBLES: LogoData[] = [
     { id: 'b7', logo: 'partner-xfinity.png', wave: 1, phase: 2.5, url: 'https://www.xfinity.com', a: { x: 0.848, y: 0.512, s: 1.55 }, b: { x: 0.611, y: 0.327 }, aSm: { x: 0.82, y: 0.30 }, bSm: { x: 0.82, y: 0.19 } },
     { id: 'b3', logo: 'partner-hertz.png', wave: 1, phase: 1.4, url: 'https://www.hertz.com', a: { x: 0.152, y: 0.537, s: 1.55 }, b: { x: 0.935, y: 0.695 }, aSm: { x: 0.18, y: 0.70 }, bSm: { x: 0.18, y: 0.32 } },
 
-    // Phase 1 row 3 — the bottom wall
-    { id: 'b9', logo: 'aaa-vector-logo.png', wave: 1, phase: 0.3, url: 'https://www.aaa.com', a: { x: 0.095, y: 0.852 }, b: { x: 0.495, y: 0.901 }, aSm: { x: 0.50, y: 0.70 }, bSm: { x: 0.50, y: 0.32 } },
-    { id: 'b10', logo: 'partner-kaiser.png', wave: 1, phase: 1.9, url: 'https://healthy.kaiserpermanente.org/', a: { x: 0.306, y: 0.828 }, b: { x: 0.466, y: 0.157 }, aSm: { x: 0.82, y: 0.70 }, bSm: { x: 0.82, y: 0.32 } },
-    { id: 'b8', logo: 'partner-raising-canes.png', wave: 1, phase: 1.1, url: 'https://www.raisingcanes.com', a: { x: 0.494, y: 0.845 }, b: { x: 0.546, y: 0.694 }, aSm: { x: 0.18, y: 0.88 }, bSm: { x: 0.18, y: 0.45 } },
-    { id: 'b6', logo: 'ab-inbev.png', wave: 1, phase: 1.7, url: 'https://www.ab-inbev.com', a: { x: 0.705, y: 0.833 }, b: { x: 0.385, y: 0.705 }, aSm: { x: 0.50, y: 0.88 }, bSm: { x: 0.50, y: 0.45 } },
-    { id: 'b15', logo: 'beringer.png', wave: 1, phase: 0.9, url: 'https://www.beringer.com/', a: { x: 0.896, y: 0.857 }, b: { x: 0.067, y: 0.329 }, aSm: { x: 0.82, y: 0.88 }, bSm: { x: 0.82, y: 0.45 } },
+    /* Phase 1 row 3 — the bottom wall. FOUR marks, not five: the fifth was the
+       duplicate Cane's. Re-spaced to a quarter of the width apart rather than
+       left with a hole where it stood, so the row still tiles the floor. */
+    { id: 'b9', logo: 'aaa-vector-logo.png', wave: 1, phase: 0.3, url: 'https://www.aaa.com', a: { x: 0.118, y: 0.852 }, b: { x: 0.495, y: 0.901 }, aSm: { x: 0.50, y: 0.70 }, bSm: { x: 0.50, y: 0.32 } },
+    { id: 'b10', logo: 'partner-kaiser.png', wave: 1, phase: 1.9, url: 'https://healthy.kaiserpermanente.org/', a: { x: 0.372, y: 0.828 }, b: { x: 0.466, y: 0.157 }, aSm: { x: 0.82, y: 0.70 }, bSm: { x: 0.82, y: 0.32 } },
+    { id: 'b6', logo: 'ab-inbev.png', wave: 1, phase: 1.7, url: 'https://www.ab-inbev.com', a: { x: 0.629, y: 0.833 }, b: { x: 0.385, y: 0.705 }, aSm: { x: 0.32, y: 0.88 }, bSm: { x: 0.50, y: 0.45 } },
+    { id: 'b15', logo: 'beringer.png', wave: 1, phase: 0.9, url: 'https://www.beringer.com/', a: { x: 0.879, y: 0.857 }, b: { x: 0.067, y: 0.329 }, aSm: { x: 0.68, y: 0.88 }, bSm: { x: 0.82, y: 0.45 } },
 
-    // ══ POOL 2 (11) — no phase 1 target; these are still below the fold then ══
+    // ══ POOL 2 (12) — no phase 1 target; these are still below the fold then ══
 
     // Either side of the block
-    { id: 'b13', logo: 'partner-saks-white.png', logoDark: 'partner-saks-dark.png', wave: 2, phase: 1.2, url: 'https://www.saksfifthavenue.com/', b: { x: 0.066, y: 0.158 }, bSm: { x: 0.18, y: 0.58 } },
+    { id: 'b2', logo: 'burger-king-logo.png', wave: 2, phase: 0.8, url: 'https://www.bk.com', b: { x: 0.787, y: 0.468 }, bSm: { x: 0.82, y: 0.06 } },
     { id: 'b16', logo: 'partner-echo.png', wave: 2, phase: 1.6, url: 'https://www.echo.com/', b: { x: 0.393, y: 0.325 }, bSm: { x: 0.50, y: 0.58 } },
 
     // The lower half

@@ -13,12 +13,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTheme } from '@/context/ThemeContext';
 import Logo from '@/components/Logo';
 import { NAV_LINKS } from '@/config/nav';
 
 export default function SiteHeader() {
-    const { theme, toggleTheme } = useTheme();
     const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);

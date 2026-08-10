@@ -8,13 +8,13 @@
  *            text block and nothing else. No mark has a CSS position, so this is
  *            the state whether or not anything ever animates.
  *
- *   PHASE 1  On arrival, unscrubbed. Pool 1 (12 marks) rises out of the bottom
+ *   PHASE 1  On arrival, unscrubbed. Pool 1 (11 marks) rises out of the bottom
  *            of the screen on a 0.08s stagger and settles wall to wall around
- *            the block, five across the top, one per side strip, five across the
+ *            the block, five across the top, one per side strip, four across the
  *            bottom. From then on the solver's swell carries them.
  *
  *   PHASE 2  First scroll, pinned and scrubbed. Pool 1 drifts up as the top wall
- *            opens; pool 2 (11 marks) floods in from 120vh below on the same
+ *            opens; pool 2 (12 marks) floods in from 120vh below on the same
  *            staggered entrance and fills in beneath it. The lid goes back on at
  *            LID_BACK, and 23 marks sit packed around the block — on measured,
  *            non-overlapping positions, not a grid.
@@ -68,15 +68,15 @@ const W1_IN = 0.15;
  * Derived rather than hand-set: it starts a clear beat AFTER the last of wave 1
  * has landed, so the field reads as a finished arrangement before it moves again.
  */
-const DRIFT_AT = W1_IN + waveSpan(12) + 0.4;
+const DRIFT_AT = W1_IN + waveSpan(11) + 0.4;
 const DRIFT_DUR = 1.6;
 
 /**
  * Wave 2 waves in — late enough that wave 1 is three quarters of the way through
  * its drift and has vacated the lower half.
  *
- * This gap is the fix for wave 2 disrupting the flow. Overlapping the two put 11
- * marks into space 12 others were still crossing, so the pool churned instead of
+ * This gap is the fix for wave 2 disrupting the flow. Overlapping the two put 12
+ * marks into space 11 others were still crossing, so the pool churned instead of
  * refilling: two entrances fighting rather than one handover.
  */
 const W2_IN = DRIFT_AT + DRIFT_DUR * 0.75;
@@ -92,11 +92,11 @@ const W2_IN = DRIFT_AT + DRIFT_DUR * 0.75;
  * header. Sealing it again once the streaming is done is what makes the pool a
  * contained body of water rather than one draining upward.
  */
-const LID_BACK = W2_IN + waveSpan(11) - 0.5;
+const LID_BACK = W2_IN + waveSpan(12) - 0.5;
 const LID_DUR = 0.9;
 
 /** Both waves are down and settled before the block gives up the middle. */
-const SHIELD_OUT = W2_IN + waveSpan(11) + 0.2;
+const SHIELD_OUT = W2_IN + waveSpan(12) + 0.2;
 const PANEL_AT = SHIELD_OUT + 0.6;
 const PANEL_DUR = 1.7;
 const PANEL_END = PANEL_AT + PANEL_DUR;
@@ -122,7 +122,7 @@ const SWEEP_DUR = 0.4;
 const SWEEP_END = SWEEP_AT + SWEEP_DUR + 0.12;
 
 
-/** 23 marks in a stage sized for 12: the pool has to compress. */
+/** 23 marks in a stage sized for 11: the pool has to compress. */
 const FLOW_SCALE = 0.65;
 
 

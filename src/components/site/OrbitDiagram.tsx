@@ -21,7 +21,7 @@
  * the finished orbit renders directly.
  */
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -344,6 +344,12 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                     anticipatePin: 1,
                     scrub: 0.8,
                     invalidateOnRefresh: true,
+                    /* Refreshes LAST among the page's pins — see the note on the
+                       timeline pin in `app/about/page.tsx`. Anything above this
+                       section has to have reported its pinned height before this
+                       start is measured, or this pins early and lands on top of
+                       whatever is still pinned above it. */
+                    refreshPriority: -1,
                     // Resize / re-measure still has to redraw them.
                     onRefresh: syncLines,
                 },

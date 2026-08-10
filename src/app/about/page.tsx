@@ -18,8 +18,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
-import SiteHeader from '@/components/SiteHeader';
-import Footer from '@/components/Footer';
 import CtaSection from '@/components/CtaSection';
 import PortalHero from '@/components/site/PortalHero';
 import OrbitDiagram from '@/components/site/OrbitDiagram';
@@ -28,7 +26,7 @@ import { Reveal, CountUp, Eyebrow, Dot } from '@/components/site/primitives';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
-const STORY_IMG = '/assets/images/clients/hertz/hero-04.webp';
+const STORY_IMG = '/assets/images/clients/hertz/story-img.webp';
 
 /* ------------------------------------------------------------------ */
 /*  Data — from the customer's about.html                              */
@@ -138,7 +136,7 @@ function Story() {
                         <p className="mt-1.5 font-tommy-regular text-[11px] uppercase tracking-[2px] text-white/60 dark:text-black/60">Years · Owner-operated</p>
                     </div>
                     <div data-story-badge className="absolute -right-4 -top-4 rounded-full border border-black/10 bg-white/80 px-5 py-2.5 font-tommy-medium text-[12px] uppercase tracking-[2px] text-[#1A1917] shadow-lg backdrop-blur dark:border-white/10 dark:bg-[#141414]/80 dark:text-white">
-                        Nashville, TN
+                        San Francisco, CA
                     </div>
                 </div>
             </div>
@@ -151,18 +149,65 @@ function Story() {
 /* ================================================================== */
 
 function Stats() {
-    const items = [
+    /* `wordy` marks the two entries that are a PHRASE rather than a figure.
+       They cannot carry the figure's display size: a column here is about 216px
+       at 1440 and "IMPRESSIONS" alone is ~340px at 50px, which is what pushed it
+       across its neighbour. */
+    const items: { el: React.ReactNode; label: string; wordy?: boolean }[] = [
         { el: <CountUp value={25} suffix="+" />, label: 'Years in truckside advertising' },
         { el: <CountUp value={50} />, label: 'DMAs covered through one accountable partner' },
-        { el: <CountUp value={"BILLIONS OF IMPRESSIONS"} />, label: 'Ready for retargeting' },
-        { el: <CountUp value={"360 Degree Service"} />, label: 'From start to finish, we handle everything.' },
+        /* The newlines are load-bearing — see `white-space: pre-line` below. Left
+           to wrap on their own the two phrases disagree: "BILLIONS OF
+           IMPRESSIONS" is long enough to take two lines at every width, while
+           "360 Degree Service" fits on one from about 1600 up, so the pair fell
+           out of step on wide screens. Breaking both explicitly keeps them the
+           same height on every screen instead of only on the narrow ones. */
+        { el: <CountUp value={"BILLIONS OF\nIMPRESSIONS"} />, label: 'Ready for retargeting', wordy: true },
+        { el: <CountUp value={"360 Degree\nService"} />, label: 'From start to finish, we handle everything.', wordy: true },
     ];
     return (
         <section className="w-full border-y border-black/10 bg-[#EEE8D9] transition-colors duration-300 py-12 md:py-16 lg:py-24 dark:border-white/10 dark:bg-[#0A0A0A]">
+            <style>{`
+                /* Sized against the COLUMN, not the viewport.
+
+                   A column is (80% of the viewport, less the padding and gaps)
+                   divided four ways: about 0.2vw − 72px of usable width, which at
+                   1024 is only ~133px. A plain vw size ignores that fixed −72px
+                   and overshoots hardest exactly where the column is tightest,
+                   so the phrase sizes carry the subtraction too. */
+                .about-stat { font-size: clamp(30px, 4.5vw, 50px); line-height: 1; }
+                /* pre-line keeps the authored newline but still lets the text
+                   wrap further if a column is too narrow for a line — so the
+                   break is a floor on the line count, never a ceiling, and it
+                   cannot reintroduce an overflow at small widths. */
+                /* Two columns of 80% of a 320px phone is a 99px column, and the
+                   floor has to let the longest word fit INSIDE that — at 16px
+                   "IMPRESSIONS" measures 105px, so it broke mid-word and took the
+                   phrase to three lines while its neighbour stayed at two. The
+                   subtraction is here for the same reason as the desktop rule. */
+                .about-stat--wordy { font-size: clamp(14px, calc(5.6vw - 4px), 28px); line-height: 1.08; white-space: pre-line; }
+                @media (min-width: 1024px) {
+                    /* The coefficient is set so the longest word ("IMPRESSIONS")
+                       keeps real headroom in its column rather than just clearing
+                       it — measured at 1440 it lands ~195px inside 215px. Sized to
+                       fit exactly, a font fallback or a hinting difference would
+                       be enough to push it over and force a mid-word break. */
+                    .about-stat--wordy { font-size: clamp(17px, calc(2.75vw - 10px), 34px); }
+                }
+            `}</style>
             <Reveal className="mx-auto grid max-w-[80%] grid-cols-2 gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-12 px-3 md:px-6 lg:px-12 lg:grid-cols-4" y={30} stagger={0.14}>
                 {items.map((s, i) => (
-                    <div key={i} className="border-l border-black/10 pl-2 md:pl-4 lg:pl-6 dark:border-white/10">
-                        <p className="font-tommy-bold text-[clamp(30px,4.5vw,50px)] leading-none tracking-tight text-[#1A1917] dark:text-white">{s.el}</p>
+                    /* `min-w-0` is the actual fix for the collision, not the type
+                       size. A grid item's min-width defaults to `auto`, which means
+                       its longest unbreakable word sets a floor the `1fr` track is
+                       not allowed to go below — so "IMPRESSIONS" widened its own
+                       column and shoved the next one along. With the floor removed
+                       the track holds its quarter and the text wraps inside it. */
+                    <div key={i} className="min-w-0 border-l border-black/10 pl-2 md:pl-4 lg:pl-6 dark:border-white/10">
+                        {/* `break-words` is the belt-and-braces guarantee: whatever
+                            the viewport, a word with nowhere to go breaks rather
+                            than spilling into the neighbouring stat. */}
+                        <p className={`about-stat${s.wordy ? ' about-stat--wordy' : ''} font-tommy-bold tracking-tight text-[#1A1917] break-words hyphens-auto dark:text-white`}>{s.el}</p>
                         <p className="mt-3 max-w-[200px] font-tommy-regular text-[12.5px] leading-[1.4] text-[#6F6A60] dark:text-[#9A968E]">{s.label}</p>
                     </div>
                 ))}
@@ -196,6 +241,22 @@ function Timeline() {
                     scrollTrigger: {
                         trigger: rootRef.current, start: 'top top', end: () => '+=' + amount(),
                         pin: true, scrub: 1, invalidateOnRefresh: true,
+                        /* This page has TWO pins — this one and the orbit below it
+                           — and they have to refresh in page order. Higher goes
+                           first, and this is the upper of the two.
+
+                           Without it the orbit could refresh first and measure a
+                           page that did not yet include this pin's ~4,600px of
+                           scroll distance, so its own start landed thousands of
+                           pixels early: it pinned and drew its cards on top of
+                           this section while this one was still pinned.
+
+                           The ordering is genuinely at risk here rather than
+                           merely unspecified. The orbit's pin is built on a SECOND
+                           pass — `stacked` starts true and pins nothing, then
+                           flips — so it is created after this one and can refresh
+                           ahead of it. Same convention as `site/detail.tsx`. */
+                        refreshPriority: 1,
                         onUpdate: (self) => { if (progressRef.current) gsap.set(progressRef.current, { scaleX: self.progress }); },
                     },
                 });
@@ -325,7 +386,7 @@ function PullQuote() {
             <div className="mx-auto max-w-[960px] px-6 text-center md:px-12">
                 <span data-pq-mark className="inline-block font-tommy-bold text-[90px] leading-[0.6] text-[#C8992B] dark:text-[#FCD119]">“</span>
                 <blockquote ref={quoteRef} className="mt-4 font-tommy-medium text-[clamp(23px,3.1vw,40px)] leading-[1.34] tracking-[-0.01em]">
-                    Our brand standards are strict, and putting the logo on hundreds of trucks made our team nervous. Advertising Wheels' process erased that worry — meticulous installs, ongoing inspections, and immediate action on anything less than perfect. They protect our brand like we do.
+                    Hundreds of trucks across multiple markets, and our brand shows up perfectly on every one. Advertising Wheels' install standards and inspection process work at a scale most vendors can't touch. They treat our logo the way we do.
                 </blockquote>
                 <cite data-pq-cite className="mt-9 block font-tommy-regular text-[13px] uppercase not-italic tracking-[3px] text-[#6F6A60] dark:text-[#9A968E]">
                     Nick Ferrugia - Director, Brand and Performance Marketing, Fifth Third Bank
@@ -362,15 +423,28 @@ export default function AboutPage() {
         return () => mq.removeEventListener('change', sync);
     }, []);
 
+    /**
+     * Re-measure once the branch above has actually settled.
+     *
+     * `refreshPriority` fixes the ORDER pins refresh in; it cannot help if a pin
+     * did not exist yet when the page was last measured. Flipping `stacked`
+     * mounts or unmounts the orbit's pin, which changes the height of everything
+     * below it — and the child's layout effect that builds that pin runs before
+     * this one, so by here the new branch is mounted and ready to be measured.
+     */
+    useEffect(() => {
+        ScrollTrigger.refresh();
+    }, [stacked]);
+
     return (
         <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
             <PortalHero
                 badge="About"
                 title="ADVERTISING WHEELS"
                 lead="The seasoned operator in mobile truckside advertising — trusted by Fortune 500 brands and their agencies since 2001."
-                primary={{ label: 'Book a Strategy Call', href: '/contact' }}
+                primary={{ label: 'Start a Campaign', href: '/contact#form' }}
                 secondary={{ label: 'See our work', href: '/projects' }}
-                image="/assets/images/best-buy.webp"
+                image="/assets/images/clients/banner image/About-main.webp"
                 imageAlt="An Advertising Wheels truckside campaign on the street"
             />
             <Story />

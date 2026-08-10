@@ -1,11 +1,25 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+/* ── Chapter pacing, in scrub units ──────────────────────────────────────────
+   One SEG is one chapter: its handover plus the rest that follows. Everything
+   below is expressed in these units and converted to scroll distance by the
+   trigger, so changing the section's height re-paces the whole thing rather
+   than desyncing the snap points from the tweens. */
+const OUT_DUR = 0.3;
+const IN_DUR = 0.4;
+const SEG = 1;
+/** How far into a segment the incoming panel starts, i.e. the handover point.
+    The outgoing panel is already on its way down by then. */
+const HANDOVER = OUT_DUR * 0.6;
+/** Where inside a segment the chapter is settled — what the scroll snaps to. */
+const REST_AT = 0.75;
 
 const CHAPTERS = [
     {
@@ -32,7 +46,7 @@ const CHAPTERS = [
 
 export default function WhyChooseUs() {
     const rootRef = useRef<HTMLDivElement>(null);
-    const textContainerRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const [activeIndex, setActiveIndex] = useState(-1);
 
     // We use a ref to track active index inside the GSAP loop without triggering constant re-renders
@@ -40,70 +54,147 @@ export default function WhyChooseUs() {
 
     useGSAP(
         () => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: rootRef.current,
-                    start: 'top top',
-                    end: 'bottom bottom',
-                    scrub: 0.1, // Slight smoothing
-                    invalidateOnRefresh: true,
-                },
-            });
-
             // Set initial states
             gsap.set('.wcu-heading', { autoAlpha: 0, y: 30 });
             gsap.set('.wcu-video-block', { y: '80vh', autoAlpha: 0 });
             gsap.set('.wcu-body-text', { autoAlpha: 0, yPercent: 100 });
 
+            /* Built first, WITHOUT its trigger, because the snap points are
+               positions on this timeline and cannot be computed until it has a
+               duration. The trigger is attached at the bottom. */
+            const tl = gsap.timeline();
+
             // 1. Heading appears
-            tl.to('.wcu-heading', { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+            tl.to('.wcu-heading', { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' });
 
-            // 2. Video block scrolls up from bottom
-            tl.to('.wcu-video-block', { y: 0, autoAlpha: 1, duration: 1.2, ease: 'power2.out' }, '+=0.2');
+            /* 2. Video block scrolls up from bottom — the section "sticks first":
+               this whole entrance happens before chapter 1 is on deck. Kept short
+               relative to the four chapters on purpose. It is scroll the reader
+               spends watching one thing arrive, and at the original 1.9 units it
+               was a third of the section's travel before the content even began. */
+            tl.to('.wcu-video-block', { y: 0, autoAlpha: 1, duration: 0.95, ease: 'power2.out' }, '+=0.15');
+            tl.addLabel('chapters', '+=0.1');
 
-            // 3. Tab animations (takes up the rest of the scroll)
-            // We animate a dummy object from -0.1 to CHAPTERS.length - 0.01
-            const progressObj = { value: -0.1 };
+            /* 3. The chapters.
 
-            tl.to(progressObj, {
-                value: CHAPTERS.length - 0.01,
-                duration: CHAPTERS.length, // Scales this phase to be the longest
-                ease: 'none',
-                onUpdate: () => {
-                    if (progressObj.value < 0) return; // Wait until it crosses 0
+               These are ON the scrubbed timeline, not fired as side effects from
+               an onUpdate. That distinction is the whole fix for the section
+               opening two panels at once: an onUpdate that hides `oldIndex` and
+               shows `newIndex` only ever accounts for TWO panels, so a fast
+               scroll that carries the playhead from chapter 0 to chapter 2 in one
+               frame leaves chapter 1 shown and never told to leave. Those tweens
+               also ran in real time, against a scrub that was still easing the
+               playhead, so two of them could be mid-flight in opposite
+               directions and whichever finished last won.
 
-                    const newIndex = Math.floor(progressObj.value);
-                    if (newIndex !== activeIndexRef.current) {
-                        const oldIndex = activeIndexRef.current;
-                        activeIndexRef.current = newIndex;
-                        setActiveIndex(newIndex);
+               On the timeline there is no index to skip and no race. Every
+               panel's state is a pure function of the playhead: scrub anywhere,
+               at any speed, in either direction, and GSAP renders exactly the
+               one arrangement that position describes. */
+            CHAPTERS.forEach((_, i) => {
+                const at = `chapters+=${i * SEG}`;
 
-                        if (oldIndex >= 0) {
-                            // Animate old text down (out) and fade
-                            gsap.to(`.wcu-body-text-${oldIndex}`, {
-                                yPercent: 100,
-                                autoAlpha: 0,
-                                duration: 0.3,
-                                ease: 'power2.inOut'
-                            });
-                        }
+                if (i > 0) {
+                    tl.to(`.wcu-body-text-${i - 1}`,
+                        { yPercent: 100, autoAlpha: 0, duration: OUT_DUR, ease: 'power2.in' },
+                        at);
+                }
 
-                        // Animate new text up (in) from bottom
-                        gsap.fromTo(`.wcu-body-text-${newIndex}`,
-                            { yPercent: 100, autoAlpha: 0 },
-                            { yPercent: 0, autoAlpha: 1, duration: 0.4, ease: 'power2.out', delay: 0.1 }
-                        );
-                    }
+                // Overlapped slightly, so the outgoing panel is already clearing
+                // as the next one rises rather than the two cross-fading in place.
+                tl.fromTo(`.wcu-body-text-${i}`,
+                    { yPercent: 100, autoAlpha: 0 },
+                    { yPercent: 0, autoAlpha: 1, duration: IN_DUR, ease: 'power2.out' },
+                    i > 0 ? `${at}+=${HANDOVER}` : at);
+            });
+
+            /* The last chapter needs the same rest as the others, and there is no
+               following handover to provide it — without this the timeline ends
+               the instant panel 4 lands and its snap point sits past the end. */
+            tl.to({}, { duration: SEG - IN_DUR }, `chapters+=${(CHAPTERS.length - 1) * SEG + IN_DUR}`);
+
+            const chaptersAt = tl.labels.chapters;
+            const total = tl.duration();
+
+            /* One resting place per chapter, plus the top of the section so the
+               entrance has somewhere to settle instead of being yanked straight
+               into chapter 1. This is what makes one scroll open one panel. */
+            const snapPoints = [
+                0,
+                ...CHAPTERS.map((_, i) => (chaptersAt + i * SEG + REST_AT) / total),
+            ];
+
+            /* The tab highlight, derived from the playhead rather than tracked
+               alongside it — same reason as the panels. Reading `tl.time()` means
+               the label can never disagree with the panel that is showing.
+
+               It flips at the HANDOVER, not at the segment boundary: the outgoing
+               panel is eased out with `power2.in`, whose first moments barely
+               move, so a boundary flip lit the next tab while the previous
+               paragraph was still sitting there at full opacity. */
+            const indexAt = (t: number) => {
+                if (t < chaptersAt) return -1;
+                const rel = t - chaptersAt;
+                const i = Math.min(CHAPTERS.length - 1, Math.floor(rel / SEG));
+                return i > 0 && rel - i * SEG < HANDOVER ? i - 1 : i;
+            };
+
+            tl.eventCallback('onUpdate', () => {
+                const i = indexAt(tl.time());
+                if (i !== activeIndexRef.current) {
+                    activeIndexRef.current = i;
+                    setActiveIndex(i);
                 }
             });
 
-            // Set initial state for text boxes
-            gsap.set('.wcu-body-text', { autoAlpha: 0, yPercent: 100 });
-            gsap.set(`.wcu-body-text-0`, { autoAlpha: 1, yPercent: 0 });
-
+            ScrollTrigger.create({
+                animation: tl,
+                trigger: rootRef.current,
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 0.5,
+                invalidateOnRefresh: true,
+                snap: {
+                    snapTo: snapPoints,
+                    duration: { min: 0.2, max: 0.5 },
+                    delay: 0.06,
+                    ease: 'power2.inOut',
+                },
+            });
         },
         { scope: rootRef }
     );
+
+    /* iOS will not autoplay unless the video is BOTH inline and muted at the
+       moment play is attempted, and it judges that from the DOM rather than from
+       React's props: `muted` is a property, not an attribute, so a server-rendered
+       <video muted> can reach Safari without it and the play promise is rejected
+       before hydration ever sets it. Setting it on the element and then asking
+       again is what actually starts it.
+       The retries cover the two states where iOS refuses a first attempt outright
+       — Low Power Mode, and a tab that was never foregrounded — neither of which
+       reports as an error worth surfacing. */
+    useEffect(() => {
+        const v = videoRef.current;
+        if (!v) return;
+
+        v.muted = true;
+        v.defaultMuted = true;
+        v.playsInline = true;
+
+        const play = () => { void v.play().catch(() => { }); };
+        play();
+
+        const onVisible = () => { if (!document.hidden) play(); };
+        document.addEventListener('visibilitychange', onVisible);
+        // Low Power Mode holds out until the user touches the page at least once.
+        window.addEventListener('touchstart', play, { once: true, passive: true });
+
+        return () => {
+            document.removeEventListener('visibilitychange', onVisible);
+            window.removeEventListener('touchstart', play);
+        };
+    }, []);
 
     return (
         <div ref={rootRef} className="relative h-[400vh] w-full bg-[#EEE8D9] dark:bg-[#0A0A0A] pb-[100px]">
@@ -131,8 +222,22 @@ export default function WhyChooseUs() {
                             }}>
 
                             </div>
-                            <video src="/assets/videos/why-choose-video.mp4" className="absolute inset-0 w-full h-full object-cover" loop autoPlay muted>
-                            </video>
+                            {/* `playsInline` is not optional on iOS: without it
+                                Safari takes the video fullscreen on play, which
+                                counts as a user-initiated presentation and is
+                                refused outright when autoplay asks for it. */}
+                            <video
+                                ref={videoRef}
+                                src="/assets/videos/why-choose-video.mp4"
+                                className="absolute inset-0 w-full h-full object-cover"
+                                loop
+                                autoPlay
+                                muted
+                                playsInline
+                                preload="auto"
+                                disablePictureInPicture
+                                aria-hidden="true"
+                            />
                         </div>
 
                         {/* Dark text overlay boxes */}

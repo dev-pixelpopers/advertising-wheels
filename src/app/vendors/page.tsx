@@ -13,8 +13,6 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import SiteHeader from '@/components/SiteHeader';
-import Footer from '@/components/Footer';
 import PortalHero from '@/components/site/PortalHero';
 import { Reveal, CountUp, Eyebrow, Dot, ArrowIcon } from '@/components/site/primitives';
 
@@ -48,8 +46,8 @@ const REQUIREMENTS = [
 ];
 
 const NETWORK_STATS = [
-    { el: <CountUp value={100} suffix="s" />, label: 'Partner trucks in the network' },
-    { el: <CountUp value={50} />, label: 'DMAs covered' },
+    { el: <CountUp value={100} suffix="s" />, label: 'premier partners in the network' },
+    { el: <CountUp value={50} suffix="+" />, label: 'DMAs covered' },
     { el: <CountUp value={24} suffix="/7" />, label: 'GPS tracking & support' },
     { el: <CountUp value={7} />, label: 'Days to first wrap' },
 ];

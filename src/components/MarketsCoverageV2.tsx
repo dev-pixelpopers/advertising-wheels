@@ -571,7 +571,7 @@ function MarketPopup({
                     <div className="relative h-[210px] overflow-hidden md:h-auto">
                         <img
                             ref={imgRef}
-                            src="/assets/images/pop-up.png"
+                            src="/assets/images/Blog-Featured.webp"
                             alt=""
                             className="absolute inset-0 h-full w-full scale-[1.06] object-cover will-change-transform"
                         />
@@ -1322,9 +1322,6 @@ export default function MarketsCoverageV2() {
                         How We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
                     </h2>
                     <p className="mx-auto mt-5 max-w-[620px] font-tommy-regular text-[14px] leading-[1.7] text-[#5A554C] md:text-[17px] dark:text-[#A8A399]">
-                        {/* {TOTALS.count} metro markets across {STATE_GROUPS.length} states, reaching{' '}
-                        {compact(TOTALS.adults)} adults 18+ inside our coverage areas — every mile
-                        measured, every market accounted for. */}
                         {/* Second sentence removed deliberately. It used to run "Nationwide
                             coverage through our partner fleet, matched to your target markets
                             by ZIP code" — which is now word-for-word what the first two cards

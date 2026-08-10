@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useTheme } from "@/context/ThemeContext";
 import Logo from "@/components/Logo";
 import { NAV_LINKS } from "@/config/nav";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Header({ scrolledHero }: { scrolledHero?: Boolean }) {
-    const { theme, toggleTheme } = useTheme();
+export default function Header() {
     const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -126,22 +126,12 @@ export default function TruckExperience() {
     const sub2Ref = useRef<HTMLDivElement>(null);
     const sub3Ref = useRef<HTMLDivElement>(null);
 
-    // Continuous live counters (running continuously, independent of scroll)
-    const [impressionsCount, setImpressionsCount] = useState(3.45);
-    const [mileageCount, setMileageCount] = useState(12563);
-    const [trucksCount, setTrucksCount] = useState(48);
+    // Illustrative dashboard figures — static, not live fleet data.
+    const [impressionsCount] = useState(3.45);
+    const [mileageCount] = useState(12563);
+    const [trucksCount] = useState(48);
     const [campaignsCount] = useState(7);
 
-    // useEffect(() => {
-    //     const timer = setInterval(() => {
-    //         setImpressionsCount((prev) => parseFloat((prev + 0.003).toFixed(3)));
-    //         setMileageCount((prev) => prev + Math.floor(Math.random() * 4 + 2));
-    //         if (Math.random() > 0.8) {
-    //             setTrucksCount((prev) => prev + (Math.random() > 0.6 ? 1 : 0));
-    //         }
-    //     }, 350);
-    //     return () => clearInterval(timer);
-    // }, []);
 
     useGSAP(
         () => {

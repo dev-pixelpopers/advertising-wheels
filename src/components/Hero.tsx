@@ -1,11 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
-import Header from '@/components/Header';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
@@ -36,12 +35,9 @@ interface HeroProps {
 export default function Hero({ isReady }: HeroProps) {
   const containerRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const textRef = useRef<HTMLHeadingElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef<number>(0);
   const divRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLDivElement>(null);
   const subRef = useRef<HTMLSpanElement>(null);
   const hapRef = useRef<HTMLSpanElement>(null);
   const pensRef = useRef<HTMLSpanElement>(null);
@@ -52,8 +48,6 @@ export default function Hero({ isReady }: HeroProps) {
   const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollArrowRef = useRef<HTMLDivElement>(null);
-
-  const [hasScrolledPast, setHasScrolledPast] = useState(false);
 
   // 1. CANVAS PRELOADING & SCROLL SCRUBBING
   useGSAP(
@@ -157,8 +151,6 @@ export default function Hero({ isReady }: HeroProps) {
 
       gsap.set(ctaButtonsRef.current, { y: 40, autoAlpha: 0 });
       gsap.set(scrimRef.current, { autoAlpha: 0 });
-      // gsap.set('.second-home-section', { yPercent: 0 });
-      // gsap.set('.')
       // Header starts tucked above the viewport; it drops in during Phase 4, after the CTA.
       // Driven by a ref (not a '.header' string selector) so a Header re-render can't
       // leave it stuck at this initial value.
@@ -202,9 +194,6 @@ export default function Hero({ isReady }: HeroProps) {
           // so the sticky stays pinned for another 100vh — a "hold" on the finished
           // Hero during which the next section rises up over it.
           end: () => '+=' + window.innerHeight * 4,
-          onLeave: () => setHasScrolledPast(true),        // Scrolling DOWN past section
-          onEnter: () => setHasScrolledPast(false),
-          onEnterBack: () => setHasScrolledPast(false),
           scrub: 0.5,
         },
       });
@@ -396,51 +385,6 @@ export default function Hero({ isReady }: HeroProps) {
       const totalDuration = tl.duration();
       restProgress = totalDuration > 0 ? tl.labels.ctaRest / totalDuration : -1;
 
-
-
-      // ── PHASE 5 — two-stage hand-off ───────────────────────────────────
-      // Stage A (300vh → 400vh): the content lifts up on its own, first.
-      // gsap.fromTo(
-      //   contentRef.current,
-      //   { yPercent: 0 },
-      //   {
-      //     yPercent: -100,
-      //     ease: 'none',
-      //     scrollTrigger: {
-      //       trigger: containerRef.current,
-      //       start: () => 'top+=' + window.innerHeight * 3 + ' top',
-      //       end: () => 'top+=' + window.innerHeight * 4 + ' top',
-      //       scrub: true,
-      //     },
-      //   }
-      // );
-
-      // Stage B (400vh → 500vh): the rest of the section (photo panel + header)
-      // slides up, exactly while the bottom section rises to take its place.
-      // At a 600vh Hero the next section's -mt-[100vh] overlap enters at 400vh,
-      // so this panel move and that rise run 1:1 as one synchronized push.
-      // const tl2 = gsap.timeline({
-      //   scrollTrigger: {
-      //     trigger: containerRef.current,
-      //     start: () => 'bottom bottom',
-      //     scrub: 1,
-      //   }
-      // });
-
-      // tl
-      //   // 1. Move the current section UP and out (-100%)
-      //   .to(containerRef.current, {
-      //     yPercent: -100,
-      //     ease: 'none',
-      //   })
-      //   // 2. Move the incoming section UP from bottom (100% -> 0%) at the exact same time
-      //   .fromTo(
-      //     '.second-home-section',
-      //     { yPercent: 0 },
-      //     { yPercent: -100, ease: 'none' },
-
-      //     '<' // The '0' position parameter forces this to run concurrently with the first animation
-      //   );
       return () => {
         window.removeEventListener('resize', resizeCanvas);
         // Put the original markup back on unmount / HMR, or the split spans
@@ -461,15 +405,6 @@ export default function Hero({ isReady }: HeroProps) {
         duration: 1,
         ease: 'power2.out'
       })
-        // ...the logo dissolves in place (no growth): a soft upward drift + blur + fade,
-        // so it hands off to the heading rather than zooming away.
-        // .to('.hero-logo', {
-        //   autoAlpha: 0,
-        //   yPercent: -10,
-        //   filter: 'blur(8px)',
-        //   duration: 0.9
-        // }, '<')
-        // The heading rises up into the space the logo just vacated — the two blend.
         .from(headingWrapRef.current, {
           yPercent: 12,
           autoAlpha: 0,
@@ -501,6 +436,23 @@ export default function Hero({ isReady }: HeroProps) {
             0 4px 44px rgba(0, 0, 0, 0.30);
         }
 
+        /* …but that halo is sized for DISPLAY type, and tier 3 is not display
+           type. It sets at ~23px in the lightest weight, uppercase, on 0.14em
+           of tracking — a cap height of roughly 16px and strokes about two
+           pixels wide. Against that, the 14px blur is a full cap height and the
+           44px blur is nearly three times one: the haze fills the counters and
+           the gaps between the letters and eats the strokes from the outside,
+           which is what reads as a soft, smudged line rather than a shadow.
+
+           Fine print needs a shadow scaled to itself — tight enough to lift it
+           off the video, small enough that it never touches the glyphs. The
+           tiers above are untouched; at 72px the wide halo is doing its job. */
+        .cta-fine {
+          text-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.55),
+            0 1px 6px rgba(0, 0, 0, 0.42);
+        }
+
         /* Scroll arrow: drifts down and fades out, then re-enters from above.
            The loop resets while the arrow is fully transparent, so the jump
            back to the top is never seen — the fade is doing the cutting, which
@@ -523,11 +475,6 @@ export default function Hero({ isReady }: HeroProps) {
         }
       `}</style>
 
-      {/* The bar spans the full viewport at z-100, so it must not capture clicks in
-          its empty middle — the controls inside re-enable pointer events themselves. */}
-      {/* <div ref={headerRef} className='fixed z-[100] w-full left-0 py-[2%] px-[3%] top-0 pointer-events-none'>
-        <Header scrolledHero={hasScrolledPast} />
-      </div> */}
       <section ref={containerRef} className="relative h-[550vh] w-[100vw] z-70">
         <div className="sticky top-0 h-screen w-full overflow-hidden">
 
@@ -601,7 +548,13 @@ export default function Hero({ isReady }: HeroProps) {
                   </p>
 
                   {/* TIER 3 — the method */}
-                  <p data-tier='3' className='mt-[0.75em] font-tommy-regular uppercase leading-[1.15] tracking-[0.14em] text-white/85 text-[12px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
+                  {/* `cta-fine` overrides the stack's display-type halo — see the
+                      note in the style block. The weight goes up a step and the
+                      white goes to full for the same reason: at this size, over
+                      moving video, REGULAR at 85% left about two pixels of
+                      low-contrast stroke to carry the line. MEDIUM at full white
+                      is what tier 2 already uses. */}
+                  <p data-tier='3' className='cta-fine mt-[0.75em] font-tommy-medium uppercase leading-[1.15] tracking-[0.14em] text-white text-[12px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
                     <span data-cta-part data-cta-line='3'>GPS-enabled billboard trucks that capture real impressions data -<br /> so you can retarget every viewer online</span>
                     <span
                       data-caret='3'

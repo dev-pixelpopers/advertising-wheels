@@ -14,8 +14,6 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import SiteHeader from '@/components/SiteHeader';
-import Footer from '@/components/Footer';
 import PortalHero from '@/components/site/PortalHero';
 import { Reveal, Eyebrow, Dot, ArrowIcon, Rings } from '@/components/site/primitives';
 import { POSTS } from '@/data/posts';
