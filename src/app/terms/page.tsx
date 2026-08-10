@@ -22,7 +22,7 @@ export const metadata: Metadata = {
         'The terms governing your use of the Advertising Wheels website, including acceptable use, intellectual property, disclaimers and limitation of liability.',
 };
 
-const CONTACT_EMAIL = 'BrandGrowth@advertisingwheels.com';
+const CONTACT_EMAIL = 'BrandGrowth@AdvertisingWheels.com';
 
 export default function TermsPage() {
     return (

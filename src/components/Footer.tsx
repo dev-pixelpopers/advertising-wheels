@@ -225,7 +225,7 @@ export default function Footer() {
                                         </svg>
                                     </span>
                                     <span className="ft-link font-tommy-medium text-[14px] text-[#1A1917] dark:text-white">
-                                        BrandGrowth@advertisingwheels.com
+                                        BrandGrowth@AdvertisingWheels.com
                                     </span>
                                 </a>
                             </li>
