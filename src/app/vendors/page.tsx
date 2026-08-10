@@ -268,7 +268,7 @@ export default function VendorsPage() {
                 badge="Fleet Partners"
                 title="DRIVE. EARN"
                 lead="Own box trucks, trailers or a full fleet? Turn the routes you already run into recurring advertising revenue — we handle the brands, the creative and the install."
-                primary={{ label: 'Apply to partner', href: '/contact' }}
+                primary={{ label: 'Apply to partner', href: '/contact#form' }}
                 secondary={{ label: 'How it works', href: '#how' }}
                 image="/assets/images/clients/banner image/Photo Nov 13, 8 53 14 AM 1.png"
                 imageAlt="An Advertising Wheels partner truck for Xfinity campaign"

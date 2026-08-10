@@ -105,7 +105,7 @@ export default function AdvertisingLeader() {
                         The leader in truckside billboard advertising for 25+ years —
                         <span className="text-[#D5CCB4] dark:text-[#8C8472]"> one of the country's largest truckside networks, GPS-verified —</span> and measured by StreetMetrics.
                     </p>
-                    <a ref={btnRef} className="rounded-[6px] bg-[#282828] dark:bg-[#FCD119] py-[6px] md:py-[10px] lg:py-[12px] px-[20px] md:px-[35px] lg:px-[50px] text-[16px] md:text-[clamp(1.125rem,1.7vw,1.5rem)] leading-[208%] text-[#FCD119] dark:text-black font-tommy-regular w-max mt-[50px] transition-colors duration-300 cursor-pointer">More about us</a>
+                    <a ref={btnRef} className="rounded-[6px] bg-[#282828] dark:bg-[#FCD119] py-[6px] md:py-[10px] lg:py-[12px] px-[20px] md:px-[35px] lg:px-[50px] text-[16px] md:text-[clamp(1.125rem,1.7vw,1.5rem)] leading-[208%] text-[#FCD119] dark:text-black font-tommy-regular w-max mt-[50px] transition-colors duration-300 cursor-pointer" href='\about'>More about us</a>
                 </div>
             </div>
 

@@ -345,7 +345,7 @@ export default function ProjectsPage() {
                 badge="Work"
                 title="THE RESULTS"
                 lead="National and local brands put their name on our fleet — then watched the search clicks, household growth and city-wide recall follow. Every campaign measured the same way."
-                primary={{ label: 'Start a Campaign', href: '/contact' }}
+                primary={{ label: 'Start a Campaign', href: '/contact#form' }}
                 secondary={{ label: 'How we do it', href: '/services' }}
                 image={HOUSE_SHOTS.projectsHero}
                 imageAlt="A wrapped Advertising Wheels truck for Nationwide on the road"
