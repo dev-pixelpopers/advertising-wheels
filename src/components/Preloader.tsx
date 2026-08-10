@@ -10,6 +10,14 @@ gsap.registerPlugin(useGSAP);
  * The sequence of years to display under the Inc 5000 logo.
  * All items will stack horizontally on the screen, bumping previous ones left.
  */
+/**
+ * The longest the intro may wait on the page before giving up and playing out
+ * anyway. Chosen to sit just past the point where the year sequence has
+ * finished on its own, so on a normal connection this never fires and the
+ * timing is unchanged — it only bounds the bad case.
+ */
+const MAX_WAIT_MS = 2500;
+
 const SEQUENCE = [
   '2020',
   '2021',
@@ -33,14 +41,39 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isTextDone, setIsTextDone] = useState(false);
 
+  /**
+   * The intro may not outstay a hard ceiling.
+   *
+   * This used to wait on `window.load`, which does not fire until EVERY
+   * subresource has landed — and the hero requests its whole frame sequence up
+   * front. One slow or heavy asset therefore did not degrade the page, it held
+   * a full-screen dark panel over it for as long as the download took. That is
+   * how a loading indicator turns into the thing being waited for.
+   *
+   * `load` is still the happy path, because on a fast connection it is honest:
+   * the intro ends exactly when the page really is ready. The timeout only
+   * decides how bad the alternative is allowed to get.
+   */
   useEffect(() => {
     if (document.readyState === 'complete') {
       setIsPageLoaded(true);
       return;
     }
-    const handleLoad = () => setIsPageLoaded(true);
-    window.addEventListener('load', handleLoad);
-    return () => window.removeEventListener('load', handleLoad);
+
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      setIsPageLoaded(true);
+    };
+
+    window.addEventListener('load', finish);
+    const cap = window.setTimeout(finish, MAX_WAIT_MS);
+
+    return () => {
+      window.removeEventListener('load', finish);
+      window.clearTimeout(cap);
+    };
   }, []);
 
   useGSAP(

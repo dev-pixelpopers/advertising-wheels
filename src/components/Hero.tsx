@@ -25,7 +25,13 @@ const CANVAS_GRADE = 'brightness(1.12) contrast(0.9) saturate(1.04)';
 
 const getFrameSrc = (index: number): string => {
   const frameNumber = (FRAME_COUNT - index).toString().padStart(1, '0');
-  return `/assets/images/hero_12/Frame_${frameNumber}.png`;
+  /* WebP, not PNG. The source frames were 1280x720 RGBA PNGs averaging 1.1 MB
+     — 177 MB for the sequence — and all 161 were fully opaque, so a quarter of
+     every file was an alpha channel storing nothing. The loop below requests
+     the whole sequence up front, which meant the hero alone put 177 MB on the
+     wire before anything could paint. At WebP q74 the same frames average
+     35 KB, for 5.5 MB total. The .png originals are still on disk and in git. */
+  return `/assets/images/hero_12/Frame_${frameNumber}.webp`;
 };
 
 interface HeroProps {

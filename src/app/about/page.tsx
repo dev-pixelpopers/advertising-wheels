@@ -26,7 +26,7 @@ import { Reveal, CountUp, Eyebrow, Dot } from '@/components/site/primitives';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
-const STORY_IMG = '/assets/images/clients/hertz/story-img.webp';
+const STORY_IMG = '/assets/images/clients/hertz/hero-04.webp';
 
 /* ------------------------------------------------------------------ */
 /*  Data — from the customer's about.html                              */

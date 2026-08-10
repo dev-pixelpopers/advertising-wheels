@@ -21,6 +21,9 @@ const HANDOVER = OUT_DUR * 0.6;
 /** Where inside a segment the chapter is settled — what the scroll snaps to. */
 const REST_AT = 0.75;
 
+/** Attached on approach, never in the markup — see the effect that uses it. */
+const VIDEO_SRC = '/assets/videos/why-choose-video.mp4';
+
 const CHAPTERS = [
     {
         tag: '01 Efficiency',
@@ -183,7 +186,40 @@ export default function WhyChooseUs() {
         v.playsInline = true;
 
         const play = () => { void v.play().catch(() => { }); };
-        play();
+
+        /* The src is attached here rather than in the markup, once the section
+           is within a screen of the viewport, so a 64 MB download never overlaps
+           the initial page load. `play()` only starts once there is something
+           to play.
+
+           Deliberately a scroll listener and not an IntersectionObserver. Both
+           express the intent, but they fail in opposite directions: if an
+           observer never delivers a callback the src is never set and the
+           section is a black rectangle for good, whereas this recomputes from
+           the element's own geometry every time and cannot get stuck. The check
+           is a `getBoundingClientRect` on one element behind a passive listener,
+           and it unsubscribes the moment it fires. */
+        const attach = () => {
+            if (v.getAttribute('src')) return true;
+            v.setAttribute('src', VIDEO_SRC);
+            v.load();
+            play();
+            return true;
+        };
+
+        const maybeAttach = () => {
+            const el = rootRef.current;
+            if (!el) return;
+            // One viewport of warning, so it is buffered by the time it shows.
+            if (el.getBoundingClientRect().top > window.innerHeight * 2) return;
+            attach();
+            window.removeEventListener('scroll', maybeAttach);
+            window.removeEventListener('resize', maybeAttach);
+        };
+
+        maybeAttach(); // in case it is already in range on load (short pages, deep links)
+        window.addEventListener('scroll', maybeAttach, { passive: true });
+        window.addEventListener('resize', maybeAttach, { passive: true });
 
         const onVisible = () => { if (!document.hidden) play(); };
         document.addEventListener('visibilitychange', onVisible);
@@ -191,6 +227,8 @@ export default function WhyChooseUs() {
         window.addEventListener('touchstart', play, { once: true, passive: true });
 
         return () => {
+            window.removeEventListener('scroll', maybeAttach);
+            window.removeEventListener('resize', maybeAttach);
             document.removeEventListener('visibilitychange', onVisible);
             window.removeEventListener('touchstart', play);
         };
@@ -226,15 +264,23 @@ export default function WhyChooseUs() {
                                 Safari takes the video fullscreen on play, which
                                 counts as a user-initiated presentation and is
                                 refused outright when autoplay asks for it. */}
+                            {/* No `src` here — see the effect. The file is 64 MB
+                                and this section is several screens down, so
+                                naming it in the markup starts that download
+                                during the initial page load, competing with the
+                                hero for the whole connection. `preload="none"`
+                                is not enough on its own: it is a hint browsers
+                                are free to ignore, and Chrome routinely does for
+                                an autoplaying element. Withholding the src is
+                                the only instruction that always holds. */}
                             <video
                                 ref={videoRef}
-                                src="/assets/videos/why-choose-video.mp4"
                                 className="absolute inset-0 w-full h-full object-cover"
                                 loop
                                 autoPlay
                                 muted
                                 playsInline
-                                preload="auto"
+                                preload="none"
                                 disablePictureInPicture
                                 aria-hidden="true"
                             />
