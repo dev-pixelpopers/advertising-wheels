@@ -217,12 +217,22 @@ function ContactHero() {
                             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                                 {/* Honeypot. Hidden from people and from screen readers; bots
                                     fill it in and the server silently discards the submission. */}
+                                {/* NOT named "website" — that is a real browser autofill
+                                    category, so Chrome and password managers happily filled
+                                    it even off-screen. A filled honeypot makes the server
+                                    discard the submission and answer 200, so a genuine
+                                    inquiry vanished with the visitor seeing a thank-you.
+                                    The opaque name has nothing for autofill to match on,
+                                    and the vendor opt-outs cover the managers that guess. */}
                                 <input
                                     type="text"
-                                    name="website"
+                                    name="aw_contact_ref"
                                     tabIndex={-1}
                                     autoComplete="off"
                                     aria-hidden="true"
+                                    data-lpignore="true"
+                                    data-1p-ignore=""
+                                    data-form-type="other"
                                     className="absolute left-[-9999px] h-0 w-0 opacity-0"
                                 />
                                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
