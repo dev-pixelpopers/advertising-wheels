@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import PreloaderGate from "@/components/PreloaderGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,10 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {/* Must run before the body paints — see the component. */}
+        <PreloaderGate />
+      </head>
       <body className="min-h-full flex flex-col bg-[#EEE8D9] dark:bg-[#0A0A0A] text-[#171717] dark:text-[#F5F5F5] transition-colors duration-300">
 
         <ThemeProvider>

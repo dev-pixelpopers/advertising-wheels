@@ -565,7 +565,7 @@ export default function Hero({ isReady }: HeroProps) {
                 </div>
 
                 <div ref={ctaButtonsRef} className='w-full flex flex-col md:flex-row gap-[10px] md:gap-[32px] lg:gap-[42px] justify-center items-center'>
-                  <a className='bg-white text-[16px] md:text-[20px] lg:text-[24px] leading-[102%] font-tommy-regular text-[#1A1917] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer'>
+                  <a className='bg-white text-[16px] md:text-[20px] lg:text-[24px] leading-[102%] font-tommy-regular text-[#1A1917] rounded-[6px] px-[12px] md:px-[16px] lg:px-[30px] py-[10px] md:py-[16px] lg:py-[20px] cursor-pointer' href='/contact#form'>
                     Start a Campaign
                   </a>
                   {/* Jumps to the Markets & Coverage roll call further down the page.

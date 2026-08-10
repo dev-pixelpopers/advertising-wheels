@@ -34,14 +34,12 @@ const STORY_IMG = '/assets/images/clients/hertz/story-img.webp';
 
 const MILESTONES = [
     { year: '2001', title: 'Founded', body: `Our founders saw what the industry hadn't: thousands of trucks already crisscrossing America's busiest streets every day — unused ad space in motion. Advertising Wheels became an early pioneer of truckside advertising to turn truckside into a true advertising medium, giving brands street-level visibility static OOH couldn't deliver.` },
-    { year: '2003', title: 'First Fortune 500 client', body: 'Won our first national CPG account — a beverage launch that required eight markets in eight weeks. We hit every market and every flight till date.' },
     { year: '2008', title: 'National operational footprint', body: 'Expanded from regional to 50-DMA national coverage — building the fleet-sourcing, production, and management process that lets one accountable team run campaigns in every major metro.' },
-    { year: '2014', title: 'GPS-verified delivery', body: 'Every truck in the national fleet upgraded to continuous GPS reporting. Verified-impression reporting becomes the default, not the upgrade.' },
-    { year: '2019', title: 'Measurement partnership stack', body: 'Partnered with StreetMetrics for independent, third-party measurement — impressions, reach, and frequency verified on every campaign, with brand-lift studies attached to major flights.' },
-    { year: '2022', title: 'Geofenced retargeting layer', body: 'Closed the loop between street and screen. Devices that came within impression range of our trucks become a targetable digital retargeting audience the following day.' },
-    { year: '2026', title: '1,000+ premium trucks', body: `Today, thousands of trucks have carried our clients' brands — with hundreds of partner trucks in the network delivering concurrent, multi-market campaigns across 50 DMAs for Nationwide, Hertz, Fifth Third Bank, Kaiser Permanente, Burger King, Xfinity, Saks and Raising Cane's.` },
+    { year: '2014', title: 'GPS-verified delivery', body: 'Every truck in the network upgraded to continuous GPS reporting. Verified-mile reporting becomes the default, not the upgrade.' },
+    { year: '2019', title: 'WRMSDC-certified MBE', body: 'Certified as a Minority Business Enterprise by the Western Regional Minority Supplier Development Council (Certificate WR05284) — opening supplier-diversity partnerships with enterprise and public-sector advertisers.' },
+    { year: '2020', title: 'Inc. 5000 debut', body: 'Named to the Inc. 5000 list of America\'s fastest-growing private companies — the first of five consecutive appearances (2020–2024), marking truckside\'s arrival as a growth medium, not a novelty.' },
+    { year: '2026', title: 'StreetMetrics partnership', body: `Partnered with StreetMetrics for independent, third-party measurement — every campaign now ships with verified impressions, reach, and frequency, reported the way a digital buy is reported.` },
 ];
-
 /* The three functions that report into the owner — they become the orbit. */
 const LEADERSHIP = [
     {
@@ -155,7 +153,7 @@ function Stats() {
        across its neighbour. */
     const items: { el: React.ReactNode; label: string; wordy?: boolean }[] = [
         { el: <CountUp value={25} suffix="+" />, label: 'Years in truckside advertising' },
-        { el: <CountUp value={50} />, label: 'DMAs covered through one accountable partner' },
+        { el: <CountUp value={50} suffix="+" />, label: 'DMAs covered through one accountable partner' },
         /* The newlines are load-bearing — see `white-space: pre-line` below. Left
            to wrap on their own the two phrases disagree: "BILLIONS OF
            IMPRESSIONS" is long enough to take two lines at every width, while

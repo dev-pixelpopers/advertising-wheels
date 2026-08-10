@@ -128,8 +128,11 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   }, [isTextDone, isPageLoaded]);
 
   return (
+    /* `data-preloader` is what the head script's CSS rule hides on a repeat
+       visit within the session — it has to stay on the outermost element. */
     <div
       ref={containerRef}
+      data-preloader
       className="fixed inset-0 z-[9999999] gap-30 flex flex-col items-center justify-center bg-[#1A1917] text-[#EEE8D9]"
     >
       <div className={`fixed inset-0 flex flex-col justify-center items-center z-60 `}>

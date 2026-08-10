@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { hasSeenPreloader, markPreloaderSeen } from '@/lib/preloaderSeen';
 import Preloader from '@/components/Preloader';
 import Hero from '@/components/Hero';
 import AdvertisingLeader from '@/components/AdvertisingLeader';
@@ -10,7 +11,17 @@ import WhyChooseUs from '@/components/WhyChooseUs';
 import CtaSection from '@/components/CtaSection';
 
 export default function Home() {
+  /* Starts false on BOTH server and client so hydration matches, then the
+     effect below skips the intro on the same tick if it has already played.
+     Reading storage in the initialiser instead would render different markup
+     on the two sides and desync hydration. The visual side of the skip is not
+     left to this effect — the head script has already hidden the intro before
+     the first paint, so there is nothing to flash. */
   const [isPreloaderDone, setIsPreloaderDone] = useState(false);
+
+  useEffect(() => {
+    if (hasSeenPreloader()) setIsPreloaderDone(true);
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -18,7 +29,14 @@ export default function Home() {
 
   return (
     <div className='w-full bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 relative'>
-      {!isPreloaderDone && <Preloader onComplete={() => setIsPreloaderDone(true)} />}
+      {!isPreloaderDone && (
+        <Preloader
+          onComplete={() => {
+            markPreloaderSeen();
+            setIsPreloaderDone(true);
+          }}
+        />
+      )}
 
       <Hero isReady={isPreloaderDone} />
 
