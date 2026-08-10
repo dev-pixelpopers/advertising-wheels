@@ -58,7 +58,7 @@ const SUB_CARET =
 const pinPositions = [
     {
         // Near-left, low — largest, so it reads closest to camera
-        className: 'left-[8%] top-[6%] lg:left-[6%] lg:top-[34%]',
+        className: 'left-[20%] top-[15%] lg:left-[6%] lg:top-[34%]',
         size: 'w-[64px] h-[64px] lg:w-[82px] lg:h-[82px]',
     },
     {
@@ -68,12 +68,12 @@ const pinPositions = [
     },
     {
         // Right, mid-height — smallest of the right pair, sits furthest back
-        className: 'right-[8%] top-[10%] lg:right-[14%] 2xl:right-[20%] 3xl:right-[25%] lg:top-[33%]',
+        className: 'right-[8%] top-[30%] lg:right-[14%] 2xl:right-[20%] 3xl:right-[25%] lg:top-[33%]',
         size: 'w-[56px] h-[56px] lg:w-[70px] lg:h-[70px]',
     },
     {
         // Far-right, low
-        className: 'right-[32%] top-[32%] lg:right-[5%] 2xl:right-[7%] 3xl:right-[10%] lg:top-[44%]',
+        className: 'right-[32%] top-[30%] lg:right-[5%] 2xl:right-[7%] 3xl:right-[10%] lg:top-[44%]',
         size: 'w-[60px] h-[60px] lg:w-[76px] lg:h-[76px]',
     },
     {
@@ -84,7 +84,7 @@ const pinPositions = [
     {
         // High and inboard — well above the trailer roof, so it can sit over
         // the centre without landing on the vehicle
-        className: 'left-[62%] top-[16%] lg:left-[30%] lg:top-[8%]',
+        className: 'left-[62%] top-[24%] lg:left-[30%] lg:top-[8%]',
         size: 'w-[46px] h-[46px] lg:w-[56px] lg:h-[56px]',
     },
     {
@@ -94,17 +94,17 @@ const pinPositions = [
     },
     {
         // High right, mirroring the one above — smallest pair, furthest back
-        className: 'right-[14%] top-[52%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[24%] lg:top-[20%]',
+        className: 'right-[14%] top-[46%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[24%] lg:top-[20%]',
         size: 'w-[50px] h-[50px] lg:w-[60px] lg:h-[60px]',
     },
     {
         // Right flank, low
-        className: 'right-[46%] top-[62%] lg:right-[9%] 2xl:right-[12%] 3xl:right-[10%] lg:top-[20%]',
+        className: 'right-[80%] top-[30%] lg:right-[9%] 2xl:right-[12%] 3xl:right-[10%] lg:top-[20%]',
         size: 'w-[62px] h-[62px] lg:w-[78px] lg:h-[78px]',
     },
     {
         // Far-left, upper — tucked into the corner
-        className: 'left-[4%] top-[70%] lg:left-[3%] lg:top-[21%]',
+        className: 'left-[4%] top-[20%] lg:left-[3%] lg:top-[21%]',
         size: 'w-[48px] h-[48px] lg:w-[58px] lg:h-[58px]',
     }
 
@@ -358,7 +358,7 @@ export default function TruckExperience() {
 
                 {/* TRUCK — enters from left, centre stage */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div ref={truckWrapRef} className="relative w-full lg:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[10%] 2xl:top-0">
+                    <div ref={truckWrapRef} className="relative w-full lg:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[17%] 2xl:top-0">
                         <img
                             src="/assets/images/process/truck.png"
                             alt="Advertising Wheels truck"
@@ -406,17 +406,17 @@ export default function TruckExperience() {
                 {/* STATS BAR — appears with stats.png, positioned bottom of screen above subtitle text */}
                 <div
                     ref={statsBarRef}
-                    className="absolute bottom-[25%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto"
+                    className="absolute bottom-[21%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto"
                 >
                     {/* These figures are illustrative, not live fleet data — the
                         counters below drift on a timer. Labelling the panel keeps
                         its campaign-scale truck count from reading as a claim
                         about the size of the fleet. */}
-                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">
+                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center md:text-left">
                         Sample campaign dashboard
                     </p>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-4 md:gap-y-0">
+                    <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-4 md:gap-y-0">
                         {/* Item 1: TOTAL IMPRESSIONS */}
                         <div className="flex flex-col justify-between pr-3 md:px-5 first:pl-0">
                             <div className="flex flex-col lg:flex-row items-center gap-3">

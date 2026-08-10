@@ -153,7 +153,7 @@ function ContactHero() {
                 <Rings />
             </div>
 
-            <div className="relative z-10 mx-auto grid w-full max-w-[1320px] grid-cols-1 gap-14  pb-24 pt-[132px]  px-3 md:px-6 lg:px-12 md:pb-28 md:pt-[190px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+            <div className="relative z-10 mx-auto grid w-full lg:max-w-[1320px] grid-cols-1 gap-14 pb-10 pt-[80px]  px-3 md:px-6 lg:px-12 md:pb-28 md:pt-[190px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
                 {/* Copy */}
                 <div data-ch-copy className="lg:pt-6">
                     <Eyebrow>Get in touch</Eyebrow>
@@ -315,8 +315,8 @@ function Faq() {
     const [open, setOpen] = useState<number | null>(0);
 
     return (
-        <section className="w-full bg-[#EEE8D9]  transition-colors duration-300 py-12 md:py-20 lg:py-32 dark:bg-[#0A0A0A]">
-            <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 px-6 md:px-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+        <section className="w-full bg-[#EEE8D9]  transition-colors duration-300 pt-14 md:pt-20 lg:pt-32 dark:bg-[#0A0A0A]">
+            <div className="mx-auto grid lg:max-w-[1200px] grid-cols-1 gap-6 md:gap-12 px-6 md:px-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
                 <Reveal className="self-start" y={30}>
                     <Eyebrow>Good to know</Eyebrow>
                     <h2 className="mt-4 font-tommy-bold text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-tight text-[#1A1917] dark:text-white">

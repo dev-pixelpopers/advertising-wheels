@@ -314,7 +314,7 @@ export default function Footer() {
                 </div>
 
                 {/* ================= Industry Associations & Credentials ================= */}
-                <div data-foot-logos className="flex flex-wrap items-center justify-start gap-6 md:justify-between pb-[10px] md:pb-[16px] lg:pb-[20px] px-4">
+                <div data-foot-logos className="flex flex-wrap items-center justify-start gap-6 md:justify-between pb-[10px] md:pb-[16px] lg:pb-[20px] px-2 md:px-3 lg:px-4">
                     {CREDENTIALS.map((card, idx) => (
                         <div key={idx} className="flex items-center gap-3 md:gap-4">
                             {card.logos.map((c) => (

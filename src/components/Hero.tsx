@@ -482,9 +482,9 @@ export default function Hero({ isReady }: HeroProps) {
       `}</style>
 
       <section ref={containerRef} className="relative h-[550vh] w-[100vw] z-70">
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <div className="sticky top-0 h-dvh w-full overflow-hidden">
 
-          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-4 md:px-8 lg:px-12 2xl:px-20 3xl:px-25 py-[72px] overflow-hidden'>
+          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-4 md:px-8 lg:px-12 2xl:px-20 3xl:px-25 py-[72px] overflow-hidden w-full h-full'>
             {/* Canvas frame sequence — sits above the cream bg, behind the text.
               Hidden at first (only text shows); fades in blurred & scaled down as scroll begins. */}
             <canvas
@@ -531,7 +531,7 @@ export default function Hero({ isReady }: HeroProps) {
                     data-tier='1'
                     data-cta-part
                     data-cta-line='1'
-                    className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[35px] md:text-[clamp(2rem,5vw,5.5rem)]'
+                    className='font-tommy-bold uppercase leading-[100%] tracking-[-0.01em] text-[37px] md:text-[clamp(2rem,5vw,5.5rem)]'
                   >
                     Unskippable on the <span className="text-[#FCD119]">street.</span>
                     <span
@@ -560,7 +560,7 @@ export default function Hero({ isReady }: HeroProps) {
                       moving video, REGULAR at 85% left about two pixels of
                       low-contrast stroke to carry the line. MEDIUM at full white
                       is what tier 2 already uses. */}
-                  <p data-tier='3' className='cta-fine mt-[0.75em] font-tommy-medium uppercase leading-[1.15] tracking-[0.14em] text-white text-[12px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
+                  <p data-tier='3' className='cta-fine mt-[0.75em] font-tommy-medium uppercase leading-[1.15] tracking-[0.14em] text-white text-[16px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
                     <span data-cta-part data-cta-line='3'>GPS-enabled billboard trucks that capture real impressions data -<br /> so you can retarget every viewer online</span>
                     <span
                       data-caret='3'

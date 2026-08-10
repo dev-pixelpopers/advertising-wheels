@@ -101,7 +101,7 @@ export default function AdvertisingLeader() {
                     <div className='w-[1px] h-[100px] bg-[#2C2C2B] mx-auto'>
 
                     </div>
-                    <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[20px] md:text-[25px] lg:text-[clamp(1.1rem,2.2vw,40px)] leading-[183%] font-tommy-medium text-center capitalize w-full max-w-[75%]">
+                    <p ref={paraRef} className="text-[#2C2C2B] dark:text-[#EAEAEA] transition-colors duration-300 text-[20px] md:text-[25px] lg:text-[clamp(1.1rem,2.2vw,40px)] leading-[183%] font-tommy-medium text-center capitalize w-full lg:max-w-[75%]">
                         The leader in truckside billboard advertising for 25+ years —
                         <span className="text-[#D5CCB4] dark:text-[#8C8472]"> one of the country's largest truckside networks, GPS-verified —</span> and measured by StreetMetrics.
                     </p>

@@ -594,10 +594,10 @@ function MarketPopup({
                         {/* Title sits ON the photo — the record then opens on the
                             name rather than repeating a header beside it. */}
                         <div data-pop-item className="absolute inset-x-3 md:inset-x-5 bottom-3 md:bottom-5 lg:inset-x-7 lg:bottom-7">
-                            <span className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#FCD119]">
+                            <span className="font-tommy-regular text-[8px] md:text-[10px] uppercase tracking-[3px] text-[#FCD119]">
                                 {market.state} · {REGION_LABEL[market.region]}
                             </span>
-                            <h3 className="lg:mt-2 font-tommy-bold text-[24px] md:text-[clamp(28px,3.6vw,46px)] leading-[1] tracking-[-0.02em] text-white">
+                            <h3 className="lg:mt-2 font-tommy-bold text-[20px] md:text-[clamp(28px,3.6vw,46px)] leading-[1] tracking-[-0.02em] text-white">
                                 {market.name}
                             </h3>
                         </div>
@@ -627,7 +627,7 @@ function MarketPopup({
                                 >
                                     {fmt(market.impressions)}
                                 </p>
-                                <p className="mt-2.5 font-tommy-regular text-[10px] uppercase tracking-[2.5px] text-[#6F6A60] dark:text-[#9A968E]">
+                                <p className="mt-2 md:mt-2.5 font-tommy-regular text-[8px] md:text-[10px] uppercase tracking-[2.5px] text-[#6F6A60] dark:text-[#9A968E]">
                                     Impressions / truck · 4-week flight
                                 </p>
                             </div>
@@ -643,7 +643,7 @@ function MarketPopup({
                                     <div
                                         key={label}
                                         data-pop-item
-                                        className="rounded-2xl border border-black/10 bg-black/[0.03] px-2.5 py-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#C8992B]/45 hover:bg-black/[0.05] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40 dark:hover:bg-white/[0.07]"
+                                        className="rounded-lg md:rounded-xl lg:rounded-2xl border border-black/10 bg-black/[0.03] px-1.5 md:px-2.5 py-2 md:py-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#C8992B]/45 hover:bg-black/[0.05] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40 dark:hover:bg-white/[0.07]"
                                     >
                                         <p
                                             data-count={value}
@@ -717,7 +717,7 @@ function MarketPopup({
 
 
                             {/* Build Campaign CTA Form */}
-                            <div data-pop-item className="mt-8 rounded-[24px] bg-gradient-to-br from-[#1A1917] to-black dark:from-[#2A2825] dark:to-[#1A1917] p-5 md:p-8 border border-black/20 dark:border-white/10 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-none">
+                            <div data-pop-item className="mt-3 md:mt-5 lg:mt-8 rounded-[16px] md:rounded-[20px] lg:rounded-[24px] bg-gradient-to-br from-[#1A1917] to-black dark:from-[#2A2825] dark:to-[#1A1917] p-3 md:p-5 lg:p-8 border border-black/20 dark:border-white/10 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-none">
                                 {/* Background accent */}
                                 <div className="pointer-events-none absolute top-0 right-0 w-64 h-64 bg-[#C8992B]/15 dark:bg-[#FCD119]/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3" />
 
@@ -730,9 +730,9 @@ function MarketPopup({
                                     </p>
 
                                     {/* 1 Row for Coverage & Trucks */}
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5 md:gap-8 mb-8 pb-8 border-b border-white/10">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 md:gap-5 lg:gap-8 mb-3 md:mb-5 lg:mb-8 pb-3 md:pb-5 lg:pb-8 border-b border-white/10">
                                         <div className="flex-1 w-full">
-                                            <label className="block font-tommy-medium text-[10px] uppercase tracking-[2px] text-white/50 mb-3">
+                                            <label className="block font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1 md:mb-2 lg:mb-3">
                                                 Target Coverage
                                             </label>
                                             <div className="flex flex-wrap gap-1.5 md:gap-2">
@@ -743,7 +743,7 @@ function MarketPopup({
                                                         <button
                                                             key={level}
                                                             onClick={() => setTrucks(levelTrucks)}
-                                                            className={`rounded-full px-3.5 md:px-4 py-1.5 md:py-2 text-[12px] md:text-[14px] font-tommy-medium transition-all duration-300 ${isSelected
+                                                            className={`rounded-full px-2 md:px-4 py-1 md:py-2 text-[10px] md:text-[14px] font-tommy-medium transition-all duration-300 ${isSelected
                                                                 ? 'bg-[#C8992B] text-black shadow-[0_0_12px_rgba(200,153,43,0.4)] dark:bg-[#FCD119] dark:shadow-[0_0_12px_rgba(252,209,25,0.4)]'
                                                                 : 'bg-white/5 text-white hover:bg-white/15'
                                                                 }`}
@@ -760,7 +760,7 @@ function MarketPopup({
                                         </div>
 
                                         <div className="w-full sm:w-40 shrink-0">
-                                            <label className="block font-tommy-medium text-[10px] uppercase tracking-[2px] text-white/50 mb-3">
+                                            <label className="block font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1 md:mb-3">
                                                 Custom Trucks
                                             </label>
                                             <div className="relative">
@@ -774,7 +774,7 @@ function MarketPopup({
                                                         if (isNaN(val)) setTrucks(0);
                                                         else setTrucks(Math.min(maxTrucks, Math.max(0, val)));
                                                     }}
-                                                    className="w-full bg-black/40 border border-white/10 rounded-2xl px-4 py-3 font-tommy-bold text-[18px] text-white focus:outline-none focus:border-[#C8992B] dark:focus:border-[#FCD119] transition-colors"
+                                                    className="w-full bg-black/40 border border-white/10 rounded-lg md:rounded-xl lg:rounded-2xl px-2 md:px-3 lg:px-4 py-1 md:py-2 lg:py-3 font-tommy-bold text-[12px] md:text-[16px] lg:text-[18px] text-white focus:outline-none focus:border-[#C8992B] dark:focus:border-[#FCD119] transition-colors"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 font-tommy-regular text-[11px] text-white/30">
                                                     / {maxTrucks}
@@ -784,15 +784,15 @@ function MarketPopup({
                                     </div>
 
                                     {/* Impressions generated & CTA below */}
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 md:gap-4 lg:gap-6">
                                         <div>
-                                            <p className="font-tommy-medium text-[10px] uppercase tracking-[2px] text-white/50 mb-1">
+                                            <p className="font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1">
                                                 Estimated Impressions (4-Wk)
                                             </p>
                                             <div className="flex items-end gap-3 md:gap-4">
                                                 <p
                                                     ref={dynamicImpsRef}
-                                                    className="font-tommy-bold text-[36px] md:text-[48px] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B] dark:text-[#FCD119]"
+                                                    className="font-tommy-bold text-[26px] md:text-[36px] lg:text-[48px] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B] dark:text-[#FCD119]"
                                                 >
                                                     0
                                                 </p>
@@ -806,7 +806,7 @@ function MarketPopup({
 
                                         <Link
                                             href="/contact#form"
-                                            className="group w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#C8992B] dark:bg-[#FCD119] text-black font-tommy-bold text-[14px] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] dark:shadow-[0_4px_14px_0_rgba(252,209,25,0.3)] shrink-0"
+                                            className="group w-full sm:w-auto inline-flex items-center justify-center px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 rounded-full bg-[#C8992B] dark:bg-[#FCD119] text-black font-tommy-bold text-[10px] md:text-[12px] lg:text-[14px] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] dark:shadow-[0_4px_14px_0_rgba(252,209,25,0.3)] shrink-0"
                                         >
                                             Start Campaign
                                             <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -824,7 +824,7 @@ function MarketPopup({
                                     data-pop-item
                                     className="mt-3 md:mt-5 lg:mt-7 rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-2 md:p-3 lg:p-5 text-center dark:border-[#FCD119]/25 dark:bg-[#FCD119]/[0.06]"
                                 >
-                                    <p className="font-tommy-medium text-[11px] uppercase tracking-[3px] text-[#8A6E1F] dark:text-[#FCD119]">
+                                    <p className="font-tommy-medium text-[9px] md:text-[11px] uppercase tracking-[3px] text-[#8A6E1F] dark:text-[#FCD119]">
                                         {relatedLabel}
                                     </p>
                                     <div className="mt-2 md:mt-3 lg:mt-4 flex flex-wrap justify-center gap-2.5">
@@ -1313,7 +1313,7 @@ export default function MarketsCoverageV2() {
                 {/* ============ ACT 1 — intro ============ */}
                 <div
                     ref={introRef}
-                    className="absolute inset-x-0 top-0 z-20 mx-auto w-full max-w-[1100px] px-6 pt-[14vh] text-center md:px-12"
+                    className="absolute inset-x-0 top-0 z-20 mx-auto w-full max-w-[1100px] px-3 pt-[14vh] text-center md:px-5 lg:px-12"
                 >
                     <p className="font-tommy-regular text-[10px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px] dark:text-[#9A968E]">
                         Markets &amp; Coverage
@@ -1329,7 +1329,7 @@ export default function MarketsCoverageV2() {
                         Wherever your customers are, we&apos;re already rolling.
                     </p>
 
-                    <div className="mx-auto mt-9 grid max-w-[900px] grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+                    <div className="mx-auto mt-5 md:mt-7 lg:mt-9 grid lg:max-w-[900px] grid-cols-2 gap-2 md:grid-cols-4 md:gap-4">
                         {/* VALUE PROPS, NOT STATS — and the type scale is inverted from
                             what it was, on purpose.
 
@@ -1354,9 +1354,9 @@ export default function MarketsCoverageV2() {
                         ].map((s) => (
                             <div
                                 key={s.k}
-                                className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-4 text-left dark:border-white/10 dark:bg-white/[0.04]"
+                                className="rounded-lg md:rounded-xl border border-black/10 bg-black/[0.03] px-2 md:px-4 py-2 md:py-4 text-left dark:border-white/10 dark:bg-white/[0.04]"
                             >
-                                <p className="font-tommy-bold uppercase text-[clamp(15px,1.5vw,20px)] leading-none tracking-[0.08em] text-[#C8992B] dark:text-[#FCD119]">
+                                <p className="font-tommy-bold uppercase text-[13px] md:text-[clamp(15px,1.5vw,20px)] leading-none tracking-[0.08em] text-[#C8992B] dark:text-[#FCD119]">
                                     {s.k}
                                 </p>
                                 {/* Two lines are RESERVED even though only the third claim

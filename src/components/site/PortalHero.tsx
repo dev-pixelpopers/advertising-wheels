@@ -136,7 +136,7 @@ export default function PortalHero({
 
                 {/* Title card — centred. Lead + buttons are positioned absolutely
                     below centre so revealing them never shifts the title. */}
-                <div className="relative inset-0 z-30 flex flex-col items-center justify-center px-6 text-center h-full gap-3 md:gap-5 lg:gap-7.5">
+                <div className="relative inset-0 z-30 flex flex-col items-center justify-center px-3 md:px-5 lg:px-6 text-center h-full gap-3 md:gap-5 lg:gap-7.5">
                     <div ref={titleWrapRef} className="flex flex-col items-center will-change-transform">
                         <span
                             className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-tommy-regular text-[11px] uppercase tracking-[0.3em] md:text-[12.5px]"
@@ -154,7 +154,7 @@ export default function PortalHero({
                         </h1>
                     </div>
 
-                    <div className="relative inset-x-0 flex flex-col items-center px-6">
+                    <div className="relative inset-x-0 flex flex-col items-center lg:px-6">
                         {lead && (
                             <p
                                 data-banner-in
@@ -166,7 +166,7 @@ export default function PortalHero({
                         )}
 
                         {(primary || secondary) && (
-                            <div data-banner-in style={{ opacity: 0 }} className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                            <div data-banner-in style={{ opacity: 0 }} className="mt-4 md:mt-6 lg:mt-8 flex flex-wrap items-center justify-center gap-4">
                                 {primary && (
                                     <a
                                         href={primary.href}
