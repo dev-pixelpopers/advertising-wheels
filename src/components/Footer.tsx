@@ -20,6 +20,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import Logo from './Logo';
+import { useSubscribe, SubscribeHoneypot } from '@/lib/useSubscribe';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -86,6 +87,9 @@ export default function Footer() {
     const innerRef = useRef<HTMLDivElement>(null);
     const year = new Date().getFullYear();
     const [isMobile, setIsMobile] = useState<Boolean>(false);
+
+    /* Shared with the blog's dispatch band — see src/lib/useSubscribe.tsx. */
+    const subscribe = useSubscribe();
 
     useEffect(() => {
         setIsMobile(window.innerWidth < 1024);
@@ -272,8 +276,8 @@ export default function Footer() {
 
                         <form
                             className="mt-6 flex items-center gap-3 border-b border-black/15 pb-2.5 transition-colors duration-300 focus-within:border-[#C8992B] dark:border-white/15 dark:focus-within:border-[#FCD119]"
-                            /* Presentation only — no endpoint is wired up yet. */
-                            onSubmit={(e) => e.preventDefault()}
+                            onSubmit={subscribe.submit}
+                            noValidate
                         >
                             <label htmlFor="footer-email" className="sr-only">
                                 Your email address
@@ -283,14 +287,22 @@ export default function Footer() {
                                 type="email"
                                 name="email"
                                 autoComplete="email"
+                                required
                                 placeholder="Enter your email"
-                                className="w-full min-w-0 bg-transparent font-tommy-regular text-[14px] text-[#1A1917] placeholder:text-black/35 focus:outline-none dark:text-white dark:placeholder:text-white/35"
+                                value={subscribe.email}
+                                onChange={(e) => subscribe.onEmailChange(e.target.value)}
+                                disabled={subscribe.state === 'sending'}
+                                className="w-full min-w-0 bg-transparent font-tommy-regular text-[14px] text-[#1A1917] placeholder:text-black/35 focus:outline-none disabled:opacity-60 dark:text-white dark:placeholder:text-white/35"
                             />
+
+                            <SubscribeHoneypot inputRef={subscribe.honeyRef} />
+
                             <button
                                 type="submit"
-                                className="group flex shrink-0 items-center gap-2 rounded-full bg-[#1A1917] px-5 py-2.5 font-tommy-medium text-[13px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] dark:bg-[#FCD119] dark:text-black"
+                                disabled={subscribe.state === 'sending'}
+                                className="group flex shrink-0 items-center gap-2 rounded-full bg-[#1A1917] px-5 py-2.5 font-tommy-medium text-[13px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100 dark:bg-[#FCD119] dark:text-black"
                             >
-                                Subscribe
+                                {subscribe.state === 'sending' ? 'Sending' : 'Subscribe'}
                                 <svg
                                     width="14"
                                     height="14"
@@ -302,6 +314,22 @@ export default function Footer() {
                                 </svg>
                             </button>
                         </form>
+
+                        {/* `aria-live` so the outcome reaches a screen reader — the
+                            visual change alone is silent. Reserves no height when
+                            empty, so the column does not jump on first submit. */}
+                        {subscribe.message && (
+                            <p
+                                role="status"
+                                aria-live="polite"
+                                className={`mt-3 font-tommy-regular text-[12.5px] leading-[1.6] ${subscribe.state === 'error'
+                                    ? 'text-[#B4462F] dark:text-[#F08A72]'
+                                    : 'text-[#1A1917] dark:text-white'
+                                    }`}
+                            >
+                                {subscribe.message}
+                            </p>
+                        )}
 
                         <p className="mt-4 font-tommy-regular text-[11.5px] leading-[1.7] text-[#6F6A60]/85 dark:text-[#9A968E]/80">
                             I have read the{' '}

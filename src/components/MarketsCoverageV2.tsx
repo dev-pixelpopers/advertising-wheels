@@ -545,7 +545,7 @@ function MarketPopup({
                 role="dialog"
                 aria-modal="true"
                 aria-label={market.name}
-                className="relative z-10 w-full max-w-[1240px] overflow-hidden rounded-[16px] md:rounded-[20px] lg:rounded-[28px] bg-[#E7E0CE] shadow-[0_45px_130px_rgba(0,0,0,0.5)] dark:bg-[#141414] top-[22%] lg:top-0"
+                className="relative z-10 w-full max-w-[1240px] overflow-scroll rounded-[16px] md:rounded-[20px] lg:rounded-[28px] bg-[#E7E0CE] top-[4%] lg:top-[22%] lg:top-[4%] h-[91vh]"
             >
                 {/* Close sits on the CARD, not the photo — on desktop the photo
                     is only the left half, so anchoring it to the card keeps it
@@ -568,7 +568,7 @@ function MarketPopup({
                     Sizing it directly instead would either overflow short
                     viewports or leave the columns mismatched. */}
                 <div className="grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-                    <div className="relative h-[210px] overflow-hidden md:h-auto">
+                    <div className="relative lg:sticky lg:top-0 h-[180px] md:h-[210px] overflow-hidden md:h-[91vh]">
                         <img
                             ref={imgRef}
                             src="/assets/images/Blog-Featured.webp"
@@ -608,7 +608,7 @@ function MarketPopup({
                         row height, and the photo column stretches to match.
                         min() so it can never fight the 86vh cap on a short
                         viewport (min-height would win and overflow). */}
-                    <div className="relative lg:max-h-[86vh] min-h-0 overflow-y-auto p-2 md:p-6 md:min-h-[min(430px,74vh)] lg:p-9">
+                    <div className="relative h-full min-h-0 overflow-y-auto md:min-h-[min(430px,74vh)] p-2 md:p-3  lg:p-5 2xl:p-6">
                         {/* The rank, set as a watermark — gives the data column
                             its own piece of typography instead of leaving it a
                             plain stack of boxes. */}
@@ -619,20 +619,20 @@ function MarketPopup({
                             {market.rank}
                         </span>
 
-                        <div className="relative">
+                        <div className="relative  flex flex-col gap-y-2 md:gap-y-4 2xl:gap-y-6">
                             <div data-pop-item>
                                 <p
                                     data-count={market.impressions}
-                                    className="font-tommy-bold text-[26px] md:text-[clamp(38px,4.6vw,60px)] leading-none tabular-nums tracking-[-0.03em] text-[#1A1917] dark:text-[#FCD119]"
+                                    className="font-tommy-bold text-[26px] md:text-[clamp(38px,3.5vw,60px)] leading-none tabular-nums tracking-[-0.03em] text-[#1A1917] dark:text-[#FCD119]"
                                 >
                                     {fmt(market.impressions)}
                                 </p>
-                                <p className="mt-2 md:mt-2.5 font-tommy-regular text-[8px] md:text-[10px] uppercase tracking-[2.5px] text-[#6F6A60] dark:text-[#9A968E]">
+                                <p className="mt-0.5 2xl:mt-1 font-tommy-regular text-[8px] md:text-[10px] uppercase tracking-[2.5px] text-[#6F6A60] dark:text-[#9A968E]">
                                     Impressions / truck · 4-week flight
                                 </p>
                             </div>
 
-                            <div className="mt-3 md:mt-5 lg:mt-7 grid grid-cols-3 gap-1.5 md:gap-2.5 lg:gap-3">
+                            <div className="grid grid-cols-3 gap-1.5 md:gap-2.5 lg:gap-3">
                                 {(
                                     [
                                         [market.adults, 'num', 'Adults 18+ reached'],
@@ -643,12 +643,12 @@ function MarketPopup({
                                     <div
                                         key={label}
                                         data-pop-item
-                                        className="rounded-lg md:rounded-xl lg:rounded-2xl border border-black/10 bg-black/[0.03] px-1.5 md:px-2.5 py-2 md:py-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#C8992B]/45 hover:bg-black/[0.05] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40 dark:hover:bg-white/[0.07]"
+                                        className="rounded-lg md:rounded-xl lg:rounded-2xl border border-black/10 bg-black/[0.03] px-1.5 md:px-2.5 py-2 md:py-3 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#C8992B]/45 hover:bg-black/[0.05] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40 dark:hover:bg-white/[0.07]"
                                     >
                                         <p
                                             data-count={value}
                                             data-count-format={format}
-                                            className="font-tommy-bold text-[11px] md:text-[17px] leading-none tabular-nums text-[#1A1917] lg:text-[22px] dark:text-white"
+                                            className="font-tommy-bold text-[11px] leading-none tabular-nums text-[#1A1917] lg:text-[clamp(1rem,1.55vw,1.375rem)] dark:text-white"
                                         >
                                             {fmt(value)}
                                         </p>
@@ -661,7 +661,7 @@ function MarketPopup({
 
                             {/* Two measures that actually move market to market —
                                 see the note on the derived values above. */}
-                            <div data-pop-item className="mt-3 md:mt-5 lg:mt-7 flex flex-col gap-y-2 md:gap-y-3 lg:gap-y-4">
+                            <div data-pop-item className="flex flex-col gap-y-2 lg:gap-y-3 2xl:gap-y-4">
                                 <div>
                                     <div className="flex items-baseline justify-between">
                                         <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2px] text-[#8A857C] dark:text-[#9A968E]">
@@ -671,7 +671,7 @@ function MarketPopup({
                                             #{market.rank} of {TOTALS.count}
                                         </span>
                                     </div>
-                                    <div className="mt-1.5 md:mt-2.5 h-[3px] md:h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+                                    <div className="mt-1 h-[3px] md:h-[4px] 2xl:h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
                                         <span
                                             ref={rankBarRef}
                                             className="block h-full rounded-full bg-gradient-to-r from-[#C8992B] to-[#FCD119]"
@@ -696,7 +696,7 @@ function MarketPopup({
                                     {/* Shares top out around 12%, so the track is
                                         scaled to that rather than to 100% — at true
                                         scale every market would read as an empty bar. */}
-                                    <div className="mt-1.5 md:mt-2.5 h-[3px] md:h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+                                    <div className="mt-1 h-[3px] md:h-[4px] 2xl:h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
                                         <span
                                             ref={barRef}
                                             className="block h-full rounded-full bg-gradient-to-r from-[#C8992B] to-[#FCD119]"
@@ -717,7 +717,7 @@ function MarketPopup({
 
 
                             {/* Build Campaign CTA Form */}
-                            <div data-pop-item className="mt-3 md:mt-5 lg:mt-8 rounded-[16px] md:rounded-[20px] lg:rounded-[24px] bg-gradient-to-br from-[#1A1917] to-black dark:from-[#2A2825] dark:to-[#1A1917] p-3 md:p-5 lg:p-8 border border-black/20 dark:border-white/10 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-none">
+                            <div data-pop-item className="rounded-[16px] md:rounded-[20px] lg:rounded-[24px] bg-gradient-to-br from-[#1A1917] to-black dark:from-[#2A2825] dark:to-[#1A1917] p-2 lg:p-4 2xl:p-5 border border-black/20 dark:border-white/10 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-none">
                                 {/* Background accent */}
                                 <div className="pointer-events-none absolute top-0 right-0 w-64 h-64 bg-[#C8992B]/15 dark:bg-[#FCD119]/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3" />
 
@@ -725,14 +725,14 @@ function MarketPopup({
                                     <h4 className="font-tommy-bold text-white text-[18px] md:text-[22px] tracking-wide mb-1">
                                         Build your Campaign
                                     </h4>
-                                    <p className="font-tommy-regular text-[11px] md:text-[13px] text-white/60 mb-3 md:mb-6 lg:mb-8">
+                                    <p className="font-tommy-regular text-[11px] md:text-[13px] text-white/60 mb-2 lg:mb-3 2xl:mb-6">
                                         Select a target coverage or enter a custom number of trucks.
                                     </p>
 
                                     {/* 1 Row for Coverage & Trucks */}
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-2 md:gap-5 lg:gap-8 mb-3 md:mb-5 lg:mb-8 pb-3 md:pb-5 lg:pb-8 border-b border-white/10">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-2 md:gap-5 lg:gap-8 mb-2 md:mb-3 lg:mb-4 2xl:mb-5 pb-2 md:pb-3 lg:pb-4 2xl:pb-5 border-b border-white/10">
                                         <div className="flex-1 w-full">
-                                            <label className="block font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1 md:mb-2 lg:mb-3">
+                                            <label className="block font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1 md:mb-2 2xl:mb-3">
                                                 Target Coverage
                                             </label>
                                             <div className="flex flex-wrap gap-1.5 md:gap-2">
@@ -784,7 +784,7 @@ function MarketPopup({
                                     </div>
 
                                     {/* Impressions generated & CTA below */}
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 md:gap-4 lg:gap-6">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 md:gap-4 lg:gap-5 xl:gap-6">
                                         <div>
                                             <p className="font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1">
                                                 Estimated Impressions (4-Wk)
@@ -792,7 +792,7 @@ function MarketPopup({
                                             <div className="flex items-end gap-3 md:gap-4">
                                                 <p
                                                     ref={dynamicImpsRef}
-                                                    className="font-tommy-bold text-[20px] md:text-[36px] lg:text-[48px] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B] dark:text-[#FCD119]"
+                                                    className="font-tommy-bold text-[20px] md:text-[clamp(2rem,2.8vw,3rem)] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B] dark:text-[#FCD119]"
                                                 >
                                                     0
                                                 </p>
@@ -806,7 +806,7 @@ function MarketPopup({
 
                                         <Link
                                             href="/contact#form"
-                                            className="group w-full sm:w-auto inline-flex items-center justify-center px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 rounded-full bg-[#C8992B] dark:bg-[#FCD119] text-black font-tommy-bold text-[10px] md:text-[12px] lg:text-[14px] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] dark:shadow-[0_4px_14px_0_rgba(252,209,25,0.3)] shrink-0"
+                                            className="group w-full sm:w-auto inline-flex items-center justify-center px-4 md:px-6 xl:px-8 py-2 md:py-3 xl:py-4 rounded-full bg-[#C8992B] dark:bg-[#FCD119] text-black font-tommy-bold text-[10px] md:text-[clamp(0.75rem,1vw,0.875rem)] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] dark:shadow-[0_4px_14px_0_rgba(252,209,25,0.3)] shrink-0"
                                         >
                                             Start Campaign
                                             <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -822,12 +822,12 @@ function MarketPopup({
                             {related.length > 0 && (
                                 <div
                                     data-pop-item
-                                    className="mt-2 md:mt-5 lg:mt-7 rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-2 md:p-3 lg:p-5 text-center dark:border-[#FCD119]/25 dark:bg-[#FCD119]/[0.06]"
+                                    className="rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-2 md:p-3 lg:p-4 text-center dark:border-[#FCD119]/25 dark:bg-[#FCD119]/[0.06]"
                                 >
                                     <p className="font-tommy-medium text-[9px] md:text-[11px] uppercase tracking-[3px] text-[#8A6E1F] dark:text-[#FCD119]">
                                         {relatedLabel}
                                     </p>
-                                    <div className="mt-2 md:mt-3 lg:mt-4 flex flex-wrap justify-center gap-1.5 md:gap-2.5">
+                                    <div className="mt-1 md:mt-2 lg:mt-3 flex flex-wrap justify-center gap-1.5 md:gap-2 xl:gap-2.5">
                                         {related.map((r) => (
                                             <button
                                                 key={r.id}

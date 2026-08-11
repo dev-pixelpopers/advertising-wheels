@@ -35,6 +35,12 @@ yarn-error.log*
 # ...but the template carries no secrets and documents what the app needs.
 !.env.example
 
+# Newsletter signups, written at runtime by /api/subscribe. This is personal
+# data — it must never be committed, and it is not the system of record either
+# (the notification emails are). See src/lib/subscribers.ts.
+/data/subscribers.json
+/data/subscribers.json.*.tmp
+
 # vercel
 .vercel
 

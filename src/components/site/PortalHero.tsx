@@ -53,7 +53,7 @@ export default function PortalHero({
     image,
     imageAlt = '',
     height = '200vh',
-    titleSize = 'clamp(44px,9vw,150px)',
+    titleSize = 'clamp(44px,7vw,150px)',
 }: PortalHeroProps) {
     const heroRef = useRef<HTMLElement>(null);
     const imgRef = useRef<HTMLDivElement>(null);

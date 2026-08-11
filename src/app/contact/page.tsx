@@ -27,18 +27,21 @@ const DETAILS = [
         value: '1-877-4-ADWHEELS (1-877-423-9433)',
         sub: 'Mon–Fri, 8am–6pm CT',
         icon: 'M5.2 2.5 6.6 5.3 5.3 6.6a8.4 8.4 0 0 0 4.1 4.1l1.3-1.3 2.8 1.4v2.4c0 .6-.5 1-1.1.9A11.6 11.6 0 0 1 2.1 3.6c0-.6.4-1.1 1-1.1h2.1Z',
+        href: "tel:+18774239433"
     },
     {
         label: 'Email us',
         value: 'BrandGrowth@AdvertisingWheels.com',
         sub: 'We reply within one business day',
         icon: 'M1.8 3.4h12.4v9.2H1.8zM2.4 4.6l5.6 4 5.6-4',
+        href: "mailto:BrandGrowth@AdvertisingWheels.com"
     },
     {
         label: 'Headquarters',
         value: 'Nashville, Tennessee',
         sub: '50 DMAs, coast to coast',
         icon: 'M8 14s5-4.5 5-8A5 5 0 0 0 3 6c0 3.5 5 8 5 8Zm0-6.2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z',
+        href: "",
     },
 ];
 
@@ -144,8 +147,8 @@ function ContactHero() {
     }, []);
 
     const inputClass =
-        'w-full rounded-xl border border-black/12 bg-white/50 px-4 py-3.5 font-tommy-regular text-[15px] text-[#1A1917] placeholder:text-black/35 transition-colors duration-200 focus:border-[#C8992B] focus:outline-none dark:border-white/12 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/30 dark:focus:border-[#FCD119]';
-    const labelClass = 'mb-2 block font-tommy-medium text-[12.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:text-[#9A968E]';
+        'w-full rounded-xl border border-black/12 bg-white/50 px-2 lg:px-3 2xl:px-4 py-1.5 lg:py-2.5 2xl:py-3.5 font-tommy-regular text-[clamp(0.75rem,0.8vw,0.9375rem)] text-[#1A1917] placeholder:text-black/35 transition-colors duration-200 focus:border-[#C8992B] focus:outline-none dark:border-white/12 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/30 dark:focus:border-[#FCD119]';
+    const labelClass = 'mb-1 2xl:mb-2 block font-tommy-medium text-[12.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:text-[#9A968E]';
 
     return (
         <section ref={rootRef} className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
@@ -153,7 +156,7 @@ function ContactHero() {
                 <Rings />
             </div>
 
-            <div className="relative z-10 mx-auto grid w-full lg:max-w-[1320px] grid-cols-1 gap-14 pb-10 pt-[80px]  px-3 md:px-6 lg:px-12 md:pb-28 md:pt-[190px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+            <div className="relative z-10 mx-auto grid w-full lg:max-w-[1320px] grid-cols-1 gap-4 md:gap-6 lg:gap-10 pb-10 pt-[80px] px-3 md:px-6 lg:px-12 md:pb-28 xl:pt-[90px] 3xl:pt-[190px] lg:grid-cols-[0.95fr_1.05fr] 2xl:gap-20">
                 {/* Copy */}
                 <div data-ch-copy className="lg:pt-6">
                     <Eyebrow>Get in touch</Eyebrow>
@@ -165,18 +168,20 @@ function ContactHero() {
                         with routes, formats and a plan you can measure.
                     </p>
 
-                    <ul className="mt-10 flex flex-col gap-5">
+                    <ul className="mt-10 flex flex-col gap-2 lg:gap-3 3xl:gap-5">
                         {DETAILS.map((d) => (
-                            <li key={d.label} className="flex items-center gap-2 md:gap-3 lg:gap-4">
-                                <span className="flex h-6 md:h-8 lg:h-11 w-6 md:w-8 lg:w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] dark:border-white/10 dark:bg-white/[0.05] dark:text-[#FCD119]">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="w-[8px] md:w-[12px] lg:w-[16px] h-[8px] md:h-[12px] lg:h-[16px]">
-                                        <path d={d.icon} stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </span>
-                                <span>
-                                    <span className="block font-tommy-medium text-[16px] text-[#1A1917] dark:text-white">{d.value}</span>
-                                    <span className="block font-tommy-regular text-[13px] text-[#6F6A60] dark:text-[#9A968E]">{d.sub}</span>
-                                </span>
+                            <li key={d.label}>
+                                <a href={d.href} className='flex items-center gap-2 md:gap-3 lg:gap-4'>
+                                    <span className="flex h-6 md:h-8 lg:h-11 w-6 md:w-8 lg:w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] dark:border-white/10 dark:bg-white/[0.05] dark:text-[#FCD119]">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="w-[8px] md:w-[12px] lg:w-[16px] h-[8px] md:h-[12px] lg:h-[16px]">
+                                            <path d={d.icon} stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                    <span>
+                                        <span className="block font-tommy-medium text-[16px] text-[#1A1917] dark:text-white">{d.value}</span>
+                                        <span className="block font-tommy-regular text-[13px] text-[#6F6A60] dark:text-[#9A968E]">{d.sub}</span>
+                                    </span>
+                                </a>
                             </li>
                         ))}
                     </ul>
@@ -193,7 +198,7 @@ function ContactHero() {
                     scroll-mt clears the 73px fixed header, plus a little air so the
                     card doesn't sit flush under it. */}
                 <div id="form" data-ch-form className="relative scroll-mt-[96px] md:scroll-mt-[110px]">
-                    <div className="rounded-[16px] md:rounded-[20px] lg:rounded-[26px] border border-black/10 bg-white/60 p-4 md:p-7 lg:p-10 shadow-[0_30px_80px_rgba(0,0,0,0.12)] backdrop-blur-sm  dark:border-white/10 dark:bg-white/[0.04]">
+                    <div className="rounded-[16px] md:rounded-[20px] lg:rounded-[26px] border border-black/10 bg-white/60 p-2 md:p-5 xl:p-7 3xl:p-10 shadow-[0_30px_80px_rgba(0,0,0,0.12)] backdrop-blur-sm  dark:border-white/10 dark:bg-white/[0.04]">
                         {sent ? (
                             <div className="flex min-h-[440px] flex-col items-center justify-center text-center">
                                 <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#FCD119] text-black">
@@ -214,7 +219,7 @@ function ContactHero() {
                                 </button>
                             </div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-2 lg:gap-3 3xl:gap-5">
                                 {/* Honeypot. Hidden from people and from screen readers; bots
                                     fill it in and the server silently discards the submission. */}
                                 {/* NOT named "website" — that is a real browser autofill
@@ -235,7 +240,7 @@ function ContactHero() {
                                     data-form-type="other"
                                     className="absolute left-[-9999px] h-0 w-0 opacity-0"
                                 />
-                                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                <div className="grid grid-cols-1 gap-2 lg:gap-3 3xl:gap-5 sm:grid-cols-2">
                                     <div>
                                         <label htmlFor="c-name" className={labelClass}>Full name</label>
                                         <input id="c-name" name="name" required placeholder="Jane Doe" className={inputClass} />
@@ -262,7 +267,7 @@ function ContactHero() {
                                                 {/* `value` was missing, so every submission reported
                                                     the interest as "on" regardless of the choice. */}
                                                 <input type="radio" name="interest" value={int} defaultChecked={i === 0} className="peer sr-only" />
-                                                <span className="inline-block rounded-full border border-black/12 px-4 py-2.5 font-tommy-regular text-[13.5px] text-[#5A554C] transition-colors duration-200 peer-checked:border-transparent peer-checked:bg-[#1A1917] peer-checked:text-[#FCD119] dark:border-white/12 dark:text-[#A8A399] dark:peer-checked:bg-[#FCD119] dark:peer-checked:text-black">
+                                                <span className="inline-block rounded-full border border-black/12 px-2 lg:px-3 2xl:px-4 py-1 lg:py-1.5 2xl:py-2.5 font-tommy-regular text-[13.5px] text-[#5A554C] transition-colors duration-200 peer-checked:border-transparent peer-checked:bg-[#1A1917] peer-checked:text-[#FCD119] dark:border-white/12 dark:text-[#A8A399] dark:peer-checked:bg-[#FCD119] dark:peer-checked:text-black">
                                                     {int}
                                                 </span>
                                             </label>
@@ -287,7 +292,7 @@ function ContactHero() {
                                 <button
                                     type="submit"
                                     disabled={sending}
-                                    className="group mt-1 inline-flex items-center justify-center gap-3 rounded-full bg-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100 dark:bg-[#FCD119] dark:text-black"
+                                    className="group inline-flex items-center justify-center gap-3 rounded-full bg-[#1A1917] px-4 md:px-6 xl:px-8 py-2 md:py-3 xl:py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100 dark:bg-[#FCD119] dark:text-black"
                                 >
                                     {sending ? 'Sending…' : <>Send message <ArrowIcon /></>}
                                 </button>

@@ -286,12 +286,12 @@ export default function TruckExperience() {
                     over an oversized uppercase line, cream on a darkened plate, with
                     the accent carried by the full stop. No theme colours here — this
                     sits on photography, not on the page ground. */}
-                <div className="relative z-30 flex w-full flex-col items-center justify-center px-6 pointer-events-none mt-[10px]">
+                <div className="relative z-30 flex w-full flex-col items-center justify-center px-6 pointer-events-none mt-[30px] 2xl:mt-[10px]">
                     <div ref={headingRef} className="flex flex-col items-center">
                         <span className="font-tommy-regular text-[10px] uppercase tracking-[0.34em] text-[#FCD119] md:text-[12px]">
                             The Process
                         </span>
-                        <h2 className="mt-3 text-center font-tommy-bold uppercase leading-[0.98] tracking-[-0.015em] text-[#EEE8D9] text-[clamp(2rem,5.4vw,4.25rem)] md:mt-4">
+                        <h2 className="mt-2 2xl:mt-3 text-center font-tommy-bold uppercase leading-[0.98] tracking-[-0.015em] text-[#EEE8D9] text-[clamp(2rem,5.4vw,4.25rem)] md:mt-4">
                             How It Works<span className="text-[#FCD119]">.</span>
                         </h2>
                     </div>
@@ -316,11 +316,11 @@ export default function TruckExperience() {
                 </div>
 
                 {/* ENVIRONMENT — 3rd slide: stats background (dissolves in after truck moves out right) */}
-                <div ref={statsRef} className="absolute inset-0 z-0">
+                <div ref={statsRef} className="absolute inset-0 z-0 top-[25%] lg:top-0">
                     <img
                         src="/assets/images/process/stats.png"
                         alt="Stats background"
-                        className="w-full h-full object-cover md:object-contain lg:object-cover bg-black object-top"
+                        className="w-full h-full object-contain lg:object-cover object-top"
                     />
                 </div>
 
@@ -358,7 +358,7 @@ export default function TruckExperience() {
 
                 {/* TRUCK — enters from left, centre stage */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div ref={truckWrapRef} className="relative w-full lg:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[15%] 2xl:top-0">
+                    <div ref={truckWrapRef} className="relative w-full lg:w-[40vw] 2xl:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[15%] lg:top-[10%] 2xl:top-0">
                         <img
                             src="/assets/images/process/truck.png"
                             alt="Advertising Wheels truck"
@@ -396,7 +396,7 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Quality-verified badge on the body */}
-                        <div ref={badgeRef} className="aw-badge absolute right-0 md:right-[11%] lg:right-[13%] 2xl:right-[16%] top-[18%] md:top-[20%] lg:top-[24%] 2xl:top-[30%] flex items-center gap-1 md:gap-2 rounded-full bg-[#1A1917]/90 backdrop-blur px-3 lg:px-4 py-1 md:py-2 border border-[#FCD119]/40 z-20">
+                        <div ref={badgeRef} className="aw-badge absolute right-0 md:right-[11%] lg:right-[-9%] xl:right-[2%] 2xl:right-[16%] top-[18%] md:top-[20%] lg:top-[14%] xl:top-[24%] 2xl:top-[30%] flex items-center gap-1 md:gap-2 rounded-full bg-[#1A1917]/90 backdrop-blur px-3 lg:px-4 py-1 md:py-2 border border-[#FCD119]/40 z-20">
                             <span className="flex items-center justify-center w-3 md:w-4 lg:w-5 h-3 md:h-4 lg:h-5 rounded-full bg-[#FCD119] text-[#1A1917] text-[10px] md:text-[12px] font-bold">✓</span>
                             <span className="text-[#FCD119] text-[10px] md:text-[13px] font-tommy-medium whitespace-nowrap">Quality Verified</span>
                         </div>
@@ -416,7 +416,7 @@ export default function TruckExperience() {
                         Sample campaign dashboard
                     </p>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-2 md:gap-y-4 lg:gap-y-0">
+                    <div className="grid grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-2 md:gap-y-4 lg:gap-y-0 w-max lg:w-auto">
                         {/* Item 1: TOTAL IMPRESSIONS */}
                         <div className="flex flex-col justify-between pr-3 md:px-5 first:pl-0">
                             <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3">
@@ -427,7 +427,7 @@ export default function TruckExperience() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">TOTAL IMPRESSIONS</span>
-                                    <div className="flex items-baseline gap-1.5 md:gap-2">
+                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2">
                                         <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {impressionsCount.toFixed(2)}M
                                         </span>
@@ -438,7 +438,7 @@ export default function TruckExperience() {
                                 </div>
                             </div>
                             {/* Sparkline Graph */}
-                            <svg className="w-full h-5 mt-2" viewBox="0 0 100 25" fill="none">
+                            <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
                                 <path d="M0 20 Q 20 18, 35 10 T 70 16 T 100 4" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
                             </svg>
                         </div>
@@ -453,7 +453,7 @@ export default function TruckExperience() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">TOTAL MILEAGE</span>
-                                    <div className="flex items-baseline gap-1.5 md:gap-2">
+                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2">
                                         <span className="text-[16px] text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {mileageCount.toLocaleString()} <span className="text-[15px] md:text-[18px] font-tommy-medium">miles</span>
                                         </span>
@@ -464,7 +464,7 @@ export default function TruckExperience() {
                                 </div>
                             </div>
                             {/* Sparkline Graph */}
-                            <svg className="w-full h-5 mt-2" viewBox="0 0 100 25" fill="none">
+                            <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
                                 <path d="M0 18 Q 25 22, 45 12 T 75 14 T 100 6" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
                             </svg>
                         </div>
@@ -479,7 +479,7 @@ export default function TruckExperience() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">ACTIVE TRUCKS</span>
-                                    <div className="flex items-baseline gap-1.5 md:gap-2">
+                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2">
                                         <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {trucksCount}
                                         </span>
@@ -490,7 +490,7 @@ export default function TruckExperience() {
                                 </div>
                             </div>
                             {/* Sparkline Graph */}
-                            <svg className="w-full h-5 mt-2" viewBox="0 0 100 25" fill="none">
+                            <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
                                 <path d="M0 22 Q 30 14, 50 16 T 80 8 T 100 5" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
                             </svg>
                         </div>
@@ -505,7 +505,7 @@ export default function TruckExperience() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">ACTIVE CAMPAIGNS</span>
-                                    <div className="flex items-baseline gap-1.5 md:gap-2">
+                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2">
                                         <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {campaignsCount}
                                         </span>
@@ -513,7 +513,7 @@ export default function TruckExperience() {
                                 </div>
                             </div>
                             {/* Sparkline Graph */}
-                            <svg className="w-full h-5 mt-2" viewBox="0 0 100 25" fill="none">
+                            <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
                                 <path d="M0 20 Q 20 22, 40 14 T 70 8 T 100 4" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
                             </svg>
                         </div>

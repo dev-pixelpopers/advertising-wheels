@@ -292,12 +292,12 @@ function Timeline() {
 
             <div ref={trackRef} className="flex flex-col gap-6 px-3 md:px-4 lg:px-6 pb-10 md:pb-12 lg:pb-16 pt-10 md:px-12 lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:pb-0 lg:pt-0">
                 {MILESTONES.map((m, i) => (
-                    <article key={m.year} className="tl-panel relative flex shrink-0 flex-col justify-center border-black/10 lg:h-full lg:w-[62vw] lg:border-l lg:px-[6vw] xl:w-[48vw] dark:border-white/10">
+                    <article key={m.year} className="tl-panel relative flex shrink-0 flex-col justify-start 2xl:justify-center pt-[20px] 2xl:pt-0 border-black/10 lg:h-full lg:w-[62vw] lg:border-l lg:px-[6vw] 2xl:w-[48vw] dark:border-white/10">
                         <span data-tl-in className="block font-tommy-bold text-[26px] tracking-[3px] text-[#C8992B] dark:text-[#FCD119]">{m.year}</span>
                         <span data-tl-in className="mt-1 font-tommy-regular text-[12px] uppercase tracking-[4px] text-black/40 dark:text-white/40">
                             {String(i + 1).padStart(2, '0')} / {String(MILESTONES.length).padStart(2, '0')}
                         </span>
-                        <h3 data-tl-in className="mt-6 font-tommy-bold text-[32px] leading-[1.04] tracking-tight md:text-[54px]">{m.title}</h3>
+                        <h3 data-tl-in className="mt-6 font-tommy-bold text-[32px] leading-[1.04] tracking-tight md:text-[clamp(2rem,3.5vw,3.375rem)]">{m.title}</h3>
                         <p data-tl-in className="mt-6 max-w-[540px] font-tommy-regular text-[15.5px] leading-[1.7] text-[#5A554C] md:text-[17px] dark:text-white/60">{m.body}</p>
                     </article>
                 ))}
@@ -319,12 +319,12 @@ function Leadership({ stacked }: { stacked: boolean }) {
         <OrbitDiagram stacked={stacked}
             eyebrow={<Eyebrow>Leadership</Eyebrow>}
             heading={
-                <h2 className="mt-4 font-tommy-bold text-[clamp(28px,3.2vw,46px)] leading-[1.06] tracking-tight text-[#1A1917] dark:text-white">
+                <h2 className="mt-4 font-tommy-bold text-[clamp(28px,2.8vw,46px)] leading-[1.06] tracking-tight text-[#1A1917] dark:text-white">
                     Decades of truckside expertise. Trusted by the world's biggest brands<Dot />
                 </h2>
             }
             intro={
-                <p className="mt-5 font-tommy-regular text-[15.5px] leading-[1.7] text-[#5A554C] dark:text-[#A8A399]">
+                <p className="mt-5 font-tommy-regular text-[10px]  md:text-[clamp(0.875rem,1vw,0.96875rem)] leading-[1.7] text-[#5A554C] dark:text-[#A8A399]">
                     Our team has planned, produced, and measured campaigns for Fortune 500 advertisers and their agencies for over two decades —
                     bringing category-deep experience to every fleet, every market, and every readout.
 
@@ -400,9 +400,18 @@ function PullQuote() {
 
 export default function AboutPage() {
     /**
-     * The orbit needs a stage wide enough to swing three full cards clear of
-     * the hub — about 800px, which a two-column row cannot give until roughly
-     * 1280px of viewport. Under that it renders as a stacked list instead.
+     * The orbit runs wherever the two-column row exists — from `lg` (1024px) up.
+     * It used to demand 1280px, because the diagram was laid out at one fixed
+     * card size and simply had to be given enough room; it now scales itself to
+     * whatever stage it gets (see `fit()` in OrbitDiagram), so the threshold is
+     * only about the COLUMN, not the size.
+     *
+     * 1024px is the real floor, not a cautious one. Below `lg` the grid collapses
+     * to a single column, which puts the copy above the stage inside a pinned
+     * h-screen — there is no longer a viewport tall enough to hold both, and the
+     * cards would scale past the point of being readable. Phones get the stacked
+     * list, and should.
+     *
      * Watched (not read once) so a resize or an orientation change re-picks
      * the layout rather than leaving the wrong one mounted.
      *
@@ -414,7 +423,7 @@ export default function AboutPage() {
      */
     const [stacked, setStacked] = useState(true);
     useEffect(() => {
-        const mq = window.matchMedia('(max-width: 1279px)');
+        const mq = window.matchMedia('(max-width: 1023px)');
         const sync = () => setStacked(mq.matches);
         sync();
         mq.addEventListener('change', sync);

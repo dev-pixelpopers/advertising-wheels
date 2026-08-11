@@ -105,6 +105,18 @@ const CARD_WHITE = 'rgba(255,255,255,0.9)';
 const SWAP_AT = 0.82;
 const SWAP_DUR = 0.18;
 
+/** Clearances the layout is solved against. */
+const GAP_H = 56; // hub edge → card edge, horizontally
+const GAP_V = 28; // between two cards that share a column
+const EDGE = 6;   // keep the outermost card off the stage's rim
+
+/**
+ * How far the diagram may be shrunk before the copy stops being worth reading.
+ * A floor rather than a hard stop: below it the cards would rather overlap than
+ * become illegible, and the caller should be rendering `stacked` by then anyway.
+ */
+const MIN_FIT = 0.5;
+
 export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stacked }: OrbitDiagramProps) {
     const rootRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
@@ -128,6 +140,79 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
             const angleFor = (i: number) => ((-150 + (i * 300) / Math.max(1, n - 1)) * Math.PI) / 180;
             const angles = Array.from({ length: n }, (_, i) => angleFor(i));
 
+            const cosMax = Math.max(...angles.map((a) => Math.abs(Math.cos(a))), 0.001);
+            const sinMax = Math.max(...angles.map((a) => Math.abs(Math.sin(a))), 0.001);
+
+            /** Untransformed card / hub sizes. Layout values, so GSAP's transforms cannot skew them. */
+            const natural = () => ({
+                hubR: hubEl.offsetWidth / 2,
+                satW: Math.max(...nodes.map((_, i) => satRefs.current[i]?.offsetWidth || 0), 0),
+                satH: Math.max(...nodes.map((_, i) => satRefs.current[i]?.offsetHeight || 0), 0),
+            });
+
+            /**
+             * The largest vertical angular separation among pairs that share a
+             * column — the pair whose spacing the vertical radius has to buy.
+             *
+             * Which pairs "share a column" is decided from the radius the layout
+             * WANTS at natural size, not the one it ends up with. Using the final
+             * radius would be circular: the fit scale depends on this, and this
+             * would depend on the fit scale.
+             */
+            const dSinShared = (() => {
+                const { hubR, satW } = natural();
+                const rx0 = hubR + satW / 2 + GAP_H;
+                let worst = 0;
+                for (let i = 0; i < n; i += 1) {
+                    for (let j = i + 1; j < n; j += 1) {
+                        const apart = Math.abs(Math.cos(angles[i]) - Math.cos(angles[j])) * rx0;
+                        if (apart >= satW + 16) continue; // side by side — no vertical demand
+                        worst = Math.max(worst, Math.abs(Math.sin(angles[i]) - Math.sin(angles[j])));
+                    }
+                }
+                return worst;
+            })();
+
+            /**
+             * ONE scale for the whole diagram, so it fits the stage it was given.
+             *
+             * The bug this exists to kill: the radii below clamp themselves to the
+             * stage AFTER raising themselves to clear the cards —
+             * `min(max(ry, needed), cap)` — so whenever the stage was too short the
+             * cap quietly won and the cards were laid out overlapping. It was driven
+             * by viewport HEIGHT, not width, which is why it showed up on ordinary
+             * 1366×768 laptops (~630px of content once browser chrome is gone) and
+             * not on a taller window at the same width.
+             *
+             * A card cannot be made shorter — its height is its copy. So when the
+             * stage cannot hold the diagram at natural size, the diagram gets
+             * smaller instead. Solved as an inequality against the same caps the
+             * radii use, so "fits" here means exactly what "fits" means down there.
+             */
+            const fit = () => {
+                const { w: halfW, h: halfH } = half();
+                const { hubR, satW, satH } = natural();
+                if (satW <= 0 || satH <= 0) return 1;
+
+                /* Horizontal: the outermost card must clear the hub by GAP_H and
+                   still sit inside the rim. */
+                const wDen = cosMax * (hubR + satW / 2) + satW / 2;
+                const sW = wDen > 0 ? (halfW - EDGE - cosMax * GAP_H) / wDen : 1;
+
+                /* Vertical: the two cards sharing a column must clear each other by
+                   GAP_V, with the outermost still inside the rim. With no such pair
+                   the only demand is the rim itself. */
+                let sH = 1;
+                if (dSinShared > 0.001) {
+                    const k = sinMax / dSinShared;
+                    sH = (halfH - EDGE - k * GAP_V) / ((k + 0.5) * satH);
+                } else {
+                    sH = (halfH - EDGE) / (satH / 2);
+                }
+
+                return gsap.utils.clamp(MIN_FIT, 1, Math.min(sW, sH));
+            };
+
             /**
              * Orbit radii — an ELLIPSE, not a circle, because the two axes are
              * solving different problems. Horizontally a card only has to clear
@@ -137,21 +222,23 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
              * demand is larger, so on a stage that is wider than it is tall the
              * cards either collide or get pushed off the edge — measured
              * independently, each axis uses the room it actually has.
+             *
+             * Everything here works in POST-FIT pixels: the cards are drawn at
+             * `fit()`, so that is the size they actually occupy.
              */
             const radii = () => {
                 const { w: halfW, h: halfH } = half();
-                const hubR = hubEl.offsetWidth / 2;
-                const satW = Math.max(...nodes.map((_, i) => satRefs.current[i]?.offsetWidth || 0), 0);
-                const satH = Math.max(...nodes.map((_, i) => satRefs.current[i]?.offsetHeight || 0), 0);
-
-                const cosMax = Math.max(...angles.map((a) => Math.abs(Math.cos(a))), 0.001);
-                const sinMax = Math.max(...angles.map((a) => Math.abs(Math.sin(a))), 0.001);
+                const s = fit();
+                const nat = natural();
+                const hubR = nat.hubR * s;
+                const satW = nat.satW * s;
+                const satH = nat.satH * s;
 
                 // Ceilings: the outermost card on each axis must stay on stage.
-                const rxCap = Math.max(0, halfW - satW / 2 - 6) / cosMax;
-                const ryCap = Math.max(0, halfH - satH / 2 - 6) / sinMax;
+                const rxCap = Math.max(0, halfW - satW / 2 - EDGE) / cosMax;
+                const ryCap = Math.max(0, halfH - satH / 2 - EDGE) / sinMax;
 
-                let rx = Math.min(hubR + satW / 2 + 56, rxCap);
+                let rx = Math.min(hubR + satW / 2 + GAP_H, rxCap);
 
                 // Vertical: every pair of cards that shares horizontal space
                 // needs a real gap between them. That separation — not the
@@ -163,7 +250,12 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                         if (apart >= satW + 16) continue; // side by side — no vertical demand
                         const dSin = Math.abs(Math.sin(angles[i]) - Math.sin(angles[j]));
                         if (dSin < 0.001) continue;
-                        ry = Math.min(Math.max(ry, (satH + 28) / dSin), ryCap);
+                        /* Clearing the neighbouring card outranks staying on the
+                           rim. `fit` is chosen so the two never actually conflict;
+                           if rounding ever puts them a pixel apart, a card kissing
+                           the stage edge is a far smaller failure than two cards
+                           printed on top of each other. */
+                        ry = Math.max(ry, (satH + GAP_V) / dSin);
                     }
                 }
 
@@ -172,7 +264,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                     const c = Math.abs(Math.cos(a));
                     if (c < 0.001) return;
                     if (Math.abs(Math.sin(a)) * ry >= hubR + satH / 2) return;
-                    rx = Math.min(Math.max(rx, (hubR + satW / 2 + 20) / c), rxCap);
+                    rx = Math.max(rx, (hubR + satW / 2 + 20) / c);
                 });
 
                 return { rx: Math.max(rx, hubR + 40), ry: Math.max(ry, hubR + 40) };
@@ -264,12 +356,12 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
 
             /* Reduced motion → render the finished orbit. */
             if (reduced) {
-                gsap.set(hubEl, { ...CENTRE, x: 0, y: 0, scale: 1, borderRadius: '50%' });
+                gsap.set(hubEl, { ...CENTRE, x: 0, y: 0, scale: fit(), borderRadius: '50%' });
                 nodes.forEach((_, i) => {
                     const el = satRefs.current[i];
                     if (!el) return;
                     const p = posFor(i);
-                    gsap.set(el, { ...CENTRE, x: p.x, y: p.y, scale: 1 });
+                    gsap.set(el, { ...CENTRE, x: p.x, y: p.y, scale: fit() });
                 });
                 gsap.set('[data-sat-icon]', { autoAlpha: 0 });
                 gsap.set('[data-sat-copy]', { autoAlpha: 1 });
@@ -355,8 +447,10 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                 },
             });
 
-            // Accent card → centre, growing and rounding into the circle.
-            tl.to(hubEl, { x: 0, y: 0, scale: 1, borderRadius: '50%', duration: 1 }, 0);
+            /* Accent card → centre, growing and rounding into the circle.
+               `fit()` rather than 1: the hub has to shrink with the cards or the
+               orbit they were scaled down to fit no longer clears it. */
+            tl.to(hubEl, { x: 0, y: 0, scale: () => fit(), borderRadius: '50%', duration: 1 }, 0);
 
             // The others settle onto the orbit and expand to full size.
             nodes.forEach((_, i) => {
@@ -364,7 +458,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                 if (!el) return;
                 tl.to(
                     el,
-                    { x: () => posFor(i).x, y: () => posFor(i).y, scale: 1, duration: 1 },
+                    { x: () => posFor(i).x, y: () => posFor(i).y, scale: () => fit(), duration: 1 },
                     0.08 + i * 0.05
                 );
             });
@@ -557,7 +651,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                                     <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2.5px] text-black/55">{hub.mono}</span>
                                 )}
                                 <div className="mt-1.5 font-tommy-bold text-[clamp(15px,1.7vw,20px)] leading-[1.1] tracking-tight text-black">
-                                    <img src="/assets/images/logo.svg" className="w-[90px]" />
+                                    <img src="/assets/images/logo.svg" className="w-[60px] xl:w-[90px]" />
                                 </div>
                                 {hub.role && (
                                     <p className="mt-1 font-tommy-regular text-[9.5px] uppercase tracking-[1.5px] text-black/60">{hub.role}</p>

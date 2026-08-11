@@ -137,7 +137,7 @@ function Featured() {
 
                     <Link
                         href="/contact#form"
-                        className="group mt-5 md:mt-8 lg:mt-10 inline-flex items-center gap-3 rounded-full bg-[#1A1917] px-5 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[12px] md:text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] dark:bg-[#FCD119] dark:text-black"
+                        className="group md:mt-8 lg:mt-10 inline-flex items-center gap-3 rounded-full bg-[#1A1917] px-5 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[12px] md:text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] dark:bg-[#FCD119] dark:text-black mx-auto lg:mx-0 flex w-max"
                     >
                         Start your Campaign <ArrowIcon />
                     </Link>
@@ -161,48 +161,48 @@ function Gallery() {
             if (!track) return;
             const mm = gsap.matchMedia();
 
-            mm.add('(min-width: 1024px)', () => {
-                // Measured against the section's own inner width, not
-                // `window.innerWidth` — the latter includes the vertical
-                // scrollbar, which would leave the final card short of the
-                // right edge by the scrollbar's width on every desktop that
-                // renders one.
-                const amount = () =>
-                    Math.max(0, track.scrollWidth - (rootRef.current?.clientWidth ?? 0));
+            // mm.add('(min-width: 1024px)', () => {
+            // Measured against the section's own inner width, not
+            // `window.innerWidth` — the latter includes the vertical
+            // scrollbar, which would leave the final card short of the
+            // right edge by the scrollbar's width on every desktop that
+            // renders one.
+            const amount = () =>
+                Math.max(0, track.scrollWidth - (rootRef.current?.clientWidth ?? 0));
 
-                gsap.to(track, {
-                    x: () => -amount(),
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: rootRef.current,
-                        start: 'top top',
-                        end: () => '+=' + amount(),
-                        pin: true,
-                        scrub: 1,
-                        invalidateOnRefresh: true,
-                    },
-                });
-
-                // The travel distance and the pin's end are both derived from
-                // the track's width, but they are only evaluated at refresh.
-                // If the track resizes afterwards — a card added, a font
-                // swapping in, the window resizing — the two can disagree and
-                // the run stops before the last cards while the pin keeps
-                // holding. Re-measure whenever the track's width actually
-                // changes so they stay in step.
-                let last = track.scrollWidth;
-                const ro = new ResizeObserver(() => {
-                    if (track.scrollWidth === last) return;
-                    last = track.scrollWidth;
-                    ScrollTrigger.refresh();
-                });
-                ro.observe(track);
-
-                return () => {
-                    ro.disconnect();
-                    gsap.set(track, { clearProps: 'x' });
-                };
+            gsap.to(track, {
+                x: () => -amount(),
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: rootRef.current,
+                    start: 'top top',
+                    end: () => '+=' + amount(),
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                },
             });
+
+            // The travel distance and the pin's end are both derived from
+            // the track's width, but they are only evaluated at refresh.
+            // If the track resizes afterwards — a card added, a font
+            // swapping in, the window resizing — the two can disagree and
+            // the run stops before the last cards while the pin keeps
+            // holding. Re-measure whenever the track's width actually
+            // changes so they stay in step.
+            let last = track.scrollWidth;
+            const ro = new ResizeObserver(() => {
+                if (track.scrollWidth === last) return;
+                last = track.scrollWidth;
+                ScrollTrigger.refresh();
+            });
+            ro.observe(track);
+
+            // return () => {
+            //     ro.disconnect();
+            //     gsap.set(track, { clearProps: 'x' });
+            // };
+            // });
 
             mm.add('(max-width: 1023px)', () => {
                 gsap.from('.pj-card', {
@@ -236,7 +236,7 @@ function Gallery() {
 
             <div
                 ref={trackRef}
-                className="flex flex-col gap-4 md:gap-6 px-3 pb-10 md:pb-16 md:px-6 lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-8 lg:px-[6vw] lg:pb-0 pt-[50px] md:pt-[100px] lg:pt-[150px]"
+                className="flex gap-4 md:gap-6 px-3 pb-10 md:pb-16 md:px-6 lg:h-full lg:w-max items-start lg:gap-8 lg:px-[6vw] lg:pb-0 pt-[20px] md:pt-[70px] lg:pt-[150px]"
             >
                 {PROJECTS.map((p) => {
                     // `.pj-card` is the horizontal track's animation hook, so it has to
@@ -245,7 +245,7 @@ function Gallery() {
                     // `Link | 'article'` component can't be typed cleanly against
                     // Link's required `href`).
                     const cardClass =
-                        'pj-card group flex shrink-0 flex-col justify-between min-h-[430px] rounded-[16px] md:rounded-[20px] lg:rounded-[22px] border border-black/10 bg-white/60 p-5 md:p-7 transition-colors duration-300 hover:border-[#C8992B]/40 lg:p-9 lg:w-[clamp(340px,30vw,420px)] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40';
+                        'pj-card group flex shrink-0 flex-col justify-between h-full lg:h-[500px] rounded-[16px] md:rounded-[20px] lg:rounded-[22px] border border-black/10 bg-white/60 p-5 md:p-7 transition-colors duration-300 hover:border-[#C8992B]/40 lg:p-9 w-[clamp(340px,30vw,420px)] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40';
 
                     const inner = (
                         <>

@@ -17,6 +17,7 @@ import { useGSAP } from '@gsap/react';
 import PortalHero from '@/components/site/PortalHero';
 import { Reveal, Eyebrow, Dot, ArrowIcon, Rings } from '@/components/site/primitives';
 import { POSTS } from '@/data/posts';
+import { useSubscribe, SubscribeHoneypot } from '@/lib/useSubscribe';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -194,6 +195,10 @@ function Grid() {
 /* ------------------------------------------------------------------ */
 
 function Newsletter() {
+    /* Same hook the footer uses, so both forms post identically and neither can
+       lose the honeypot in isolation — see src/lib/useSubscribe.tsx. */
+    const subscribe = useSubscribe();
+
     return (
         <section className="w-full bg-[#EEE8D9] md:pb-20 transition-colors duration-300 lg:pb-32 dark:bg-[#0A0A0A]">
             <Reveal className="mx-auto max-w-[1280px] px-3 md:px-6 lg:px-12" self y={40}>
@@ -212,22 +217,53 @@ function Newsletter() {
                                 No spam, ever.
                             </p>
                         </div>
-                        <form className="flex flex-col gap-2 md:gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
-                            <label htmlFor="blog-email" className="sr-only">Your email address</label>
-                            <input
-                                id="blog-email"
-                                type="email"
-                                required
-                                placeholder="you@company.com"
-                                className="w-full min-w-0 flex-1 rounded-full border border-black/15 bg-white/70 px-3 md:px-6 py-2 md:py-4 font-tommy-regular text-[12px] md:text-[15px] text-[#1A1917] placeholder:text-black/35 focus:border-[#C8992B] focus:outline-none dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder:text-white/35 dark:focus:border-[#FCD119]"
-                            />
-                            <button
-                                type="submit"
-                                className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#FCD119] px-5 md:px-8 py-2 md:py-4 font-tommy-medium text-[12px] md:text-[15px] text-black transition-transform duration-300 hover:scale-[1.04]"
+                        <div className="relative">
+                            <form
+                                className="flex flex-col gap-2 md:gap-3 sm:flex-row"
+                                onSubmit={subscribe.submit}
+                                noValidate
                             >
-                                Subscribe <ArrowIcon />
-                            </button>
-                        </form>
+                                <label htmlFor="blog-email" className="sr-only">Your email address</label>
+                                <input
+                                    id="blog-email"
+                                    type="email"
+                                    name="email"
+                                    autoComplete="email"
+                                    required
+                                    placeholder="you@company.com"
+                                    value={subscribe.email}
+                                    onChange={(e) => subscribe.onEmailChange(e.target.value)}
+                                    disabled={subscribe.state === 'sending'}
+                                    className="w-full min-w-0 flex-1 rounded-full border border-black/15 bg-white/70 px-3 md:px-6 py-2 md:py-4 font-tommy-regular text-[12px] md:text-[15px] text-[#1A1917] placeholder:text-black/35 focus:border-[#C8992B] focus:outline-none disabled:opacity-60 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder:text-white/35 dark:focus:border-[#FCD119]"
+                                />
+
+                                <SubscribeHoneypot inputRef={subscribe.honeyRef} />
+
+                                <button
+                                    type="submit"
+                                    disabled={subscribe.state === 'sending'}
+                                    className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#FCD119] px-5 md:px-8 py-2 md:py-4 font-tommy-medium text-[12px] md:text-[15px] text-black transition-transform duration-300 hover:scale-[1.04] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
+                                >
+                                    {subscribe.state === 'sending' ? 'Sending' : 'Subscribe'} <ArrowIcon />
+                                </button>
+                            </form>
+
+                            {/* `aria-live` so the outcome reaches a screen reader — the
+                                visual change alone is silent. Rendered only when there is
+                                something to say, so the band does not reserve dead space. */}
+                            {subscribe.message && (
+                                <p
+                                    role="status"
+                                    aria-live="polite"
+                                    className={`mt-3 px-1 font-tommy-regular text-[13px] leading-[1.6] ${subscribe.state === 'error'
+                                        ? 'text-[#B4462F] dark:text-[#F08A72]'
+                                        : 'text-[#1A1917] dark:text-white'
+                                        }`}
+                                >
+                                    {subscribe.message}
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </Reveal>

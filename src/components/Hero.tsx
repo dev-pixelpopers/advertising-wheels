@@ -148,11 +148,11 @@ export default function Hero({ isReady }: HeroProps) {
             ctaParts.flatMap((el, i) => (el.getAttribute('data-cta-line') === n ? splits[i].chars : []));
           const [t1, t2, t3] = ['1', '2', '3'].map(tier);
           const ctaChars = [...t1, ...t2, ...t3];
-          
+
           gsap.set(ctaChars, { autoAlpha: 0 });
           gsap.set(carets, { autoAlpha: 0, display: 'inline-block' });
         }
-        
+
         ctaRef.current?.querySelector('[data-cta-stack]')?.classList.remove('cta-pre');
 
         gsap.set(ctaButtonsRef.current, { y: 40, autoAlpha: 0 });
@@ -225,7 +225,7 @@ export default function Hero({ isReady }: HeroProps) {
           const t1 = ctaParts.filter(el => el.getAttribute('data-cta-line') === '1');
           const t2 = ctaParts.filter(el => el.getAttribute('data-cta-line') === '2');
           const t3 = ctaParts.filter(el => el.getAttribute('data-cta-line') === '3');
-          
+
           tl.to(t1, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.15, ease: 'none' })
             .to(t2, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.15, ease: 'none' })
             .to(t3, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.15, ease: 'none' });
@@ -438,7 +438,7 @@ export default function Hero({ isReady }: HeroProps) {
                       moving video, REGULAR at 85% left about two pixels of
                       low-contrast stroke to carry the line. MEDIUM at full white
                       is what tier 2 already uses. */}
-                  <p data-tier='3' data-cta-part data-cta-line='3' className='cta-fine mt-[0.75em] font-tommy-medium uppercase leading-[1.15] tracking-[0.14em] text-white text-[14px] md:text-[clamp(0.7rem,2.08vw,1.45rem)]'>
+                  <p data-tier='3' data-cta-part data-cta-line='3' className='cta-fine mt-[0.75em] font-tommy-medium uppercase leading-[1.15] tracking-[0.14em] text-white text-[14px] md:text-[clamp(0.7rem,1.8vw,1.45rem)]'>
                     GPS-enabled billboard trucks that capture real impressions data -<br /> so you can retarget every viewer online
                     <span
                       data-caret='3'

@@ -240,18 +240,58 @@ export async function buildRawMessage(data: Inquiry, from: string, to: string): 
     return b64url(built);
 }
 
+/**
+ * Newsletter signup notice.
+ *
+ * There is no list and no campaign tool yet, so this is not a subscription in
+ * any technical sense — it is a message to the owner saying an address wants
+ * on. Deliberately says so in the body, because an address collected here
+ * exists nowhere but that inbox: if nobody copies it out, it is lost.
+ */
+export async function buildSubscriptionMessage(email: string, from: string, to: string): Promise<string> {
+    const when = new Date().toUTCString();
+
+    const text =
+        `Someone subscribed to the newsletter on advertisingwheels.com.\n\n` +
+        `Email: ${email}\n` +
+        `When:  ${when}\n\n` +
+        `No mailing list is wired up yet — this address is only in this email. ` +
+        `Add it wherever the list is kept.\n`;
+
+    const html = `
+    <div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:560px">
+      <h2 style="margin:0 0 4px;font-size:18px">New newsletter subscriber</h2>
+      <p style="margin:0 0 18px;color:#666;font-size:13px">advertisingwheels.com footer form</p>
+      <table cellpadding="0" cellspacing="0" style="width:100%;font-size:14px;border-collapse:collapse">
+        <tr><td style="padding:7px 12px 7px 0;color:#666;white-space:nowrap">Email</td><td style="padding:7px 0"><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
+        <tr><td style="padding:7px 12px 7px 0;color:#666;white-space:nowrap">When</td><td style="padding:7px 0">${esc(when)}</td></tr>
+      </table>
+      <p style="margin:18px 0 0;padding-top:14px;border-top:1px solid #e5e5e5;color:#666;font-size:13px;line-height:1.6">
+        No mailing list is wired up yet — this address is only in this email. Add it wherever the list is kept.
+      </p>
+    </div>`;
+
+    const built = await new MailComposer({
+        from: `"Advertising Wheels — Website" <${from}>`,
+        to,
+        /* Reply goes straight back to whoever signed up. */
+        replyTo: email,
+        subject: `New newsletter subscriber — ${email}`,
+        text,
+        html,
+    })
+        .compile()
+        .build();
+
+    return b64url(built);
+}
+
 /* ------------------------------------------------------------------ */
 /*  Send                                                               */
 /* ------------------------------------------------------------------ */
 
-export async function sendInquiry(data: Inquiry): Promise<void> {
-    const cfg = requireAll(REQUIRED_KEYS);
-
-    /* Must be GMAIL_SENDER itself or an alias that mailbox has verified under
-       "Send mail as" — Gmail rejects anything else. */
-    const from = process.env.CONTACT_FROM_EMAIL || cfg.GMAIL_SENDER;
-    const raw = await buildRawMessage(data, from, cfg.CONTACT_TO_EMAIL);
-
+/** Posts an already-built MIME message, with the 401 retry both senders want. */
+async function deliver(cfg: Record<string, string>, raw: string): Promise<void> {
     const post = async (accessToken: string) =>
         fetch(SEND_URL, {
             method: 'POST',
@@ -273,4 +313,19 @@ export async function sendInquiry(data: Inquiry): Promise<void> {
         const body = await res.text().catch(() => '');
         throw new Error(`Gmail API send failed (${res.status}): ${body.slice(0, 400)}`);
     }
+}
+
+export async function sendInquiry(data: Inquiry): Promise<void> {
+    const cfg = requireAll(REQUIRED_KEYS);
+
+    /* Must be GMAIL_SENDER itself or an alias that mailbox has verified under
+       "Send mail as" — Gmail rejects anything else. */
+    const from = process.env.CONTACT_FROM_EMAIL || cfg.GMAIL_SENDER;
+    await deliver(cfg, await buildRawMessage(data, from, cfg.CONTACT_TO_EMAIL));
+}
+
+export async function sendSubscription(email: string): Promise<void> {
+    const cfg = requireAll(REQUIRED_KEYS);
+    const from = process.env.CONTACT_FROM_EMAIL || cfg.GMAIL_SENDER;
+    await deliver(cfg, await buildSubscriptionMessage(email, from, cfg.CONTACT_TO_EMAIL));
 }
