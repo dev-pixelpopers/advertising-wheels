@@ -352,10 +352,28 @@ export default function Hero({ isReady }: HeroProps) {
           animation: hero-scroll-arrow 1.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           will-change: transform, opacity;
         }
-        /* GSAP fades the WRAPPER out on scroll; this only ever touches the
-           arrow's own opacity, so the two never contend for the same property. */
+
+        /* Mobile swipe hint: the hand rises past the static trail marks and
+           fades, resetting while invisible — same trick as the arrow above, so
+           the loop never shows a jump back to the start. Slightly slower than
+           the arrow because a hand travelling is a longer read than a glyph. */
+        @keyframes hero-swipe-hand {
+          0%   { transform: translateY(9px);   opacity: 0; }
+          18%  { opacity: 1; }
+          60%  { opacity: 1; }
+          88%  { opacity: 0; }
+          100% { transform: translateY(-11px); opacity: 0; }
+        }
+        .hero-swipe-hand {
+          animation: hero-swipe-hand 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          will-change: transform, opacity;
+        }
+
+        /* GSAP fades the WRAPPER out on scroll; these only ever touch their own
+           opacity, so the two never contend for the same property. */
         @media (prefers-reduced-motion: reduce) {
-          .hero-scroll-arrow { animation: none; }
+          .hero-scroll-arrow,
+          .hero-swipe-hand { animation: none; }
         }
       `}</style>
 
@@ -472,13 +490,47 @@ export default function Hero({ isReady }: HeroProps) {
               </div>
             </div>
 
-            {/* Scroll Indicator — the label is fixed, only the arrow travels.
+            {/* Scroll Indicator.
+                Two variants, swapped at `md`, because the gesture differs: a
+                pointer scrolls, a thumb swipes. Both live inside the same
+                wrapper so GSAP still fades exactly one thing out on scroll.
+
+                Desktop: the label is fixed and only the arrow travels.
                 `animate-bounce` used to sit on this wrapper, which moved the
                 word along with the arrow and made the pair look like it was
-                hopping. The animation now lives on the arrow alone. */}
+                hopping. The animation lives on the arrow alone. */}
             <div ref={scrollArrowRef} className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 md:gap-3 opacity-90">
-              <span className="text-[#1A1917] dark:text-[#FCD119] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="hero-scroll-arrow text-[#1A1917] dark:text-[#FCD119] w-[32px] h-[32px] md:w-[44px] md:h-[44px]">
+              {/* Mobile — a hand swiping up. Decorative: the page scrolls the
+                  same way whether or not anyone reads this, so it is hidden
+                  from assistive tech rather than narrated.
+
+                  Drawn as a MASK rather than an <img>, so the artwork still
+                  takes its colour from `currentColor` — the same charcoal /
+                  brand-yellow pair as the arrow it replaces. A plain <img>
+                  would be locked to the file's own black and would need a
+                  filter hack to survive dark mode.
+
+                  This needs the PNG to have a TRANSPARENT background; a mask
+                  reads the alpha channel, so a white-backed export would show
+                  as a solid coloured square. Icon exports normally are. */}
+              <span
+                aria-hidden="true"
+                className="hero-swipe-hand md:hidden block h-[48px] w-[48px] bg-current text-[#1A1917] dark:text-[#FCD119]"
+                style={{
+                  WebkitMaskImage: 'url(/assets/images/swipe-hand.png)',
+                  maskImage: 'url(/assets/images/swipe-hand.png)',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                }}
+              />
+
+              {/* Tablet and up — the original label + travelling arrow. */}
+              <span className="hidden md:block text-[#1A1917] dark:text-[#FCD119] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="hero-scroll-arrow hidden md:block text-[#1A1917] dark:text-[#FCD119] md:w-[44px] md:h-[44px]">
                 <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
