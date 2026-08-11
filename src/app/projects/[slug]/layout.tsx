@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { CASE_STUDIES, getCaseStudy } from '@/data/caseStudies';
+import { pageMetadata } from '@/lib/seo';
 
 /**
  * Server shell for the case-study detail route.
@@ -26,16 +27,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!study) return { title: 'Case study — Advertising Wheels' };
 
-    return {
+    return pageMetadata({
         title: `${study.brand} — Advertising Wheels case study`,
         description: study.summary,
-        openGraph: {
-            title: `${study.brand} — Advertising Wheels case study`,
-            description: study.summary,
-            images: [study.hero],
-            type: 'article',
-        },
-    };
+        path: `/projects/${study.slug}`,
+        image: study.hero,
+        imageAlt: `${study.brand} truckside campaign by Advertising Wheels`,
+        type: 'article',
+    });
 }
 
 export default async function CaseStudyLayout({ children, params }: Props) {

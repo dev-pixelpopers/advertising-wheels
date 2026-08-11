@@ -19,12 +19,14 @@
 
 import type { Metadata } from 'next';
 import LegalPage, { LegalList, LegalSection } from '@/components/site/LegalPage';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: 'Privacy Policy — Advertising Wheels',
     description:
         'How Advertising Wheels collects, uses and protects personal information submitted through this website, and the rights you have over that information.',
-};
+    path: '/privacy',
+});
 
 const CONTACT_EMAIL = 'BrandGrowth@AdvertisingWheels.com';
 const CONTACT_PHONE = '1-877-4-ADWHEELS (1-877-423-9433)';

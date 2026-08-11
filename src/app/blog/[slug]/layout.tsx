@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { POSTS, getPost } from '@/data/posts';
+import { pageMetadata } from '@/lib/seo';
 
 /**
  * Server shell for the article route — see the case-study layout for why the
@@ -23,18 +24,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!post) return { title: 'Blog — Advertising Wheels' };
 
-    return {
+    /* `post.date` is a display string ("Jul 14, 2026"); article:published_time
+       is supposed to be ISO 8601, so it is converted here rather than shipped
+       as-is. An unparseable date drops the tag instead of emitting a malformed
+       one. */
+    const published = new Date(post.date);
+
+    return pageMetadata({
         title: `${post.title} — Advertising Wheels`,
         description: post.excerpt,
-        openGraph: {
-            title: post.title,
-            description: post.excerpt,
-            images: [post.image],
-            type: 'article',
-            publishedTime: post.date,
-            authors: [post.author.name],
-        },
-    };
+        path: `/blog/${post.slug}`,
+        image: post.image,
+        imageAlt: post.title,
+        type: 'article',
+        publishedTime: Number.isNaN(published.getTime()) ? undefined : published.toISOString(),
+        authors: [post.author.name],
+    });
 }
 
 export default async function ArticleLayout({ children, params }: Props) {

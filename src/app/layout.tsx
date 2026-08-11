@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import PreloaderGate from "@/components/PreloaderGate";
 import CookieNotice from "@/components/CookieNotice";
+import { SITE_URL } from "@/lib/siteUrl";
+import { pageMetadata } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,9 +19,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+/**
+ * `metadataBase` is the load-bearing line here.
+ *
+ * Open Graph images must be ABSOLUTE URLs — a scraper has no page context to
+ * resolve `/assets/...` against. Next resolves relative image paths for us, but
+ * only once it knows the origin; without this it falls back to localhost, so
+ * the two article routes that already declared `openGraph.images` were emitting
+ * `http://localhost:3000/...` and rendering as a bare link everywhere.
+ *
+ * Everything below is the DEFAULT, inherited by any route that does not set its
+ * own. Each route layout overrides it via `pageMetadata`.
+ */
 export const metadata: Metadata = {
-  title: "Truckside Billboard Advertising | Advertising Wheels",
-  description: "Unskippable truckside billboards with GPS-verified impressions, measured by StreetMetrics — and retargeting for every audience your trucks reach. 50 DMAs, coast to coast.",
+  metadataBase: new URL(SITE_URL),
+  ...pageMetadata({
+    title: "Truckside Billboard Advertising | Advertising Wheels",
+    description:
+      "Unskippable truckside billboards with GPS-verified impressions, measured by StreetMetrics — and retargeting for every audience your trucks reach. 50 DMAs, coast to coast.",
+    path: "/",
+  }),
 };
 
 export default function RootLayout({

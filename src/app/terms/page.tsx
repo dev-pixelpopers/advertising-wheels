@@ -15,12 +15,14 @@
 
 import type { Metadata } from 'next';
 import LegalPage, { LegalList, LegalSection } from '@/components/site/LegalPage';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: 'Terms & Conditions — Advertising Wheels',
     description:
         'The terms governing your use of the Advertising Wheels website, including acceptable use, intellectual property, disclaimers and limitation of liability.',
-};
+    path: '/terms',
+});
 
 const CONTACT_EMAIL = 'BrandGrowth@AdvertisingWheels.com';
 

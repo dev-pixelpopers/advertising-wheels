@@ -358,7 +358,7 @@ export default function TruckExperience() {
 
                 {/* TRUCK — enters from left, centre stage */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div ref={truckWrapRef} className="relative w-full lg:w-[40vw] 2xl:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[15%] lg:top-[10%] 2xl:top-0">
+                    <div ref={truckWrapRef} className="relative w-full md:w-[70vw] lg:w-[40vw] 2xl:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[15%] md:top-[12%] lg:top-[10%] 2xl:top-0">
                         <img
                             src="/assets/images/process/truck.png"
                             alt="Advertising Wheels truck"
@@ -406,19 +406,19 @@ export default function TruckExperience() {
                 {/* STATS BAR — appears with stats.png, positioned bottom of screen above subtitle text */}
                 <div
                     ref={statsBarRef}
-                    className="absolute bottom-[21%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto"
+                    className="absolute bottom-[21%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto overflow-scroll lg:overflow-hidden"
                 >
                     {/* These figures are illustrative, not live fleet data — the
                         counters below drift on a timer. Labelling the panel keeps
                         its campaign-scale truck count from reading as a claim
                         about the size of the fleet. */}
-                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center">
+                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left text-center">
                         Sample campaign dashboard
                     </p>
 
                     <div className="grid grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-2 md:gap-y-4 lg:gap-y-0 w-max lg:w-auto">
                         {/* Item 1: TOTAL IMPRESSIONS */}
-                        <div className="flex flex-col justify-between pr-3 md:px-5 first:pl-0">
+                        <div className="flex flex-col justify-between lg:pr-3 md:px-5 first:pl-0 w-[50vw] lg:w-auto">
                             <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
@@ -426,8 +426,8 @@ export default function TruckExperience() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">TOTAL IMPRESSIONS</span>
-                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2">
+                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left">TOTAL IMPRESSIONS</span>
+                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
                                         <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {impressionsCount.toFixed(2)}M
                                         </span>
@@ -444,7 +444,7 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Item 2: TOTAL MILEAGE */}
-                        <div className="flex flex-col justify-between xl:pr-3 px-3 md:px-2 xl:px-5 pt-0">
+                        <div className="flex flex-col justify-between xl:pr-3 px-3 md:px-2 xl:px-5 pt-0 w-[50vw] lg:w-auto">
                             <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
@@ -452,8 +452,8 @@ export default function TruckExperience() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">TOTAL MILEAGE</span>
-                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2">
+                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left">TOTAL MILEAGE</span>
+                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
                                         <span className="text-[16px] text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {mileageCount.toLocaleString()} <span className="text-[15px] md:text-[18px] font-tommy-medium">miles</span>
                                         </span>
@@ -470,7 +470,7 @@ export default function TruckExperience() {
                         </div>
 
                         {/* Item 3: ACTIVE TRUCKS */}
-                        <div className="flex flex-col justify-between xl:pr-3 lg:px-3 xl:px-5 pt-0">
+                        <div className="flex flex-col justify-between xl:pr-3 lg:px-3 xl:px-5 pt-0 w-[50vw] lg:w-auto">
                             <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
@@ -478,8 +478,8 @@ export default function TruckExperience() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">ACTIVE TRUCKS</span>
-                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2">
+                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left">ACTIVE TRUCKS</span>
+                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
                                         <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {trucksCount}
                                         </span>
@@ -497,15 +497,15 @@ export default function TruckExperience() {
 
                         {/* Item 4: ACTIVE CAMPAIGNS */}
                         <div className="flex flex-col justify-between md:pl-5">
-                            <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3">
+                            <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3 w-[50vw] lg:w-auto">
                                 <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
                                     <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M18 11c0-1.33-.52-2.54-1.37-3.45L19 5l-1.5-1.5-2.52 2.52C13.97 5.37 12.54 5 11 5c-3.87 0-7 3.13-7 7s3.13 7 7 7c1.54 0 2.97-.37 4-1.02L17.52 20.5 19 19l-2.37-2.55C17.48 13.54 18 12.33 18 11zm-7 4c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />
                                     </svg>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">ACTIVE CAMPAIGNS</span>
-                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2">
+                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left">ACTIVE CAMPAIGNS</span>
+                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
                                         <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
                                             {campaignsCount}
                                         </span>
