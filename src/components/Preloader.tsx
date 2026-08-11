@@ -232,7 +232,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 nudge — without it the line just slides inside open space. */}
             <div className="overflow-hidden py-[0.15em]">
               <span className="thanks-line block font-tommy-regular text-center text-[16px] md:text-[22px] leading-snug tracking-wider text-[#F6D54D] opacity-0">
-                Thank You. We did it, 6 times again
+                Thank You. We did it, 6th time again
               </span>
             </div>
             <img

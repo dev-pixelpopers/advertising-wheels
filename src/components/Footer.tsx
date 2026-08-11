@@ -71,7 +71,7 @@ const CREDENTIALS: { logos: CredentialLogo[] }[] = [
     { logos: [{ src: '/assets/images/cta/national-minority.webp', alt: 'National Minority Supplier Development Council', size: 'h-[20px] md:h-[100px]' }] },
     {
         logos: [
-            { src: '/assets/images/cta/5x.png', alt: 'Five-time Inc. 5000 honoree', size: 'h-[20px] md:h-[30px]', className: DARKEN },
+            { src: '/assets/images/cta/6x.png', alt: 'Five-time Inc. 5000 honoree', size: 'h-[20px] md:h-[30px]', className: DARKEN },
             { src: '/assets/images/cta/inc-5000-seal.webp', alt: '', size: 'h-[30px] md:h-[80px]' },
 
         ],
@@ -212,9 +212,9 @@ export default function Footer() {
                                         />
                                     </svg>
                                 </span>
-                                <span className="font-tommy-medium text-[14px] text-[#1A1917] dark:text-white">
+                                <a href="tel:+18774239433" className="font-tommy-medium text-[14px] text-[#1A1917] dark:text-white">
                                     1-877-4-ADWHEELS (1-877-423-9433)
-                                </span>
+                                </a>
                             </li>
                             <li>
                                 <a href="mailto:BrandGrowth@AdvertisingWheels.com" className="group flex items-center gap-3">
@@ -354,6 +354,7 @@ export default function Footer() {
                                 <li key={s.label}>
                                     <a
                                         href={s.href}
+                                        target='_blank'
                                         aria-label={s.label}
                                         className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#6F6A60] transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent hover:bg-[#FCD119] hover:text-black dark:border-white/10 dark:bg-white/[0.06] dark:text-[#9A968E]"
                                     >
