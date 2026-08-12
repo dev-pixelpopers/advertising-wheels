@@ -183,7 +183,7 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                     {/* ---------------- Header (left aligned) ---------------- */}
                     <div
                         data-tm-head
-                        className="px-3 md:px-5 mb-[1vh] lg:mb-[2vh] xl:mb-[3vh] 2xl:mb-[4vh] 3xl:mb-[5vh] lg:px-[4.5%]"
+                        className="px-6 md:px-7 mb-[2vh] xl:mb-[3vh] 2xl:mb-[4vh] 3xl:mb-[5vh] lg:px-[4.5%]"
                     >
                         <p className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#6F6A60] sm:text-[11px] sm:tracking-[4px] md:text-[12px]">
                             Testimonials

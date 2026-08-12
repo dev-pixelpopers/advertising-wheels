@@ -707,7 +707,7 @@ export default function TruckExperience() {
                     caret. All three share one ramp so nothing resizes as they swap,
                     and all three are the same colour because the veil above has
                     already made the plate behind them consistent. */}
-                <div className="absolute bottom-[9%] top-[78%] left-0 z-30 w-full flex justify-center px-6 pointer-events-none">
+                <div className="absolute bottom-[20%] lg:bottom-[9%] top-[78%] left-0 z-30 w-full flex justify-center px-6 pointer-events-none">
                     <div className="relative text-center w-full">
                         <div ref={sub1Ref} className="absolute inset-0 flex flex-col items-center justify-center">
                             <span className={SUB_LABEL}>01 — Wrap</span>
