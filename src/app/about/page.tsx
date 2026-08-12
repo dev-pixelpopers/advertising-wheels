@@ -14,6 +14,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
@@ -127,7 +128,15 @@ function Story() {
                 {/* Image with parallax + floating badge */}
                 <div className="relative">
                     <div data-story-media className="overflow-hidden rounded-[26px] border border-black/10 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.35)] dark:border-white/10" style={{ aspectRatio: '4 / 5' }}>
-                        <img ref={imgRef} src={STORY_IMG} alt="Advertising Wheels operations" className="h-[118%] w-full object-cover" />
+                        <Image
+                            ref={imgRef}
+                            src={STORY_IMG}
+                            alt="Advertising Wheels operations"
+                            width={400}
+                            height={500}
+                            loading="lazy"
+                            className="h-[118%] w-full object-cover"
+                        />
                     </div>
                     <div data-story-badge className="absolute -bottom-6 left-2 md:-left-6 rounded-2xl bg-[#1A1917] px-6 py-5 shadow-xl dark:bg-[#FCD119]">
                         <p className="font-tommy-bold text-[34px] leading-none text-[#FCD119] dark:text-black">25+</p>

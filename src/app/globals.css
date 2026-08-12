@@ -5,16 +5,19 @@
 @font-face {
   font-family: 'MADE-TOMMY-BOLD';
   src: url("/assets/fonts/MADE-TOMMY-Bold-PERSONAL.otf") format('opentype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'MADE-TOMMY-REGULAR';
   src: url("/assets/fonts/MADE-TOMMY-Regular-PERSONAL.otf") format('opentype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'MADE-TOMMY-MEDIUM';
   src: url("/assets/fonts/MADE-TOMMY-Medium-PERSONAL.otf") format('opentype');
+  font-display: swap;
 }
 
 :root {
@@ -60,4 +63,3 @@ body {
   scrollbar-width: none;
   /* Firefox */
 }
-

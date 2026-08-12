@@ -120,7 +120,8 @@ export default function PortalHero({
                         src={image}
                         alt={imageAlt}
                         fill
-                        priority
+                        preload
+                        fetchPriority='high'
                         sizes="100vw"
                         className="object-cover"
                     />

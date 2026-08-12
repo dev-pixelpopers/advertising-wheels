@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { CASE_STUDIES } from '@/data/caseStudies';
 
 /** Where the closing "explore all case studies" beat sends the user. */
@@ -116,7 +117,14 @@ export default function CaseStudy() {
                                 </div>
                                 {/* Wrapper contains the media's over-scale while it wipes open. */}
                                 <div className="overflow-hidden rounded-[10px]">
-                                    <img className="cs-media w-full h-[240px] md:h-[280px] lg:h-[360px] object-cover" src={cs.image} alt="" />
+                                    <Image
+                                        src={cs.image}
+                                        alt={cs.title}
+                                        width={600}
+                                        height={360}
+                                        loading="lazy"
+                                        className="cs-media w-full h-[240px] md:h-[280px] lg:h-[360px] object-cover"
+                                    />
                                 </div>
                             </div>
 

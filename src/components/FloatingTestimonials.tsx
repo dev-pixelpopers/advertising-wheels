@@ -15,6 +15,7 @@
  */
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -232,9 +233,11 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                         legible on the dark card too. */}
                                     <span className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex w-[100px] md:w-[200px] h-[40px] md:h-[80px] overflow-hidden bg-white/0 sm:mb-7 md:mb-8 dark:ring-white/10 ">
 
-                                        <img
+                                        <Image
                                             src={t.logo}
                                             alt={t.label}
+                                            width={200}
+                                            height={80}
                                             loading="lazy"
                                             className={t.logoClass ?? LOGO_BASE}
                                         />

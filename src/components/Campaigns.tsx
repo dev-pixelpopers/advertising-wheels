@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -33,7 +34,7 @@ export default function Campaigns() {
                     duration: 1,
                     ease: 'power4.out',
                 })
-                .from(imgRef.current, {
+                .from(imgWrapRef.current, {
                     scale: 1.15,
                     duration: 1.2,
                     ease: 'power3.out',
@@ -62,7 +63,14 @@ export default function Campaigns() {
     return (
         <div ref={rootRef} className="flex flex-row">
             <div ref={imgWrapRef} className="relative z-0 overflow-hidden">
-                <img ref={imgRef} className='w-[881px] h-[823px] object-cover' src="/assets/images/campaings-img.png" alt="" />
+                <Image
+                    src="/assets/images/campaings-img.png"
+                    alt="Campaigns showcase"
+                    width={881}
+                    height={823}
+                    loading="lazy"
+                    className='w-[881px] h-[823px] object-cover'
+                />
             </div>
             <div className="relative z-20 py-10 max-w-[53%]">
                 <h2 ref={headingRef} className="text-[230px] leading-[226px] text-white font-tommy-bold tracking-[-11px] -ml-[35%]">Campaigns<span className="text-[#FCD119]">.</span></h2>

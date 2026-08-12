@@ -10,6 +10,7 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -108,7 +109,14 @@ function Featured() {
             <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 px-3 md:px-8 lg:px-12 lg:grid-cols-2 lg:gap-16">
                 {/* Media */}
                 <div data-feat-media className="overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)] dark:border-white/10">
-                    <img src="/assets/images/case-study-img.jpg" alt="Fifth Third Bank truckside campaign" className="h-[300px] w-full object-cover md:h-[460px]" />
+                    <Image
+                        src="/assets/images/case-study-img.jpg"
+                        alt="Fifth Third Bank truckside campaign"
+                        width={600}
+                        height={460}
+                        loading="lazy"
+                        className="h-[300px] w-full object-cover md:h-[460px]"
+                    />
                 </div>
 
                 {/* Copy */}
@@ -258,7 +266,14 @@ function Gallery() {
                                         window.open(p.url, '_blank');
                                     }}
                                 >
-                                    <img src={p.logo} alt={p.brand} className="h-full object-contain" loading="lazy" />
+                                    <Image
+                                        src={p.logo}
+                                        alt={p.brand}
+                                        width={100}
+                                        height={100}
+                                        loading="lazy"
+                                        className="h-full object-contain"
+                                    />
 
                                 </span>
                                 <span className="rounded-full border border-black/15 px-3 py-1 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:border-white/15 dark:text-white/50">

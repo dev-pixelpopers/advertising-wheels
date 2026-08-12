@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import Image from 'next/image';
 
 gsap.registerPlugin(useGSAP);
 
@@ -212,10 +213,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               key={year}
               className="seq-slot absolute inset-0 flex flex-col items-center justify-center opacity-0"
             >
-              <img
+              <Image
                 src="/assets/images/cta/inc-1.png"
                 alt={`Inc. 5000 ${year}`}
+                width={256}
+                height={64}
                 className="h-[40px] md:h-[64px] w-auto object-contain brightness-0 invert"
+                priority
               />
               <span className="font-tommy-regular text-[16px] md:text-[22px] leading-none tracking-wider text-[#F6D54D] mt-2 md:mt-3">
                 {year}
@@ -235,10 +239,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 Thank You. We did it, 6th time again
               </span>
             </div>
-            <img
+            <Image
               src="/assets/images/cta/inc-1.png"
               alt="Inc. 5000"
+              width={256}
+              height={64}
               className="thanks-logo h-[40px] md:h-[64px] w-auto object-contain brightness-0 invert mt-3 md:mt-4 opacity-0"
+              priority
             />
           </div>
 

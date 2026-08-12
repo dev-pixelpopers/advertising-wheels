@@ -22,6 +22,7 @@
  */
 
 import { ReactNode, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -651,7 +652,14 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                                     <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2.5px] text-black/55">{hub.mono}</span>
                                 )}
                                 <div className="mt-1.5 font-tommy-bold text-[clamp(15px,1.7vw,20px)] leading-[1.1] tracking-tight text-black">
-                                    <img src="/assets/images/logo.svg" className="w-[60px] xl:w-[90px]" />
+                                    <Image
+                                        src="/assets/images/logo.svg"
+                                        alt="Logo"
+                                        width={90}
+                                        height={90}
+                                        loading="lazy"
+                                        className="w-[60px] xl:w-[90px]"
+                                    />
                                 </div>
                                 {hub.role && (
                                     <p className="mt-1 font-tommy-regular text-[9.5px] uppercase tracking-[1.5px] text-black/60">{hub.role}</p>

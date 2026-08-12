@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 /**
  * HomeMarquee — the client logo field.
  *
@@ -248,25 +250,31 @@ export default function HomeMarquee() {
                             >
                                 {b.logoDark ? (
                                     <>
-                                        <img
+                                        <Image
                                             src={`${LOGO_DIR}/${b.logo}`}
                                             alt="Brand logo"
-                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 block dark:hidden"
+                                            width={200}
+                                            height={100}
                                             loading="lazy"
+                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 block dark:hidden"
                                         />
-                                        <img
+                                        <Image
                                             src={`${LOGO_DIR}/${b.logoDark}`}
                                             alt="Brand logo"
-                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 hidden dark:block"
+                                            width={200}
+                                            height={100}
                                             loading="lazy"
+                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 hidden dark:block"
                                         />
                                     </>
                                 ) : (
-                                    <img
+                                    <Image
                                         src={`${LOGO_DIR}/${b.logo}`}
                                         alt="Brand logo"
-                                        className="hm-logo-img object-contain transition-all duration-400 opacity-90 dark:invert group-hover:scale-[1.15] group-hover:dark:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                                        width={200}
+                                        height={100}
                                         loading="lazy"
+                                        className="hm-logo-img object-contain transition-all duration-400 opacity-90 dark:invert group-hover:scale-[1.15] group-hover:dark:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
                                     />
                                 )}
                             </a>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from '../app/CinematicStory.module.css';
@@ -94,7 +95,13 @@ const CinematicStory = () => {
                 <div className={styles.cityEnv}></div>
 
                 <div className={styles.truckModel}>
-                    <img src="/images/aw-semi-truck.png" alt="Advertising Wheels Truck" />
+                    <Image
+                        src="/images/aw-semi-truck.png"
+                        alt="Advertising Wheels Truck"
+                        width={800}
+                        height={600}
+                        loading="lazy"
+                    />
 
                     <div className={styles.wrapGraphics}>
                         <div className={styles.graphicPanel}>Panel 1</div>

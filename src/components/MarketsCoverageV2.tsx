@@ -35,6 +35,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -569,10 +570,13 @@ function MarketPopup({
                     viewports or leave the columns mismatched. */}
                 <div className="grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
                     <div className="relative lg:sticky lg:top-0 h-[180px] md:h-[210px] overflow-hidden md:h-[91vh]">
-                        <img
+                        <Image
                             ref={imgRef}
                             src="/assets/images/Blog-Featured.webp"
                             alt=""
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            loading="lazy"
                             className="absolute inset-0 h-full w-full scale-[1.06] object-cover will-change-transform"
                         />
                         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/30" />

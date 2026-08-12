@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import Image from 'next/image';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -299,28 +300,37 @@ export default function TruckExperience() {
 
                 {/* ENVIRONMENT — 1st slide: studio background (clips from bottom to top on entrance) */}
                 <div ref={studioRef} className="absolute inset-0 z-0">
-                    <img
+                    <Image
                         src="/assets/images/process/studio.png"
                         alt="Studio background"
-                        className="w-full h-full object-cover"
+                        fill
+                        sizes="100vw"
+                        className="object-cover"
+                        loading="lazy"
                     />
                 </div>
 
                 {/* ENVIRONMENT — 2nd slide: city background (dissolves in as 1st background dissolves out) */}
                 <div ref={urbanRef} className="absolute inset-0 z-0 overflow-hidden">
-                    <img
+                    <Image
                         src="/assets/images/process/city.png"
                         alt="City background"
-                        className="w-full h-[112%] object-cover"
+                        fill
+                        sizes="100vw"
+                        className="object-cover"
+                        loading="lazy"
                     />
                 </div>
 
                 {/* ENVIRONMENT — 3rd slide: stats background (dissolves in after truck moves out right) */}
                 <div ref={statsRef} className="absolute inset-0 z-0 top-[25%] lg:top-0">
-                    <img
+                    <Image
                         src="/assets/images/process/stats.png"
                         alt="Stats background"
-                        className="w-full h-full object-contain lg:object-cover object-top"
+                        fill
+                        sizes="100vw"
+                        className="object-contain lg:object-cover object-top"
+                        loading="lazy"
                     />
                 </div>
 
@@ -340,18 +350,24 @@ export default function TruckExperience() {
                         }}
                         className={`absolute z-20 flex items-center justify-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] ${pin.size} ${pin.className}`}
                     >
-                        <img
+                        <Image
                             src="/assets/images/process/circle.png"
                             alt="Circle background"
+                            width={82}
+                            height={82}
                             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                            loading="lazy"
                         />
 
-                        <img
+                        <Image
                             src="/assets/images/process/pin.gif"
                             alt="Pin animation"
+                            width={40}
+                            height={40}
                             /* Half the container rather than a fixed pixel size, so the
                                icon keeps its proportion as the marker sizes vary. */
                             className="w-1/2 h-1/2 object-contain relative z-10 pointer-events-none"
+                            loading="lazy"
                         />
                     </div>
                 ))}
@@ -359,10 +375,13 @@ export default function TruckExperience() {
                 {/* TRUCK — enters from left, centre stage */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
                     <div ref={truckWrapRef} className="relative w-full md:w-[70vw] lg:w-[40vw] 2xl:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[15%] md:top-[12%] lg:top-[10%] 2xl:top-0">
-                        <img
+                        <Image
                             src="/assets/images/process/truck.png"
                             alt="Advertising Wheels truck"
+                            width={1120}
+                            height={800}
                             className="w-full h-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.35)]"
+                            loading="lazy"
                         />
 
                         {/* Banner image (the brand creative) that aligns and snaps onto the truck body */}
@@ -370,10 +389,13 @@ export default function TruckExperience() {
                             ref={bannerRef}
                             className="absolute left-[5.4%] top-[11%] w-[62.9%] h-[58%] rounded-[4px] overflow-hidden shadow-2xl pointer-events-none"
                         >
-                            <img
+                            <Image
                                 src="/assets/images/process/banner.jpg"
                                 alt="Brand creative banner"
-                                className="w-full h-full object-cover"
+                                fill
+                                sizes="(max-width: 768px) 85vw, 600px"
+                                className="object-cover"
+                                loading="lazy"
                             />
                         </div>
 

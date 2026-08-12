@@ -16,6 +16,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -346,10 +347,12 @@ export default function Footer() {
                     {CREDENTIALS.map((card, idx) => (
                         <div key={idx} className="flex items-center gap-3 md:gap-4">
                             {card.logos.map((c) => (
-                                <img
+                                <Image
                                     key={c.src}
                                     src={c.src}
                                     alt={c.alt}
+                                    width={80}
+                                    height={40}
                                     loading="lazy"
                                     className={`${c.size} ${c.className ?? ''} w-auto max-w-full object-contain`}
                                 />

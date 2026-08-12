@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -121,7 +122,14 @@ export default function Process() {
                 }
                 <div className={`w-[550px] h-[550px] flex flex-col border border-dotted border-[#2D2D2D] rounded-[100%] ml-[-17%] bg-[#EEE8D9] justify-end relative`}>
                     <div className="absolute top-[10%] left-[10%]">
-                        <img className="w-full h-full object-cover" src="/assets/images/process-inner-rings.png" alt="" />
+                        <Image
+                            src="/assets/images/process-inner-rings.png"
+                            alt=""
+                            width={500}
+                            height={500}
+                            loading="lazy"
+                            className="w-full h-full object-cover"
+                        />
                     </div>
                     <div className="flex flex-row relative z-10 w-full h-full justify-center items-center">
                         <a className="text-black text-[26px] leading-[30px] underline font-tommy-regular flex justify-center items-center gap-[30px]">
