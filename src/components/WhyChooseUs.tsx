@@ -279,7 +279,7 @@ export default function WhyChooseUs() {
                 {/* Video and Tabs Wrapper */}
                 <div className="wcu-video-block flex-1 w-full flex flex-col">
                     {/* 1. Large Rounded Video Container */}
-                    <div className="relative flex-1 w-full rounded-[16px] md:rounded-[32px] overflow-hidden bg-black shadow-2xl max-h-[60vh] lg:max-h-none">
+                    <div className="relative flex-1 w-full rounded-[16px] md:rounded-[32px] overflow-hidden bg-black shadow-2xl max-h-[55vh] lg:max-h-none">
                         {/* VIDEO PLACEHOLDER */}
                         <div className="relative inset-0 w-full h-full">
                             <div className='absolute top-0 left-0 w-full h-full z-100' style={{
