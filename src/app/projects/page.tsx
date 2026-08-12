@@ -48,7 +48,7 @@ interface Project {
 }
 
 const PROJECTS: Project[] = [
-    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/hertz-logo.webp`, slug: 'hertz', url: 'https://www.hertz.com' },
+    { brand: 'Hertz', industry: 'Travel & Mobility', result: 'Truck advertising ran as the primary top-of-funnel tactic and reversed a five-year decline in eCommerce revenue.', metric: '5yr', metricLabel: 'Decline reversed', logo: `${LOGOS}/hertz-logo`, slug: 'hertz', url: 'https://www.hertz.com' },
     { brand: 'Fifth Third Bank', industry: 'Financial Services', result: 'Synchronized routes blanketed launch corridors, turning highway miles into launch-week presence.', metric: '50', metricLabel: 'Markets ready', logo: `${LOGOS}/5th_3rd.webp`, url: 'https://www.53.com' },
     { brand: 'AB InBev', industry: 'Beverage', result: 'Fleets covering stadium districts and sports-bar corridors carried the brand through game-day crowds, right where intent peaks.', metric: 'Peak', metricLabel: 'Daypart reach', logo: `${LOGOS}/ab-inbev.webp`, url: 'https://www.ab-inbev.com' },
     { brand: 'Xfinity', industry: 'Telecom', result: 'ZIP-targeted fleet coverage carried the offer into target neighborhoods across multiple metros.', metric: 'ZIP', metricLabel: 'Level targeting', logo: `${LOGOS}/partner-xfinity.webp`, slug: 'xfinity', url: 'https://www.xfinity.com' },

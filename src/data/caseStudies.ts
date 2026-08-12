@@ -151,7 +151,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         markets: '14 metros',
         duration: '8 months',
         hero: heroOf('hertz', '/assets/images/process/city.png'),
-        logo: `${LOGOS}/partner-hertz.webp`,
+        logo: `${LOGOS}/hertz-logo.webp`,
         stats: [
             { value: 5, suffix: 'yr', label: 'Revenue decline reversed' },
             { value: 31, prefix: '+', suffix: '%', label: 'Direct session growth' },

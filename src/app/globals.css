@@ -2,19 +2,25 @@
 
 @font-face {
   font-family: 'MADE-TOMMY-BOLD';
-  src: url("/assets/fonts/MADE-TOMMY-Bold-PERSONAL.otf") format('opentype');
+  src: url("/assets/fonts/MADE-TOMMY-Bold-PERSONAL.woff2") format('woff2');
+  font-weight: 700;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'MADE-TOMMY-REGULAR';
-  src: url("/assets/fonts/MADE-TOMMY-Regular-PERSONAL.otf") format('opentype');
+  src: url("/assets/fonts/MADE-TOMMY-Regular-PERSONAL.woff2") format('woff2');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'MADE-TOMMY-MEDIUM';
-  src: url("/assets/fonts/MADE-TOMMY-Medium-PERSONAL.otf") format('opentype');
+  src: url("/assets/fonts/MADE-TOMMY-Medium-PERSONAL.woff2") format('woff2');
+  font-style: normal;
+  font-weight: 500;
   font-display: swap;
 }
 

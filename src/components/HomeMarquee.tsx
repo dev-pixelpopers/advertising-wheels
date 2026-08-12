@@ -129,7 +129,7 @@ export const BUBBLES: LogoData[] = [
 
     // Phase 1 row 2 — the two widest marks, one per side strip, scaled to bridge it
     { id: 'b7', logo: 'partner-xfinity.webp', wave: 1, phase: 2.5, url: 'https://www.xfinity.com', a: { x: 0.848, y: 0.512, s: 1.55 }, b: { x: 0.611, y: 0.327 }, aSm: { x: 0.82, y: 0.30 }, bSm: { x: 0.82, y: 0.19 } },
-    { id: 'b3', logo: 'partner-hertz.webp', wave: 1, phase: 1.4, url: 'https://www.hertz.com', a: { x: 0.152, y: 0.537, s: 1.55 }, b: { x: 0.935, y: 0.695 }, aSm: { x: 0.18, y: 0.70 }, bSm: { x: 0.18, y: 0.32 } },
+    { id: 'b3', logo: 'hertz-logo.webp', wave: 1, phase: 1.4, url: 'https://www.hertz.com', a: { x: 0.152, y: 0.537, s: 1.55 }, b: { x: 0.935, y: 0.695 }, aSm: { x: 0.18, y: 0.70 }, bSm: { x: 0.18, y: 0.32 } },
 
     /* Phase 1 row 3 — the bottom wall. FOUR marks, not five: the fifth was the
        duplicate Cane's. Re-spaced to a quarter of the width apart rather than
