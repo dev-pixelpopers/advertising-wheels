@@ -6,12 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
 
-ScrollTrigger.config({
-  ignoreMobileResize: true,
-});
-
-ScrollTrigger.normalizeScroll(true);
-
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 const FRAME_COUNT = 155;
