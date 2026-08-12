@@ -117,46 +117,46 @@ export interface LogoData {
 
 export const BUBBLES: LogoData[] = [
     // ══ POOL 1 (11) — phase 1 row 1, drifting to phase 2 row 1 ══
-    { id: 'b1', logo: 'partner-nationwide.png', wave: 1, phase: 0, url: 'https://www.nationwide.com', a: { x: 0.104, y: 0.218 }, b: { x: 0.276, y: 0.911 }, aSm: { x: 0.18, y: 0.12 }, bSm: { x: 0.18, y: 0.06 } },
-    { id: 'b5', logo: 'partner-wendys.png', wave: 1, phase: 0.5, url: 'https://www.wendys.com', a: { x: 0.293, y: 0.241 }, b: { x: 0.061, y: 0.884 }, aSm: { x: 0.50, y: 0.12 }, bSm: { x: 0.50, y: 0.06 } },
+    { id: 'b1', logo: 'partner-nationwide.webp', wave: 1, phase: 0, url: 'https://www.nationwide.com', a: { x: 0.104, y: 0.218 }, b: { x: 0.276, y: 0.911 }, aSm: { x: 0.18, y: 0.12 }, bSm: { x: 0.18, y: 0.06 } },
+    { id: 'b5', logo: 'partner-wendys.webp', wave: 1, phase: 0.5, url: 'https://www.wendys.com', a: { x: 0.293, y: 0.241 }, b: { x: 0.061, y: 0.884 }, aSm: { x: 0.50, y: 0.12 }, bSm: { x: 0.50, y: 0.06 } },
     /* The only Cane's mark. It holds the top-row centre slot Burger King vacated
        in phase 1, and in phase 2 it inherits the slot the old bottom-row Cane's
        was solved into — so the packed pool is the original solved 23, unchanged. */
-    { id: 'b24', logo: 'canes.png', wave: 1, phase: 1.1, url: 'https://www.raisingcanes.com', a: { x: 0.507, y: 0.226 }, b: { x: 0.546, y: 0.694 }, aSm: { x: 0.82, y: 0.12 }, bSm: { x: 0.18, y: 0.45 } },
-    { id: 'b13', logo: 'partner-saks-white.png', logoDark: 'partner-saks-dark.png', wave: 2, phase: 1.2, url: 'https://www.saksfifthavenue.com/', b: { x: 0.066, y: 0.158 }, bSm: { x: 0.18, y: 0.58 } },
-    { id: 'b4', logo: '5th_3rd.png', wave: 1, phase: 2.1, url: 'https://www.53.com', a: { x: 0.694, y: 0.247 }, b: { x: 0.699, y: 0.156 }, aSm: { x: 0.18, y: 0.30 }, bSm: { x: 0.18, y: 0.19 } },
-    { id: 'b12', logo: 'dollar-car-rental-logo.png', wave: 1, phase: 0.6, url: 'https://www.dollar.com/', a: { x: 0.905, y: 0.233 }, b: { x: 0.065, y: 0.693 }, aSm: { x: 0.50, y: 0.30 }, bSm: { x: 0.50, y: 0.19 } },
+    { id: 'b24', logo: 'canes.webp', wave: 1, phase: 1.1, url: 'https://www.raisingcanes.com', a: { x: 0.507, y: 0.226 }, b: { x: 0.546, y: 0.694 }, aSm: { x: 0.82, y: 0.12 }, bSm: { x: 0.18, y: 0.45 } },
+    { id: 'b13', logo: 'partner-saks-white.webp', logoDark: 'partner-saks-dark.webp', wave: 2, phase: 1.2, url: 'https://www.saksfifthavenue.com/', b: { x: 0.066, y: 0.158 }, bSm: { x: 0.18, y: 0.58 } },
+    { id: 'b4', logo: '5th_3rd.webp', wave: 1, phase: 2.1, url: 'https://www.53.com', a: { x: 0.694, y: 0.247 }, b: { x: 0.699, y: 0.156 }, aSm: { x: 0.18, y: 0.30 }, bSm: { x: 0.18, y: 0.19 } },
+    { id: 'b12', logo: 'dollar-car-rental-logo.webp', wave: 1, phase: 0.6, url: 'https://www.dollar.com/', a: { x: 0.905, y: 0.233 }, b: { x: 0.065, y: 0.693 }, aSm: { x: 0.50, y: 0.30 }, bSm: { x: 0.50, y: 0.19 } },
 
     // Phase 1 row 2 — the two widest marks, one per side strip, scaled to bridge it
-    { id: 'b7', logo: 'partner-xfinity.png', wave: 1, phase: 2.5, url: 'https://www.xfinity.com', a: { x: 0.848, y: 0.512, s: 1.55 }, b: { x: 0.611, y: 0.327 }, aSm: { x: 0.82, y: 0.30 }, bSm: { x: 0.82, y: 0.19 } },
-    { id: 'b3', logo: 'partner-hertz.png', wave: 1, phase: 1.4, url: 'https://www.hertz.com', a: { x: 0.152, y: 0.537, s: 1.55 }, b: { x: 0.935, y: 0.695 }, aSm: { x: 0.18, y: 0.70 }, bSm: { x: 0.18, y: 0.32 } },
+    { id: 'b7', logo: 'partner-xfinity.webp', wave: 1, phase: 2.5, url: 'https://www.xfinity.com', a: { x: 0.848, y: 0.512, s: 1.55 }, b: { x: 0.611, y: 0.327 }, aSm: { x: 0.82, y: 0.30 }, bSm: { x: 0.82, y: 0.19 } },
+    { id: 'b3', logo: 'partner-hertz.webp', wave: 1, phase: 1.4, url: 'https://www.hertz.com', a: { x: 0.152, y: 0.537, s: 1.55 }, b: { x: 0.935, y: 0.695 }, aSm: { x: 0.18, y: 0.70 }, bSm: { x: 0.18, y: 0.32 } },
 
     /* Phase 1 row 3 — the bottom wall. FOUR marks, not five: the fifth was the
        duplicate Cane's. Re-spaced to a quarter of the width apart rather than
        left with a hole where it stood, so the row still tiles the floor. */
-    { id: 'b9', logo: 'aaa-vector-logo.png', wave: 1, phase: 0.3, url: 'https://www.aaa.com', a: { x: 0.118, y: 0.852 }, b: { x: 0.495, y: 0.901 }, aSm: { x: 0.50, y: 0.70 }, bSm: { x: 0.50, y: 0.32 } },
-    { id: 'b10', logo: 'partner-kaiser.png', wave: 1, phase: 1.9, url: 'https://healthy.kaiserpermanente.org/', a: { x: 0.372, y: 0.828 }, b: { x: 0.466, y: 0.157 }, aSm: { x: 0.82, y: 0.70 }, bSm: { x: 0.82, y: 0.32 } },
-    { id: 'b6', logo: 'ab-inbev.png', wave: 1, phase: 1.7, url: 'https://www.ab-inbev.com', a: { x: 0.629, y: 0.833 }, b: { x: 0.385, y: 0.705 }, aSm: { x: 0.32, y: 0.88 }, bSm: { x: 0.50, y: 0.45 } },
-    { id: 'b15', logo: 'beringer.png', wave: 1, phase: 0.9, url: 'https://www.beringer.com/', a: { x: 0.879, y: 0.857 }, b: { x: 0.067, y: 0.329 }, aSm: { x: 0.68, y: 0.88 }, bSm: { x: 0.82, y: 0.45 } },
+    { id: 'b9', logo: 'aaa-vector-logo.webp', wave: 1, phase: 0.3, url: 'https://www.aaa.com', a: { x: 0.118, y: 0.852 }, b: { x: 0.495, y: 0.901 }, aSm: { x: 0.50, y: 0.70 }, bSm: { x: 0.50, y: 0.32 } },
+    { id: 'b10', logo: 'partner-kaiser.webp', wave: 1, phase: 1.9, url: 'https://healthy.kaiserpermanente.org/', a: { x: 0.372, y: 0.828 }, b: { x: 0.466, y: 0.157 }, aSm: { x: 0.82, y: 0.70 }, bSm: { x: 0.82, y: 0.32 } },
+    { id: 'b6', logo: 'ab-inbev.webp', wave: 1, phase: 1.7, url: 'https://www.ab-inbev.com', a: { x: 0.629, y: 0.833 }, b: { x: 0.385, y: 0.705 }, aSm: { x: 0.32, y: 0.88 }, bSm: { x: 0.50, y: 0.45 } },
+    { id: 'b15', logo: 'beringer.webp', wave: 1, phase: 0.9, url: 'https://www.beringer.com/', a: { x: 0.879, y: 0.857 }, b: { x: 0.067, y: 0.329 }, aSm: { x: 0.68, y: 0.88 }, bSm: { x: 0.82, y: 0.45 } },
 
     // ══ POOL 2 (12) — no phase 1 target; these are still below the fold then ══
 
     // Either side of the block
-    { id: 'b2', logo: 'burger-king-logo.png', wave: 2, phase: 0.8, url: 'https://www.bk.com', b: { x: 0.787, y: 0.468 }, bSm: { x: 0.82, y: 0.06 } },
-    { id: 'b16', logo: 'partner-echo.png', wave: 2, phase: 1.6, url: 'https://www.echo.com/', b: { x: 0.393, y: 0.325 }, bSm: { x: 0.50, y: 0.58 } },
+    { id: 'b2', logo: 'burger-king-logo.webp', wave: 2, phase: 0.8, url: 'https://www.bk.com', b: { x: 0.787, y: 0.468 }, bSm: { x: 0.82, y: 0.06 } },
+    { id: 'b16', logo: 'partner-echo.webp', wave: 2, phase: 1.6, url: 'https://www.echo.com/', b: { x: 0.393, y: 0.325 }, bSm: { x: 0.50, y: 0.58 } },
 
     // The lower half
-    { id: 'b14', logo: 'partner-floor-decor.png', wave: 2, phase: 2.3, url: 'https://www.flooranddecor.com/', b: { x: 0.203, y: 0.754 }, bSm: { x: 0.82, y: 0.58 } },
-    { id: 'b22', logo: 'partner-reliable.png', wave: 2, phase: 0.4, url: 'https://reliable.com/', b: { x: 0.933, y: 0.326 }, bSm: { x: 0.18, y: 0.71 } },
-    { id: 'b11', logo: 'titan.png', wave: 2, phase: 2.8, url: 'https://www.titan.com/', b: { x: 0.934, y: 0.883 }, bSm: { x: 0.50, y: 0.71 } },
-    { id: 'b17', logo: 'dc-united.png', wave: 2, phase: 2.0, url: 'https://www.dcunited.com/', b: { x: 0.051, y: 0.512 }, bSm: { x: 0.82, y: 0.71 } },
-    { id: 'b18', logo: 'partner-razorbacks.png', wave: 2, phase: 0.7, url: 'https://arkansasrazorbacks.com/', b: { x: 0.716, y: 0.794 }, bSm: { x: 0.18, y: 0.84 } },
+    { id: 'b14', logo: 'partner-floor-decor.webp', wave: 2, phase: 2.3, url: 'https://www.flooranddecor.com/', b: { x: 0.203, y: 0.754 }, bSm: { x: 0.82, y: 0.58 } },
+    { id: 'b22', logo: 'partner-reliable.webp', wave: 2, phase: 0.4, url: 'https://reliable.com/', b: { x: 0.933, y: 0.326 }, bSm: { x: 0.18, y: 0.71 } },
+    { id: 'b11', logo: 'titan.webp', wave: 2, phase: 2.8, url: 'https://www.titan.com/', b: { x: 0.934, y: 0.883 }, bSm: { x: 0.50, y: 0.71 } },
+    { id: 'b17', logo: 'dc-united.webp', wave: 2, phase: 2.0, url: 'https://www.dcunited.com/', b: { x: 0.051, y: 0.512 }, bSm: { x: 0.82, y: 0.71 } },
+    { id: 'b18', logo: 'partner-razorbacks.webp', wave: 2, phase: 0.7, url: 'https://arkansasrazorbacks.com/', b: { x: 0.716, y: 0.794 }, bSm: { x: 0.18, y: 0.84 } },
 
     // The floor
-    { id: 'b20', logo: 'outer.png', wave: 2, phase: 2.7, url: 'https://liveouter.com/', b: { x: 0.932, y: 0.159 }, bSm: { x: 0.50, y: 0.84 } },
-    { id: 'b19', logo: 'partner-mote-museum.png', wave: 2, phase: 1.5, url: 'https://mote.org/', b: { x: 0.948, y: 0.513 }, bSm: { x: 0.82, y: 0.84 } },
-    { id: 'b21', logo: 'partner-penn811.png', wave: 2, phase: 1.0, url: 'https://www.pa1call.org/', b: { x: 0.263, y: 0.201 }, bSm: { x: 0.32, y: 0.90 } },
-    { id: 'b23', logo: 'charly-logo-png_seeklogo-436078-removebg-preview.png', wave: 2, phase: 1.8, url: 'https://www.charly.com/', b: { x: 0.248, y: 0.571 }, bSm: { x: 0.68, y: 0.90 } },
+    { id: 'b20', logo: 'outer.webp', wave: 2, phase: 2.7, url: 'https://liveouter.com/', b: { x: 0.932, y: 0.159 }, bSm: { x: 0.50, y: 0.84 } },
+    { id: 'b19', logo: 'partner-mote-museum.webp', wave: 2, phase: 1.5, url: 'https://mote.org/', b: { x: 0.948, y: 0.513 }, bSm: { x: 0.82, y: 0.84 } },
+    { id: 'b21', logo: 'partner-penn811.webp', wave: 2, phase: 1.0, url: 'https://www.pa1call.org/', b: { x: 0.263, y: 0.201 }, bSm: { x: 0.32, y: 0.90 } },
+    { id: 'b23', logo: 'charly-logo-png_seeklogo-436078-removebg-preview.webp', wave: 2, phase: 1.8, url: 'https://www.charly.com/', b: { x: 0.248, y: 0.571 }, bSm: { x: 0.68, y: 0.90 } },
 ];
 
 export default function HomeMarquee() {
@@ -245,35 +245,14 @@ export default function HomeMarquee() {
                                 rel="noopener noreferrer"
                                 className="group block"
                             >
-                                {b.logoDark ? (
-                                    <>
-                                        <Image
-                                            src={`${LOGO_DIR}/${b.logo}`}
-                                            alt="Brand logo"
-                                            width={200}
-                                            height={100}
-                                            loading="lazy"
-                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 block"
-                                        />
-                                        <Image
-                                            src={`${LOGO_DIR}/${b.logoDark}`}
-                                            alt="Brand logo"
-                                            width={200}
-                                            height={100}
-                                            loading="lazy"
-                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 hidden"
-                                        />
-                                    </>
-                                ) : (
-                                    <Image
-                                        src={`${LOGO_DIR}/${b.logo}`}
-                                        alt="Brand logo"
-                                        width={200}
-                                        height={100}
-                                        loading="lazy"
-                                        className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
-                                    />
-                                )}
+                                <Image
+                                    src={`${LOGO_DIR}/${b.logo}`}
+                                    alt="Brand logo"
+                                    width={200}
+                                    height={100}
+                                    loading="lazy"
+                                    className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                                />
                             </a>
                         </div>
                     </div>

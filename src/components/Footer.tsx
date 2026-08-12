@@ -171,7 +171,7 @@ export default function Footer() {
     return (
         <footer
             ref={rootRef}
-            className="relative w-full overflow-hidden bg-[#EEE8D9] "
+            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300"
             aria-labelledby="footer-heading"
         >
             <style>{`
@@ -223,7 +223,7 @@ export default function Footer() {
                             </li>
                             <li>
                                 <a href="mailto:BrandGrowth@AdvertisingWheels.com" className="group flex items-center gap-3">
-                                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B]  group-hover:border-[#C8992B]/40 group-hover:bg-[#FCD119]/20">
+                                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] transition-colors duration-300 group-hover:border-[#C8992B]/40 group-hover:bg-[#FCD119]/20">
                                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                                             <rect x="1.8" y="3.4" width="12.4" height="9.2" rx="1.6" stroke="currentColor" strokeWidth="1.3" />
                                             <path d="m2.4 4.6 5.6 4 5.6-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -252,7 +252,7 @@ export default function Footer() {
                                 <li key={l.label}>
                                     <a
                                         href={l.href}
-                                        className="ft-link inline-block font-tommy-regular text-[14px] text-[#6F6A60]  hover:text-[#1A1917]"
+                                        className="ft-link inline-block font-tommy-regular text-[14px] text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917]"
                                     >
                                         {l.label}
                                     </a>
@@ -276,7 +276,7 @@ export default function Footer() {
                         </p>
 
                         <form
-                            className="mt-6 flex items-center gap-3 border-b border-black/15 pb-2.5  focus-within:border-[#C8992B]"
+                            className="mt-6 flex items-center gap-3 border-b border-black/15 pb-2.5 transition-colors duration-300 focus-within:border-[#C8992B]"
                             onSubmit={subscribe.submit}
                             noValidate
                         >
@@ -399,11 +399,11 @@ export default function Footer() {
                     </div>
 
                     <div className="flex items-center gap-3 font-tommy-regular text-[12px]">
-                        <a href="/privacy" className="ft-link text-[#6F6A60]  hover:text-[#1A1917]">
+                        <a href="/privacy" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917]">
                             Privacy Policy
                         </a>
                         <span className="text-black/15">|</span>
-                        <a href="/terms" className="ft-link text-[#6F6A60]  hover:text-[#1A1917]">
+                        <a href="/terms" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917]">
                             Terms &amp; Conditions
                         </a>
                     </div>
