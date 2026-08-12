@@ -151,7 +151,7 @@ function ContactHero() {
     const labelClass = 'mb-1 2xl:mb-2 block font-tommy-medium text-[12.5px] uppercase tracking-[1.5px] text-[#6F6A60]';
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300">
+        <section ref={rootRef} className="relative w-full overflow-hidden bg-[#EEE8D9] ">
             <div className="pointer-events-none absolute -left-[14%] -top-[36%] opacity-90 md:-left-[6%]" aria-hidden="true">
                 <Rings />
             </div>
@@ -320,7 +320,7 @@ function Faq() {
     const [open, setOpen] = useState<number | null>(0);
 
     return (
-        <section className="w-full bg-[#EEE8D9]  transition-colors duration-300 pt-14 md:pt-20 lg:pt-32">
+        <section className="w-full bg-[#EEE8D9]   pt-14 md:pt-20 lg:pt-32">
             <div className="mx-auto grid lg:max-w-[1200px] grid-cols-1 gap-6 md:gap-12 px-6 md:px-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
                 <Reveal className="self-start" y={30}>
                     <Eyebrow>Good to know</Eyebrow>
@@ -372,7 +372,7 @@ function Faq() {
 
 export default function ContactPage() {
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+        <main className="w-full bg-[#EEE8D9] ">
             <PortalHero
                 badge="Contact"
                 title="LET'S TALK"

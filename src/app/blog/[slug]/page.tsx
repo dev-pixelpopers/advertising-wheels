@@ -63,7 +63,7 @@ function Hero({ post }: { post: Post }) {
     return (
         <section
             ref={rootRef}
-            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300"
+            className="relative w-full overflow-hidden bg-[#EEE8D9] "
         >
             <div className="pointer-events-none absolute -right-[20%] -top-[46%] opacity-80" aria-hidden="true">
                 <Rings />
@@ -137,7 +137,7 @@ function Body({ post }: { post: Post }) {
     const toc = post.sections.map((s) => ({ id: s.id, nav: s.nav }));
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-14 transition-colors duration-300 md:py-20">
+        <section className="w-full bg-[#EEE8D9] py-14  md:py-20">
             <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-12 px-6 md:px-12 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-20">
                 <aside className="order-2 lg:order-1">
                     <StickyToc items={toc} label="In this article" />
@@ -179,7 +179,7 @@ function Quote({ post }: { post: Post }) {
     return (
         <section
             ref={ref}
-            className="w-full bg-[#EEE8D9] pb-6 transition-colors duration-300 md:pb-10"
+            className="w-full bg-[#EEE8D9] pb-6  md:pb-10"
         >
             <div className="mx-auto max-w-[900px] px-6 md:px-12">
                 <blockquote
@@ -259,7 +259,7 @@ function Takeaways({ post }: { post: Post }) {
     return (
         <section
             ref={rootRef}
-            className="w-full bg-[#E7E0CE] py-20 transition-colors duration-300 md:py-28"
+            className="w-full bg-[#E7E0CE] py-20  md:py-28"
         >
             <div className="mx-auto max-w-[1100px] px-6 md:px-12">
                 <Eyebrow>The short version</Eyebrow>
@@ -313,7 +313,7 @@ function Related({ slug }: { slug: string }) {
     if (!items.length) return null;
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-20 transition-colors duration-300 md:py-28">
+        <section className="w-full bg-[#EEE8D9] py-20  md:py-28">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <div className="flex flex-wrap items-end justify-between gap-6">
                     <h2 className="font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917]">
@@ -321,7 +321,7 @@ function Related({ slug }: { slug: string }) {
                     </h2>
                     <Link
                         href="/blog"
-                        className="group inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 hover:text-[#C8992B]"
+                        className="group inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#1A1917]  hover:text-[#C8992B]"
                     >
                         All articles <ArrowIcon />
                     </Link>
@@ -332,7 +332,7 @@ function Related({ slug }: { slug: string }) {
                         <Link
                             key={p.slug}
                             href={`/blog/${p.slug}`}
-                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40"
+                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40  hover:border-[#C8992B]/40"
                         >
                             <div className="relative h-[170px] overflow-hidden">
                                 <Image
@@ -382,7 +382,7 @@ export default function ArticleDetailPage() {
         <>
             <ReadingProgress targetId="post-article" />
 
-            <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+            <main className="w-full bg-[#EEE8D9] ">
                 <Hero post={post} />
                 <Body post={post} />
                 <Quote post={post} />

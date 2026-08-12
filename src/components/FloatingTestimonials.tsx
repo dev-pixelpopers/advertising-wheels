@@ -166,7 +166,7 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                wiped across the screen — the thing the hand-off is trying not to
                be. The marquee clears itself out underneath instead, and the page
                behind supplies the colour. Standalone it still needs its own. */
-            className={`relative w-full transition-colors duration-300 pt-[5%] ${embedded ? 'h-full' : 'bg-[#EEE8D9]'}`}
+            className={`relative w-full  pt-[5%] ${embedded ? 'h-full' : 'bg-[#EEE8D9]'}`}
         >
             <div
                 ref={frameRef}
@@ -226,7 +226,7 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                        panel around them still carries no fill,
                                        so this is not the sheet-wipe the comment
                                        above is guarding against. */
-                                    className="flex w-[220px] shrink-0 flex-col rounded-[18px] bg-[#F7F3E8] p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 sm:w-[320px]  md:w-[350px] lg:w-[clamp(300px,26vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] transition-colors duration-300"
+                                    className="flex w-[220px] shrink-0 flex-col rounded-[18px] bg-[#F7F3E8] p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 sm:w-[320px]  md:w-[350px] lg:w-[clamp(300px,26vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] "
                                 >
                                     {/* Client mark on a white chip — the supplied logos are
                                         light-background assets, so the chip keeps them

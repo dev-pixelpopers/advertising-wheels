@@ -380,7 +380,7 @@ export default function Hero({ isReady }: HeroProps) {
       <section ref={containerRef} className="relative h-[550vh] w-[100vw] z-70">
         <div className="sticky top-0 h-dvh w-full overflow-hidden">
 
-          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-4 md:px-8 lg:px-12 2xl:px-20 3xl:px-25 py-[72px] overflow-hidden w-full h-full'>
+          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9]  opacity-0 flex flex-col justify-between items-center px-4 md:px-8 lg:px-12 2xl:px-20 3xl:px-25 py-[72px] overflow-hidden w-full h-full'>
             {/* Canvas frame sequence — sits above the cream bg, behind the text.
               Hidden at first (only text shows); fades in blurred & scaled down as scroll begins. */}
             <canvas
@@ -406,7 +406,7 @@ export default function Hero({ isReady }: HeroProps) {
             />
             <div ref={contentRef} className='w-full h-full flex flex-col justify-center items-center relative z-10'>
               <div ref={headingWrapRef} className='flex flex-col justify-center items-center gap-[3px] md:gap-[5px]'>
-                <span ref={subRef} className='text-center text-[#1A1917] font-tommy-bold text-[25px] md:text-[clamp(2.5rem,5vw,4.125rem)] capitalize transition-colors duration-300'>We’re where life</span>
+                <span ref={subRef} className='text-center text-[#1A1917] font-tommy-bold text-[25px] md:text-[clamp(2.5rem,5vw,4.125rem)] capitalize '>We’re where life</span>
                 <h1 className='text-white font-tommy-bold text-[60px] md:text-[clamp(80px,16.9vw,21.5rem)] leading-[87.21%] flex flex-nowrap'>
                   <span ref={hapRef} className='inline-block'>HAPP</span>
                   <span ref={pensRef} className='inline-block'>ENS<span className='text-[#FCD119]'>.</span></span>

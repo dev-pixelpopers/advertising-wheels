@@ -502,7 +502,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
         return (
             <section
                 ref={rootRef}
-                className="relative w-full bg-[#EEE8D9] px-5 md:px-8 lg:px-12 py-12 md:py-16 lg:py-24 transition-colors duration-300"
+                className="relative w-full bg-[#EEE8D9] px-5 md:px-8 lg:px-12 py-12 md:py-16 lg:py-24 "
             >
                 {/* Widens with the viewport — at tablet and small-laptop sizes a
                     560px column would leave most of the row empty. */}
@@ -589,7 +589,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
         /* Tall track — its height IS the scroll distance the pin consumes. */
         <section
             ref={rootRef}
-            className="relative w-full bg-[#EEE8D9] transition-colors duration-300"
+            className="relative w-full bg-[#EEE8D9] "
             style={{ height: '300vh' }}
         >
             <div ref={screenRef} className="flex h-screen w-full flex-col justify-center overflow-hidden py-10">

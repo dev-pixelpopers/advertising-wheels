@@ -66,7 +66,7 @@ export function GhostLink({ href = '#', children, className = '' }: { href?: str
     return (
         <a
             href={href}
-            className={`inline-flex items-center gap-3 rounded-full border-2 border-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#1A1917] transition-colors duration-300 hover:bg-[#1A1917] hover:text-[#FCD119] ${className}`}
+            className={`inline-flex items-center gap-3 rounded-full border-2 border-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#1A1917]  hover:bg-[#1A1917] hover:text-[#FCD119] ${className}`}
         >
             {children}
         </a>
@@ -139,7 +139,7 @@ export function PageHero({ eyebrow, title, lead, actions, aside, footerSlot }: P
     return (
         <section
             ref={rootRef}
-            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300"
+            className="relative w-full overflow-hidden bg-[#EEE8D9] "
         >
             <style>{`
                 @keyframes aw-spin { to { transform: rotate(360deg); } }

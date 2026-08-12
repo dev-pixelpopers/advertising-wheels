@@ -157,7 +157,7 @@ export default function CaseStudySection() {
     );
 
     return (
-        <div ref={rootRef} className="relative h-screen w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300">
+        <div ref={rootRef} className="relative h-screen w-full overflow-hidden bg-[#EEE8D9] ">
             <CaseStudy />
         </div>
     );

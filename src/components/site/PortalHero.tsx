@@ -182,7 +182,7 @@ export default function PortalHero({
                                 {secondary && (
                                     <a
                                         href={secondary.href}
-                                        className="inline-flex items-center gap-3 rounded-full border-2 px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[15px] transition-colors duration-300"
+                                        className="inline-flex items-center gap-3 rounded-full border-2 px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[15px] "
                                         style={{ borderColor: isLight ? 'rgba(238,232,217,.45)' : 'rgba(238,232,217,.45)', color: '#fff' }}
                                     >
                                         {secondary.label}

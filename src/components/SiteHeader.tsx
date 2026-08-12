@@ -41,8 +41,8 @@ export default function SiteHeader() {
         <header className="fixed inset-x-0 top-0 z-[100] w-full">
             <div
                 className={`w-full transition-all duration-300 ${scrolled || menuOpen
-                        ? 'border-b border-black/10 bg-[#EEE8D9]/85 backdrop-blur-xl'
-                        : 'border-b border-transparent bg-transparent'
+                    ? 'border-b border-black/10 bg-[#EEE8D9]/85 backdrop-blur-xl'
+                    : 'border-b border-transparent bg-transparent'
                     }`}
             >
                 <div className="flex w-full items-center justify-between px-6 py-4 md:px-[60px] md:py-5">
@@ -61,9 +61,9 @@ export default function SiteHeader() {
                                     <Link
                                         key={l.href}
                                         href={l.href}
-                                        className={`sh-link font-tommy-regular text-[15px] transition-colors duration-300 ${active
-                                                ? 'text-[#C8992B]'
-                                                : 'text-[#6F6A60] hover:text-[#1A1917]'
+                                        className={`sh-link font-tommy-regular text-[15px]  ${active
+                                            ? 'text-[#C8992B]'
+                                            : 'text-[#6F6A60] hover:text-[#1A1917]'
                                             }`}
                                         aria-current={active ? 'page' : undefined}
                                         data-active={active ? 'true' : undefined}
@@ -79,7 +79,7 @@ export default function SiteHeader() {
                             {/* <button
                             onClick={toggleTheme}
                             aria-label="Toggle theme"
-                            className="relative flex h-8 w-16 items-center justify-between rounded-full border border-black/15 bg-black/[0.06] px-1 shadow-inner transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#FCD119]"
+                            className="relative flex h-8 w-16 items-center justify-between rounded-full border border-black/15 bg-black/[0.06] px-1 shadow-inner  focus:outline-none focus:ring-2 focus:ring-[#FCD119]"
                         >
                             <svg
                                 className={`h-5 w-5 transition-opacity duration-300 ${theme === 'light' ? 'text-[#C8992B] opacity-100' : 'text-gray-400 opacity-40'}`}
@@ -132,8 +132,8 @@ export default function SiteHeader() {
                                     key={l.href}
                                     href={l.href}
                                     className={`flex items-center justify-between rounded-xl px-4 py-3.5 font-tommy-medium text-[17px] transition-colors duration-200 ${active
-                                            ? 'bg-[#FCD119]/15 text-[#C8992B]'
-                                            : 'text-[#3A3730] hover:bg-black/[0.04]'
+                                        ? 'bg-[#FCD119]/15 text-[#C8992B]'
+                                        : 'text-[#3A3730] hover:bg-black/[0.04]'
                                         }`}
                                 >
                                     {l.label}

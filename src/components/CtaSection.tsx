@@ -78,7 +78,7 @@ export default function CtaSection() {
         /* Outer band carries the colour of the sections either side of it, so the
            curved corners reveal a seamless continuation rather than a mismatched
            edge. Must stay in step with WhyChooseUs above and Footer below. */
-        <div ref={rootRef} className="w-full bg-[#EEE8D9] transition-colors duration-300">
+        <div ref={rootRef} className="w-full bg-[#EEE8D9] ">
             {/* Elliptical top corners — the curve runs far wider than it drops, so it
                 reads as one long sweep into the flat middle rather than a rounded box. */}
             <div className="relative w-full overflow-hidden rounded-t-[30px] lg:rounded-t-[40px] bg-[#FCD119] px-3 md:px-5 lg:px-6 py-[50px] md:py-[80px] lg:py-[100px] md:rounded-t-[90px] md:px-14 xl:py-[140px]">
@@ -120,7 +120,7 @@ export default function CtaSection() {
                         </a>
                         <a
                             href="tel:+1-877-423-9433"
-                            className="rounded-full border-2 border-black px-4 md:px-6 lg:px-8 py-3 lg:py-4 font-tommy-medium text-[15px] text-black transition-colors duration-300 hover:bg-black hover:text-[#FCD119]"
+                            className="rounded-full border-2 border-black px-4 md:px-6 lg:px-8 py-3 lg:py-4 font-tommy-medium text-[15px] text-black  hover:bg-black hover:text-[#FCD119]"
                         >
                             Talk To Us
                         </a>

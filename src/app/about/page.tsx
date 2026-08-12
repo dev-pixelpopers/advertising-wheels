@@ -88,7 +88,7 @@ function Story() {
     );
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden bg-[#EEE8D9] py-24 transition-colors duration-300 md:py-32">
+        <section ref={rootRef} className="relative w-full overflow-hidden bg-[#EEE8D9] py-24  md:py-32">
             <style>{`
                 .story-outline { -webkit-text-stroke: 1.5px rgba(26,25,23,.10); color: transparent; }
             `}</style>
@@ -172,7 +172,7 @@ function Stats() {
         { el: <CountUp value={"360 Degree\nService"} />, label: 'From start to finish, we handle everything.', wordy: true },
     ];
     return (
-        <section className="w-full border-y border-black/10 bg-[#EEE8D9] transition-colors duration-300 py-12 md:py-16 lg:py-24">
+        <section className="w-full border-y border-black/10 bg-[#EEE8D9]  py-12 md:py-16 lg:py-24">
             <style>{`
                 /* Sized against the COLUMN, not the viewport.
 
@@ -290,7 +290,7 @@ function Timeline() {
     );
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#1A1917] transition-colors duration-300 lg:h-screen">
+        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#1A1917]  lg:h-screen">
             <div className="pointer-events-none relative inset-x-0 top-0 z-20 pt-[92px] px-3 md:px-8 lg:px-12 lg:pt-[13vh]">
                 <Eyebrow>Twenty-five years on the road</Eyebrow>
                 <h2 className="mt-3 font-tommy-bold text-[34px] uppercase leading-none tracking-tight md:text-[54px]">
@@ -388,7 +388,7 @@ function PullQuote() {
     );
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden border-t border-black/10 bg-[#EEE8D9]  transition-colors duration-300 py-18 md:py-28 lg:py-40">
+        <section ref={rootRef} className="relative w-full overflow-hidden border-t border-black/10 bg-[#EEE8D9]   py-18 md:py-28 lg:py-40">
             <div className="mx-auto max-w-[960px] px-6 text-center md:px-12">
                 <span data-pq-mark className="inline-block font-tommy-bold text-[90px] leading-[0.6] text-[#C8992B]">“</span>
                 <blockquote ref={quoteRef} className="mt-4 font-tommy-medium text-[clamp(23px,3.1vw,40px)] leading-[1.34] tracking-[-0.01em]">
@@ -452,7 +452,7 @@ export default function AboutPage() {
     }, [stacked]);
 
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+        <main className="w-full bg-[#EEE8D9] ">
             <PortalHero
                 badge="About"
                 title="ADVERTISING WHEELS"

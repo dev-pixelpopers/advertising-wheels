@@ -58,7 +58,7 @@ const NETWORK_STATS = [
 
 function Benefits() {
     return (
-        <section className="w-full bg-[#EEE8D9] py-24 transition-colors duration-300 md:py-32">
+        <section className="w-full bg-[#EEE8D9] py-24  md:py-32">
             <div className="mx-auto max-w-[1200px] px-6 md:px-12">
                 <Reveal className="max-w-[760px]" y={30}>
                     <Eyebrow>Why partner</Eyebrow>
@@ -70,7 +70,7 @@ function Benefits() {
                     {BENEFITS.map((b) => (
                         <div
                             key={b.k}
-                            className="rounded-[20px] border border-black/10 bg-white/40 p-8 transition-colors duration-300 hover:border-[#C8992B]/40 md:p-10"
+                            className="rounded-[20px] border border-black/10 bg-white/40 p-8  hover:border-[#C8992B]/40 md:p-10"
                         >
                             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FCD119] text-black">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -121,7 +121,7 @@ function Steps() {
     );
 
     return (
-        <section className="w-full border-y border-black/10 bg-[#E7E0CE] py-24 text-[#1A1917] transition-colors duration-300 md:py-32">
+        <section className="w-full border-y border-black/10 bg-[#E7E0CE] py-24 text-[#1A1917]  md:py-32">
             <div className="mx-auto max-w-[1000px] px-6 md:px-12">
                 <Reveal className="max-w-[720px]" y={30}>
                     <Eyebrow>How partnering works</Eyebrow>
@@ -161,7 +161,7 @@ function Steps() {
 
 function Requirements() {
     return (
-        <section className="w-full bg-[#EEE8D9] py-24 transition-colors duration-300 md:py-32">
+        <section className="w-full bg-[#EEE8D9] py-24  md:py-32">
             <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 px-6 md:px-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
                 <Reveal className="self-start" y={30}>
                     <Eyebrow>What you’ll need</Eyebrow>
@@ -200,7 +200,7 @@ function Requirements() {
 
 function NetworkStats() {
     return (
-        <section className="w-full bg-[#EEE8D9] pb-8 transition-colors duration-300">
+        <section className="w-full bg-[#EEE8D9] pb-8 ">
             <Reveal className="mx-auto grid max-w-[1200px] grid-cols-2 gap-y-12 px-6 md:px-12 lg:grid-cols-4" y={30} stagger={0.14}>
                 {NETWORK_STATS.map((s, i) => (
                     <div key={i} className="border-l border-black/10 pl-6">
@@ -223,7 +223,7 @@ function NetworkStats() {
 
 function VendorCta() {
     return (
-        <section className="w-full bg-[#EEE8D9] py-20 transition-colors duration-300 md:py-28">
+        <section className="w-full bg-[#EEE8D9] py-20  md:py-28">
             <Reveal className="mx-auto max-w-[1200px] px-6 md:px-12" self y={40}>
                 <div className="relative overflow-hidden rounded-[32px] bg-[#FCD119] px-8 py-16 text-center md:px-14 md:py-24">
                     <div className="pointer-events-none absolute -bottom-[45%] left-1/2 -translate-x-1/2" aria-hidden="true">
@@ -246,7 +246,7 @@ function VendorCta() {
                                 Apply to partner
                                 <ArrowIcon />
                             </a>
-                            <a href="/contact#form" className="rounded-full border-2 border-black px-8 py-4 font-tommy-medium text-[15px] text-black transition-colors duration-300 hover:bg-black hover:text-[#FCD119]">
+                            <a href="/contact#form" className="rounded-full border-2 border-black px-8 py-4 font-tommy-medium text-[15px] text-black  hover:bg-black hover:text-[#FCD119]">
                                 Talk to our team
                             </a>
                         </div>
@@ -263,7 +263,7 @@ function VendorCta() {
 
 export default function VendorsPage() {
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+        <main className="w-full bg-[#EEE8D9] ">
             <PortalHero
                 badge="Fleet Partners"
                 title="DRIVE. EARN"

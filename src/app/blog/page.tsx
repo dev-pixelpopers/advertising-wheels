@@ -72,7 +72,7 @@ function Featured() {
     );
 
     return (
-        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-10 md:py-16 transition-colors duration-300 lg:py-24">
+        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-10 md:py-16  lg:py-24">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <Link href={`/blog/${FEATURED.slug}`} className="group grid grid-cols-1 items-center gap-4 md:gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
                     <div data-bf-media className="order-2 overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)] lg:order-1">
@@ -108,7 +108,7 @@ function Featured() {
                             <span className="h-1 w-1 rounded-full bg-current opacity-40" />
                             <span>{FEATURED.read}</span>
                         </div>
-                        <span className="mt-4 md:mt-6 lg:mt-8 inline-flex items-center gap-2 font-tommy-medium text-[12px] md:text-[14px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 group-hover:text-[#C8992B]">
+                        <span className="mt-4 md:mt-6 lg:mt-8 inline-flex items-center gap-2 font-tommy-medium text-[12px] md:text-[14px] uppercase tracking-[2px] text-[#1A1917]  group-hover:text-[#C8992B]">
                             Read article <ArrowIcon />
                         </span>
                     </div>
@@ -127,7 +127,7 @@ function Grid() {
     const visible = active === 'All' ? REST : REST.filter((p) => p.category === active);
 
     return (
-        <section className="w-full bg-[#EEE8D9] pb-14 md:pb-20 transition-colors duration-300 lg:pb-32">
+        <section className="w-full bg-[#EEE8D9] pb-14 md:pb-20  lg:pb-32">
             <div className="mx-auto max-w-[1280px] px-3 md:px-6 lg:px-12">
                 {/* Category chips */}
                 <Reveal className="flex flex-wrap items-center gap-1.5 md:gap-2.5 border-t border-black/10 pt-6 md:pt-10 lg:pt-12" y={20} stagger={0.05}>
@@ -135,7 +135,7 @@ function Grid() {
                         <button
                             key={c}
                             onClick={() => setActive(c)}
-                            className={`rounded-full border px-3 md:px-5 py-1.5 md:py-2.5 font-tommy-medium text-[11px] md:text-[13.5px] transition-colors duration-300 ${active === c
+                            className={`rounded-full border px-3 md:px-5 py-1.5 md:py-2.5 font-tommy-medium text-[11px] md:text-[13.5px]  ${active === c
                                 ? 'border-transparent bg-[#1A1917] text-[#FCD119]'
                                 : 'border-black/12 text-[#5A554C] hover:border-[#C8992B]/40 hover:text-[#1A1917]'
                                 }`}
@@ -151,7 +151,7 @@ function Grid() {
                         <Link
                             key={p.slug}
                             href={`/blog/${p.slug}`}
-                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40"
+                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40  hover:border-[#C8992B]/40"
                         >
                             <div className="relative h-[190px] overflow-hidden">
                                 <Image
@@ -200,9 +200,9 @@ function Newsletter() {
     const subscribe = useSubscribe();
 
     return (
-        <section className="w-full bg-[#EEE8D9] md:pb-20 transition-colors duration-300 lg:pb-32">
+        <section className="w-full bg-[#EEE8D9] md:pb-20  lg:pb-32">
             <Reveal className="mx-auto max-w-[1280px] px-3 md:px-6 lg:px-12" self y={40}>
-                <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-[#E7E0CE] px-5 md:px-8 py-8 md:py-12 transition-colors duration-300 lg:px-16 lg:py-20">
+                <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-[#E7E0CE] px-5 md:px-8 py-8 md:py-12  lg:px-16 lg:py-20">
                     <div className="pointer-events-none absolute -right-[10%] -top-[60%] opacity-60" aria-hidden="true">
                         <Rings />
                     </div>
@@ -277,7 +277,7 @@ function Newsletter() {
 
 export default function BlogPage() {
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+        <main className="w-full bg-[#EEE8D9] ">
             <PortalHero
                 badge="Blog"
                 title="FROM THE ROAD"

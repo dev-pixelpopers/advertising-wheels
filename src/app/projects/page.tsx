@@ -105,7 +105,7 @@ function Featured() {
     );
 
     return (
-        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-14 md:py-20 transition-colors duration-300 lg:py-28">
+        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-14 md:py-20  lg:py-28">
             <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 px-3 md:px-8 lg:px-12 lg:grid-cols-2 lg:gap-16">
                 {/* Media */}
                 <div data-feat-media className="overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)]">
@@ -229,7 +229,7 @@ function Gallery() {
     );
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#1A1917] transition-colors duration-300 lg:h-screen">
+        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#1A1917]  lg:h-screen">
             <div className="pointer-events-none relative inset-x-0 top-0 z-20 flex items-end justify-between px-6 pt-[92px] md:px-12 lg:pt-[13vh]">
                 <div>
                     <Eyebrow>Selected work</Eyebrow>
@@ -253,7 +253,7 @@ function Gallery() {
                     // `Link | 'article'` component can't be typed cleanly against
                     // Link's required `href`).
                     const cardClass =
-                        'pj-card group flex shrink-0 flex-col justify-between h-full lg:h-[500px] rounded-[16px] md:rounded-[20px] lg:rounded-[22px] border border-black/10 bg-white/60 p-5 md:p-7 transition-colors duration-300 hover:border-[#C8992B]/40 lg:p-9 w-[clamp(340px,30vw,420px)]';
+                        'pj-card group flex shrink-0 flex-col justify-between h-full lg:h-[500px] rounded-[16px] md:rounded-[20px] lg:rounded-[22px] border border-black/10 bg-white/60 p-5 md:p-7  hover:border-[#C8992B]/40 lg:p-9 w-[clamp(340px,30vw,420px)]';
 
                     const inner = (
                         <>
@@ -290,7 +290,7 @@ function Gallery() {
                             <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C]">{p.result}</p>
 
 
-                            <span className="mt-4 md:mt-6 lg:mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B]">
+                            <span className="mt-4 md:mt-6 lg:mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60]  group-hover:text-[#C8992B]">
                                 Read the story <ArrowIcon />
                             </span>
 
@@ -320,7 +320,7 @@ function Gallery() {
 
 function Industries() {
     return (
-        <section className="w-full bg-[#EEE8D9] py-14 md:py-24 transition-colors duration-300 lg:py-32">
+        <section className="w-full bg-[#EEE8D9] py-14 md:py-24  lg:py-32">
             <div className="mx-auto lg:max-w-[1200px] px-3 md:px-6 lg:px-12">
                 <Reveal className="max-w-[720px]" y={30}>
                     <Eyebrow>Who we roll for</Eyebrow>
@@ -332,7 +332,7 @@ function Industries() {
                     {INDUSTRIES.map((tag) => (
                         <span
                             key={tag}
-                            className="rounded-full border border-black/12 bg-white/40 px-4 md:px-6 py-2 md:py-3 font-tommy-medium text-[12px] md:text-[15px] text-[#3A3730] transition-colors duration-300 hover:border-[#C8992B]/40 hover:text-[#1A1917]"
+                            className="rounded-full border border-black/12 bg-white/40 px-4 md:px-6 py-2 md:py-3 font-tommy-medium text-[12px] md:text-[15px] text-[#3A3730]  hover:border-[#C8992B]/40 hover:text-[#1A1917]"
                         >
                             {tag}
                         </span>
@@ -355,7 +355,7 @@ export default function ProjectsPage() {
     useScrollTriggerRefresh();
 
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+        <main className="w-full bg-[#EEE8D9] ">
             <PortalHero
                 badge="Work"
                 title="THE RESULTS"

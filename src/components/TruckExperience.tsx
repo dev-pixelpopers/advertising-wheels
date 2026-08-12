@@ -428,7 +428,7 @@ export default function TruckExperience() {
                 {/* STATS BAR — appears with stats.png, positioned bottom of screen above subtitle text */}
                 <div
                     ref={statsBarRef}
-                    className="absolute bottom-[21%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto overflow-scroll lg:overflow-hidden"
+                    className="absolute bottom-[21%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-2 py-4 lg:p-4  pointer-events-auto overflow-scroll lg:overflow-hidden"
                 >
                     {/* These figures are illustrative, not live fleet data — the
                         counters below drift on a timer. Labelling the panel keeps

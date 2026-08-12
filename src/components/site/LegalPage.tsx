@@ -46,7 +46,7 @@ export default function LegalPage({
     children: ReactNode;
 }) {
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+        <main className="w-full bg-[#EEE8D9] ">
             <div className="mx-auto max-w-[1280px] px-6 pb-24 pt-[120px] md:px-12 md:pb-32 md:pt-[160px]">
                 <div className="max-w-[74ch]">
                     <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px]">

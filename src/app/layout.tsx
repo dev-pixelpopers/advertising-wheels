@@ -56,7 +56,7 @@ export default function RootLayout({
         {/* Must run before the body paints — see the component. */}
         <PreloaderGate />
       </head>
-      <body className="min-h-full flex flex-col bg-[#EEE8D9] text-[#171717] transition-colors duration-300">
+      <body className="min-h-full flex flex-col bg-[#EEE8D9] text-[#171717] ">
 
         <ThemeProvider>
           <Header />

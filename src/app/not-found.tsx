@@ -43,7 +43,7 @@ const SUGGESTIONS = [
 
 export default function NotFound() {
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+        <main className="w-full bg-[#EEE8D9] ">
             <div className="mx-auto max-w-[1280px] px-6 pb-24 pt-[120px] md:px-12 md:pb-32 md:pt-[160px]">
                 <div className="max-w-[62ch]">
                     <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px]">
@@ -86,7 +86,7 @@ export default function NotFound() {
 
                         <Link
                             href="/contact"
-                            className="rounded-full border border-black/15 px-6 py-3 font-tommy-medium text-[15px] text-[#1A1917] transition-colors duration-300 hover:border-[#C8992B]/50 hover:text-[#C8992B]"
+                            className="rounded-full border border-black/15 px-6 py-3 font-tommy-medium text-[15px] text-[#1A1917]  hover:border-[#C8992B]/50 hover:text-[#C8992B]"
                         >
                             Talk to us
                         </Link>
@@ -97,7 +97,7 @@ export default function NotFound() {
                             <li key={s.href}>
                                 <Link
                                     href={s.href}
-                                    className="group flex h-full flex-col justify-between gap-6 bg-[#EEE8D9] p-5 transition-colors duration-300 hover:bg-[#E7E0CE]"
+                                    className="group flex h-full flex-col justify-between gap-6 bg-[#EEE8D9] p-5  hover:bg-[#E7E0CE]"
                                 >
                                     <span className="font-tommy-regular text-[12.5px] leading-[1.5] text-[#6F6A60]">
                                         {s.hint}

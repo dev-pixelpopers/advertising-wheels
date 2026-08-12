@@ -286,7 +286,7 @@ export default function HomeMarquee() {
                 <div className="hm-text-shield rounded-[999px] px-8 py-7 md:px-16 md:py-12">
                     {/* Capped narrow on purpose: the block has to leave a real
                         strip down each side for the water to fill. */}
-                    <p className="hm-heading max-w-[620px] text-center font-tommy-regular text-[clamp(1.125rem,2.2vw,2.1rem)] leading-[1.3] text-[#1A1917] transition-colors duration-300">
+                    <p className="hm-heading max-w-[620px] text-center font-tommy-regular text-[clamp(1.125rem,2.2vw,2.1rem)] leading-[1.3] text-[#1A1917] ">
                         Trusted by Fortune 500 brands — from financial services to QSR, retail, and automotive.
                     </p>
                 </div>

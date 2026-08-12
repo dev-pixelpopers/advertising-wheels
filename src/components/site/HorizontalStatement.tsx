@@ -195,7 +195,7 @@ export default function HorizontalStatement() {
     };
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#C8992B] transition-colors duration-300">
+        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#C8992B] ">
             <style>{`
                 /* Flowing dashes make the road curves read like moving ticker tape. */
                 .hs-curve path { stroke-dasharray: 16 12; animation: hs-flow 2.6s linear infinite; }

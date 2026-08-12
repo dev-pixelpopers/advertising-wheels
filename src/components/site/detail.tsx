@@ -133,7 +133,7 @@ export function StickyToc({ items, label = 'Contents' }: { items: TocItem[]; lab
                                 type="button"
                                 onClick={() => jump(item.id)}
                                 aria-current={on ? 'true' : undefined}
-                                className={`group relative -ml-px block w-full border-l-2 py-2.5 pl-5 text-left font-tommy-medium text-[14px] transition-colors duration-300 ${on
+                                className={`group relative -ml-px block w-full border-l-2 py-2.5 pl-5 text-left font-tommy-medium text-[14px]  ${on
                                     ? 'border-[#C8992B] text-[#1A1917]'
                                     : 'border-transparent text-[#8A857C] hover:text-[#1A1917]'
                                     }`}
@@ -257,7 +257,7 @@ export function PinnedStats({
     return (
         <section
             ref={rootRef}
-            className="w-full bg-[#E7E0CE] py-20 transition-colors duration-300 md:py-28"
+            className="w-full bg-[#E7E0CE] py-20  md:py-28"
         >
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px]">
@@ -440,7 +440,7 @@ export function BackLink({ href, children }: { href: string; children: ReactNode
     return (
         <a
             href={href}
-            className="group inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917]"
+            className="group inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60]  hover:text-[#1A1917]"
         >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:-translate-x-1">
                 <path d="M15 8 H2 M7 3 L2 8 L7 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />

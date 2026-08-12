@@ -76,7 +76,7 @@ export default function Header() {
                                     <Link
                                         key={l.href}
                                         href={l.href}
-                                        className={`sh-link font-tommy-regular text-[15px] transition-colors duration-300 ${active
+                                        className={`sh-link font-tommy-regular text-[15px]  ${active
                                             ? 'text-[#C8992B]'
                                             : 'text-[#6F6A60] hover:text-[#1A1917]'
                                             }`}
@@ -94,7 +94,7 @@ export default function Header() {
                             {/* <button
                                 onClick={toggleTheme}
                                 aria-label="Toggle theme"
-                                className="relative flex h-8 w-16 items-center justify-between rounded-full border border-black/15 bg-black/[0.06] px-1 shadow-inner transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#FCD119]"
+                                className="relative flex h-8 w-16 items-center justify-between rounded-full border border-black/15 bg-black/[0.06] px-1 shadow-inner  focus:outline-none focus:ring-2 focus:ring-[#FCD119]"
                             >
                                 <svg
                                     className={`h-5 w-5 transition-opacity duration-300 ${theme === 'light' ? 'text-[#C8992B] opacity-100' : 'text-gray-400 opacity-40'}`}

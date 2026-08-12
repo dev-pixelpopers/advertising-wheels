@@ -1311,7 +1311,7 @@ export default function MarketsCoverageV2() {
         <section
             ref={rootRef}
             id="markets-coverage"
-            className="relative w-full bg-[#EEE8D9] transition-colors duration-300"
+            className="relative w-full bg-[#EEE8D9] "
         >
             <div ref={pinRef} className="relative h-screen w-full overflow-hidden">
                 {/* ============ ACT 1 — intro ============ */}
@@ -1408,7 +1408,7 @@ export default function MarketsCoverageV2() {
                                         <button
                                             key={r}
                                             onClick={() => changeRegion(r)}
-                                            className={`rounded-full border px-2 md:px-3 lg:px-4 py-1 lg:py-2 font-tommy-medium text-[8px] md:text-[11.5px] uppercase tracking-[1.5px] transition-colors duration-300 ${on
+                                            className={`rounded-full border px-2 md:px-3 lg:px-4 py-1 lg:py-2 font-tommy-medium text-[8px] md:text-[11.5px] uppercase tracking-[1.5px]  ${on
                                                 ? 'border-transparent bg-[#1A1917] text-[#FCD119]'
                                                 : 'border-black/12 text-[#6F6A60] hover:border-[#C8992B]/50 hover:text-[#1A1917]'
                                                 }`}
@@ -1484,13 +1484,13 @@ export default function MarketsCoverageV2() {
                                                         onClick={() => onStateClick(g, i)}
                                                         aria-expanded={many ? isExpanded : undefined}
                                                         data-cursor-label={many ? (isExpanded ? 'Close' : 'Open') : 'View'}
-                                                        className={`group flex w-full cursor-pointer items-baseline gap-4 rounded-lg -mx-2 px-2 text-left transition-colors duration-300 hover:bg-black/[0.04] md:gap-6 ${toneFor(i)}`}
+                                                        className={`group flex w-full cursor-pointer items-baseline gap-4 rounded-lg -mx-2 px-2 text-left  hover:bg-black/[0.04] md:gap-6 ${toneFor(i)}`}
                                                     >
                                                         <span className="w-[2.5ch] shrink-0 font-tommy-regular text-[10px] tabular-nums opacity-60 md:text-[12px]">
                                                             {g.state}
                                                         </span>
 
-                                                        <span className="truncate font-tommy-bold text-[26px] uppercase leading-[1] tracking-[-0.02em] transition-colors duration-300 group-hover:text-[#C8992B] md:text-[clamp(2.3rem,3.5vw,4.25rem)]">
+                                                        <span className="truncate font-tommy-bold text-[26px] uppercase leading-[1] tracking-[-0.02em]  group-hover:text-[#C8992B] md:text-[clamp(2.3rem,3.5vw,4.25rem)]">
                                                             {g.label}
                                                         </span>
 
@@ -1552,18 +1552,18 @@ export default function MarketsCoverageV2() {
                                                     onClick={() => onMarketClick(m)}
                                                     aria-pressed={isPopupOpen}
                                                     data-cursor-label="View"
-                                                    className={`group flex w-full items-baseline gap-3 rounded-lg -mx-2 pl-[3.5ch] pr-2 text-left transition-colors duration-300 hover:bg-black/[0.04] md:gap-5 md:pl-[5ch] ${toneFor(i)}`}
+                                                    className={`group flex w-full items-baseline gap-3 rounded-lg -mx-2 pl-[3.5ch] pr-2 text-left  hover:bg-black/[0.04] md:gap-5 md:pl-[5ch] ${toneFor(i)}`}
                                                 >
                                                     {/* Connector only carries the accent while its
                                                         own state owns the reading line. */}
                                                     <span
-                                                        className={`shrink-0 transition-colors duration-300 ${inGroup ? 'text-[#C8992B]' : 'text-current'
+                                                        className={`shrink-0  ${inGroup ? 'text-[#C8992B]' : 'text-current'
                                                             }`}
                                                     >
                                                         ↳
                                                     </span>
 
-                                                    <span className="truncate font-tommy-bold text-[17px] uppercase leading-[1] tracking-[-0.01em] transition-colors duration-300 group-hover:text-[#C8992B] md:text-[clamp(1.4rem,1.8vw,2.25rem)]">
+                                                    <span className="truncate font-tommy-bold text-[17px] uppercase leading-[1] tracking-[-0.01em]  group-hover:text-[#C8992B] md:text-[clamp(1.4rem,1.8vw,2.25rem)]">
                                                         {m.name}
                                                     </span>
 

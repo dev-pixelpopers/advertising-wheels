@@ -84,7 +84,7 @@ function Hero({ study }: { study: CaseStudy }) {
     return (
         <section
             ref={rootRef}
-            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300"
+            className="relative w-full overflow-hidden bg-[#EEE8D9] "
         >
             <div className="pointer-events-none absolute -right-[18%] -top-[40%] opacity-80" aria-hidden="true">
                 <Rings />
@@ -176,7 +176,7 @@ function Facts({ study }: { study: CaseStudy }) {
     ];
 
     return (
-        <section className="w-full bg-[#EEE8D9] pt-16 transition-colors duration-300 md:pt-24">
+        <section className="w-full bg-[#EEE8D9] pt-16  md:pt-24">
             <div
                 ref={ref}
                 className="mx-auto grid max-w-[1280px] grid-cols-2 gap-x-8 gap-y-9 border-y border-black/10 px-6 py-10 md:grid-cols-5 md:px-12"
@@ -204,7 +204,7 @@ function Article({ study }: { study: CaseStudy }) {
     const toc = study.sections.map((s) => ({ id: s.id, nav: s.nav }));
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-16 transition-colors duration-300 md:py-24">
+        <section className="w-full bg-[#EEE8D9] py-16  md:py-24">
             <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 px-6 md:px-12 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
                 <aside className="order-2 lg:order-1">
                     <StickyToc items={toc} />
@@ -267,7 +267,7 @@ function FleetGallery({ study, shots }: { study: CaseStudy; shots: string[] }) {
     if (!shots.length) return null;
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-16 transition-colors duration-300 md:py-24">
+        <section className="w-full bg-[#EEE8D9] py-16  md:py-24">
             <div className="mx-auto max-w-[1440px] px-6 md:px-12">
                 <div className="flex flex-wrap items-end justify-between gap-6 border-t border-black/10 pt-12">
                     <div>
@@ -331,7 +331,7 @@ function Quote({ study }: { study: CaseStudy }) {
     return (
         <section
             ref={ref}
-            className="w-full bg-[#EEE8D9] py-20 transition-colors duration-300 md:py-28"
+            className="w-full bg-[#EEE8D9] py-20  md:py-28"
         >
             <div className="mx-auto max-w-[980px] px-6 text-center md:px-12">
                 <span data-q className="block font-tommy-bold text-[54px] leading-none text-[#C8992B]">
@@ -376,7 +376,7 @@ function Related({ slug }: { slug: string }) {
     if (!items.length) return null;
 
     return (
-        <section className="w-full bg-[#EEE8D9] pb-24 transition-colors duration-300 md:pb-32">
+        <section className="w-full bg-[#EEE8D9] pb-24  md:pb-32">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <div className="flex flex-wrap items-end justify-between gap-6 border-t border-black/10 pt-12">
                     <h2 className="font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917]">
@@ -390,7 +390,7 @@ function Related({ slug }: { slug: string }) {
                         <Link
                             key={c.slug}
                             href={`/projects/${c.slug}`}
-                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40"
+                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40  hover:border-[#C8992B]/40"
                         >
                             <div className="relative h-[180px] overflow-hidden">
                                 <Image
@@ -411,7 +411,7 @@ function Related({ slug }: { slug: string }) {
                                 <p className="mt-3 font-tommy-regular text-[14.5px] leading-[1.62] text-[#5A554C]">
                                     {c.summary}
                                 </p>
-                                <span className="mt-6 inline-flex items-center gap-2 font-tommy-medium text-[12.5px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 group-hover:text-[#C8992B]">
+                                <span className="mt-6 inline-flex items-center gap-2 font-tommy-medium text-[12.5px] uppercase tracking-[2px] text-[#1A1917]  group-hover:text-[#C8992B]">
                                     Read case study <ArrowIcon />
                                 </span>
                             </div>
@@ -447,7 +447,7 @@ export default function CaseStudyDetailPage() {
         <>
             <ReadingProgress targetId="cs-article" />
 
-            <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
+            <main className="w-full bg-[#EEE8D9] ">
                 <Hero study={study} />
                 <Facts study={study} />
                 <Article study={study} />
