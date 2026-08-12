@@ -298,7 +298,6 @@ export default function SecondSection() {
                     end: () => '+=' + window.innerHeight * 9.5,
                     pin: true,
                     scrub: 1,
-                    invalidateOnRefresh: true,
                     onRefresh: () => fluid.measure(),
                 },
             });

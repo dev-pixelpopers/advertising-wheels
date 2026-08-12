@@ -6,6 +6,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
 
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+});
+
+ScrollTrigger.normalizeScroll(true);
+
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 const FRAME_COUNT = 155;
@@ -51,14 +57,18 @@ export default function Hero({ isReady }: HeroProps) {
   const ctaButtonsRef = useRef<HTMLDivElement>(null);
   const scrimRef = useRef<HTMLDivElement>(null);
   const headingWrapRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
+  // const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollArrowRef = useRef<HTMLDivElement>(null);
 
   // 1. CANVAS PRELOADING & SCROLL SCRUBBING
   useGSAP(
     () => {
-      gsap.set(headerRef.current, { yPercent: -270 });
+      // if (!containerRef.current || !canvasRef.current || !imagesRef.current || !currentFrameRef.current || !divRef.current || !subRef.current || !hapRef.current || !pensRef.current || !ctaRef.current
+      //   || !ctaButtonsRef.current || !scrimRef.current || !headingWrapRef.current || !headerRef.current || !contentRef.current || !scrollArrowRef.current
+      // )
+      //   return;
+      // gsap.set(headerRef.current, { yPercent: -270 });
       const canvas = canvasRef.current;
       const context = canvas?.getContext('2d');
       if (!canvas || !context) return;
@@ -179,8 +189,7 @@ export default function Hero({ isReady }: HeroProps) {
               ease: 'power2.inOut',
             },
             end: () => '+=' + window.innerHeight * 4,
-            scrub: 0.5,
-            invalidateOnRefresh: true,
+            scrub: 1,
           },
         });
 
@@ -246,7 +255,7 @@ export default function Hero({ isReady }: HeroProps) {
             .set(carets[2], { autoAlpha: 0 });
         }
 
-        tl.fromTo(headerRef.current, { yPercent: -270 }, { yPercent: 0, ease: 'power3.out', duration: 0.6 });
+        // tl.fromTo(headerRef.current, { yPercent: -270 }, { yPercent: 0, ease: 'power3.out', duration: 0.6 });
         tl.to(ctaButtonsRef.current, { y: 0, autoAlpha: 1, ease: 'power2.out', duration: 0.5 });
 
         // ── THE HOLD ──────────────────────────────────────────────────────

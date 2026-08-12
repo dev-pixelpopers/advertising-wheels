@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -79,7 +79,7 @@ const pinPositions = [
     },
     {
         // Left flank, below the cab line
-        className: 'left-[14%] top-[44%] lg:left-[15%] lg:top-[42%]',
+        className: 'left-[23%] top-[29%] lg:left-[15%] lg:top-[42%]',
         size: 'w-[58px] h-[58px] lg:w-[74px] lg:h-[74px]',
     },
     {
@@ -90,7 +90,7 @@ const pinPositions = [
     },
     {
         // High right, mirroring the one above — smallest pair, furthest back
-        className: 'right-[5%] top-[48%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[44%] lg:top-[20%]',
+        className: 'right-[10%] top-[17%] lg:right-[26%] 2xl:right-[30%] 3xl:right-[44%] lg:top-[20%]',
         size: 'w-[50px] h-[50px] lg:w-[60px] lg:h-[60px]',
     },
     {
@@ -123,6 +123,18 @@ export default function TruckExperience() {
     const signalRef = useRef<HTMLDivElement>(null);
     const pinRefs = useRef<(HTMLDivElement | null)[]>([]);
     const statsBarRef = useRef<HTMLDivElement>(null);
+    /* The stats panel is two screens wide on mobile (4 cards × 50vw) but only
+       ~98vw is visible, and `globals.css` hides every scrollbar in the app — so
+       without these there is no signal at all that the row moves. `railRef` is
+       the element that actually scrolls; the cues live OUTSIDE it, on the panel,
+       or they would slide away with the cards they are advertising. */
+    const railRef = useRef<HTMLDivElement>(null);
+    const fadeLeftRef = useRef<HTMLDivElement>(null);
+    const fadeRightRef = useRef<HTMLDivElement>(null);
+    const trackRef = useRef<HTMLDivElement>(null);
+    const thumbRef = useRef<HTMLDivElement>(null);
+    const hintRef = useRef<HTMLSpanElement>(null);
+    const nudgedRef = useRef(false);
     const sub1Ref = useRef<HTMLDivElement>(null);
     const sub2Ref = useRef<HTMLDivElement>(null);
     const sub3Ref = useRef<HTMLDivElement>(null);
@@ -242,9 +254,105 @@ export default function TruckExperience() {
                 .to(statsBarRef.current, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 3.4)
                 .to(sub2Ref.current, { autoAlpha: 0, duration: 0.3 }, 3.3)
                 .to(sub3Ref.current, { autoAlpha: 1, duration: 0.5 }, 3.5);
+
+            /* 3. A single nudge once the panel has settled — the cheapest way to
+                  show a rail moves is to move it. Fires from the timeline so it
+                  cannot happen while the panel is still invisible, and guards on
+                  a ref because a scrubbed `.call()` runs again every time the
+                  playhead crosses it, in either direction. */
+            tl.call(
+                () => {
+                    const rail = railRef.current;
+                    if (nudgedRef.current || !rail) return;
+                    if (rail.scrollWidth - rail.clientWidth < 8) return;
+                    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                    nudgedRef.current = true;
+                    /* `scrollLeft` is a plain settable number on the element, so
+                       this needs no ScrollToPlugin. */
+                    gsap.to(rail, {
+                        scrollLeft: 30,
+                        duration: 0.4,
+                        ease: 'power2.inOut',
+                        yoyo: true,
+                        repeat: 1,
+                    });
+                },
+                undefined,
+                3.9,
+            );
         },
         { scope: rootRef }
     );
+
+    /**
+     * Keeps the swipe cues honest about where the rail actually is.
+     *
+     * Written straight to the DOM rather than held in state: this runs on every
+     * scroll event of a touch drag, and re-rendering a section that is already
+     * driving a scrubbed GSAP timeline on the same frames is how a smooth swipe
+     * turns into a stuttering one. Nothing here needs to participate in React's
+     * render at all.
+     *
+     * The measurement lives in a ResizeObserver rather than a direct call so the
+     * first sync arrives in the observer's own callback — that keeps the initial
+     * paint correct without a setState (or a layout read) in the effect body,
+     * and it re-measures for free when the breakpoint or the panel width moves.
+     */
+    useEffect(() => {
+        const rail = railRef.current;
+        if (!rail) return;
+
+        const sync = () => {
+            const max = rail.scrollWidth - rail.clientWidth;
+            /* A couple of px of slack: sub-pixel layout rounding leaves a
+               non-zero `max` on desktop, where nothing actually scrolls. */
+            const scrollable = max > 4;
+            const p = scrollable ? rail.scrollLeft / max : 0;
+
+            /* Both edges ramp over the first/last ~17% of travel, so the cue
+               reads as "there is more that way" rather than blinking off the
+               moment the rail leaves its rest position. */
+            if (fadeLeftRef.current) {
+                fadeLeftRef.current.style.opacity = scrollable ? String(Math.min(p * 6, 1)) : '0';
+            }
+            if (fadeRightRef.current) {
+                fadeRightRef.current.style.opacity = scrollable ? String(Math.min((1 - p) * 6, 1)) : '0';
+            }
+            if (trackRef.current) {
+                trackRef.current.style.opacity = scrollable ? '1' : '0';
+            }
+
+            if (thumbRef.current && scrollable) {
+                /* The thumb is sized to the visible share of the rail, so it
+                   doubles as a "how much is there" indicator — with a floor so
+                   it never shrinks into an invisible sliver. */
+                const w = Math.max(rail.clientWidth / rail.scrollWidth, 0.18);
+                thumbRef.current.style.width = `${w * 100}%`;
+                /* translateX percentages resolve against the THUMB's own width,
+                   not the track's — hence the ratio rather than a bare `p`. */
+                thumbRef.current.style.transform = `translateX(${(p * (1 - w) / w) * 100}%)`;
+            }
+        };
+
+        /* The written hint has done its job the moment a finger lands, so it
+           retires on first touch rather than on first scroll — that way the
+           nudge below cannot dismiss its own prompt. */
+        const retireHint = () => {
+            if (hintRef.current) gsap.to(hintRef.current, { autoAlpha: 0, duration: 0.25 });
+            rail.removeEventListener('pointerdown', retireHint);
+        };
+
+        rail.addEventListener('scroll', sync, { passive: true });
+        rail.addEventListener('pointerdown', retireHint, { passive: true });
+        const ro = new ResizeObserver(sync);
+        ro.observe(rail);
+
+        return () => {
+            rail.removeEventListener('scroll', sync);
+            rail.removeEventListener('pointerdown', retireHint);
+            ro.disconnect();
+        };
+    }, []);
 
     return (
         /* 400vh, down from 500vh. The trigger now spans 'top bottom' → 'bottom
@@ -323,7 +431,7 @@ export default function TruckExperience() {
                 </div>
 
                 {/* ENVIRONMENT — 3rd slide: stats background (dissolves in after truck moves out right) */}
-                <div ref={statsRef} className="absolute inset-0 z-0 top-[25%] lg:top-0">
+                <div ref={statsRef} className="absolute inset-0 z-0 top-[17%] lg:top-0">
                     <Image
                         src="/assets/images/process/stats.png"
                         alt="Stats background"
@@ -374,7 +482,7 @@ export default function TruckExperience() {
 
                 {/* TRUCK — enters from left, centre stage */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div ref={truckWrapRef} className="relative w-full md:w-[70vw] lg:w-[40vw] 2xl:w-[60vw] 3xl:w-[74vw] lg:max-w-[1120px] top-[15%] md:top-[12%] lg:top-[10%] 2xl:top-0">
+                    <div ref={truckWrapRef} className="relative w-full md:w-[70vw] lg:w-[40vw] 2xl:w-[40vw] lg:max-w-[1120px] top-[5%] md:top-[12%] lg:top-[3%] xl:top-0">
                         <Image
                             src="/assets/images/process/truck.png"
                             alt="Advertising Wheels truck"
@@ -428,7 +536,10 @@ export default function TruckExperience() {
                 {/* STATS BAR — appears with stats.png, positioned bottom of screen above subtitle text */}
                 <div
                     ref={statsBarRef}
-                    className="absolute bottom-[21%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-2 py-4 lg:p-4  pointer-events-auto overflow-scroll lg:overflow-hidden"
+                    /* `overflow-hidden`, not `overflow-scroll`: the scrolling has
+                       moved to the rail below so this shell can hold the swipe
+                       cues still while the cards slide underneath them. */
+                    className="absolute top-[44%] lg:top-0 lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-2 py-4 lg:p-4  pointer-events-auto overflow-hidden"
                 >
                     {/* These figures are illustrative, not live fleet data — the
                         counters below drift on a timer. Labelling the panel keeps
@@ -438,107 +549,155 @@ export default function TruckExperience() {
                         Sample campaign dashboard
                     </p>
 
-                    <div className="grid grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 gap-y-2 md:gap-y-4 lg:gap-y-0 w-max lg:w-auto">
-                        {/* Item 1: TOTAL IMPRESSIONS */}
-                        <div className="flex flex-col justify-between lg:pr-3 md:px-5 first:pl-0 w-[50vw] lg:w-auto">
-                            <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3">
-                                <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
-                                    <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                    <div className="relative">
+                        <div
+                            ref={railRef}
+                            role="region"
+                            aria-label="Sample campaign metrics"
+                            tabIndex={0}
+                            className="overflow-x-auto overflow-y-hidden lg:overflow-visible outline-none"
+                        >
+                            <div className="grid grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 gap-y-2 md:gap-y-4 lg:gap-y-0 w-max lg:w-auto">
+                                {/* Item 1: TOTAL IMPRESSIONS */}
+                                <div className="flex flex-col justify-between lg:pr-3 md:px-5 first:pl-0 w-[50vw] lg:w-auto">
+                                    <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3">
+                                        <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
+                                            <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                            </svg>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">TOTAL IMPRESSIONS</span>
+                                            <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
+                                                <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
+                                                    {impressionsCount.toFixed(2)}M
+                                                </span>
+                                                <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
+                                                    ↑ 12.5%
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Sparkline Graph */}
+                                    <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
+                                        <path d="M0 20 Q 20 18, 35 10 T 70 16 T 100 4" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
                                     </svg>
                                 </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">TOTAL IMPRESSIONS</span>
-                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
-                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
-                                            {impressionsCount.toFixed(2)}M
-                                        </span>
-                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
-                                            ↑ 12.5%
-                                        </span>
+
+                                {/* Item 2: TOTAL MILEAGE */}
+                                <div className="flex flex-col justify-between xl:pr-3 px-3 md:px-2 xl:px-5 pt-0 w-[50vw] lg:w-auto">
+                                    <div className="flex flex-col lg:flex-row items-center gap-3">
+                                        <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
+                                            <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                                            </svg>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">TOTAL MILEAGE</span>
+                                            <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
+                                                <span className="text-[16px] text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
+                                                    {mileageCount.toLocaleString()} <span className="text-[15px] md:text-[18px] font-tommy-medium">miles</span>
+                                                </span>
+                                                <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
+                                                    ↑ 8.3%
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
+                                    {/* Sparkline Graph */}
+                                    <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
+                                        <path d="M0 18 Q 25 22, 45 12 T 75 14 T 100 6" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
+                                    </svg>
+                                </div>
+
+                                {/* Item 3: ACTIVE TRUCKS */}
+                                <div className="flex flex-col justify-between xl:pr-3 lg:px-3 xl:px-5 pt-0 w-[50vw] lg:w-auto">
+                                    <div className="flex flex-col lg:flex-row items-center gap-3">
+                                        <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
+                                            <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+                                            </svg>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">ACTIVE TRUCKS</span>
+                                            <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
+                                                <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
+                                                    {trucksCount}
+                                                </span>
+                                                <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
+                                                    ↑ 5.2%
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Sparkline Graph */}
+                                    <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
+                                        <path d="M0 22 Q 30 14, 50 16 T 80 8 T 100 5" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
+                                    </svg>
+                                </div>
+
+                                {/* Item 4: ACTIVE CAMPAIGNS */}
+                                <div className="flex flex-col justify-between md:pl-5">
+                                    <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3 w-[50vw] lg:w-auto">
+                                        <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
+                                            <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M18 11c0-1.33-.52-2.54-1.37-3.45L19 5l-1.5-1.5-2.52 2.52C13.97 5.37 12.54 5 11 5c-3.87 0-7 3.13-7 7s3.13 7 7 7c1.54 0 2.97-.37 4-1.02L17.52 20.5 19 19l-2.37-2.55C17.48 13.54 18 12.33 18 11zm-7 4c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />
+                                            </svg>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">ACTIVE CAMPAIGNS</span>
+                                            <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
+                                                <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
+                                                    {campaignsCount}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Sparkline Graph */}
+                                    <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
+                                        <path d="M0 20 Q 20 22, 40 14 T 70 8 T 100 4" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
+                                    </svg>
                                 </div>
                             </div>
-                            {/* Sparkline Graph */}
-                            <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
-                                <path d="M0 20 Q 20 18, 35 10 T 70 16 T 100 4" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
-                            </svg>
                         </div>
 
-                        {/* Item 2: TOTAL MILEAGE */}
-                        <div className="flex flex-col justify-between xl:pr-3 px-3 md:px-2 xl:px-5 pt-0 w-[50vw] lg:w-auto">
-                            <div className="flex flex-col lg:flex-row items-center gap-3">
-                                <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
-                                    <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                                    </svg>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">TOTAL MILEAGE</span>
-                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
-                                        <span className="text-[16px] text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
-                                            {mileageCount.toLocaleString()} <span className="text-[15px] md:text-[18px] font-tommy-medium">miles</span>
-                                        </span>
-                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
-                                            ↑ 8.3%
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Sparkline Graph */}
-                            <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
-                                <path d="M0 18 Q 25 22, 45 12 T 75 14 T 100 6" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
-                            </svg>
-                        </div>
+                        {/* Edge fades — the primary "there is more this way" cue, and
+                        the only one that survives being glanced at. They sit on
+                        the shell, over the rail, so they hold their edge while
+                        the cards move. Opacity is written by the scroll handler;
+                        the inline value is just the at-rest starting point. */}
+                        <div
+                            ref={fadeLeftRef}
+                            aria-hidden="true"
+                            style={{ opacity: 0 }}
+                            className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white/95 to-white/0 lg:hidden"
+                        />
+                        <div
+                            ref={fadeRightRef}
+                            aria-hidden="true"
+                            style={{ opacity: 0 }}
+                            className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white/95 to-white/0 lg:hidden"
+                        />
+                    </div>
 
-                        {/* Item 3: ACTIVE TRUCKS */}
-                        <div className="flex flex-col justify-between xl:pr-3 lg:px-3 xl:px-5 pt-0 w-[50vw] lg:w-auto">
-                            <div className="flex flex-col lg:flex-row items-center gap-3">
-                                <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
-                                    <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
-                                    </svg>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">ACTIVE TRUCKS</span>
-                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
-                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
-                                            {trucksCount}
-                                        </span>
-                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
-                                            ↑ 5.2%
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Sparkline Graph */}
-                            <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
-                                <path d="M0 22 Q 30 14, 50 16 T 80 8 T 100 5" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
-                            </svg>
+                    {/* Position + written prompt. The track stands in for the
+                        scrollbar this app hides globally (see `globals.css`), and
+                        the thumb's WIDTH reports how much of the rail is on screen
+                        — so it answers "how much more" as well as "where". */}
+                    <div aria-hidden="true" className="mt-2.5 flex items-center justify-center gap-2.5 lg:hidden">
+                        <div
+                            ref={trackRef}
+                            style={{ opacity: 0 }}
+                            className="h-[3px] w-14 rounded-full bg-gray-200 overflow-hidden transition-opacity duration-200"
+                        >
+                            <div ref={thumbRef} className="h-full w-1/2 rounded-full bg-[#FCD119]" />
                         </div>
-
-                        {/* Item 4: ACTIVE CAMPAIGNS */}
-                        <div className="flex flex-col justify-between md:pl-5">
-                            <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3 w-[50vw] lg:w-auto">
-                                <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#FCD119] flex items-center justify-center shrink-0 shadow-sm">
-                                    <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M18 11c0-1.33-.52-2.54-1.37-3.45L19 5l-1.5-1.5-2.52 2.52C13.97 5.37 12.54 5 11 5c-3.87 0-7 3.13-7 7s3.13 7 7 7c1.54 0 2.97-.37 4-1.02L17.52 20.5 19 19l-2.37-2.55C17.48 13.54 18 12.33 18 11zm-7 4c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />
-                                    </svg>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">ACTIVE CAMPAIGNS</span>
-                                    <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
-                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
-                                            {campaignsCount}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Sparkline Graph */}
-                            <svg className="w-full h-5 lg:mt-2" viewBox="0 0 100 25" fill="none">
-                                <path d="M0 20 Q 20 22, 40 14 T 70 8 T 100 4" stroke="#FCD119" strokeWidth="2.5" strokeLinecap="round" />
-                            </svg>
-                        </div>
+                        <span
+                            ref={hintRef}
+                            className="font-tommy-regular text-[9px] uppercase tracking-[0.22em] text-gray-400"
+                        >
+                            Swipe →
+                        </span>
                     </div>
                 </div>
 

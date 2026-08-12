@@ -1035,7 +1035,6 @@ export default function MarketsCoverageV2() {
                     end: () => '+=' + window.innerHeight * SCROLL_VH,
                     pin: pinRef.current,
                     scrub: 0.6,
-                    invalidateOnRefresh: true,
                     onUpdate: syncActive,
                     onRefresh: syncActive,
                 },
