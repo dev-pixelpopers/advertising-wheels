@@ -185,9 +185,6 @@ export default function HomeMarquee() {
                     -webkit-mask-image: radial-gradient(ellipse 78% 62% at 50% 50%, #000 58%, transparent 82%);
                     mask-image: radial-gradient(ellipse 78% 62% at 50% 50%, #000 58%, transparent 82%);
                 }
-                .dark .hm-text-shield {
-                    background: rgba(10, 10, 10, 0.5);
-                }
 
                 /* One cell for every mark: a fifth of the width, a third of the
                    height. This is SIZE only — it says nothing about where a mark
@@ -256,7 +253,7 @@ export default function HomeMarquee() {
                                             width={200}
                                             height={100}
                                             loading="lazy"
-                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 block dark:hidden"
+                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 block"
                                         />
                                         <Image
                                             src={`${LOGO_DIR}/${b.logoDark}`}
@@ -264,7 +261,7 @@ export default function HomeMarquee() {
                                             width={200}
                                             height={100}
                                             loading="lazy"
-                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 hidden dark:block"
+                                            className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 hidden"
                                         />
                                     </>
                                 ) : (
@@ -274,7 +271,7 @@ export default function HomeMarquee() {
                                         width={200}
                                         height={100}
                                         loading="lazy"
-                                        className="hm-logo-img object-contain transition-all duration-400 opacity-90 dark:invert group-hover:scale-[1.15] group-hover:dark:invert-0 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                                        className="hm-logo-img object-contain transition-all duration-400 opacity-90 group-hover:scale-[1.15] group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
                                     />
                                 )}
                             </a>
@@ -289,7 +286,7 @@ export default function HomeMarquee() {
                 <div className="hm-text-shield rounded-[999px] px-8 py-7 md:px-16 md:py-12">
                     {/* Capped narrow on purpose: the block has to leave a real
                         strip down each side for the water to fill. */}
-                    <p className="hm-heading max-w-[620px] text-center font-tommy-regular text-[clamp(1.125rem,2.2vw,2.1rem)] leading-[1.3] text-[#1A1917] dark:text-white transition-colors duration-300">
+                    <p className="hm-heading max-w-[620px] text-center font-tommy-regular text-[clamp(1.125rem,2.2vw,2.1rem)] leading-[1.3] text-[#1A1917] transition-colors duration-300">
                         Trusted by Fortune 500 brands — from financial services to QSR, retail, and automotive.
                     </p>
                 </div>

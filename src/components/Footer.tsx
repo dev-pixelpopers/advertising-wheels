@@ -66,7 +66,7 @@ interface CredentialLogo {
     className?: string;
 }
 
-const DARKEN = 'brightness-0 dark:brightness-100';
+const DARKEN = 'brightness-0';
 
 const CREDENTIALS: { logos: CredentialLogo[] }[] = [
 
@@ -79,8 +79,8 @@ const CREDENTIALS: { logos: CredentialLogo[] }[] = [
         ],
     },
     { logos: [{ src: '/assets/images/cta/mbe-certified.webp', alt: 'Minority Business Enterprise certified', size: 'h-[20px] md:h-[80px]' }] },
-    { logos: [{ src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[20px] md:h-[45px]', className: 'dark:invert' }] },
-    { logos: [{ src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[20px] md:h-[30px]', className: 'dark:invert' }] },
+    { logos: [{ src: '/assets/images/cta/geopath.webp', alt: 'GeoPath accredited', size: 'h-[20px] md:h-[45px]', className: '' }] },
+    { logos: [{ src: '/assets/images/cta/o-aaa.webp', alt: 'OAAA member', size: 'h-[20px] md:h-[30px]', className: '' }] },
 ];
 
 export default function Footer() {
@@ -171,7 +171,7 @@ export default function Footer() {
     return (
         <footer
             ref={rootRef}
-            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
+            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300"
             aria-labelledby="footer-heading"
         >
             <style>{`
@@ -200,14 +200,14 @@ export default function Footer() {
                     <div data-foot-col className="flex flex-col gap-4 md:gap-6 lg:gap-8 lg:pr-12">
                         <Logo width={132} height={55} />
 
-                        <p className="max-w-[280px] font-tommy-regular text-[13.5px] leading-[1.7] text-[#6F6A60] dark:text-[#9A968E]">
+                        <p className="max-w-[280px] font-tommy-regular text-[13.5px] leading-[1.7] text-[#6F6A60]">
                             Truckside billboard advertising with GPS-verified coverage and
                             impressions independently measured by StreetMetrics.
                         </p>
 
                         <ul className="flex flex-col gap-2 md:gap-3 lg:gap-4">
                             <li className="flex items-center gap-3">
-                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] dark:border-white/10 dark:bg-white/[0.06] dark:text-[#FCD119]">
+                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B]">
                                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                                         <path
                                             d="M5.2 2.5 6.6 5.3 5.3 6.6a8.4 8.4 0 0 0 4.1 4.1l1.3-1.3 2.8 1.4v2.4c0 .6-.5 1-1.1.9A11.6 11.6 0 0 1 2.1 3.6c0-.6.4-1.1 1-1.1h2.1Z"
@@ -217,19 +217,19 @@ export default function Footer() {
                                         />
                                     </svg>
                                 </span>
-                                <a href="tel:+18774239433" className="font-tommy-medium text-[14px] text-[#1A1917] dark:text-white">
+                                <a href="tel:+18774239433" className="font-tommy-medium text-[14px] text-[#1A1917]">
                                     1-877-4-ADWHEELS (1-877-423-9433)
                                 </a>
                             </li>
                             <li>
                                 <a href="mailto:BrandGrowth@AdvertisingWheels.com" className="group flex items-center gap-3">
-                                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] transition-colors duration-300 group-hover:border-[#C8992B]/40 group-hover:bg-[#FCD119]/20 dark:border-white/10 dark:bg-white/[0.06] dark:text-[#FCD119] dark:group-hover:bg-[#FCD119]/10">
+                                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#C8992B] transition-colors duration-300 group-hover:border-[#C8992B]/40 group-hover:bg-[#FCD119]/20">
                                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                                             <rect x="1.8" y="3.4" width="12.4" height="9.2" rx="1.6" stroke="currentColor" strokeWidth="1.3" />
                                             <path d="m2.4 4.6 5.6 4 5.6-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     </span>
-                                    <span className="ft-link font-tommy-medium text-[14px] text-[#1A1917] dark:text-white">
+                                    <span className="ft-link font-tommy-medium text-[14px] text-[#1A1917]">
                                         BrandGrowth@AdvertisingWheels.com
                                     </span>
                                 </a>
@@ -242,9 +242,9 @@ export default function Footer() {
                         <span
                             data-foot-rule
                             aria-hidden="true"
-                            className="absolute inset-y-0 left-0 hidden w-px bg-black/10 lg:block dark:bg-white/10"
+                            className="absolute inset-y-0 left-0 hidden w-px bg-black/10 lg:block"
                         />
-                        <h3 className="font-tommy-bold text-[19px] uppercase tracking-tight text-[#1A1917] dark:text-white">
+                        <h3 className="font-tommy-bold text-[19px] uppercase tracking-tight text-[#1A1917]">
                             Quick Links<span className="text-[#FCD119]">.</span>
                         </h3>
                         <ul className="mt-3 md:mt-5 lg:mt-7 grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-2 md:gap-y-3 lg:gap-y-4">
@@ -252,7 +252,7 @@ export default function Footer() {
                                 <li key={l.label}>
                                     <a
                                         href={l.href}
-                                        className="ft-link inline-block font-tommy-regular text-[14px] text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white"
+                                        className="ft-link inline-block font-tommy-regular text-[14px] text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917]"
                                     >
                                         {l.label}
                                     </a>
@@ -266,17 +266,17 @@ export default function Footer() {
                         <span
                             data-foot-rule
                             aria-hidden="true"
-                            className="absolute inset-y-0 left-0 hidden w-px bg-black/10 lg:block dark:bg-white/10"
+                            className="absolute inset-y-0 left-0 hidden w-px bg-black/10 lg:block"
                         />
-                        <h3 className="font-tommy-bold text-[19px] uppercase tracking-tight text-[#1A1917] dark:text-white">
+                        <h3 className="font-tommy-bold text-[19px] uppercase tracking-tight text-[#1A1917]">
                             Newsletter<span className="text-[#FCD119]">.</span>
                         </h3>
-                        <p className="mt-3 font-tommy-regular text-[13px] leading-[1.6] text-[#6F6A60] dark:text-[#9A968E]">
+                        <p className="mt-3 font-tommy-regular text-[13px] leading-[1.6] text-[#6F6A60]">
                             Route news, market openings and campaign results — once a month.
                         </p>
 
                         <form
-                            className="mt-6 flex items-center gap-3 border-b border-black/15 pb-2.5 transition-colors duration-300 focus-within:border-[#C8992B] dark:border-white/15 dark:focus-within:border-[#FCD119]"
+                            className="mt-6 flex items-center gap-3 border-b border-black/15 pb-2.5 transition-colors duration-300 focus-within:border-[#C8992B]"
                             onSubmit={subscribe.submit}
                             noValidate
                         >
@@ -293,7 +293,7 @@ export default function Footer() {
                                 value={subscribe.email}
                                 onChange={(e) => subscribe.onEmailChange(e.target.value)}
                                 disabled={subscribe.state === 'sending'}
-                                className="w-full min-w-0 bg-transparent font-tommy-regular text-[14px] text-[#1A1917] placeholder:text-black/35 focus:outline-none disabled:opacity-60 dark:text-white dark:placeholder:text-white/35"
+                                className="w-full min-w-0 bg-transparent font-tommy-regular text-[14px] text-[#1A1917] placeholder:text-black/35 focus:outline-none disabled:opacity-60"
                             />
 
                             <SubscribeHoneypot inputRef={subscribe.honeyRef} />
@@ -301,7 +301,7 @@ export default function Footer() {
                             <button
                                 type="submit"
                                 disabled={subscribe.state === 'sending'}
-                                className="group flex shrink-0 items-center gap-2 rounded-full bg-[#1A1917] px-5 py-2.5 font-tommy-medium text-[13px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100 dark:bg-[#FCD119] dark:text-black"
+                                className="group flex shrink-0 items-center gap-2 rounded-full bg-[#1A1917] px-5 py-2.5 font-tommy-medium text-[13px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
                             >
                                 {subscribe.state === 'sending' ? 'Sending' : 'Subscribe'}
                                 <svg
@@ -324,17 +324,17 @@ export default function Footer() {
                                 role="status"
                                 aria-live="polite"
                                 className={`mt-3 font-tommy-regular text-[12.5px] leading-[1.6] ${subscribe.state === 'error'
-                                    ? 'text-[#B4462F] dark:text-[#F08A72]'
-                                    : 'text-[#1A1917] dark:text-white'
+                                    ? 'text-[#B4462F]'
+                                    : 'text-[#1A1917]'
                                     }`}
                             >
                                 {subscribe.message}
                             </p>
                         )}
 
-                        <p className="mt-4 font-tommy-regular text-[11.5px] leading-[1.7] text-[#6F6A60]/85 dark:text-[#9A968E]/80">
+                        <p className="mt-4 font-tommy-regular text-[11.5px] leading-[1.7] text-[#6F6A60]/85">
                             I have read the{' '}
-                            <a href="/privacy" className="ft-link text-[#1A1917] dark:text-white">
+                            <a href="/privacy" className="ft-link text-[#1A1917]">
                                 Privacy Policy
                             </a>{' '}
                             provided by Advertising Wheels.
@@ -365,19 +365,19 @@ export default function Footer() {
                 <div
                     data-foot-hr
                     aria-hidden="true"
-                    className="h-px w-full bg-black/10 dark:bg-white/10"
+                    className="h-px w-full bg-black/10"
                 />
 
                 <div
                     data-foot-bottom
                     className="flex flex-col items-center gap-6 py-8 text-center lg:flex-row lg:justify-between lg:gap-4 lg:text-left"
                 >
-                    <p className="font-tommy-regular text-[12px] text-[#6F6A60] dark:text-[#9A968E]">
+                    <p className="font-tommy-regular text-[12px] text-[#6F6A60]">
                         © {year} Advertising Wheels. All Rights Reserved.
                     </p>
 
                     <div className="flex items-center gap-3">
-                        <span className="font-tommy-regular text-[11px] uppercase tracking-[2px] text-[#6F6A60]/75 dark:text-[#9A968E]/70">
+                        <span className="font-tommy-regular text-[11px] uppercase tracking-[2px] text-[#6F6A60]/75">
                             We Are Social
                         </span>
                         <ul className="flex items-center gap-2">
@@ -387,7 +387,7 @@ export default function Footer() {
                                         href={s.href}
                                         target='_blank'
                                         aria-label={s.label}
-                                        className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#6F6A60] transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent hover:bg-[#FCD119] hover:text-black dark:border-white/10 dark:bg-white/[0.06] dark:text-[#9A968E]"
+                                        className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-[#6F6A60] transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent hover:bg-[#FCD119] hover:text-black"
                                     >
                                         <svg width="15" height="15" viewBox="0 0 22 22" fill="currentColor" aria-hidden="true">
                                             <path d={s.path} />
@@ -399,11 +399,11 @@ export default function Footer() {
                     </div>
 
                     <div className="flex items-center gap-3 font-tommy-regular text-[12px]">
-                        <a href="/privacy" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white">
+                        <a href="/privacy" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917]">
                             Privacy Policy
                         </a>
-                        <span className="text-black/15 dark:text-white/15">|</span>
-                        <a href="/terms" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white">
+                        <span className="text-black/15">|</span>
+                        <a href="/terms" className="ft-link text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917]">
                             Terms &amp; Conditions
                         </a>
                     </div>
@@ -423,7 +423,7 @@ export default function Footer() {
                    in vw to match the vw-based font size and cancel that at any width. */
                 className="pointer-events-none relative flex w-full select-none justify-center -mb-[2%]"
             >
-                <span className="whitespace-nowrap font-tommy-bold text-[9.4vw] leading-[0.8] tracking-[-0.03em] text-black/[0.06] dark:text-white/[0.055]">
+                <span className="whitespace-nowrap font-tommy-bold text-[9.4vw] leading-[0.8] tracking-[-0.03em] text-black/[0.06]">
                     ADVERTISING WHEELS
                 </span>
             </div>

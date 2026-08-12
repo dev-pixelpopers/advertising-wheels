@@ -88,10 +88,9 @@ function Story() {
     );
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden bg-[#EEE8D9] py-24 transition-colors duration-300 md:py-32 dark:bg-[#0A0A0A]">
+        <section ref={rootRef} className="relative w-full overflow-hidden bg-[#EEE8D9] py-24 transition-colors duration-300 md:py-32">
             <style>{`
                 .story-outline { -webkit-text-stroke: 1.5px rgba(26,25,23,.10); color: transparent; }
-                .dark .story-outline { -webkit-text-stroke: 1.5px rgba(255,255,255,.08); }
             `}</style>
 
             {/* Oversized outlined founding year behind the grid */}
@@ -102,23 +101,23 @@ function Story() {
             <div className="relative z-10 mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-14 px-3 md:px-6 lg:px-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
                 {/* Copy with a drawing accent rule */}
                 <div className="relative pl-5 md:pl-7 lg:pl-10">
-                    <div ref={lineRef} className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-[#C8992B] dark:bg-[#FCD119]" />
+                    <div ref={lineRef} className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-[#C8992B]" />
                     <div data-story-copy>
                         <Eyebrow>Our story</Eyebrow>
-                        <h2 className="mt-4 font-tommy-bold text-[clamp(28px,3.6vw,50px)] leading-[1.06] tracking-tight text-[#1A1917] dark:text-white">
+                        <h2 className="mt-4 font-tommy-bold text-[clamp(28px,3.6vw,50px)] leading-[1.06] tracking-tight text-[#1A1917]">
                             Twenty-five years of doing one thing — for the brands that can’t afford to gamble<Dot />
                         </h2>
-                        <p className="mt-3 md:mt-4 lg:mt-5 font-tommy-medium text-[17px] leading-[1.6] text-[#2C2C2B] md:text-[19px] dark:text-[#EAEAEA]">
+                        <p className="mt-3 md:mt-4 lg:mt-5 font-tommy-medium text-[17px] leading-[1.6] text-[#2C2C2B] md:text-[19px]">
                             We started Advertising Wheels in 2001 with a simple thesis: out-of-home was the only major
                             media channel without real measurement, targeting or accountability — and brands deserved better.
                         </p>
-                        <p className="mt-3 md:mt-4 lg:mt-5 font-tommy-regular text-[15.5px] leading-[1.75] text-[#5A554C] dark:text-[#A8A399]">
+                        <p className="mt-3 md:mt-4 lg:mt-5 font-tommy-regular text-[15.5px] leading-[1.75] text-[#5A554C]">
                             Twenty-five years later the channel has caught up to where we always thought it should be.
                             GPS-verified delivery. Modeled impressions. Brand-lift studies. Geofenced retargeting. Most
                             competitors got into this business in the last three to five years, when measurement made it
                             credible. We’ve been here the whole time.
                         </p>
-                        <p className="mt-5 font-tommy-regular text-[15.5px] leading-[1.75] text-[#5A554C] dark:text-[#A8A399]">
+                        <p className="mt-5 font-tommy-regular text-[15.5px] leading-[1.75] text-[#5A554C]">
                             We are independently owned, running national campaigns for the largest brands in CPG, telecom, automotive,
                             retail and financial services — and the holding-company agencies that buy on their behalf.
                         </p>
@@ -127,7 +126,7 @@ function Story() {
 
                 {/* Image with parallax + floating badge */}
                 <div className="relative">
-                    <div data-story-media className="overflow-hidden rounded-[26px] border border-black/10 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.35)] dark:border-white/10" style={{ aspectRatio: '4 / 5' }}>
+                    <div data-story-media className="overflow-hidden rounded-[26px] border border-black/10 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.35)]" style={{ aspectRatio: '4 / 5' }}>
                         <Image
                             ref={imgRef}
                             src={STORY_IMG}
@@ -138,11 +137,11 @@ function Story() {
                             className="h-[118%] w-full object-cover"
                         />
                     </div>
-                    <div data-story-badge className="absolute -bottom-6 left-2 md:-left-6 rounded-2xl bg-[#1A1917] px-6 py-5 shadow-xl dark:bg-[#FCD119]">
-                        <p className="font-tommy-bold text-[34px] leading-none text-[#FCD119] dark:text-black">25+</p>
-                        <p className="mt-1.5 font-tommy-regular text-[11px] uppercase tracking-[2px] text-white/60 dark:text-black/60">Years · Owner-operated</p>
+                    <div data-story-badge className="absolute -bottom-6 left-2 md:-left-6 rounded-2xl bg-[#1A1917] px-6 py-5 shadow-xl">
+                        <p className="font-tommy-bold text-[34px] leading-none text-[#FCD119]">25+</p>
+                        <p className="mt-1.5 font-tommy-regular text-[11px] uppercase tracking-[2px] text-white/60">Years · Owner-operated</p>
                     </div>
-                    <div data-story-badge className="absolute -right-4 -top-4 rounded-full border border-black/10 bg-white/80 px-5 py-2.5 font-tommy-medium text-[12px] uppercase tracking-[2px] text-[#1A1917] shadow-lg backdrop-blur dark:border-white/10 dark:bg-[#141414]/80 dark:text-white">
+                    <div data-story-badge className="absolute -right-4 -top-4 rounded-full border border-black/10 bg-white/80 px-5 py-2.5 font-tommy-medium text-[12px] uppercase tracking-[2px] text-[#1A1917] shadow-lg backdrop-blur">
                         San Francisco, CA
                     </div>
                 </div>
@@ -173,7 +172,7 @@ function Stats() {
         { el: <CountUp value={"360 Degree\nService"} />, label: 'From start to finish, we handle everything.', wordy: true },
     ];
     return (
-        <section className="w-full border-y border-black/10 bg-[#EEE8D9] transition-colors duration-300 py-12 md:py-16 lg:py-24 dark:border-white/10 dark:bg-[#0A0A0A]">
+        <section className="w-full border-y border-black/10 bg-[#EEE8D9] transition-colors duration-300 py-12 md:py-16 lg:py-24">
             <style>{`
                 /* Sized against the COLUMN, not the viewport.
 
@@ -210,12 +209,12 @@ function Stats() {
                        not allowed to go below — so "IMPRESSIONS" widened its own
                        column and shoved the next one along. With the floor removed
                        the track holds its quarter and the text wraps inside it. */
-                    <div key={i} className="min-w-0 border-l border-black/10 pl-2 md:pl-4 lg:pl-6 dark:border-white/10">
+                    <div key={i} className="min-w-0 border-l border-black/10 pl-2 md:pl-4 lg:pl-6">
                         {/* `break-words` is the belt-and-braces guarantee: whatever
                             the viewport, a word with nowhere to go breaks rather
                             than spilling into the neighbouring stat. */}
-                        <p className={`about-stat${s.wordy ? ' about-stat--wordy' : ''} font-tommy-bold tracking-tight text-[#1A1917] break-words hyphens-auto dark:text-white`}>{s.el}</p>
-                        <p className="mt-3 max-w-[200px] font-tommy-regular text-[12.5px] leading-[1.4] text-[#6F6A60] dark:text-[#9A968E]">{s.label}</p>
+                        <p className={`about-stat${s.wordy ? ' about-stat--wordy' : ''} font-tommy-bold tracking-tight text-[#1A1917] break-words hyphens-auto`}>{s.el}</p>
+                        <p className="mt-3 max-w-[200px] font-tommy-regular text-[12.5px] leading-[1.4] text-[#6F6A60]">{s.label}</p>
                     </div>
                 ))}
             </Reveal>
@@ -291,7 +290,7 @@ function Timeline() {
     );
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#1A1917] transition-colors duration-300 lg:h-screen dark:border-white/10 dark:bg-[#141414] dark:text-white">
+        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#1A1917] transition-colors duration-300 lg:h-screen">
             <div className="pointer-events-none relative inset-x-0 top-0 z-20 pt-[92px] px-3 md:px-8 lg:px-12 lg:pt-[13vh]">
                 <Eyebrow>Twenty-five years on the road</Eyebrow>
                 <h2 className="mt-3 font-tommy-bold text-[34px] uppercase leading-none tracking-tight md:text-[54px]">
@@ -301,19 +300,19 @@ function Timeline() {
 
             <div ref={trackRef} className="flex flex-col gap-6 px-3 md:px-4 lg:px-6 pb-10 md:pb-12 lg:pb-16 pt-10 md:px-12 lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:pb-0 lg:pt-0">
                 {MILESTONES.map((m, i) => (
-                    <article key={m.year} className="tl-panel relative flex shrink-0 flex-col justify-start 2xl:justify-center pt-[20px] 2xl:pt-0 border-black/10 lg:h-full lg:w-[62vw] lg:border-l lg:px-[6vw] 2xl:w-[48vw] dark:border-white/10">
-                        <span data-tl-in className="block font-tommy-bold text-[26px] tracking-[3px] text-[#C8992B] dark:text-[#FCD119]">{m.year}</span>
-                        <span data-tl-in className="mt-1 font-tommy-regular text-[12px] uppercase tracking-[4px] text-black/40 dark:text-white/40">
+                    <article key={m.year} className="tl-panel relative flex shrink-0 flex-col justify-start 2xl:justify-center pt-[20px] 2xl:pt-0 border-black/10 lg:h-full lg:w-[62vw] lg:border-l lg:px-[6vw] 2xl:w-[48vw]">
+                        <span data-tl-in className="block font-tommy-bold text-[26px] tracking-[3px] text-[#C8992B]">{m.year}</span>
+                        <span data-tl-in className="mt-1 font-tommy-regular text-[12px] uppercase tracking-[4px] text-black/40">
                             {String(i + 1).padStart(2, '0')} / {String(MILESTONES.length).padStart(2, '0')}
                         </span>
                         <h3 data-tl-in className="mt-6 font-tommy-bold text-[32px] leading-[1.04] tracking-tight md:text-[clamp(2rem,3.5vw,3.375rem)]">{m.title}</h3>
-                        <p data-tl-in className="mt-6 max-w-[540px] font-tommy-regular text-[15.5px] leading-[1.7] text-[#5A554C] md:text-[17px] dark:text-white/60">{m.body}</p>
+                        <p data-tl-in className="mt-6 max-w-[540px] font-tommy-regular text-[15.5px] leading-[1.7] text-[#5A554C] md:text-[17px]">{m.body}</p>
                     </article>
                 ))}
             </div>
 
-            <div className="absolute inset-x-12 bottom-[8vh] z-20 hidden h-px bg-black/15 lg:block dark:bg-white/15">
-                <div ref={progressRef} className="h-full origin-left bg-[#C8992B] dark:bg-[#FCD119]" style={{ transform: 'scaleX(0)' }} />
+            <div className="absolute inset-x-12 bottom-[8vh] z-20 hidden h-px bg-black/15 lg:block">
+                <div ref={progressRef} className="h-full origin-left bg-[#C8992B]" style={{ transform: 'scaleX(0)' }} />
             </div>
         </section>
     );
@@ -328,12 +327,12 @@ function Leadership({ stacked }: { stacked: boolean }) {
         <OrbitDiagram stacked={stacked}
             eyebrow={<Eyebrow>Leadership</Eyebrow>}
             heading={
-                <h2 className="mt-4 font-tommy-bold text-[clamp(28px,2.8vw,46px)] leading-[1.06] tracking-tight text-[#1A1917] dark:text-white">
+                <h2 className="mt-4 font-tommy-bold text-[clamp(28px,2.8vw,46px)] leading-[1.06] tracking-tight text-[#1A1917]">
                     Decades of truckside expertise. Trusted by the world's biggest brands<Dot />
                 </h2>
             }
             intro={
-                <p className="mt-5 font-tommy-regular text-[10px]  md:text-[clamp(0.875rem,1vw,0.96875rem)] leading-[1.7] text-[#5A554C] dark:text-[#A8A399]">
+                <p className="mt-5 font-tommy-regular text-[10px]  md:text-[clamp(0.875rem,1vw,0.96875rem)] leading-[1.7] text-[#5A554C]">
                     Our team has planned, produced, and measured campaigns for Fortune 500 advertisers and their agencies for over two decades —
                     bringing category-deep experience to every fleet, every market, and every readout.
 
@@ -391,11 +390,11 @@ function PullQuote() {
     return (
         <section ref={rootRef} className="relative w-full overflow-hidden border-t border-black/10 bg-[#EEE8D9]  transition-colors duration-300 py-18 md:py-28 lg:py-40">
             <div className="mx-auto max-w-[960px] px-6 text-center md:px-12">
-                <span data-pq-mark className="inline-block font-tommy-bold text-[90px] leading-[0.6] text-[#C8992B] dark:text-[#FCD119]">“</span>
+                <span data-pq-mark className="inline-block font-tommy-bold text-[90px] leading-[0.6] text-[#C8992B]">“</span>
                 <blockquote ref={quoteRef} className="mt-4 font-tommy-medium text-[clamp(23px,3.1vw,40px)] leading-[1.34] tracking-[-0.01em]">
                     Hundreds of trucks across multiple markets, and our brand shows up perfectly on every one. Advertising Wheels' install standards and inspection process work at a scale most vendors can't touch. They treat our logo the way we do.
                 </blockquote>
-                <cite data-pq-cite className="mt-9 block font-tommy-regular text-[13px] uppercase not-italic tracking-[3px] text-[#6F6A60] dark:text-[#9A968E]">
+                <cite data-pq-cite className="mt-9 block font-tommy-regular text-[13px] uppercase not-italic tracking-[3px] text-[#6F6A60]">
                     Nick Ferrugia - Director, Brand and Performance Marketing, Fifth Third Bank
                 </cite>
             </div>
@@ -453,7 +452,7 @@ export default function AboutPage() {
     }, [stacked]);
 
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
             <PortalHero
                 badge="About"
                 title="ADVERTISING WHEELS"

@@ -78,7 +78,7 @@ export default function CtaSection() {
         /* Outer band carries the colour of the sections either side of it, so the
            curved corners reveal a seamless continuation rather than a mismatched
            edge. Must stay in step with WhyChooseUs above and Footer below. */
-        <div ref={rootRef} className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+        <div ref={rootRef} className="w-full bg-[#EEE8D9] transition-colors duration-300">
             {/* Elliptical top corners — the curve runs far wider than it drops, so it
                 reads as one long sweep into the flat middle rather than a rounded box. */}
             <div className="relative w-full overflow-hidden rounded-t-[30px] lg:rounded-t-[40px] bg-[#FCD119] px-3 md:px-5 lg:px-6 py-[50px] md:py-[80px] lg:py-[100px] md:rounded-t-[90px] md:px-14 xl:py-[140px]">

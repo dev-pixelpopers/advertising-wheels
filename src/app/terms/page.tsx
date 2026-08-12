@@ -97,7 +97,7 @@ export default function TermsPage() {
                 <p>
                     Information you send through our contact form, partner application or newsletter
                     signup is handled as described in our{' '}
-                    <a href="/privacy" className="text-[#1A1917] underline underline-offset-2 dark:text-white">
+                    <a href="/privacy" className="text-[#1A1917] underline underline-offset-2">
                         Privacy Policy
                     </a>
                     . Please do not send us confidential or proprietary material through this site — we
@@ -174,7 +174,7 @@ export default function TermsPage() {
             <LegalSection heading="Contact">
                 <p>
                     Questions about these terms? Email{' '}
-                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#1A1917] underline underline-offset-2 dark:text-white">
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#1A1917] underline underline-offset-2">
                         {CONTACT_EMAIL}
                     </a>{' '}
                     or write to [Legal entity name], [Street address, Nashville, TN, ZIP].

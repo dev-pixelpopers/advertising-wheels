@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <HeroWrapper />
-      <div className='relative z-[80] w-full bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 pt-[100px] second-home-section -mt-[100vh]'>
+      <div className='relative z-[80] w-full bg-[#EEE8D9] transition-colors duration-300 pt-[100px] second-home-section -mt-[100vh]'>
         <div className='max-w-none w-full mx-auto'>
           <SecondSection />
         </div>

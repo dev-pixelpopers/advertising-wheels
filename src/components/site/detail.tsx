@@ -72,7 +72,7 @@ export function ReadingProgress({ targetId }: { targetId: string }) {
             className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px] bg-transparent"
             aria-hidden="true"
         >
-            <div ref={barRef} className="h-full w-full origin-left bg-[#C8992B] dark:bg-[#FCD119]" />
+            <div ref={barRef} className="h-full w-full origin-left bg-[#C8992B]" />
         </div>
     );
 }
@@ -121,10 +121,10 @@ export function StickyToc({ items, label = 'Contents' }: { items: TocItem[]; lab
 
     return (
         <nav ref={rootRef} aria-label={label} className="lg:sticky lg:top-[120px]">
-            <p className="font-tommy-regular text-[11px] uppercase tracking-[3px] text-[#8A857C] dark:text-[#9A968E]">
+            <p className="font-tommy-regular text-[11px] uppercase tracking-[3px] text-[#8A857C]">
                 {label}
             </p>
-            <ul className="mt-5 space-y-1 border-l border-black/12 dark:border-white/12">
+            <ul className="mt-5 space-y-1 border-l border-black/12">
                 {items.map((item, i) => {
                     const on = active === item.id;
                     return (
@@ -134,8 +134,8 @@ export function StickyToc({ items, label = 'Contents' }: { items: TocItem[]; lab
                                 onClick={() => jump(item.id)}
                                 aria-current={on ? 'true' : undefined}
                                 className={`group relative -ml-px block w-full border-l-2 py-2.5 pl-5 text-left font-tommy-medium text-[14px] transition-colors duration-300 ${on
-                                    ? 'border-[#C8992B] text-[#1A1917] dark:border-[#FCD119] dark:text-white'
-                                    : 'border-transparent text-[#8A857C] hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white'
+                                    ? 'border-[#C8992B] text-[#1A1917]'
+                                    : 'border-transparent text-[#8A857C] hover:text-[#1A1917]'
                                     }`}
                             >
                                 <span className="mr-3 font-tommy-regular text-[11px] tabular-nums opacity-50">
@@ -257,17 +257,17 @@ export function PinnedStats({
     return (
         <section
             ref={rootRef}
-            className="w-full bg-[#E7E0CE] py-20 transition-colors duration-300 md:py-28 dark:bg-[#141414]"
+            className="w-full bg-[#E7E0CE] py-20 transition-colors duration-300 md:py-28"
         >
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
-                <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px] dark:text-[#9A968E]">
+                <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px]">
                     {eyebrow}
                 </p>
-                <h2 className="mt-4 max-w-[16ch] font-tommy-bold text-[clamp(30px,4vw,58px)] leading-[1.02] tracking-[-0.025em] text-[#1A1917] dark:text-white">
+                <h2 className="mt-4 max-w-[16ch] font-tommy-bold text-[clamp(30px,4vw,58px)] leading-[1.02] tracking-[-0.025em] text-[#1A1917]">
                     {heading}
                 </h2>
 
-                <dl className="mt-14 divide-y divide-black/10 border-y border-black/10 dark:divide-white/10 dark:border-white/10">
+                <dl className="mt-14 divide-y divide-black/10 border-y border-black/10">
                     {stats.map((s) => (
                         <div
                             key={s.label}
@@ -276,11 +276,11 @@ export function PinnedStats({
                         >
                             <dt
                                 data-stat-figure
-                                className="font-tommy-bold text-[clamp(38px,6vw,80px)] leading-none tracking-[-0.03em] tabular-nums text-[#1A1917] dark:text-[#FCD119]"
+                                className="font-tommy-bold text-[clamp(38px,6vw,80px)] leading-none tracking-[-0.03em] tabular-nums text-[#1A1917]"
                             >
                                 {formatCount(s.value, s)}
                             </dt>
-                            <dd className="font-tommy-regular text-[15px] leading-[1.6] text-[#5A554C] md:text-[18px] dark:text-[#A8A399]">
+                            <dd className="font-tommy-regular text-[15px] leading-[1.6] text-[#5A554C] md:text-[18px]">
                                 {s.label}
                             </dd>
                         </div>
@@ -288,7 +288,7 @@ export function PinnedStats({
                 </dl>
 
                 {note && (
-                    <p className="mt-8 max-w-[62ch] font-tommy-regular text-[13.5px] leading-[1.7] text-[#6F6A60] dark:text-[#9A968E]">
+                    <p className="mt-8 max-w-[62ch] font-tommy-regular text-[13.5px] leading-[1.7] text-[#6F6A60]">
                         {note}
                     </p>
                 )}
@@ -353,7 +353,7 @@ export function ParallaxMedia({
         <figure className={className}>
             <div
                 ref={rootRef}
-                className={`overflow-hidden rounded-[20px] border border-black/10 dark:border-white/10 ${height}`}
+                className={`overflow-hidden rounded-[20px] border border-black/10 ${height}`}
             >
                 {/* Oversized so the parallax drift never exposes an edge.
                     The drift moves this WRAPPER rather than the image itself —
@@ -370,7 +370,7 @@ export function ParallaxMedia({
                 </div>
             </div>
             {caption && (
-                <figcaption className="mt-3 font-tommy-regular text-[12.5px] text-[#6F6A60] dark:text-[#9A968E]">
+                <figcaption className="mt-3 font-tommy-regular text-[12.5px] text-[#6F6A60]">
                     {caption}
                 </figcaption>
             )}
@@ -412,19 +412,19 @@ export function ArticleSection({
 
     return (
         <section ref={ref} id={id} className="scroll-mt-[120px] pt-14 first:pt-0 md:pt-20">
-            <h2 className="font-tommy-bold text-[clamp(24px,2.6vw,38px)] leading-[1.12] tracking-[-0.02em] text-[#1A1917] dark:text-white">
+            <h2 className="font-tommy-bold text-[clamp(24px,2.6vw,38px)] leading-[1.12] tracking-[-0.02em] text-[#1A1917]">
                 {heading}
             </h2>
             {body.map((p) => (
                 <p
                     key={p.slice(0, 40)}
-                    className="mt-5 font-tommy-regular text-[16px] leading-[1.78] text-[#4F4A42] md:text-[17.5px] dark:text-[#B7B2A8]"
+                    className="mt-5 font-tommy-regular text-[16px] leading-[1.78] text-[#4F4A42] md:text-[17.5px]"
                 >
                     {p}
                 </p>
             ))}
             {callout && (
-                <p className="mt-8 border-l-2 border-[#C8992B] py-1 pl-6 font-tommy-medium text-[17px] leading-[1.6] text-[#1A1917] md:text-[19px] dark:border-[#FCD119] dark:text-white">
+                <p className="mt-8 border-l-2 border-[#C8992B] py-1 pl-6 font-tommy-medium text-[17px] leading-[1.6] text-[#1A1917] md:text-[19px]">
                     {callout}
                 </p>
             )}
@@ -440,7 +440,7 @@ export function BackLink({ href, children }: { href: string; children: ReactNode
     return (
         <a
             href={href}
-            className="group inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white"
+            className="group inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 hover:text-[#1A1917]"
         >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:-translate-x-1">
                 <path d="M15 8 H2 M7 3 L2 8 L7 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />

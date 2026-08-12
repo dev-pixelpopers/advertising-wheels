@@ -166,7 +166,7 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                wiped across the screen — the thing the hand-off is trying not to
                be. The marquee clears itself out underneath instead, and the page
                behind supplies the colour. Standalone it still needs its own. */
-            className={`relative w-full transition-colors duration-300 pt-[5%] ${embedded ? 'h-full' : 'bg-[#EEE8D9] dark:bg-[#0A0A0A]'}`}
+            className={`relative w-full transition-colors duration-300 pt-[5%] ${embedded ? 'h-full' : 'bg-[#EEE8D9]'}`}
         >
             <div
                 ref={frameRef}
@@ -185,12 +185,12 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                         data-tm-head
                         className="px-3 md:px-5 mb-[1vh] lg:mb-[2vh] xl:mb-[3vh] 2xl:mb-[4vh] 3xl:mb-[5vh] lg:px-[4.5%]"
                     >
-                        <p className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#6F6A60] sm:text-[11px] sm:tracking-[4px] md:text-[12px] dark:text-[#9A968E]">
+                        <p className="font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#6F6A60] sm:text-[11px] sm:tracking-[4px] md:text-[12px]">
                             Testimonials
                         </p>
                         {/* No max-width: with one, "it." wrapped onto its own line. The
                             explicit <br/> is the only intended break. */}
-                        <h2 className="3xl:mt-2 font-tommy-bold text-[22px] leading-[100%] 3xl:leading-[1.15] tracking-tight text-[#1A1917] sm:text-[30px] md:text-[42px] lg:text-[clamp(30px,3.4vw,52px)] dark:text-white">
+                        <h2 className="3xl:mt-2 font-tommy-bold text-[22px] leading-[100%] 3xl:leading-[1.15] tracking-tight text-[#1A1917] sm:text-[30px] md:text-[42px] lg:text-[clamp(30px,3.4vw,52px)]">
                             Don’t take our word for it.
                             <br />
                             Hear it from our partners<span className="text-[#FCD119]">.</span>
@@ -226,12 +226,12 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                        panel around them still carries no fill,
                                        so this is not the sheet-wipe the comment
                                        above is guarding against. */
-                                    className="flex w-[220px] shrink-0 flex-col rounded-[18px] bg-[#F7F3E8] p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 sm:w-[320px]  md:w-[350px] lg:w-[clamp(300px,26vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] transition-colors duration-300 dark:bg-[#1C1C1C] dark:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
+                                    className="flex w-[220px] shrink-0 flex-col rounded-[18px] bg-[#F7F3E8] p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 sm:w-[320px]  md:w-[350px] lg:w-[clamp(300px,26vw,368px)] shadow-[0_14px_40px_rgba(0,0,0,0.06)] transition-colors duration-300"
                                 >
                                     {/* Client mark on a white chip — the supplied logos are
                                         light-background assets, so the chip keeps them
                                         legible on the dark card too. */}
-                                    <span className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex w-[100px] md:w-[200px] h-[40px] md:h-[80px] overflow-hidden bg-white/0 sm:mb-7 md:mb-8 dark:ring-white/10 ">
+                                    <span className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex w-[100px] md:w-[200px] h-[40px] md:h-[80px] overflow-hidden bg-white/0 sm:mb-7 md:mb-8 ">
 
                                         <Image
                                             src={t.logo}
@@ -243,18 +243,18 @@ export default function FloatingTestimonials({ embedded = false }: { embedded?: 
                                         />
                                     </span>
 
-                                    <blockquote className="font-tommy-regular text-[13px] leading-[1.65] text-[#3A3730] sm:text-[14.5px] sm:leading-[1.72] md:text-[clamp(0.875rem,1.1vw,0.96875rem)] dark:text-[#CFCABF]">
+                                    <blockquote className="font-tommy-regular text-[13px] leading-[1.65] text-[#3A3730] sm:text-[14.5px] sm:leading-[1.72] md:text-[clamp(0.875rem,1.1vw,0.96875rem)]">
                                         “{t.quote}”
                                     </blockquote>
 
                                     {/* Pushes the attribution to the card's foot so every
                                         byline sits on the same line regardless of quote length. */}
                                     <figcaption className="mt-auto pt-0 3xl:pt-8">
-                                        <p className="font-tommy-medium text-[14.5px] text-[#1A1917] sm:text-[16px] dark:text-white">
+                                        <p className="font-tommy-medium text-[14.5px] text-[#1A1917] sm:text-[16px]">
                                             {t.name}
                                         </p>
                                         {t.role && (
-                                            <p className="mt-1 font-tommy-regular text-[11.5px] leading-[1.5] text-[#6F6A60] sm:mt-1.5 sm:text-[12.5px] dark:text-[#9A968E]">
+                                            <p className="mt-1 font-tommy-regular text-[11.5px] leading-[1.5] text-[#6F6A60] sm:mt-1.5 sm:text-[12.5px]">
                                                 {t.role}
                                             </p>
                                         )}

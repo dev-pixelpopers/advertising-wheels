@@ -17,7 +17,7 @@ export default function Logo({
     const mark =
         tone === 'light'
             ? 'fill-white'
-            : 'fill-[#1A1917] dark:fill-white transition-colors duration-300';
+            : 'fill-[#1A1917] transition-colors duration-300';
 
     return (
         <svg

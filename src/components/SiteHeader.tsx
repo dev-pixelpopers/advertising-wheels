@@ -41,7 +41,7 @@ export default function SiteHeader() {
         <header className="fixed inset-x-0 top-0 z-[100] w-full">
             <div
                 className={`w-full transition-all duration-300 ${scrolled || menuOpen
-                        ? 'border-b border-black/10 bg-[#EEE8D9]/85 backdrop-blur-xl dark:border-white/10 dark:bg-[#0A0A0A]/85'
+                        ? 'border-b border-black/10 bg-[#EEE8D9]/85 backdrop-blur-xl'
                         : 'border-b border-transparent bg-transparent'
                     }`}
             >
@@ -62,8 +62,8 @@ export default function SiteHeader() {
                                         key={l.href}
                                         href={l.href}
                                         className={`sh-link font-tommy-regular text-[15px] transition-colors duration-300 ${active
-                                                ? 'text-[#C8992B] dark:text-[#FCD119]'
-                                                : 'text-[#6F6A60] hover:text-[#1A1917] dark:text-[#9A968E] dark:hover:text-white'
+                                                ? 'text-[#C8992B]'
+                                                : 'text-[#6F6A60] hover:text-[#1A1917]'
                                             }`}
                                         aria-current={active ? 'page' : undefined}
                                         data-active={active ? 'true' : undefined}
@@ -79,7 +79,7 @@ export default function SiteHeader() {
                             {/* <button
                             onClick={toggleTheme}
                             aria-label="Toggle theme"
-                            className="relative flex h-8 w-16 items-center justify-between rounded-full border border-black/15 bg-black/[0.06] px-1 shadow-inner transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#FCD119] dark:border-white/20 dark:bg-white/10"
+                            className="relative flex h-8 w-16 items-center justify-between rounded-full border border-black/15 bg-black/[0.06] px-1 shadow-inner transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#FCD119]"
                         >
                             <svg
                                 className={`h-5 w-5 transition-opacity duration-300 ${theme === 'light' ? 'text-[#C8992B] opacity-100' : 'text-gray-400 opacity-40'}`}
@@ -96,7 +96,7 @@ export default function SiteHeader() {
                                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                             </svg>
                             <span
-                                className={`absolute left-1 h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out dark:bg-[#FCD119] ${theme === 'dark' ? 'translate-x-8' : 'translate-x-0'}`}
+                                className={`absolute left-1 h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out ${theme === 'dark' ? 'translate-x-8' : 'translate-x-0'}`}
                             />
                         </button> */}
 
@@ -105,7 +105,7 @@ export default function SiteHeader() {
                                 onClick={() => setMenuOpen((v) => !v)}
                                 aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                                 aria-expanded={menuOpen}
-                                className="flex h-10 w-10 items-center justify-center rounded-full border border-black/15 text-[#1A1917] lg:hidden dark:border-white/15 dark:text-white"
+                                className="flex h-10 w-10 items-center justify-center rounded-full border border-black/15 text-[#1A1917] lg:hidden"
                             >
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                                     {menuOpen ? (
@@ -132,8 +132,8 @@ export default function SiteHeader() {
                                     key={l.href}
                                     href={l.href}
                                     className={`flex items-center justify-between rounded-xl px-4 py-3.5 font-tommy-medium text-[17px] transition-colors duration-200 ${active
-                                            ? 'bg-[#FCD119]/15 text-[#C8992B] dark:text-[#FCD119]'
-                                            : 'text-[#3A3730] hover:bg-black/[0.04] dark:text-[#CFCABF] dark:hover:bg-white/[0.05]'
+                                            ? 'bg-[#FCD119]/15 text-[#C8992B]'
+                                            : 'text-[#3A3730] hover:bg-black/[0.04]'
                                         }`}
                                 >
                                     {l.label}

@@ -63,7 +63,7 @@ function Hero({ post }: { post: Post }) {
     return (
         <section
             ref={rootRef}
-            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
+            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300"
         >
             <div className="pointer-events-none absolute -right-[20%] -top-[46%] opacity-80" aria-hidden="true">
                 <Rings />
@@ -78,16 +78,16 @@ function Hero({ post }: { post: Post }) {
                     <span className="rounded-full bg-[#FCD119] px-3.5 py-1.5 font-tommy-medium text-[11px] uppercase tracking-[1.5px] text-black">
                         {post.category}
                     </span>
-                    <span className="font-tommy-regular text-[12.5px] text-[#6F6A60] dark:text-[#9A968E]">
+                    <span className="font-tommy-regular text-[12.5px] text-[#6F6A60]">
                         {post.date}
                     </span>
-                    <span className="h-1 w-1 rounded-full bg-[#6F6A60] opacity-40 dark:bg-[#9A968E]" />
-                    <span className="font-tommy-regular text-[12.5px] text-[#6F6A60] dark:text-[#9A968E]">
+                    <span className="h-1 w-1 rounded-full bg-[#6F6A60] opacity-40" />
+                    <span className="font-tommy-regular text-[12.5px] text-[#6F6A60]">
                         {post.read}
                     </span>
                 </div>
 
-                <h1 className="mt-7 font-tommy-bold text-[clamp(32px,5vw,68px)] leading-[1.03] tracking-[-0.03em] text-[#1A1917] dark:text-white">
+                <h1 className="mt-7 font-tommy-bold text-[clamp(32px,5vw,68px)] leading-[1.03] tracking-[-0.03em] text-[#1A1917]">
                     {lines.map((line) => (
                         <span key={line} className="block overflow-hidden pb-[0.06em]">
                             <span data-a-line className="block">
@@ -99,23 +99,23 @@ function Hero({ post }: { post: Post }) {
 
                 <p
                     data-a-lead
-                    className="mt-7 font-tommy-regular text-[17px] leading-[1.72] text-[#4F4A42] md:text-[21px] dark:text-[#B7B2A8]"
+                    className="mt-7 font-tommy-regular text-[17px] leading-[1.72] text-[#4F4A42] md:text-[21px]"
                 >
                     {post.lead}
                 </p>
 
                 <div
                     data-a-by
-                    className="mt-9 flex items-center gap-4 border-t border-black/10 pt-7 dark:border-white/10"
+                    className="mt-9 flex items-center gap-4 border-t border-black/10 pt-7"
                 >
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1A1917] font-tommy-bold text-[15px] text-[#FCD119] dark:bg-[#FCD119] dark:text-black">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1A1917] font-tommy-bold text-[15px] text-[#FCD119]">
                         {post.author.name.charAt(0)}
                     </span>
                     <span>
-                        <span className="block font-tommy-medium text-[15px] text-[#1A1917] dark:text-white">
+                        <span className="block font-tommy-medium text-[15px] text-[#1A1917]">
                             {post.author.name}
                         </span>
-                        <span className="block font-tommy-regular text-[13px] text-[#6F6A60] dark:text-[#9A968E]">
+                        <span className="block font-tommy-regular text-[13px] text-[#6F6A60]">
                             {post.author.role}
                         </span>
                     </span>
@@ -137,7 +137,7 @@ function Body({ post }: { post: Post }) {
     const toc = post.sections.map((s) => ({ id: s.id, nav: s.nav }));
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-14 transition-colors duration-300 md:py-20 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] py-14 transition-colors duration-300 md:py-20">
             <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-12 px-6 md:px-12 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-20">
                 <aside className="order-2 lg:order-1">
                     <StickyToc items={toc} label="In this article" />
@@ -179,16 +179,16 @@ function Quote({ post }: { post: Post }) {
     return (
         <section
             ref={ref}
-            className="w-full bg-[#EEE8D9] pb-6 transition-colors duration-300 md:pb-10 dark:bg-[#0A0A0A]"
+            className="w-full bg-[#EEE8D9] pb-6 transition-colors duration-300 md:pb-10"
         >
             <div className="mx-auto max-w-[900px] px-6 md:px-12">
                 <blockquote
                     data-q
-                    className="border-l-2 border-[#C8992B] pl-7 font-tommy-medium text-[clamp(20px,2.6vw,32px)] leading-[1.35] tracking-[-0.02em] text-[#1A1917] dark:border-[#FCD119] dark:text-white"
+                    className="border-l-2 border-[#C8992B] pl-7 font-tommy-medium text-[clamp(20px,2.6vw,32px)] leading-[1.35] tracking-[-0.02em] text-[#1A1917]"
                 >
                     {post.quote.text}
                 </blockquote>
-                <p data-q className="mt-5 pl-7 font-tommy-regular text-[13px] uppercase tracking-[2.5px] text-[#6F6A60] dark:text-[#9A968E]">
+                <p data-q className="mt-5 pl-7 font-tommy-regular text-[13px] uppercase tracking-[2.5px] text-[#6F6A60]">
                     {post.quote.author}
                 </p>
             </div>
@@ -259,26 +259,26 @@ function Takeaways({ post }: { post: Post }) {
     return (
         <section
             ref={rootRef}
-            className="w-full bg-[#E7E0CE] py-20 transition-colors duration-300 md:py-28 dark:bg-[#141414]"
+            className="w-full bg-[#E7E0CE] py-20 transition-colors duration-300 md:py-28"
         >
             <div className="mx-auto max-w-[1100px] px-6 md:px-12">
                 <Eyebrow>The short version</Eyebrow>
-                <h2 className="mt-4 font-tommy-bold text-[clamp(28px,3.6vw,50px)] leading-[1.04] tracking-[-0.025em] text-[#1A1917] dark:text-white">
+                <h2 className="mt-4 font-tommy-bold text-[clamp(28px,3.6vw,50px)] leading-[1.04] tracking-[-0.025em] text-[#1A1917]">
                     Four things to take away<Dot />
                 </h2>
 
                 <ol className="mt-12 space-y-7">
                     {post.takeaways.map((t, i) => (
                         <li key={t} data-tk-row className="relative pl-14">
-                            <span className="absolute left-0 top-0 font-tommy-bold text-[15px] tabular-nums text-[#C8992B] dark:text-[#FCD119]">
+                            <span className="absolute left-0 top-0 font-tommy-bold text-[15px] tabular-nums text-[#C8992B]">
                                 {String(i + 1).padStart(2, '0')}
                             </span>
-                            <p className="font-tommy-medium text-[17px] leading-[1.55] text-[#1A1917] md:text-[20px] dark:text-white">
+                            <p className="font-tommy-medium text-[17px] leading-[1.55] text-[#1A1917] md:text-[20px]">
                                 {t}
                             </p>
                             <span
                                 data-tk-bar
-                                className="mt-5 block h-px w-full origin-left bg-black/15 dark:bg-white/15"
+                                className="mt-5 block h-px w-full origin-left bg-black/15"
                             />
                         </li>
                     ))}
@@ -313,15 +313,15 @@ function Related({ slug }: { slug: string }) {
     if (!items.length) return null;
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-20 transition-colors duration-300 md:py-28 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] py-20 transition-colors duration-300 md:py-28">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <div className="flex flex-wrap items-end justify-between gap-6">
-                    <h2 className="font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917] dark:text-white">
+                    <h2 className="font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917]">
                         Keep reading<Dot />
                     </h2>
                     <Link
                         href="/blog"
-                        className="group inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 hover:text-[#C8992B] dark:text-white dark:hover:text-[#FCD119]"
+                        className="group inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 hover:text-[#C8992B]"
                     >
                         All articles <ArrowIcon />
                     </Link>
@@ -332,7 +332,7 @@ function Related({ slug }: { slug: string }) {
                         <Link
                             key={p.slug}
                             href={`/blog/${p.slug}`}
-                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#FCD119]/30"
+                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40"
                         >
                             <div className="relative h-[170px] overflow-hidden">
                                 <Image
@@ -345,15 +345,15 @@ function Related({ slug }: { slug: string }) {
                                 />
                             </div>
                             <div className="flex flex-1 flex-col p-6">
-                                <div className="flex items-center gap-3 font-tommy-regular text-[11px] uppercase tracking-[1.5px] text-[#8A857C] dark:text-[#9A968E]">
-                                    <span className="text-[#C8992B] dark:text-[#FCD119]">{p.category}</span>
+                                <div className="flex items-center gap-3 font-tommy-regular text-[11px] uppercase tracking-[1.5px] text-[#8A857C]">
+                                    <span className="text-[#C8992B]">{p.category}</span>
                                     <span className="h-1 w-1 rounded-full bg-current opacity-40" />
                                     <span>{p.read}</span>
                                 </div>
-                                <h3 className="mt-3 font-tommy-bold text-[19px] leading-[1.2] tracking-[-0.02em] text-[#1A1917] dark:text-white">
+                                <h3 className="mt-3 font-tommy-bold text-[19px] leading-[1.2] tracking-[-0.02em] text-[#1A1917]">
                                     {p.title}
                                 </h3>
-                                <p className="mt-3 font-tommy-regular text-[14px] leading-[1.62] text-[#5A554C] dark:text-[#A8A399]">
+                                <p className="mt-3 font-tommy-regular text-[14px] leading-[1.62] text-[#5A554C]">
                                     {p.excerpt}
                                 </p>
                             </div>
@@ -382,7 +382,7 @@ export default function ArticleDetailPage() {
         <>
             <ReadingProgress targetId="post-article" />
 
-            <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+            <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
                 <Hero post={post} />
                 <Body post={post} />
                 <Quote post={post} />

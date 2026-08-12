@@ -69,7 +69,7 @@ export default function WhyChooseUs() {
                 gsap.set('.wcu-heading', { autoAlpha: 0, y: 30 });
                 gsap.set('.wcu-video-block', { y: '80vh', autoAlpha: 0 });
                 gsap.set('.wcu-body-text', { autoAlpha: 0, yPercent: 100 });
-                
+
                 if (isMobile) {
                     CHAPTERS.forEach((_, i) => {
                         if (i > 0) gsap.set(`.wcu-tab-mobile-${i}`, { autoAlpha: 0, yPercent: 100 });
@@ -115,7 +115,7 @@ export default function WhyChooseUs() {
                         tl.to(`.wcu-body-text-${i - 1}`,
                             { yPercent: 100, autoAlpha: 0, duration: OUT_DUR, ease: 'power2.in' },
                             at);
-                            
+
                         if (isMobile) {
                             tl.to(`.wcu-tab-mobile-${i - 1}`,
                                 { yPercent: -100, autoAlpha: 0, duration: OUT_DUR, ease: 'power2.in' },
@@ -129,7 +129,7 @@ export default function WhyChooseUs() {
                         { yPercent: 100, autoAlpha: 0 },
                         { yPercent: 0, autoAlpha: 1, duration: IN_DUR, ease: 'power2.out' },
                         i > 0 ? `${at}+=${HANDOVER}` : at);
-                        
+
                     if (isMobile && i > 0) {
                         tl.fromTo(`.wcu-tab-mobile-${i}`,
                             { yPercent: 100, autoAlpha: 0 },
@@ -263,15 +263,15 @@ export default function WhyChooseUs() {
     }, []);
 
     return (
-        <div ref={rootRef} className="relative h-[400vh] w-full bg-[#EEE8D9] dark:bg-[#0A0A0A] pb-[100px]">
+        <div ref={rootRef} className="relative h-[400vh] w-full bg-[#EEE8D9] pb-[100px]">
             <div className="sticky top-0 flex h-screen w-full flex-col px-4 md:px-8 lg:px-12 pt-20 pb-3">
 
                 {/* Heading and Intro Text */}
                 <div className="wcu-heading mb-[10px] text-center shrink-0">
-                    <h2 className="font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[clamp(1.75rem,3vw,2.875rem)] text-[#1A1917] dark:text-white">
-                        Why Choose Us<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                    <h2 className="font-tommy-bold text-[32px] uppercase leading-[1.05] tracking-tight md:text-[clamp(1.75rem,3vw,2.875rem)] text-[#1A1917]">
+                        Why Choose Us<span className="text-[#C8992B]">.</span>
                     </h2>
-                    <p className="mt-1 md:mt-2 max-w-[430px] mx-auto font-tommy-regular text-[14px] leading-[1.6] md:text-[15px] text-[#6F6A60] dark:text-[#9A968E]">
+                    <p className="mt-1 md:mt-2 max-w-[430px] mx-auto font-tommy-regular text-[14px] leading-[1.6] md:text-[15px] text-[#6F6A60]">
                         Four reasons brands move budget onto the road — efficiency, reach,
                         scale, and proof you can audit.
                     </p>
@@ -355,12 +355,12 @@ export default function WhyChooseUs() {
                                         key={i}
                                         /* On mobile, this is always styled active since it's the only one shown,
                                            while on desktop it transitions colors. */
-                                        className={`wcu-tab-mobile-${i} absolute inset-0 xl:relative xl:inset-auto flex flex-col justify-center rounded-[10px] border px-3 py-2.5 transition-colors duration-500 md:px-5 md:py-4 xl:flex-1 xl:rounded-[0px] xl:rounded-b-[6px] xl:py-5 cursor-pointer bg-[#F5F2EA] dark:bg-[#1A1A1A] shadow-inner border-black/5 dark:border-white/5 xl:shadow-none xl:border-transparent xl:bg-white xl:dark:bg-[#141414] xl:hover:bg-black/[0.02] xl:dark:hover:bg-white/[0.02] ${isActive ? 'xl:!bg-[#F5F2EA] xl:dark:!bg-[#1A1A1A] xl:!shadow-inner xl:!border-black/5 xl:dark:!border-white/5' : ''}`}
+                                        className={`wcu-tab-mobile-${i} absolute inset-0 xl:relative xl:inset-auto flex flex-col justify-center rounded-[10px] border px-3 py-2.5 transition-colors duration-500 md:px-5 md:py-4 xl:flex-1 xl:rounded-[0px] xl:rounded-b-[6px] xl:py-5 cursor-pointer bg-[#F5F2EA] shadow-inner border-black/5 xl:shadow-none xl:border-transparent xl:bg-white xl:hover:bg-black/[0.02] ${isActive ? 'xl:!bg-[#F5F2EA] xl:!shadow-inner xl:!border-black/5' : ''}`}
                                     >
-                                        <p className={`font-tommy-medium text-[10px] md:text-[11px] xl:text-[13px] 2xl:text-[16px] tracking-[1px] md:tracking-[2px] transition-colors duration-500 text-[#C8992B] dark:text-[#FCD119] xl:text-[#8A857C] xl:dark:text-[#6F6A60] ${isActive ? 'xl:!text-[#C8992B] xl:dark:!text-[#FCD119]' : ''}`}>
+                                        <p className={`font-tommy-medium text-[10px] md:text-[11px] xl:text-[13px] 2xl:text-[16px] tracking-[1px] md:tracking-[2px] transition-colors duration-500 text-[#C8992B] xl:text-[#8A857C] ${isActive ? 'xl:!text-[#C8992B]' : ''}`}>
                                             {ch.tag}
                                         </p>
-                                        <h4 className={`font-tommy-bold text-[14px] md:text-[16px] xl:text-[22px] 2xl:text-[28px] leading-[1.15] md:leading-[1.1] transition-colors duration-500 text-[#1A1917] dark:text-white xl:text-[#1A1917]/50 xl:dark:text-white/50 ${isActive ? 'xl:!text-[#1A1917] xl:dark:!text-white' : ''}`}>
+                                        <h4 className={`font-tommy-bold text-[14px] md:text-[16px] xl:text-[22px] 2xl:text-[28px] leading-[1.15] md:leading-[1.1] transition-colors duration-500 text-[#1A1917] xl:text-[#1A1917]/50 ${isActive ? 'xl:!text-[#1A1917]' : ''}`}>
                                             {ch.title}
                                         </h4>
                                     </div>

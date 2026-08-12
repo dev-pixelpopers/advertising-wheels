@@ -43,19 +43,19 @@ const SUGGESTIONS = [
 
 export default function NotFound() {
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
             <div className="mx-auto max-w-[1280px] px-6 pb-24 pt-[120px] md:px-12 md:pb-32 md:pt-[160px]">
                 <div className="max-w-[62ch]">
-                    <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px] dark:text-[#9A968E]">
+                    <p className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px]">
                         Error 404
                     </p>
 
-                    <h1 className="mt-4 font-tommy-bold text-[clamp(38px,7vw,86px)] leading-[0.98] tracking-[-0.03em] text-[#1A1917] dark:text-white">
+                    <h1 className="mt-4 font-tommy-bold text-[clamp(38px,7vw,86px)] leading-[0.98] tracking-[-0.03em] text-[#1A1917]">
                         This route doesn&rsquo;t exist
-                        <span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                        <span className="text-[#C8992B]">.</span>
                     </h1>
 
-                    <p className="mt-6 font-tommy-regular text-[15px] leading-[1.75] text-[#5A554C] md:text-[16.5px] dark:text-[#A8A399]">
+                    <p className="mt-6 font-tommy-regular text-[15px] leading-[1.75] text-[#5A554C] md:text-[16.5px]">
                         The page you were after has moved, been renamed, or never existed. Nothing is
                         broken on your end — try one of these instead.
                     </p>
@@ -63,7 +63,7 @@ export default function NotFound() {
                     <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                         <Link
                             href="/"
-                            className="group flex items-center gap-2 rounded-full bg-[#1A1917] px-6 py-3 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] dark:bg-[#FCD119] dark:text-black"
+                            className="group flex items-center gap-2 rounded-full bg-[#1A1917] px-6 py-3 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04]"
                         >
                             Back to home
                             <svg
@@ -86,23 +86,23 @@ export default function NotFound() {
 
                         <Link
                             href="/contact"
-                            className="rounded-full border border-black/15 px-6 py-3 font-tommy-medium text-[15px] text-[#1A1917] transition-colors duration-300 hover:border-[#C8992B]/50 hover:text-[#C8992B] dark:border-white/20 dark:text-white dark:hover:border-[#FCD119]/50 dark:hover:text-[#FCD119]"
+                            className="rounded-full border border-black/15 px-6 py-3 font-tommy-medium text-[15px] text-[#1A1917] transition-colors duration-300 hover:border-[#C8992B]/50 hover:text-[#C8992B]"
                         >
                             Talk to us
                         </Link>
                     </div>
 
-                    <ul className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-[18px] border border-black/10 bg-black/10 sm:grid-cols-3 dark:border-white/10 dark:bg-white/10">
+                    <ul className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-[18px] border border-black/10 bg-black/10 sm:grid-cols-3">
                         {SUGGESTIONS.map((s) => (
                             <li key={s.href}>
                                 <Link
                                     href={s.href}
-                                    className="group flex h-full flex-col justify-between gap-6 bg-[#EEE8D9] p-5 transition-colors duration-300 hover:bg-[#E7E0CE] dark:bg-[#0A0A0A] dark:hover:bg-white/[0.04]"
+                                    className="group flex h-full flex-col justify-between gap-6 bg-[#EEE8D9] p-5 transition-colors duration-300 hover:bg-[#E7E0CE]"
                                 >
-                                    <span className="font-tommy-regular text-[12.5px] leading-[1.5] text-[#6F6A60] dark:text-[#9A968E]">
+                                    <span className="font-tommy-regular text-[12.5px] leading-[1.5] text-[#6F6A60]">
                                         {s.hint}
                                     </span>
-                                    <span className="flex items-center justify-between gap-3 font-tommy-bold text-[17px] tracking-tight text-[#1A1917] dark:text-white">
+                                    <span className="flex items-center justify-between gap-3 font-tommy-bold text-[17px] tracking-tight text-[#1A1917]">
                                         {s.label}
                                         <svg
                                             width="14"
@@ -110,7 +110,7 @@ export default function NotFound() {
                                             viewBox="0 0 16 16"
                                             fill="none"
                                             aria-hidden="true"
-                                            className="shrink-0 text-[#C8992B] transition-transform duration-300 group-hover:translate-x-1 dark:text-[#FCD119]"
+                                            className="shrink-0 text-[#C8992B] transition-transform duration-300 group-hover:translate-x-1"
                                         >
                                             <path
                                                 d="M1 8 H14 M9 3 L14 8 L9 13"

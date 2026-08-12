@@ -188,14 +188,14 @@ export default function HorizontalStatement() {
     );
 
     const sizeClass = (t: Extract<Token, { kind: 'word' }>) => {
-        if (t.emph === 'strong') return 'font-tommy-bold text-[#C8992B] dark:text-[#FCD119] text-[clamp(56px,12vw,168px)]';
-        if (t.emph === 'soft') return 'font-tommy-medium italic text-black/55 dark:text-white/75 text-[clamp(42px,8.5vw,116px)]';
-        if (t.size === 'sm') return 'font-tommy-regular text-[#1A1917]/70 dark:text-[#EEE8D9]/80 text-[clamp(34px,6vw,88px)]';
-        return 'font-tommy-medium text-[#1A1917] dark:text-[#EEE8D9] text-[clamp(42px,8.5vw,120px)]';
+        if (t.emph === 'strong') return 'font-tommy-bold text-[#C8992B] text-[clamp(56px,12vw,168px)]';
+        if (t.emph === 'soft') return 'font-tommy-medium italic text-black/55 text-[clamp(42px,8.5vw,116px)]';
+        if (t.size === 'sm') return 'font-tommy-regular text-[#1A1917]/70 text-[clamp(34px,6vw,88px)]';
+        return 'font-tommy-medium text-[#1A1917] text-[clamp(42px,8.5vw,120px)]';
     };
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#C8992B] transition-colors duration-300 dark:border-white/10 dark:bg-[#141414] dark:text-[#FCD119]">
+        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#C8992B] transition-colors duration-300">
             <style>{`
                 /* Flowing dashes make the road curves read like moving ticker tape. */
                 .hs-curve path { stroke-dasharray: 16 12; animation: hs-flow 2.6s linear infinite; }
@@ -212,8 +212,8 @@ export default function HorizontalStatement() {
             <div className="flex h-screen w-full flex-col justify-center overflow-hidden">
                 {/* Corner labels — minimal chrome so the line stays the hero. */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 pt-[92px] md:px-12 lg:pt-[13vh]">
-                    <span className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-black/40 dark:text-white/40">The whole service, in one line</span>
-                    <span className="hidden font-tommy-regular text-[11px] uppercase tracking-[4px] text-black/40 lg:block dark:text-white/40">Keep scrolling →</span>
+                    <span className="font-tommy-regular text-[11px] uppercase tracking-[4px] text-black/40">The whole service, in one line</span>
+                    <span className="hidden font-tommy-regular text-[11px] uppercase tracking-[4px] text-black/40 lg:block">Keep scrolling →</span>
                 </div>
 
                 {/* THE single flex row — the whole sentence, flowing sideways. */}
@@ -236,8 +236,8 @@ export default function HorizontalStatement() {
                 </div>
 
                 {/* Scrub progress rail */}
-                <div className="absolute inset-x-6 bottom-[7vh] z-20 h-px bg-black/12 md:inset-x-12 dark:bg-white/12">
-                    <div ref={progressRef} className="h-full origin-left bg-[#C8992B] dark:bg-[#FCD119]" style={{ transform: 'scaleX(0)' }} />
+                <div className="absolute inset-x-6 bottom-[7vh] z-20 h-px bg-black/12 md:inset-x-12">
+                    <div ref={progressRef} className="h-full origin-left bg-[#C8992B]" style={{ transform: 'scaleX(0)' }} />
                 </div>
             </div>
         </section>

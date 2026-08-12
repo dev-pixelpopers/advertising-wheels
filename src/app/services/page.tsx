@@ -115,13 +115,13 @@ function Capabilities() {
     );
 
     return (
-        <section ref={rootRef} className="w-full bg-[#EEE8D9]  transition-colors duration-300 py-10 md:py-16 lg:py-28 dark:bg-[#0A0A0A]">
+        <section ref={rootRef} className="w-full bg-[#EEE8D9]  transition-colors duration-300 py-10 md:py-16 lg:py-28">
             <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-y-4 px-6 md:px-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-x-20">
                 {/* Sticky index — desktop only */}
                 <div className="hidden lg:block">
                     <div className="sticky top-[18vh]">
                         <Eyebrow>Capabilities</Eyebrow>
-                        <h2 className="mt-4 font-tommy-bold text-[clamp(34px,3vw,52px)] leading-[1.02] tracking-tight text-[#1A1917] dark:text-white">
+                        <h2 className="mt-4 font-tommy-bold text-[clamp(34px,3vw,52px)] leading-[1.02] tracking-tight text-[#1A1917]">
                             Everything but the
                             <br />
                             still image<Dot />
@@ -136,17 +136,17 @@ function Capabilities() {
                                         className="group flex w-full items-center gap-4 py-2.5 text-left"
                                     >
                                         <span
-                                            className={`font-tommy-medium text-[13px] tabular-nums transition-colors duration-300 ${active === i ? 'text-[#C8992B] dark:text-[#FCD119]' : 'text-black/30 dark:text-white/30'}`}
+                                            className={`font-tommy-medium text-[13px] tabular-nums transition-colors duration-300 ${active === i ? 'text-[#C8992B]' : 'text-black/30'}`}
                                         >
                                             {String(i + 1).padStart(2, '0')}
                                         </span>
                                         <span
-                                            className={`font-tommy-medium text-[19px] transition-colors duration-300 ${active === i ? 'text-[#1A1917] dark:text-white' : 'text-black/35 dark:text-white/35'}`}
+                                            className={`font-tommy-medium text-[19px] transition-colors duration-300 ${active === i ? 'text-[#1A1917]' : 'text-black/35'}`}
                                         >
                                             {s.title}
                                         </span>
                                         <span
-                                            className={`ml-auto h-px transition-all duration-300 ${active === i ? 'w-10 bg-[#C8992B] dark:bg-[#FCD119]' : 'w-0 bg-transparent'}`}
+                                            className={`ml-auto h-px transition-all duration-300 ${active === i ? 'w-10 bg-[#C8992B]' : 'w-0 bg-transparent'}`}
                                         />
                                     </button>
                                 </li>
@@ -158,7 +158,7 @@ function Capabilities() {
                 {/* Mobile heading */}
                 <div className="mb-6 lg:hidden">
                     <Eyebrow>Capabilities</Eyebrow>
-                    <h2 className="mt-3 font-tommy-bold text-[34px] leading-[1.04] tracking-tight text-[#1A1917] dark:text-white">
+                    <h2 className="mt-3 font-tommy-bold text-[34px] leading-[1.04] tracking-tight text-[#1A1917]">
                         Everything but the still image<Dot />
                     </h2>
                 </div>
@@ -169,26 +169,26 @@ function Capabilities() {
                         <article
                             key={s.title}
                             id={`svc-${i}`}
-                            className="svc-panel flex min-h-auto lg:min-h-[62vh] flex-col justify-center border-t border-black/10 py-10 first:border-t-0 lg:min-h-[78vh] dark:border-white/10"
+                            className="svc-panel flex min-h-auto lg:min-h-[62vh] flex-col justify-center border-t border-black/10 py-10 first:border-t-0 lg:min-h-[78vh]"
                         >
                             <span data-svc-in className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FCD119] text-black">
                                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
                                     <path d={s.icon} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </span>
-                            <p data-svc-in className="mt-7 font-tommy-regular text-[12px] uppercase tracking-[4px] text-[#C8992B] dark:text-[#FCD119]">
+                            <p data-svc-in className="mt-7 font-tommy-regular text-[12px] uppercase tracking-[4px] text-[#C8992B]">
                                 {String(i + 1).padStart(2, '0')} — {s.tag}
                             </p>
-                            <h3 data-svc-in className="mt-3 font-tommy-bold text-[34px] leading-[1.02] tracking-tight text-[#1A1917] md:text-[52px] dark:text-white">
+                            <h3 data-svc-in className="mt-3 font-tommy-bold text-[34px] leading-[1.02] tracking-tight text-[#1A1917] md:text-[52px]">
                                 {s.title}
                             </h3>
-                            <p data-svc-in className="mt-5 max-w-[560px] font-tommy-regular text-[16px] leading-[1.75] text-[#5A554C] md:text-[18px] dark:text-[#A8A399]">
+                            <p data-svc-in className="mt-5 max-w-[560px] font-tommy-regular text-[16px] leading-[1.75] text-[#5A554C] md:text-[18px]">
                                 {s.body}
                             </p>
                             <ul data-svc-in className="mt-8 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
                                 {s.features.map((f) => (
-                                    <li key={f} className="flex items-center gap-3 font-tommy-regular text-[15px] text-[#3A3730] dark:text-[#CFCABF]">
-                                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCD119]/20 text-[#C8992B] dark:text-[#FCD119]">
+                                    <li key={f} className="flex items-center gap-3 font-tommy-regular text-[15px] text-[#3A3730]">
+                                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCD119]/20 text-[#C8992B]">
                                             <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
                                                 <path d="M2 6.5L4.6 9 10 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
@@ -226,7 +226,7 @@ function Process() {
     );
 
     return (
-        <section ref={rootRef} className="w-full border-y border-black/10 bg-[#E7E0CE]  text-[#1A1917] transition-colors duration-300 py-10 md:py-16 lg:py-32 dark:border-white/10 dark:bg-[#141414] dark:text-white">
+        <section ref={rootRef} className="w-full border-y border-black/10 bg-[#E7E0CE]  text-[#1A1917] transition-colors duration-300 py-10 md:py-16 lg:py-32">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <Reveal className="max-w-[720px]" y={30}>
                     <Eyebrow>How it works</Eyebrow>
@@ -237,8 +237,8 @@ function Process() {
 
                 <div className="relative mt-16">
                     {/* Connecting line that draws with scroll (desktop) */}
-                    <div className="absolute left-0 right-0 top-[26px] hidden h-px bg-black/10 lg:block dark:bg-white/10">
-                        <div ref={lineRef} className="h-full w-full origin-left bg-[#C8992B] dark:bg-[#FCD119]" />
+                    <div className="absolute left-0 right-0 top-[26px] hidden h-px bg-black/10 lg:block">
+                        <div ref={lineRef} className="h-full w-full origin-left bg-[#C8992B]" />
                     </div>
 
                     <Reveal className="grid grid-cols-1 gap-y-4 md:gap-y-8 lg:gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-10" y={40} stagger={0.14}>
@@ -248,7 +248,7 @@ function Process() {
                                     {i + 1}
                                 </span>
                                 <h3 className="mt-6 font-tommy-bold text-[24px] tracking-tight">{p.step}</h3>
-                                <p className="mt-3 max-w-[260px] font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-white/55">
+                                <p className="mt-3 max-w-[260px] font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C]">
                                     {p.body}
                                 </p>
                             </div>
@@ -273,29 +273,29 @@ const STACK = [
 
 function MeasurementStack() {
     return (
-        <section className="w-full bg-[#EEE8D9]  transition-colors duration-300 py-10 md:py-16 lg:py-32 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9]  transition-colors duration-300 py-10 md:py-16 lg:py-32">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <Reveal className="max-w-[760px]" y={30}>
                     <Eyebrow>Measurement stack</Eyebrow>
-                    <h2 className="mt-4 font-tommy-bold text-[clamp(32px,4.4vw,60px)] leading-[1.02] tracking-tight text-[#1A1917] dark:text-white">
+                    <h2 className="mt-4 font-tommy-bold text-[clamp(32px,4.4vw,60px)] leading-[1.02] tracking-tight text-[#1A1917]">
                         Numbers your CMO can defend<Dot />
                     </h2>
-                    <p className="mt-5 font-tommy-regular text-[16px] leading-[1.7] text-[#5A554C] dark:text-[#A8A399]">
+                    <p className="mt-5 font-tommy-regular text-[16px] leading-[1.7] text-[#5A554C]">
                         Out-of-home was the last major channel without real accountability. We closed that gap —
                         four layers of independent measurement on every flight.
                     </p>
                 </Reveal>
 
-                <Reveal className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-[20px] border border-black/10 bg-black/10 md:grid-cols-2 dark:border-white/10 dark:bg-white/10" y={40} stagger={0.12}>
+                <Reveal className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-[20px] border border-black/10 bg-black/10 md:grid-cols-2" y={40} stagger={0.12}>
                     {STACK.map((s, i) => (
-                        <div key={s.k} className="bg-[#EEE8D9] p-4 md:p-6 lg:p-8 transition-colors duration-300 md:p-10 dark:bg-[#0A0A0A]">
-                            <span className="font-tommy-regular text-[11px] uppercase tracking-[3px] text-[#C8992B] dark:text-[#FCD119]">
+                        <div key={s.k} className="bg-[#EEE8D9] p-4 md:p-6 lg:p-8 transition-colors duration-300 md:p-10">
+                            <span className="font-tommy-regular text-[11px] uppercase tracking-[3px] text-[#C8992B]">
                                 {String(i + 1).padStart(2, '0')}
                             </span>
-                            <h3 className="mt-4 font-tommy-bold text-[22px] leading-tight tracking-tight text-[#1A1917] md:text-[26px] dark:text-white">
+                            <h3 className="mt-4 font-tommy-bold text-[22px] leading-tight tracking-tight text-[#1A1917] md:text-[26px]">
                                 {s.k}
                             </h3>
-                            <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-[#A8A399]">{s.d}</p>
+                            <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C]">{s.d}</p>
                         </div>
                     ))}
                 </Reveal>
@@ -310,7 +310,7 @@ function MeasurementStack() {
 
 export default function ServicesPage() {
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
             <PortalHero
                 badge="Solutions"
                 title="WHAT WE DO"

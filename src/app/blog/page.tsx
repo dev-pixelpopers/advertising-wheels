@@ -72,10 +72,10 @@ function Featured() {
     );
 
     return (
-        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-10 md:py-16 transition-colors duration-300 lg:py-24 dark:bg-[#0A0A0A]">
+        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-10 md:py-16 transition-colors duration-300 lg:py-24">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
                 <Link href={`/blog/${FEATURED.slug}`} className="group grid grid-cols-1 items-center gap-4 md:gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-                    <div data-bf-media className="order-2 overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)] lg:order-1 dark:border-white/10">
+                    <div data-bf-media className="order-2 overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)] lg:order-1">
                         <div className="relative h-[280px] overflow-hidden md:h-[440px]">
                             {/* Oversized + parallaxed, so the drift moves this
                                 wrapper — `fill` gives next/image the <img>'s
@@ -95,20 +95,20 @@ function Featured() {
                     <div data-bf-copy className="order-1 lg:order-2">
                         <div className="flex items-center gap-3">
                             <span className="rounded-full bg-[#FCD119] px-3.5 py-1.5 font-tommy-medium text-[11px] uppercase tracking-[1.5px] text-black">Featured</span>
-                            <span className="font-tommy-regular text-[12px] uppercase tracking-[2px] text-[#8A857C] dark:text-[#9A968E]">{FEATURED.category}</span>
+                            <span className="font-tommy-regular text-[12px] uppercase tracking-[2px] text-[#8A857C]">{FEATURED.category}</span>
                         </div>
-                        <h2 className="mt-3 md:mt-5 lg:mt-6 font-tommy-bold text-[26px] md:text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-tight text-[#1A1917] dark:text-white">
+                        <h2 className="mt-3 md:mt-5 lg:mt-6 font-tommy-bold text-[26px] md:text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-tight text-[#1A1917]">
                             {FEATURED.title}
                         </h2>
-                        <p className="mt-2 md:mt-4 lg:mt-5 lg:max-w-[520px] font-tommy-regular text-[14px] md:text-[16px] leading-[1.75] text-[#5A554C] lg:text-[18px] dark:text-[#A8A399]">
+                        <p className="mt-2 md:mt-4 lg:mt-5 lg:max-w-[520px] font-tommy-regular text-[14px] md:text-[16px] leading-[1.75] text-[#5A554C] lg:text-[18px]">
                             {FEATURED.excerpt}
                         </p>
-                        <div className="mt-3 md:mt-5 lg:mt-7 flex items-center gap-4 font-tommy-regular text-[11px] md:text-[13px] text-[#6F6A60] dark:text-[#9A968E]">
+                        <div className="mt-3 md:mt-5 lg:mt-7 flex items-center gap-4 font-tommy-regular text-[11px] md:text-[13px] text-[#6F6A60]">
                             <span>{FEATURED.date}</span>
                             <span className="h-1 w-1 rounded-full bg-current opacity-40" />
                             <span>{FEATURED.read}</span>
                         </div>
-                        <span className="mt-4 md:mt-6 lg:mt-8 inline-flex items-center gap-2 font-tommy-medium text-[12px] md:text-[14px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white dark:group-hover:text-[#FCD119]">
+                        <span className="mt-4 md:mt-6 lg:mt-8 inline-flex items-center gap-2 font-tommy-medium text-[12px] md:text-[14px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 group-hover:text-[#C8992B]">
                             Read article <ArrowIcon />
                         </span>
                     </div>
@@ -127,17 +127,17 @@ function Grid() {
     const visible = active === 'All' ? REST : REST.filter((p) => p.category === active);
 
     return (
-        <section className="w-full bg-[#EEE8D9] pb-14 md:pb-20 transition-colors duration-300 lg:pb-32 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] pb-14 md:pb-20 transition-colors duration-300 lg:pb-32">
             <div className="mx-auto max-w-[1280px] px-3 md:px-6 lg:px-12">
                 {/* Category chips */}
-                <Reveal className="flex flex-wrap items-center gap-1.5 md:gap-2.5 border-t border-black/10 pt-6 md:pt-10 lg:pt-12 dark:border-white/10" y={20} stagger={0.05}>
+                <Reveal className="flex flex-wrap items-center gap-1.5 md:gap-2.5 border-t border-black/10 pt-6 md:pt-10 lg:pt-12" y={20} stagger={0.05}>
                     {CATEGORIES.map((c) => (
                         <button
                             key={c}
                             onClick={() => setActive(c)}
                             className={`rounded-full border px-3 md:px-5 py-1.5 md:py-2.5 font-tommy-medium text-[11px] md:text-[13.5px] transition-colors duration-300 ${active === c
-                                ? 'border-transparent bg-[#1A1917] text-[#FCD119] dark:bg-[#FCD119] dark:text-black'
-                                : 'border-black/12 text-[#5A554C] hover:border-[#C8992B]/40 hover:text-[#1A1917] dark:border-white/12 dark:text-[#A8A399] dark:hover:text-white'
+                                ? 'border-transparent bg-[#1A1917] text-[#FCD119]'
+                                : 'border-black/12 text-[#5A554C] hover:border-[#C8992B]/40 hover:text-[#1A1917]'
                                 }`}
                         >
                             {c}
@@ -151,7 +151,7 @@ function Grid() {
                         <Link
                             key={p.slug}
                             href={`/blog/${p.slug}`}
-                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#FCD119]/30"
+                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40"
                         >
                             <div className="relative h-[190px] overflow-hidden">
                                 <Image
@@ -164,20 +164,20 @@ function Grid() {
                                 />
                             </div>
                             <div className="flex flex-1 flex-col p-3 md:p-5 lg:p-6">
-                                <div className="flex items-center gap-3 font-tommy-regular text-[11.5px] uppercase tracking-[1.5px] text-[#8A857C] dark:text-[#9A968E]">
-                                    <span className="text-[#C8992B] dark:text-[#FCD119]">{p.category}</span>
+                                <div className="flex items-center gap-3 font-tommy-regular text-[11.5px] uppercase tracking-[1.5px] text-[#8A857C]">
+                                    <span className="text-[#C8992B]">{p.category}</span>
                                     <span className="h-1 w-1 rounded-full bg-current opacity-40" />
                                     <span>{p.read}</span>
                                 </div>
-                                <h3 className="mt-2 md:mt-3 font-tommy-bold text-[16px] md:text-[21px] leading-[1.15] tracking-tight text-[#1A1917] dark:text-white">
+                                <h3 className="mt-2 md:mt-3 font-tommy-bold text-[16px] md:text-[21px] leading-[1.15] tracking-tight text-[#1A1917]">
                                     {p.title}
                                 </h3>
-                                <p className="mt-2 md:mt-3 font-tommy-regular text-[12px] md:text-[14.5px] leading-[1.65] text-[#5A554C] dark:text-[#A8A399]">
+                                <p className="mt-2 md:mt-3 font-tommy-regular text-[12px] md:text-[14.5px] leading-[1.65] text-[#5A554C]">
                                     {p.excerpt}
                                 </p>
                                 <div className="mt-4 md:mt-6 flex items-center justify-between md:pt-4">
-                                    <span className="font-tommy-regular text-[12.5px] text-[#6F6A60] dark:text-[#9A968E]">{p.date}</span>
-                                    <span className="text-[#1A1917] opacity-40 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 dark:text-white">
+                                    <span className="font-tommy-regular text-[12.5px] text-[#6F6A60]">{p.date}</span>
+                                    <span className="text-[#1A1917] opacity-40 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
                                         <ArrowIcon />
                                     </span>
                                 </div>
@@ -200,19 +200,19 @@ function Newsletter() {
     const subscribe = useSubscribe();
 
     return (
-        <section className="w-full bg-[#EEE8D9] md:pb-20 transition-colors duration-300 lg:pb-32 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] md:pb-20 transition-colors duration-300 lg:pb-32">
             <Reveal className="mx-auto max-w-[1280px] px-3 md:px-6 lg:px-12" self y={40}>
-                <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-[#E7E0CE] px-5 md:px-8 py-8 md:py-12 transition-colors duration-300 lg:px-16 lg:py-20 dark:border-white/10 dark:bg-[#141414]">
+                <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-[#E7E0CE] px-5 md:px-8 py-8 md:py-12 transition-colors duration-300 lg:px-16 lg:py-20">
                     <div className="pointer-events-none absolute -right-[10%] -top-[60%] opacity-60" aria-hidden="true">
                         <Rings />
                     </div>
                     <div className="relative z-10 grid grid-cols-1 items-center gap-5 md:gap-8 lg:gap-10 lg:grid-cols-[1fr_1fr]">
                         <div>
                             <Eyebrow>The dispatch</Eyebrow>
-                            <h2 className="mt-2 md:mt-4 font-tommy-bold text-[24px] md:text-[clamp(28px,3.4vw,46px)] leading-[1.05] tracking-tight text-[#1A1917] dark:text-white">
+                            <h2 className="mt-2 md:mt-4 font-tommy-bold text-[24px] md:text-[clamp(28px,3.4vw,46px)] leading-[1.05] tracking-tight text-[#1A1917]">
                                 Route news and results, once a month<Dot />
                             </h2>
-                            <p className="mt-2 md:mt-4 max-w-[440px] font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-white/55">
+                            <p className="mt-2 md:mt-4 max-w-[440px] font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C]">
                                 Market openings, campaign readouts and the occasional strong opinion about out-of-home.
                                 No spam, ever.
                             </p>
@@ -234,7 +234,7 @@ function Newsletter() {
                                     value={subscribe.email}
                                     onChange={(e) => subscribe.onEmailChange(e.target.value)}
                                     disabled={subscribe.state === 'sending'}
-                                    className="w-full min-w-0 flex-1 rounded-full border border-black/15 bg-white/70 px-3 md:px-6 py-2 md:py-4 font-tommy-regular text-[12px] md:text-[15px] text-[#1A1917] placeholder:text-black/35 focus:border-[#C8992B] focus:outline-none disabled:opacity-60 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder:text-white/35 dark:focus:border-[#FCD119]"
+                                    className="w-full min-w-0 flex-1 rounded-full border border-black/15 bg-white/70 px-3 md:px-6 py-2 md:py-4 font-tommy-regular text-[12px] md:text-[15px] text-[#1A1917] placeholder:text-black/35 focus:border-[#C8992B] focus:outline-none disabled:opacity-60"
                                 />
 
                                 <SubscribeHoneypot inputRef={subscribe.honeyRef} />
@@ -256,8 +256,8 @@ function Newsletter() {
                                     role="status"
                                     aria-live="polite"
                                     className={`mt-3 px-1 font-tommy-regular text-[13px] leading-[1.6] ${subscribe.state === 'error'
-                                        ? 'text-[#B4462F] dark:text-[#F08A72]'
-                                        : 'text-[#1A1917] dark:text-white'
+                                        ? 'text-[#B4462F]'
+                                        : 'text-[#1A1917]'
                                         }`}
                                 >
                                     {subscribe.message}
@@ -277,7 +277,7 @@ function Newsletter() {
 
 export default function BlogPage() {
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
             <PortalHero
                 badge="Blog"
                 title="FROM THE ROAD"

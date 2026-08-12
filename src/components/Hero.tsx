@@ -380,7 +380,7 @@ export default function Hero({ isReady }: HeroProps) {
       <section ref={containerRef} className="relative h-[550vh] w-[100vw] z-70">
         <div className="sticky top-0 h-dvh w-full overflow-hidden">
 
-          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] dark:bg-[#0A0A0A] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-4 md:px-8 lg:px-12 2xl:px-20 3xl:px-25 py-[72px] overflow-hidden w-full h-full'>
+          <div ref={divRef} className='first-section absolute inset-0 bg-[#EEE8D9] transition-colors duration-300 opacity-0 flex flex-col justify-between items-center px-4 md:px-8 lg:px-12 2xl:px-20 3xl:px-25 py-[72px] overflow-hidden w-full h-full'>
             {/* Canvas frame sequence — sits above the cream bg, behind the text.
               Hidden at first (only text shows); fades in blurred & scaled down as scroll begins. */}
             <canvas
@@ -406,7 +406,7 @@ export default function Hero({ isReady }: HeroProps) {
             />
             <div ref={contentRef} className='w-full h-full flex flex-col justify-center items-center relative z-10'>
               <div ref={headingWrapRef} className='flex flex-col justify-center items-center gap-[3px] md:gap-[5px]'>
-                <span ref={subRef} className='text-center text-[#1A1917] dark:text-[#F5F5F5] font-tommy-bold text-[25px] md:text-[clamp(2.5rem,5vw,4.125rem)] capitalize transition-colors duration-300'>We’re where life</span>
+                <span ref={subRef} className='text-center text-[#1A1917] font-tommy-bold text-[25px] md:text-[clamp(2.5rem,5vw,4.125rem)] capitalize transition-colors duration-300'>We’re where life</span>
                 <h1 className='text-white font-tommy-bold text-[60px] md:text-[clamp(80px,16.9vw,21.5rem)] leading-[87.21%] flex flex-nowrap'>
                   <span ref={hapRef} className='inline-block'>HAPP</span>
                   <span ref={pensRef} className='inline-block'>ENS<span className='text-[#FCD119]'>.</span></span>
@@ -515,7 +515,7 @@ export default function Hero({ isReady }: HeroProps) {
                   as a solid coloured square. Icon exports normally are. */}
               <span
                 aria-hidden="true"
-                className="hero-swipe-hand md:hidden block h-[48px] w-[48px] bg-current text-[#1A1917] dark:text-[#FCD119]"
+                className="hero-swipe-hand md:hidden block h-[48px] w-[48px] bg-current text-[#1A1917]"
                 style={{
                   WebkitMaskImage: 'url(/assets/images/swipe-hand.png)',
                   maskImage: 'url(/assets/images/swipe-hand.png)',
@@ -529,8 +529,8 @@ export default function Hero({ isReady }: HeroProps) {
               />
 
               {/* Tablet and up — the original label + travelling arrow. */}
-              <span className="hidden md:block text-[#1A1917] dark:text-[#FCD119] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="hero-scroll-arrow hidden md:block text-[#1A1917] dark:text-[#FCD119] md:w-[44px] md:h-[44px]">
+              <span className="hidden md:block text-[#1A1917] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="hero-scroll-arrow hidden md:block text-[#1A1917] md:w-[44px] md:h-[44px]">
                 <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>

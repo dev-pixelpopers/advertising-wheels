@@ -428,17 +428,17 @@ export default function TruckExperience() {
                 {/* STATS BAR — appears with stats.png, positioned bottom of screen above subtitle text */}
                 <div
                     ref={statsBarRef}
-                    className="absolute bottom-[21%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 dark:bg-[#141414]/90 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 dark:border-white/10 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto overflow-scroll lg:overflow-hidden"
+                    className="absolute bottom-[21%] lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-2 py-4 lg:p-4 transition-colors duration-300 pointer-events-auto overflow-scroll lg:overflow-hidden"
                 >
                     {/* These figures are illustrative, not live fleet data — the
                         counters below drift on a timer. Labelling the panel keeps
                         its campaign-scale truck count from reading as a claim
                         about the size of the fleet. */}
-                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left text-center">
+                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left text-center">
                         Sample campaign dashboard
                     </p>
 
-                    <div className="grid grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800/80 gap-y-2 md:gap-y-4 lg:gap-y-0 w-max lg:w-auto">
+                    <div className="grid grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 gap-y-2 md:gap-y-4 lg:gap-y-0 w-max lg:w-auto">
                         {/* Item 1: TOTAL IMPRESSIONS */}
                         <div className="flex flex-col justify-between lg:pr-3 md:px-5 first:pl-0 w-[50vw] lg:w-auto">
                             <div className="flex flex-col lg:flex-row items-center gap-2 md:gap-3">
@@ -448,12 +448,12 @@ export default function TruckExperience() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left">TOTAL IMPRESSIONS</span>
+                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">TOTAL IMPRESSIONS</span>
                                     <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
-                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
+                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
                                             {impressionsCount.toFixed(2)}M
                                         </span>
-                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black dark:text-gray-300 whitespace-nowrap">
+                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
                                             ↑ 12.5%
                                         </span>
                                     </div>
@@ -474,12 +474,12 @@ export default function TruckExperience() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left">TOTAL MILEAGE</span>
+                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">TOTAL MILEAGE</span>
                                     <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
-                                        <span className="text-[16px] text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
+                                        <span className="text-[16px] text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
                                             {mileageCount.toLocaleString()} <span className="text-[15px] md:text-[18px] font-tommy-medium">miles</span>
                                         </span>
-                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black dark:text-gray-300 whitespace-nowrap">
+                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
                                             ↑ 8.3%
                                         </span>
                                     </div>
@@ -500,12 +500,12 @@ export default function TruckExperience() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left">ACTIVE TRUCKS</span>
+                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">ACTIVE TRUCKS</span>
                                     <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
-                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
+                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
                                             {trucksCount}
                                         </span>
-                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black dark:text-gray-300 whitespace-nowrap">
+                                        <span className="text-[11px] md:text-[12px] font-tommy-medium text-black whitespace-nowrap">
                                             ↑ 5.2%
                                         </span>
                                     </div>
@@ -526,9 +526,9 @@ export default function TruckExperience() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase text-center lg:text-left">ACTIVE CAMPAIGNS</span>
+                                    <span className="text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left">ACTIVE CAMPAIGNS</span>
                                     <div className="flex items-center lg:items-baseline gap-1.5 md:gap-2 justify-center lg:justify-left">
-                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black dark:text-white">
+                                        <span className="text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] font-tommy-bold leading-tight text-black">
                                             {campaignsCount}
                                         </span>
                                     </div>

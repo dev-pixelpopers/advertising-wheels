@@ -502,7 +502,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
         return (
             <section
                 ref={rootRef}
-                className="relative w-full bg-[#EEE8D9] px-5 md:px-8 lg:px-12 py-12 md:py-16 lg:py-24 transition-colors duration-300 dark:bg-[#0A0A0A]"
+                className="relative w-full bg-[#EEE8D9] px-5 md:px-8 lg:px-12 py-12 md:py-16 lg:py-24 transition-colors duration-300"
             >
                 {/* Widens with the viewport — at tablet and small-laptop sizes a
                     560px column would leave most of the row empty. */}
@@ -589,7 +589,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
         /* Tall track — its height IS the scroll distance the pin consumes. */
         <section
             ref={rootRef}
-            className="relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
+            className="relative w-full bg-[#EEE8D9] transition-colors duration-300"
             style={{ height: '300vh' }}
         >
             <div ref={screenRef} className="flex h-screen w-full flex-col justify-center overflow-hidden py-10">
@@ -621,7 +621,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                                 <line
                                     key={nd.title}
                                     ref={(el) => { lineRefs.current[i] = el; }}
-                                    className="text-[#C8992B] dark:text-[#FCD119]"
+                                    className="text-[#C8992B]"
                                     stroke="currentColor"
                                     strokeWidth="2"
                                     strokeLinecap="round"
@@ -677,7 +677,7 @@ export default function OrbitDiagram({ hub, nodes, eyebrow, heading, intro, stac
                             <div
                                 key={nd.title}
                                 ref={(el) => { satRefs.current[i] = el; }}
-                                className="absolute left-1/2 top-1/2 z-10 flex w-[clamp(262px,19.5vw,304px)] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[22px] border border-black/10 bg-white/90 p-6 text-left shadow-[0_22px_50px_-32px_rgba(0,0,0,.45)] backdrop-blur-sm will-change-transform dark:border-white/10 dark:bg-white/[0.06]"
+                                className="absolute left-1/2 top-1/2 z-10 flex w-[clamp(262px,19.5vw,304px)] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[22px] border border-black/10 bg-white/90 p-6 text-left shadow-[0_22px_50px_-32px_rgba(0,0,0,.45)] backdrop-blur-sm will-change-transform"
                             >
                                 {/* Icon-only state — all the card shows until it lands. */}
                                 {nd.icon && (

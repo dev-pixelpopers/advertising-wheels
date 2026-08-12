@@ -618,7 +618,7 @@ function MarketPopup({
                             plain stack of boxes. */}
                         <span
                             aria-hidden="true"
-                            className="pointer-events-none absolute -top-6 right-2 select-none font-tommy-bold text-[170px] leading-none tracking-[-0.04em] text-black/[0.04] dark:text-white/[0.05]"
+                            className="pointer-events-none absolute -top-6 right-2 select-none font-tommy-bold text-[170px] leading-none tracking-[-0.04em] text-black/[0.04]"
                         >
                             {market.rank}
                         </span>
@@ -627,11 +627,11 @@ function MarketPopup({
                             <div data-pop-item>
                                 <p
                                     data-count={market.impressions}
-                                    className="font-tommy-bold text-[26px] md:text-[clamp(38px,3.5vw,60px)] leading-none tabular-nums tracking-[-0.03em] text-[#1A1917] dark:text-[#FCD119]"
+                                    className="font-tommy-bold text-[26px] md:text-[clamp(38px,3.5vw,60px)] leading-none tabular-nums tracking-[-0.03em] text-[#1A1917]"
                                 >
                                     {fmt(market.impressions)}
                                 </p>
-                                <p className="mt-0.5 2xl:mt-1 font-tommy-regular text-[8px] md:text-[10px] uppercase tracking-[2.5px] text-[#6F6A60] dark:text-[#9A968E]">
+                                <p className="mt-0.5 2xl:mt-1 font-tommy-regular text-[8px] md:text-[10px] uppercase tracking-[2.5px] text-[#6F6A60]">
                                     Impressions / truck · 4-week flight
                                 </p>
                             </div>
@@ -647,16 +647,16 @@ function MarketPopup({
                                     <div
                                         key={label}
                                         data-pop-item
-                                        className="rounded-lg md:rounded-xl lg:rounded-2xl border border-black/10 bg-black/[0.03] px-1.5 md:px-2.5 py-2 md:py-3 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#C8992B]/45 hover:bg-black/[0.05] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40 dark:hover:bg-white/[0.07]"
+                                        className="rounded-lg md:rounded-xl lg:rounded-2xl border border-black/10 bg-black/[0.03] px-1.5 md:px-2.5 py-2 md:py-3 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#C8992B]/45 hover:bg-black/[0.05]"
                                     >
                                         <p
                                             data-count={value}
                                             data-count-format={format}
-                                            className="font-tommy-bold text-[11px] leading-none tabular-nums text-[#1A1917] lg:text-[clamp(1rem,1.55vw,1.375rem)] dark:text-white"
+                                            className="font-tommy-bold text-[11px] leading-none tabular-nums text-[#1A1917] lg:text-[clamp(1rem,1.55vw,1.375rem)]"
                                         >
                                             {fmt(value)}
                                         </p>
-                                        <p className="mt-1 md:mt-2 font-tommy-regular text-[8.5px] uppercase leading-tight tracking-[1px] text-[#8A857C] md:text-[9.5px] dark:text-[#9A968E]">
+                                        <p className="mt-1 md:mt-2 font-tommy-regular text-[8.5px] uppercase leading-tight tracking-[1px] text-[#8A857C] md:text-[9.5px]">
                                             {label}
                                         </p>
                                     </div>
@@ -668,14 +668,14 @@ function MarketPopup({
                             <div data-pop-item className="flex flex-col gap-y-2 lg:gap-y-3 2xl:gap-y-4">
                                 <div>
                                     <div className="flex items-baseline justify-between">
-                                        <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2px] text-[#8A857C] dark:text-[#9A968E]">
+                                        <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2px] text-[#8A857C]">
                                             National rank
                                         </span>
-                                        <span className="font-tommy-medium text-[11px] tabular-nums text-[#C8992B] dark:text-[#FCD119]">
+                                        <span className="font-tommy-medium text-[11px] tabular-nums text-[#C8992B]">
                                             #{market.rank} of {TOTALS.count}
                                         </span>
                                     </div>
-                                    <div className="mt-1 h-[3px] md:h-[4px] 2xl:h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+                                    <div className="mt-1 h-[3px] md:h-[4px] 2xl:h-[5px] w-full overflow-hidden rounded-full bg-black/10">
                                         <span
                                             ref={rankBarRef}
                                             className="block h-full rounded-full bg-gradient-to-r from-[#C8992B] to-[#FCD119]"
@@ -686,13 +686,13 @@ function MarketPopup({
 
                                 <div>
                                     <div className="flex items-baseline justify-between">
-                                        <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2px] text-[#8A857C] dark:text-[#9A968E]">
+                                        <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2px] text-[#8A857C]">
                                             Share of national reach
                                         </span>
                                         <span
                                             data-count={shareOfReach}
                                             data-count-format="dec1"
-                                            className="font-tommy-medium text-[11px] tabular-nums text-[#C8992B] dark:text-[#FCD119]"
+                                            className="font-tommy-medium text-[11px] tabular-nums text-[#C8992B]"
                                         >
                                             {shareOfReach.toFixed(1)}%
                                         </span>
@@ -700,7 +700,7 @@ function MarketPopup({
                                     {/* Shares top out around 12%, so the track is
                                         scaled to that rather than to 100% — at true
                                         scale every market would read as an empty bar. */}
-                                    <div className="mt-1 h-[3px] md:h-[4px] 2xl:h-[5px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+                                    <div className="mt-1 h-[3px] md:h-[4px] 2xl:h-[5px] w-full overflow-hidden rounded-full bg-black/10">
                                         <span
                                             ref={barRef}
                                             className="block h-full rounded-full bg-gradient-to-r from-[#C8992B] to-[#FCD119]"
@@ -713,7 +713,7 @@ function MarketPopup({
                             {market.audience && (
                                 <p
                                     data-pop-item
-                                    className="mt-6 border-l-2 border-[#C8992B]/40 pl-4 font-tommy-regular text-[13px] leading-[1.65] text-[#5A554C] dark:border-[#FCD119]/35 dark:text-[#A8A399]"
+                                    className="mt-6 border-l-2 border-[#C8992B]/40 pl-4 font-tommy-regular text-[13px] leading-[1.65] text-[#5A554C]"
                                 >
                                     {market.audience}
                                 </p>
@@ -721,9 +721,9 @@ function MarketPopup({
 
 
                             {/* Build Campaign CTA Form */}
-                            <div data-pop-item className="rounded-[16px] md:rounded-[20px] lg:rounded-[24px] bg-gradient-to-br from-[#1A1917] to-black dark:from-[#2A2825] dark:to-[#1A1917] p-2 lg:p-4 2xl:p-5 border border-black/20 dark:border-white/10 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-none">
+                            <div data-pop-item className="rounded-[16px] md:rounded-[20px] lg:rounded-[24px] bg-gradient-to-br from-[#1A1917] to-black p-2 lg:p-4 2xl:p-5 border border-black/20 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
                                 {/* Background accent */}
-                                <div className="pointer-events-none absolute top-0 right-0 w-64 h-64 bg-[#C8992B]/15 dark:bg-[#FCD119]/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3" />
+                                <div className="pointer-events-none absolute top-0 right-0 w-64 h-64 bg-[#C8992B]/15 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3" />
 
                                 <div className="relative z-10">
                                     <h4 className="font-tommy-bold text-white text-[18px] md:text-[22px] tracking-wide mb-1">
@@ -748,7 +748,7 @@ function MarketPopup({
                                                             key={level}
                                                             onClick={() => setTrucks(levelTrucks)}
                                                             className={`rounded-full px-2 md:px-4 py-1 md:py-2 text-[10px] md:text-[14px] font-tommy-medium transition-all duration-300 ${isSelected
-                                                                ? 'bg-[#C8992B] text-black shadow-[0_0_12px_rgba(200,153,43,0.4)] dark:bg-[#FCD119] dark:shadow-[0_0_12px_rgba(252,209,25,0.4)]'
+                                                                ? 'bg-[#C8992B] text-black shadow-[0_0_12px_rgba(200,153,43,0.4)]'
                                                                 : 'bg-white/5 text-white hover:bg-white/15'
                                                                 }`}
                                                         >
@@ -778,7 +778,7 @@ function MarketPopup({
                                                         if (isNaN(val)) setTrucks(0);
                                                         else setTrucks(Math.min(maxTrucks, Math.max(0, val)));
                                                     }}
-                                                    className="w-full bg-black/40 border border-white/10 rounded-lg md:rounded-xl lg:rounded-2xl px-2 md:px-3 lg:px-4 py-1 md:py-2 lg:py-3 font-tommy-bold text-[12px] md:text-[16px] lg:text-[18px] text-white focus:outline-none focus:border-[#C8992B] dark:focus:border-[#FCD119] transition-colors"
+                                                    className="w-full bg-black/40 border border-white/10 rounded-lg md:rounded-xl lg:rounded-2xl px-2 md:px-3 lg:px-4 py-1 md:py-2 lg:py-3 font-tommy-bold text-[12px] md:text-[16px] lg:text-[18px] text-white focus:outline-none focus:border-[#C8992B] transition-colors"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 font-tommy-regular text-[11px] text-white/30">
                                                     / {maxTrucks}
@@ -796,7 +796,7 @@ function MarketPopup({
                                             <div className="flex items-end gap-3 md:gap-4">
                                                 <p
                                                     ref={dynamicImpsRef}
-                                                    className="font-tommy-bold text-[20px] md:text-[clamp(2rem,2.8vw,3rem)] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B] dark:text-[#FCD119]"
+                                                    className="font-tommy-bold text-[20px] md:text-[clamp(2rem,2.8vw,3rem)] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B]"
                                                 >
                                                     0
                                                 </p>
@@ -810,7 +810,7 @@ function MarketPopup({
 
                                         <Link
                                             href="/contact#form"
-                                            className="group w-full sm:w-auto inline-flex items-center justify-center px-4 md:px-6 xl:px-8 py-2 md:py-3 xl:py-4 rounded-full bg-[#C8992B] dark:bg-[#FCD119] text-black font-tommy-bold text-[10px] md:text-[clamp(0.75rem,1vw,0.875rem)] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] dark:shadow-[0_4px_14px_0_rgba(252,209,25,0.3)] shrink-0"
+                                            className="group w-full sm:w-auto inline-flex items-center justify-center px-4 md:px-6 xl:px-8 py-2 md:py-3 xl:py-4 rounded-full bg-[#C8992B] text-black font-tommy-bold text-[10px] md:text-[clamp(0.75rem,1vw,0.875rem)] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] shrink-0"
                                         >
                                             Start Campaign
                                             <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -826,9 +826,9 @@ function MarketPopup({
                             {related.length > 0 && (
                                 <div
                                     data-pop-item
-                                    className="rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-2 md:p-3 lg:p-4 text-center dark:border-[#FCD119]/25 dark:bg-[#FCD119]/[0.06]"
+                                    className="rounded-2xl border border-[#C8992B]/30 bg-[#C8992B]/[0.07] p-2 md:p-3 lg:p-4 text-center"
                                 >
-                                    <p className="font-tommy-medium text-[9px] md:text-[11px] uppercase tracking-[3px] text-[#8A6E1F] dark:text-[#FCD119]">
+                                    <p className="font-tommy-medium text-[9px] md:text-[11px] uppercase tracking-[3px] text-[#8A6E1F]">
                                         {relatedLabel}
                                     </p>
                                     <div className="mt-1 md:mt-2 lg:mt-3 flex flex-wrap justify-center gap-1.5 md:gap-2 xl:gap-2.5">
@@ -837,15 +837,15 @@ function MarketPopup({
                                                 key={r.id}
                                                 type="button"
                                                 onClick={() => onSelect(r.id)}
-                                                className="group flex items-center gap-1.5 md:gap-2 lg:gap-2.5 rounded-full border border-black/10 bg-[#EEE8D9] px-2 md:px-3 lg:px-4 py-1.5 md:py-2 lg:py-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#C8992B] hover:bg-white dark:border-white/12 dark:bg-white/[0.07] dark:hover:border-[#FCD119] dark:hover:bg-white/[0.12]"
+                                                className="group flex items-center gap-1.5 md:gap-2 lg:gap-2.5 rounded-full border border-black/10 bg-[#EEE8D9] px-2 md:px-3 lg:px-4 py-1.5 md:py-2 lg:py-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#C8992B] hover:bg-white"
                                             >
-                                                <span className="font-tommy-medium text-[10px] md:text-[13.5px] text-[#1A1917] dark:text-white">
+                                                <span className="font-tommy-medium text-[10px] md:text-[13.5px] text-[#1A1917]">
                                                     {r.name}
                                                 </span>
-                                                <span className="font-tommy-regular text-[9px] md:text-[11px] tabular-nums text-[#8A857C] dark:text-[#9A968E]">
+                                                <span className="font-tommy-regular text-[9px] md:text-[11px] tabular-nums text-[#8A857C]">
                                                     {compact(r.impressions)}
                                                 </span>
-                                                <span className="text-[10px] md:text-[13px] lg:text-[15px] text-[#C8992B] transition-transform duration-300 group-hover:translate-x-1 dark:text-[#FCD119]">
+                                                <span className="text-[10px] md:text-[13px] lg:text-[15px] text-[#C8992B] transition-transform duration-300 group-hover:translate-x-1">
                                                     →
                                                 </span>
                                             </button>
@@ -1300,18 +1300,18 @@ export default function MarketsCoverageV2() {
      */
     const toneFor = (i: number) => {
         const d = Math.abs(i - activeIdx);
-        if (d === 0) return 'text-[#0F0E0D] dark:text-[#FCD119]';
-        if (d === 1) return 'text-[#4A453D] dark:text-[#C9C4BA]';
-        if (d === 2) return 'text-[#7C776D] dark:text-[#8A867E]';
-        if (d === 3) return 'text-[#A5A096] dark:text-[#6A665F]';
-        return 'text-[#C4BFB4] dark:text-[#3A3833]';
+        if (d === 0) return 'text-[#0F0E0D]';
+        if (d === 1) return 'text-[#4A453D]';
+        if (d === 2) return 'text-[#7C776D]';
+        if (d === 3) return 'text-[#A5A096]';
+        return 'text-[#C4BFB4]';
     };
 
     return (
         <section
             ref={rootRef}
             id="markets-coverage"
-            className="relative w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
+            className="relative w-full bg-[#EEE8D9] transition-colors duration-300"
         >
             <div ref={pinRef} className="relative h-screen w-full overflow-hidden">
                 {/* ============ ACT 1 — intro ============ */}
@@ -1319,13 +1319,13 @@ export default function MarketsCoverageV2() {
                     ref={introRef}
                     className="absolute inset-x-0 top-0 z-20 mx-auto w-full max-w-[1100px] px-3 pt-[14vh] text-center md:px-5 lg:px-12"
                 >
-                    <p className="font-tommy-regular text-[10px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px] dark:text-[#9A968E]">
+                    <p className="font-tommy-regular text-[10px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px]">
                         Markets &amp; Coverage
                     </p>
-                    <h2 className="mt-3 font-tommy-bold text-[clamp(30px,4.4vw,64px)] leading-[0.96] tracking-[-0.03em] text-[#1A1917] dark:text-white">
-                        How We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                    <h2 className="mt-3 font-tommy-bold text-[clamp(30px,4.4vw,64px)] leading-[0.96] tracking-[-0.03em] text-[#1A1917]">
+                        How We Roll<span className="text-[#C8992B]">.</span>
                     </h2>
-                    <p className="mx-auto mt-5 max-w-[620px] font-tommy-regular text-[14px] leading-[1.7] text-[#5A554C] md:text-[17px] dark:text-[#A8A399]">
+                    <p className="mx-auto mt-5 max-w-[620px] font-tommy-regular text-[14px] leading-[1.7] text-[#5A554C] md:text-[17px]">
                         {/* Second sentence removed deliberately. It used to run "Nationwide
                             coverage through our partner fleet, matched to your target markets
                             by ZIP code" — which is now word-for-word what the first two cards
@@ -1358,23 +1358,23 @@ export default function MarketsCoverageV2() {
                         ].map((s) => (
                             <div
                                 key={s.k}
-                                className="rounded-lg md:rounded-xl border border-black/10 bg-black/[0.03] px-2 md:px-4 py-2 md:py-4 text-left dark:border-white/10 dark:bg-white/[0.04]"
+                                className="rounded-lg md:rounded-xl border border-black/10 bg-black/[0.03] px-2 md:px-4 py-2 md:py-4 text-left"
                             >
-                                <p className="font-tommy-bold uppercase text-[13px] md:text-[clamp(15px,1.5vw,20px)] leading-none tracking-[0.08em] text-[#C8992B] dark:text-[#FCD119]">
+                                <p className="font-tommy-bold uppercase text-[13px] md:text-[clamp(15px,1.5vw,20px)] leading-none tracking-[0.08em] text-[#C8992B]">
                                     {s.k}
                                 </p>
                                 {/* Two lines are RESERVED even though only the third claim
                                     needs them. The cards sit in one row, so letting each
                                     descriptor take its natural height would drop the shorter
                                     three onto a different baseline than the one that wraps. */}
-                                <p className="mt-2 min-h-[2.8em] font-tommy-regular text-[13px] leading-[1.4] text-[#1A1917] md:text-[15px] dark:text-[#E8E4DC]">
+                                <p className="mt-2 min-h-[2.8em] font-tommy-regular text-[13px] leading-[1.4] text-[#1A1917] md:text-[15px]">
                                     {s.l}
                                 </p>
                             </div>
                         ))}
                     </div>
 
-                    <p className="mt-9 font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#8A857C] dark:text-[#9A968E]">
+                    <p className="mt-9 font-tommy-regular text-[10px] uppercase tracking-[3px] text-[#8A857C]">
                         Scroll to explore the coverage areas ↓
                     </p>
                 </div>
@@ -1389,13 +1389,13 @@ export default function MarketsCoverageV2() {
                     <div className="shrink-0 px-4 md:px-8 pt-[15%] md:pt-[10%] lg:pt-[3.5vh] md:px-12">
                         <div className="mx-auto flex max-w-[1440px] flex-wrap items-end justify-between gap-x-8 gap-y-2 md:gap-y-3 lg:gap-y-4">
                             <div>
-                                <p className="font-tommy-regular text-[9.5px] uppercase tracking-[3.5px] text-[#8A857C] md:text-[11px] dark:text-[#9A968E]">
+                                <p className="font-tommy-regular text-[9.5px] uppercase tracking-[3.5px] text-[#8A857C] md:text-[11px]">
                                     Markets &amp; Coverage
                                 </p>
-                                <h3 className="mt-1.5 font-tommy-bold text-[clamp(19px,2.1vw,30px)] leading-[1] tracking-[-0.02em] text-[#1A1917] dark:text-white">
-                                    How We Roll<span className="text-[#C8992B] dark:text-[#FCD119]">.</span>
+                                <h3 className="mt-1.5 font-tommy-bold text-[clamp(19px,2.1vw,30px)] leading-[1] tracking-[-0.02em] text-[#1A1917]">
+                                    How We Roll<span className="text-[#C8992B]">.</span>
                                 </h3>
-                                <p className="mt-1 font-tommy-regular text-[9px] uppercase tracking-[2px] text-[#8A857C] md:text-[10px] dark:text-[#9A968E]">
+                                <p className="mt-1 font-tommy-regular text-[9px] uppercase tracking-[2px] text-[#8A857C] md:text-[10px]">
                                     Click any state or city to explore its record
                                 </p>
                             </div>
@@ -1409,8 +1409,8 @@ export default function MarketsCoverageV2() {
                                             key={r}
                                             onClick={() => changeRegion(r)}
                                             className={`rounded-full border px-2 md:px-3 lg:px-4 py-1 lg:py-2 font-tommy-medium text-[8px] md:text-[11.5px] uppercase tracking-[1.5px] transition-colors duration-300 ${on
-                                                ? 'border-transparent bg-[#1A1917] text-[#FCD119] dark:bg-[#FCD119] dark:text-black'
-                                                : 'border-black/12 text-[#6F6A60] hover:border-[#C8992B]/50 hover:text-[#1A1917] dark:border-white/12 dark:text-[#9A968E] dark:hover:text-white'
+                                                ? 'border-transparent bg-[#1A1917] text-[#FCD119]'
+                                                : 'border-black/12 text-[#6F6A60] hover:border-[#C8992B]/50 hover:text-[#1A1917]'
                                                 }`}
                                         >
                                             {r === 'ALL' ? 'All states' : REGION_LABEL[r]}
@@ -1435,17 +1435,17 @@ export default function MarketsCoverageV2() {
                             <div
                                 ref={cursorRef}
                                 aria-hidden="true"
-                                className="pointer-events-none absolute left-0 top-0 z-30 flex h-[76px] w-[76px] items-center justify-center rounded-full bg-[#1A1917] opacity-0 dark:bg-[#FCD119]"
+                                className="pointer-events-none absolute left-0 top-0 z-30 flex h-[76px] w-[76px] items-center justify-center rounded-full bg-[#1A1917] opacity-0"
                             >
                                 <span
                                     data-cursor-text
-                                    className="font-tommy-medium text-[10px] uppercase tracking-[2px] text-[#FCD119] dark:text-[#1A1917]"
+                                    className="font-tommy-medium text-[10px] uppercase tracking-[2px] text-[#FCD119]"
                                 />
                             </div>
 
                             {/* The reading line the active row sits on. */}
                             <div
-                                className="pointer-events-none absolute inset-x-0 top-1/2 z-0 h-px -translate-y-1/2 bg-black/10 dark:bg-white/10"
+                                className="pointer-events-none absolute inset-x-0 top-1/2 z-0 h-px -translate-y-1/2 bg-black/10"
                                 aria-hidden="true"
                             />
 
@@ -1455,8 +1455,8 @@ export default function MarketsCoverageV2() {
                                 gradient interpolates toward transparent black and lays a
                                 grey cast over the middle of the ramp. Shortened to 20% as
                                 well, to keep the fade clear of the reading line. */}
-                            <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[20%] bg-gradient-to-b from-[#EEE8D9] to-[#EEE8D9]/0 dark:from-[#0A0A0A] dark:to-[#0A0A0A]/0" />
-                            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[20%] bg-gradient-to-t from-[#EEE8D9] to-[#EEE8D9]/0 dark:from-[#0A0A0A] dark:to-[#0A0A0A]/0" />
+                            <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[20%] bg-gradient-to-b from-[#EEE8D9] to-[#EEE8D9]/0" />
+                            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[20%] bg-gradient-to-t from-[#EEE8D9] to-[#EEE8D9]/0" />
 
                             {/* Offset by HALF A ROW, not half the track's own height —
                                 `-translate-y-1/2` would put the middle row on the line at
@@ -1484,13 +1484,13 @@ export default function MarketsCoverageV2() {
                                                         onClick={() => onStateClick(g, i)}
                                                         aria-expanded={many ? isExpanded : undefined}
                                                         data-cursor-label={many ? (isExpanded ? 'Close' : 'Open') : 'View'}
-                                                        className={`group flex w-full cursor-pointer items-baseline gap-4 rounded-lg -mx-2 px-2 text-left transition-colors duration-300 hover:bg-black/[0.04] md:gap-6 dark:hover:bg-white/[0.06] ${toneFor(i)}`}
+                                                        className={`group flex w-full cursor-pointer items-baseline gap-4 rounded-lg -mx-2 px-2 text-left transition-colors duration-300 hover:bg-black/[0.04] md:gap-6 ${toneFor(i)}`}
                                                     >
                                                         <span className="w-[2.5ch] shrink-0 font-tommy-regular text-[10px] tabular-nums opacity-60 md:text-[12px]">
                                                             {g.state}
                                                         </span>
 
-                                                        <span className="truncate font-tommy-bold text-[26px] uppercase leading-[1] tracking-[-0.02em] transition-colors duration-300 group-hover:text-[#C8992B] dark:group-hover:text-[#FCD119] md:text-[clamp(2.3rem,3.5vw,4.25rem)]">
+                                                        <span className="truncate font-tommy-bold text-[26px] uppercase leading-[1] tracking-[-0.02em] transition-colors duration-300 group-hover:text-[#C8992B] md:text-[clamp(2.3rem,3.5vw,4.25rem)]">
                                                             {g.label}
                                                         </span>
 
@@ -1502,7 +1502,7 @@ export default function MarketsCoverageV2() {
                                                         {many && (
                                                             <span
                                                                 aria-hidden="true"
-                                                                className={`shrink-0 text-[14px] text-[#C8992B] transition-transform duration-300 dark:text-[#FCD119] md:text-[18px] ${isExpanded ? 'rotate-180' : ''
+                                                                className={`shrink-0 text-[14px] text-[#C8992B] transition-transform duration-300 md:text-[18px] ${isExpanded ? 'rotate-180' : ''
                                                                     }`}
                                                             >
                                                                 ↓
@@ -1520,7 +1520,7 @@ export default function MarketsCoverageV2() {
                                                                     }`}
                                                             >
                                                                 {g.markets[0].name}
-                                                                <span className="text-[#C8992B] dark:text-[#FCD119]">
+                                                                <span className="text-[#C8992B]">
                                                                     {isPopupOpen ? '● open' : 'Explore →'}
                                                                 </span>
                                                             </span>
@@ -1552,18 +1552,18 @@ export default function MarketsCoverageV2() {
                                                     onClick={() => onMarketClick(m)}
                                                     aria-pressed={isPopupOpen}
                                                     data-cursor-label="View"
-                                                    className={`group flex w-full items-baseline gap-3 rounded-lg -mx-2 pl-[3.5ch] pr-2 text-left transition-colors duration-300 hover:bg-black/[0.04] md:gap-5 md:pl-[5ch] dark:hover:bg-white/[0.06] ${toneFor(i)}`}
+                                                    className={`group flex w-full items-baseline gap-3 rounded-lg -mx-2 pl-[3.5ch] pr-2 text-left transition-colors duration-300 hover:bg-black/[0.04] md:gap-5 md:pl-[5ch] ${toneFor(i)}`}
                                                 >
                                                     {/* Connector only carries the accent while its
                                                         own state owns the reading line. */}
                                                     <span
-                                                        className={`shrink-0 transition-colors duration-300 ${inGroup ? 'text-[#C8992B] dark:text-[#FCD119]' : 'text-current'
+                                                        className={`shrink-0 transition-colors duration-300 ${inGroup ? 'text-[#C8992B]' : 'text-current'
                                                             }`}
                                                     >
                                                         ↳
                                                     </span>
 
-                                                    <span className="truncate font-tommy-bold text-[17px] uppercase leading-[1] tracking-[-0.01em] transition-colors duration-300 group-hover:text-[#C8992B] md:text-[clamp(1.4rem,1.8vw,2.25rem)] dark:group-hover:text-[#FCD119]">
+                                                    <span className="truncate font-tommy-bold text-[17px] uppercase leading-[1] tracking-[-0.01em] transition-colors duration-300 group-hover:text-[#C8992B] md:text-[clamp(1.4rem,1.8vw,2.25rem)]">
                                                         {m.name}
                                                     </span>
 
@@ -1572,7 +1572,7 @@ export default function MarketsCoverageV2() {
                                                             }`}
                                                     >
                                                         {compact(m.impressions)} / flight
-                                                        <span className="text-[#C8992B] dark:text-[#FCD119]">
+                                                        <span className="text-[#C8992B]">
                                                             {isPopupOpen ? '● open' : 'Explore →'}
                                                         </span>
                                                     </span>

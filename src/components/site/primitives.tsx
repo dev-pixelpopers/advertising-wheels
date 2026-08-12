@@ -28,12 +28,12 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /** The brand's yellow full-stop — text-safe amber on cream, bright on dark. */
 export function Dot() {
-    return <span className="text-[#C8992B] dark:text-[#FCD119]">.</span>;
+    return <span className="text-[#C8992B]">.</span>;
 }
 
 export function Eyebrow({ children, className = '' }: { children: ReactNode; className?: string }) {
     return (
-        <p className={`font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px] dark:text-[#9A968E] ${className}`}>
+        <p className={`font-tommy-regular text-[11px] uppercase tracking-[4px] text-[#8A857C] md:text-[13px] ${className}`}>
             {children}
         </p>
     );
@@ -53,7 +53,7 @@ export function PrimaryLink({ href = '#', children, className = '' }: { href?: s
     return (
         <a
             href={href}
-            className={`group inline-flex items-center gap-3 rounded-full bg-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] dark:bg-[#FCD119] dark:text-black ${className}`}
+            className={`group inline-flex items-center gap-3 rounded-full bg-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] ${className}`}
         >
             {children}
             <ArrowIcon />
@@ -66,7 +66,7 @@ export function GhostLink({ href = '#', children, className = '' }: { href?: str
     return (
         <a
             href={href}
-            className={`inline-flex items-center gap-3 rounded-full border-2 border-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#1A1917] transition-colors duration-300 hover:bg-[#1A1917] hover:text-[#FCD119] dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black ${className}`}
+            className={`inline-flex items-center gap-3 rounded-full border-2 border-[#1A1917] px-8 py-4 font-tommy-medium text-[15px] text-[#1A1917] transition-colors duration-300 hover:bg-[#1A1917] hover:text-[#FCD119] ${className}`}
         >
             {children}
         </a>
@@ -88,9 +88,9 @@ export function Rings({ className = '', spin = true }: { className?: string; spi
             fill="none"
             aria-hidden="true"
         >
-            <circle cx="447.5" cy="447.5" r="442.5" className="stroke-black/[0.06] dark:stroke-white/[0.06]" strokeWidth="10" />
-            <circle cx="448" cy="448" r="360" className="stroke-black/[0.05] dark:stroke-white/[0.05]" strokeWidth="10" />
-            <circle cx="448" cy="448" r="270" className="stroke-black/[0.04] dark:stroke-white/[0.04]" strokeWidth="10" />
+            <circle cx="447.5" cy="447.5" r="442.5" className="stroke-black/[0.06]" strokeWidth="10" />
+            <circle cx="448" cy="448" r="360" className="stroke-black/[0.05]" strokeWidth="10" />
+            <circle cx="448" cy="448" r="270" className="stroke-black/[0.04]" strokeWidth="10" />
         </svg>
     );
 }
@@ -139,7 +139,7 @@ export function PageHero({ eyebrow, title, lead, actions, aside, footerSlot }: P
     return (
         <section
             ref={rootRef}
-            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
+            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300"
         >
             <style>{`
                 @keyframes aw-spin { to { transform: rotate(360deg); } }
@@ -159,7 +159,7 @@ export function PageHero({ eyebrow, title, lead, actions, aside, footerSlot }: P
                         <Eyebrow>{eyebrow}</Eyebrow>
                     </div>
 
-                    <h1 className="mt-5 font-tommy-bold text-[clamp(46px,7vw,104px)] leading-[0.94] tracking-[-2px] text-[#1A1917] dark:text-white">
+                    <h1 className="mt-5 font-tommy-bold text-[clamp(46px,7vw,104px)] leading-[0.94] tracking-[-2px] text-[#1A1917]">
                         {/* The mask wrapper the entrance rides up out of. */}
                         <span className="block overflow-hidden pb-[0.08em]">
                             <span data-hero-title className="block">
@@ -169,7 +169,7 @@ export function PageHero({ eyebrow, title, lead, actions, aside, footerSlot }: P
                     </h1>
 
                     {lead && (
-                        <p data-hero-lead className="mt-7 max-w-[560px] font-tommy-regular text-[16px] leading-[1.7] text-[#4F4A42] md:text-[19px] dark:text-[#B7B2A8]">
+                        <p data-hero-lead className="mt-7 max-w-[560px] font-tommy-regular text-[16px] leading-[1.7] text-[#4F4A42] md:text-[19px]">
                             {lead}
                         </p>
                     )}
@@ -181,7 +181,7 @@ export function PageHero({ eyebrow, title, lead, actions, aside, footerSlot }: P
                     )}
 
                     {footerSlot && (
-                        <div data-hero-foot className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-6 border-t border-black/10 pt-8 dark:border-white/10">
+                        <div data-hero-foot className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-6 border-t border-black/10 pt-8">
                             {footerSlot}
                         </div>
                     )}

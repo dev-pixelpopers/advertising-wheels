@@ -105,10 +105,10 @@ function Featured() {
     );
 
     return (
-        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-14 md:py-20 transition-colors duration-300 lg:py-28 dark:bg-[#0A0A0A]">
+        <section ref={rootRef} className="w-full bg-[#EEE8D9] py-14 md:py-20 transition-colors duration-300 lg:py-28">
             <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 px-3 md:px-8 lg:px-12 lg:grid-cols-2 lg:gap-16">
                 {/* Media */}
-                <div data-feat-media className="overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)] dark:border-white/10">
+                <div data-feat-media className="overflow-hidden rounded-[24px] border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.14)]">
                     <Image
                         src="/assets/images/case-study-img.jpg"
                         alt="Fifth Third Bank truckside campaign"
@@ -122,21 +122,21 @@ function Featured() {
                 {/* Copy */}
                 <div data-feat-copy>
                     <Eyebrow>Featured case study</Eyebrow>
-                    <h2 className="mt-4 font-tommy-bold text-[clamp(30px,3.6vw,52px)] leading-[1.02] tracking-tight text-[#1A1917] dark:text-white">
+                    <h2 className="mt-4 font-tommy-bold text-[clamp(30px,3.6vw,52px)] leading-[1.02] tracking-tight text-[#1A1917]">
                         Fifth Third Bank<Dot />
                     </h2>
-                    <p className="mt-5 max-w-[520px] font-tommy-regular text-[16px] leading-[1.75] text-[#5A554C] md:text-[18px] dark:text-[#A8A399]">
+                    <p className="mt-5 max-w-[520px] font-tommy-regular text-[16px] leading-[1.75] text-[#5A554C] md:text-[18px]">
                         Truck advertising grew into a key portion of the brand marketing budget, yielding record
                         brand awareness and household-production growth — all independently measured.
                     </p>
 
                     <div className="mt-6 md:mt-8 lg:mt-10 grid md:grid-cols-2 gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-4 md:gap-y-6 lg:gap-y-8">
                         {FEATURED_STATS.map((s, i) => (
-                            <div key={i} className={`border-b md:border-l border-black/10 pb-3 md:pb-0 md:pl-4 lg:pl-5 dark:border-white/10 text-center md:text-left`}>
-                                <p className="font-tommy-bold text-[25px] md:text-[clamp(30px,3.4vw,44px)] leading-none text-[#1A1917] dark:text-white">
+                            <div key={i} className={`border-b md:border-l border-black/10 pb-3 md:pb-0 md:pl-4 lg:pl-5 text-center md:text-left`}>
+                                <p className="font-tommy-bold text-[25px] md:text-[clamp(30px,3.4vw,44px)] leading-none text-[#1A1917]">
                                     {s.el}
                                 </p>
-                                <p className="mt-2.5 font-tommy-regular text-[12.5px] leading-[1.4] text-[#6F6A60] dark:text-[#9A968E]">
+                                <p className="mt-2.5 font-tommy-regular text-[12.5px] leading-[1.4] text-[#6F6A60]">
                                     {s.label}
                                 </p>
                             </div>
@@ -145,7 +145,7 @@ function Featured() {
 
                     <Link
                         href="/contact#form"
-                        className="group md:mt-8 lg:mt-10 inline-flex items-center gap-3 rounded-full bg-[#1A1917] px-5 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[12px] md:text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] dark:bg-[#FCD119] dark:text-black mx-auto lg:mx-0 flex w-max"
+                        className="group md:mt-8 lg:mt-10 inline-flex items-center gap-3 rounded-full bg-[#1A1917] px-5 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 font-tommy-medium text-[12px] md:text-[15px] text-[#FCD119] transition-transform duration-300 hover:scale-[1.04] mx-auto lg:mx-0 flex w-max"
                     >
                         Start your Campaign <ArrowIcon />
                     </Link>
@@ -229,7 +229,7 @@ function Gallery() {
     );
 
     return (
-        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#1A1917] transition-colors duration-300 lg:h-screen dark:border-white/10 dark:bg-[#141414] dark:text-white">
+        <section ref={rootRef} className="relative w-full overflow-hidden border-y border-black/10 bg-[#E7E0CE] text-[#1A1917] transition-colors duration-300 lg:h-screen">
             <div className="pointer-events-none relative inset-x-0 top-0 z-20 flex items-end justify-between px-6 pt-[92px] md:px-12 lg:pt-[13vh]">
                 <div>
                     <Eyebrow>Selected work</Eyebrow>
@@ -237,7 +237,7 @@ function Gallery() {
                         Brands that own the street<Dot />
                     </h2>
                 </div>
-                <p className="hidden font-tommy-regular text-[11px] uppercase tracking-[3px] text-black/35 lg:block dark:text-white/35">
+                <p className="hidden font-tommy-regular text-[11px] uppercase tracking-[3px] text-black/35 lg:block">
                     Scroll →
                 </p>
             </div>
@@ -253,13 +253,13 @@ function Gallery() {
                     // `Link | 'article'` component can't be typed cleanly against
                     // Link's required `href`).
                     const cardClass =
-                        'pj-card group flex shrink-0 flex-col justify-between h-full lg:h-[500px] rounded-[16px] md:rounded-[20px] lg:rounded-[22px] border border-black/10 bg-white/60 p-5 md:p-7 transition-colors duration-300 hover:border-[#C8992B]/40 lg:p-9 w-[clamp(340px,30vw,420px)] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FCD119]/40';
+                        'pj-card group flex shrink-0 flex-col justify-between h-full lg:h-[500px] rounded-[16px] md:rounded-[20px] lg:rounded-[22px] border border-black/10 bg-white/60 p-5 md:p-7 transition-colors duration-300 hover:border-[#C8992B]/40 lg:p-9 w-[clamp(340px,30vw,420px)]';
 
                     const inner = (
                         <>
                             <div className="flex flex-col-reverse md:flex-row gap-y-2 items-start justify-between">
                                 <span
-                                    className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex w-[180px] h-[80px] bg-white/0 sm:mb-7 md:mb-8 dark:ring-white/10 "
+                                    className="mb-2 lg:mb-3 2xl:mb-4 3xl:mb-5 inline-flex w-[180px] h-[80px] bg-white/0 sm:mb-7 md:mb-8 "
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
@@ -276,21 +276,21 @@ function Gallery() {
                                     />
 
                                 </span>
-                                <span className="rounded-full border border-black/15 px-3 py-1 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#6F6A60] dark:border-white/15 dark:text-white/50">
+                                <span className="rounded-full border border-black/15 px-3 py-1 font-tommy-regular text-[10.5px] uppercase tracking-[1.5px] text-[#6F6A60]">
                                     {p.industry}
                                 </span>
                             </div>
 
                             <div className="mt-4 md:mt-6 lg:mt-8 flex items-end gap-2 md:gap-3">
-                                <span className="font-tommy-bold text-[35px] leading-[0.9] text-[#C8992B] md:text-[clamp(2.5rem,4.7vw,4.25rem)] dark:text-[#FCD119]">{p.metric}</span>
-                                <span className="mb-2 font-tommy-regular text-[10px] md:text-[13px] uppercase leading-[1.3] tracking-[1.5px] text-[#6F6A60] dark:text-white/45">{p.metricLabel}</span>
+                                <span className="font-tommy-bold text-[35px] leading-[0.9] text-[#C8992B] md:text-[clamp(2.5rem,4.7vw,4.25rem)]">{p.metric}</span>
+                                <span className="mb-2 font-tommy-regular text-[10px] md:text-[13px] uppercase leading-[1.3] tracking-[1.5px] text-[#6F6A60]">{p.metricLabel}</span>
                             </div>
 
                             <h3 className="mt-3 md:mt-5 lg:mt-6 font-tommy-bold text-[16px] md:text-[clamp(1.125rem,1.8vw,1.625rem)] tracking-tight">{p.brand}</h3>
-                            <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C] dark:text-white/60">{p.result}</p>
+                            <p className="mt-3 font-tommy-regular text-[15px] leading-[1.7] text-[#5A554C]">{p.result}</p>
 
 
-                            <span className="mt-4 md:mt-6 lg:mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white/50 dark:group-hover:text-[#FCD119]">
+                            <span className="mt-4 md:mt-6 lg:mt-8 inline-flex items-center gap-2 font-tommy-medium text-[13px] uppercase tracking-[2px] text-[#6F6A60] transition-colors duration-300 group-hover:text-[#C8992B]">
                                 Read the story <ArrowIcon />
                             </span>
 
@@ -320,11 +320,11 @@ function Gallery() {
 
 function Industries() {
     return (
-        <section className="w-full bg-[#EEE8D9] py-14 md:py-24 transition-colors duration-300 lg:py-32 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] py-14 md:py-24 transition-colors duration-300 lg:py-32">
             <div className="mx-auto lg:max-w-[1200px] px-3 md:px-6 lg:px-12">
                 <Reveal className="max-w-[720px]" y={30}>
                     <Eyebrow>Who we roll for</Eyebrow>
-                    <h2 className="mt-4 font-tommy-bold text-[clamp(32px,4.4vw,60px)] leading-[1.02] tracking-tight text-[#1A1917] dark:text-white">
+                    <h2 className="mt-4 font-tommy-bold text-[clamp(32px,4.4vw,60px)] leading-[1.02] tracking-tight text-[#1A1917]">
                         Trusted across every category<Dot />
                     </h2>
                 </Reveal>
@@ -332,7 +332,7 @@ function Industries() {
                     {INDUSTRIES.map((tag) => (
                         <span
                             key={tag}
-                            className="rounded-full border border-black/12 bg-white/40 px-4 md:px-6 py-2 md:py-3 font-tommy-medium text-[12px] md:text-[15px] text-[#3A3730] transition-colors duration-300 hover:border-[#C8992B]/40 hover:text-[#1A1917] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#CFCABF] dark:hover:text-white"
+                            className="rounded-full border border-black/12 bg-white/40 px-4 md:px-6 py-2 md:py-3 font-tommy-medium text-[12px] md:text-[15px] text-[#3A3730] transition-colors duration-300 hover:border-[#C8992B]/40 hover:text-[#1A1917]"
                         >
                             {tag}
                         </span>
@@ -355,7 +355,7 @@ export default function ProjectsPage() {
     useScrollTriggerRefresh();
 
     return (
-        <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+        <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
             <PortalHero
                 badge="Work"
                 title="THE RESULTS"

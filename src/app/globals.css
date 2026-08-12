@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@variant dark (&:where(.dark, .dark *));
-
 @font-face {
   font-family: 'MADE-TOMMY-BOLD';
   src: url("/assets/fonts/MADE-TOMMY-Bold-PERSONAL.otf") format('opentype');
@@ -26,11 +24,6 @@
   --font-tommy-bold: 'MADE-TOMMY-BOLD', sans-serif;
   --font-tommy-regular: 'MADE-TOMMY-REGULAR', sans-serif;
   --font-tommy-medium: 'MADE-TOMMY-MEDIUM', sans-serif;
-}
-
-.dark {
-  --background: #000000;
-  --foreground: #F5F5F5;
 }
 
 @theme inline {

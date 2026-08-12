@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <p>
                     You can reach us at{' '}
-                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#1A1917] underline underline-offset-2 dark:text-white">
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#1A1917] underline underline-offset-2">
                         {CONTACT_EMAIL}
                     </a>{' '}
                     or {CONTACT_PHONE}. Our mailing address is [Street address, Nashville, TN, ZIP].
@@ -62,7 +62,7 @@ export default function PrivacyPolicyPage() {
 
             <LegalSection heading="Information we collect">
                 <p>
-                    <strong className="font-tommy-medium text-[#1A1917] dark:text-white">
+                    <strong className="font-tommy-medium text-[#1A1917]">
                         Information you give us.
                     </strong>{' '}
                     When you submit our contact form, apply as a fleet partner, or subscribe to our
@@ -71,7 +71,7 @@ export default function PrivacyPolicyPage() {
                     to include in your message.
                 </p>
                 <p>
-                    <strong className="font-tommy-medium text-[#1A1917] dark:text-white">
+                    <strong className="font-tommy-medium text-[#1A1917]">
                         Information collected automatically.
                     </strong>{' '}
                     Like most websites, ours may record technical information when you visit: IP
@@ -128,7 +128,7 @@ export default function PrivacyPolicyPage() {
 
             <LegalSection heading="Who we share it with">
                 <p>
-                    We do <strong className="font-tommy-medium text-[#1A1917] dark:text-white">not</strong>{' '}
+                    We do <strong className="font-tommy-medium text-[#1A1917]">not</strong>{' '}
                     sell your personal information, and we do not share it for cross-context
                     behavioural advertising.
                 </p>
@@ -162,7 +162,7 @@ export default function PrivacyPolicyPage() {
 
             <LegalSection heading="Your rights">
                 <p>
-                    <strong className="font-tommy-medium text-[#1A1917] dark:text-white">
+                    <strong className="font-tommy-medium text-[#1A1917]">
                         California residents (CCPA/CPRA).
                     </strong>{' '}
                     You have the right to know what personal information we have collected and how we
@@ -171,7 +171,7 @@ export default function PrivacyPolicyPage() {
                     against for exercising these rights.
                 </p>
                 <p>
-                    <strong className="font-tommy-medium text-[#1A1917] dark:text-white">
+                    <strong className="font-tommy-medium text-[#1A1917]">
                         UK and EEA residents (GDPR).
                     </strong>{' '}
                     You have the right to access, correct, erase, restrict or object to our processing
@@ -180,7 +180,7 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <p>
                     To exercise any of these rights, email{' '}
-                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#1A1917] underline underline-offset-2 dark:text-white">
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#1A1917] underline underline-offset-2">
                         {CONTACT_EMAIL}
                     </a>
                     . We will verify your request before acting on it and will respond within the time
@@ -216,7 +216,7 @@ export default function PrivacyPolicyPage() {
             <LegalSection heading="Contact us">
                 <p>
                     Questions about this policy or about how we handle your information? Email{' '}
-                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#1A1917] underline underline-offset-2 dark:text-white">
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#1A1917] underline underline-offset-2">
                         {CONTACT_EMAIL}
                     </a>
                     , call {CONTACT_PHONE}, or write to us at [Street address, Nashville, TN, ZIP].

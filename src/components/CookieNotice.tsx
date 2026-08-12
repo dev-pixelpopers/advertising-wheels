@@ -76,7 +76,7 @@ export default function CookieNotice() {
                 'fixed z-[120] bottom-4 left-4 right-4 sm:right-auto sm:max-w-[380px]',
                 'rounded-[18px] border border-black/10 bg-[#EEE8D9]/95 p-5 backdrop-blur-md',
                 'shadow-[0_18px_50px_-18px_rgba(0,0,0,0.45)]',
-                'dark:border-white/12 dark:bg-[#141414]/95',
+                '',
                 'transition-all duration-[260ms] ease-out motion-reduce:transition-none',
                 leaving ? 'translate-y-3 opacity-0' : 'aw-cookie-in',
             ].join(' ')}
@@ -92,17 +92,17 @@ export default function CookieNotice() {
                 }
             `}</style>
 
-            <p className="font-tommy-bold text-[13px] uppercase tracking-[2px] text-[#C8992B] dark:text-[#FCD119]">
+            <p className="font-tommy-bold text-[13px] uppercase tracking-[2px] text-[#C8992B]">
                 Cookies
             </p>
 
-            <p className="mt-2.5 font-tommy-regular text-[13.5px] leading-[1.6] text-[#4F4A42] dark:text-[#B7B2A8]">
+            <p className="mt-2.5 font-tommy-regular text-[13.5px] leading-[1.6] text-[#4F4A42]">
                 We use a small amount of browser storage to keep the site working — remembering your
                 theme and not replaying the intro. We&apos;d also like your consent for analytics, to
                 understand how the site is used. Read our{' '}
                 <a
                     href="/privacy"
-                    className="underline underline-offset-2 transition-colors hover:text-[#1A1917] dark:hover:text-white"
+                    className="underline underline-offset-2 transition-colors hover:text-[#1A1917]"
                 >
                     Privacy Policy
                 </a>
@@ -113,14 +113,14 @@ export default function CookieNotice() {
                 <button
                     type="button"
                     onClick={() => choose('accepted')}
-                    className="rounded-full bg-[#1A1917] px-5 py-2.5 font-tommy-medium text-[13.5px] text-[#FCD119] transition-transform duration-200 hover:scale-[1.03] dark:bg-[#FCD119] dark:text-black"
+                    className="rounded-full bg-[#1A1917] px-5 py-2.5 font-tommy-medium text-[13.5px] text-[#FCD119] transition-transform duration-200 hover:scale-[1.03]"
                 >
                     Accept
                 </button>
                 <button
                     type="button"
                     onClick={() => choose('declined')}
-                    className="rounded-full border border-black/15 px-5 py-2.5 font-tommy-medium text-[13.5px] text-[#4F4A42] transition-colors duration-200 hover:border-black/35 hover:text-[#1A1917] dark:border-white/20 dark:text-[#B7B2A8] dark:hover:border-white/45 dark:hover:text-white"
+                    className="rounded-full border border-black/15 px-5 py-2.5 font-tommy-medium text-[13.5px] text-[#4F4A42] transition-colors duration-200 hover:border-black/35 hover:text-[#1A1917]"
                 >
                     Decline
                 </button>

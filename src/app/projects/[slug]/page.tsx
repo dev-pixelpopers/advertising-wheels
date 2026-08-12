@@ -84,7 +84,7 @@ function Hero({ study }: { study: CaseStudy }) {
     return (
         <section
             ref={rootRef}
-            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]"
+            className="relative w-full overflow-hidden bg-[#EEE8D9] transition-colors duration-300"
         >
             <div className="pointer-events-none absolute -right-[18%] -top-[40%] opacity-80" aria-hidden="true">
                 <Rings />
@@ -97,7 +97,7 @@ function Hero({ study }: { study: CaseStudy }) {
 
                 <Eyebrow>{study.industry}</Eyebrow>
 
-                <h1 className="mt-5 font-tommy-bold text-[clamp(40px,6.6vw,96px)] leading-[0.95] tracking-[-0.03em] text-[#1A1917] dark:text-white">
+                <h1 className="mt-5 font-tommy-bold text-[clamp(40px,6.6vw,96px)] leading-[0.95] tracking-[-0.03em] text-[#1A1917]">
                     <span className="block overflow-hidden pb-[0.08em]">
                         <span data-h-title className="block">
                             {study.brand}
@@ -108,7 +108,7 @@ function Hero({ study }: { study: CaseStudy }) {
 
                 <p
                     data-h-lead
-                    className="mt-7 max-w-[640px] font-tommy-regular text-[17px] leading-[1.72] text-[#4F4A42] md:text-[20px] dark:text-[#B7B2A8]"
+                    className="mt-7 max-w-[640px] font-tommy-regular text-[17px] leading-[1.72] text-[#4F4A42] md:text-[20px]"
                 >
                     {study.lead}
                 </p>
@@ -118,7 +118,7 @@ function Hero({ study }: { study: CaseStudy }) {
                         <span
                             key={s}
                             data-h-tag
-                            className="rounded-full border border-black/12 px-4 py-2 font-tommy-regular text-[12px] uppercase tracking-[1.5px] text-[#6F6A60] dark:border-white/12 dark:text-[#A8A399]"
+                            className="rounded-full border border-black/12 px-4 py-2 font-tommy-regular text-[12px] uppercase tracking-[1.5px] text-[#6F6A60]"
                         >
                             {s}
                         </span>
@@ -129,7 +129,7 @@ function Hero({ study }: { study: CaseStudy }) {
             <div className="relative z-10 mx-auto max-w-[1440px] px-6 md:px-12">
                 <div
                     ref={plateRef}
-                    className="relative h-[300px] overflow-hidden rounded-[24px] border border-black/10 shadow-[0_40px_100px_rgba(0,0,0,0.16)] md:h-[560px] dark:border-white/10"
+                    className="relative h-[300px] overflow-hidden rounded-[24px] border border-black/10 shadow-[0_40px_100px_rgba(0,0,0,0.16)] md:h-[560px]"
                 >
                     {/* `priority` — this is the LCP element on the route. */}
                     <Image
@@ -176,17 +176,17 @@ function Facts({ study }: { study: CaseStudy }) {
     ];
 
     return (
-        <section className="w-full bg-[#EEE8D9] pt-16 transition-colors duration-300 md:pt-24 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] pt-16 transition-colors duration-300 md:pt-24">
             <div
                 ref={ref}
-                className="mx-auto grid max-w-[1280px] grid-cols-2 gap-x-8 gap-y-9 border-y border-black/10 px-6 py-10 md:grid-cols-5 md:px-12 dark:border-white/10"
+                className="mx-auto grid max-w-[1280px] grid-cols-2 gap-x-8 gap-y-9 border-y border-black/10 px-6 py-10 md:grid-cols-5 md:px-12"
             >
                 {facts.map((f) => (
                     <div key={f.k}>
-                        <p className="font-tommy-regular text-[10.5px] uppercase tracking-[2.5px] text-[#8A857C] dark:text-[#9A968E]">
+                        <p className="font-tommy-regular text-[10.5px] uppercase tracking-[2.5px] text-[#8A857C]">
                             {f.k}
                         </p>
-                        <p className="mt-2.5 font-tommy-medium text-[16px] leading-[1.3] text-[#1A1917] md:text-[18px] dark:text-white">
+                        <p className="mt-2.5 font-tommy-medium text-[16px] leading-[1.3] text-[#1A1917] md:text-[18px]">
                             {f.v}
                         </p>
                     </div>
@@ -204,7 +204,7 @@ function Article({ study }: { study: CaseStudy }) {
     const toc = study.sections.map((s) => ({ id: s.id, nav: s.nav }));
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-16 transition-colors duration-300 md:py-24 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] py-16 transition-colors duration-300 md:py-24">
             <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 px-6 md:px-12 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
                 <aside className="order-2 lg:order-1">
                     <StickyToc items={toc} />
@@ -267,16 +267,16 @@ function FleetGallery({ study, shots }: { study: CaseStudy; shots: string[] }) {
     if (!shots.length) return null;
 
     return (
-        <section className="w-full bg-[#EEE8D9] py-16 transition-colors duration-300 md:py-24 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] py-16 transition-colors duration-300 md:py-24">
             <div className="mx-auto max-w-[1440px] px-6 md:px-12">
-                <div className="flex flex-wrap items-end justify-between gap-6 border-t border-black/10 pt-12 dark:border-white/10">
+                <div className="flex flex-wrap items-end justify-between gap-6 border-t border-black/10 pt-12">
                     <div>
                         <Eyebrow>On the road</Eyebrow>
-                        <h2 className="mt-4 font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917] dark:text-white">
+                        <h2 className="mt-4 font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917]">
                             The fleet in service<Dot />
                         </h2>
                     </div>
-                    <p className="max-w-[380px] font-tommy-regular text-[14.5px] leading-[1.62] text-[#5A554C] dark:text-[#A8A399]">
+                    <p className="max-w-[380px] font-tommy-regular text-[14.5px] leading-[1.62] text-[#5A554C]">
                         {study.brand} wraps photographed across live routes — the same
                         vehicles our GPS logs were counting.
                     </p>
@@ -288,7 +288,7 @@ function FleetGallery({ study, shots }: { study: CaseStudy; shots: string[] }) {
                     {shots.map((src, i) => (
                         <div
                             key={src}
-                            className={`group relative overflow-hidden rounded-[16px] border border-black/10 dark:border-white/10 ${i === 0 ? 'col-span-2 h-[240px] md:h-[420px]' : 'h-[150px] md:h-[240px]'
+                            className={`group relative overflow-hidden rounded-[16px] border border-black/10 ${i === 0 ? 'col-span-2 h-[240px] md:h-[420px]' : 'h-[150px] md:h-[240px]'
                                 }`}
                         >
                             <Image
@@ -331,19 +331,19 @@ function Quote({ study }: { study: CaseStudy }) {
     return (
         <section
             ref={ref}
-            className="w-full bg-[#EEE8D9] py-20 transition-colors duration-300 md:py-28 dark:bg-[#0A0A0A]"
+            className="w-full bg-[#EEE8D9] py-20 transition-colors duration-300 md:py-28"
         >
             <div className="mx-auto max-w-[980px] px-6 text-center md:px-12">
-                <span data-q className="block font-tommy-bold text-[54px] leading-none text-[#C8992B] dark:text-[#FCD119]">
+                <span data-q className="block font-tommy-bold text-[54px] leading-none text-[#C8992B]">
                     &ldquo;
                 </span>
                 <blockquote
                     data-q
-                    className="mt-4 font-tommy-medium text-[clamp(22px,3vw,40px)] leading-[1.3] tracking-[-0.02em] text-[#1A1917] dark:text-white"
+                    className="mt-4 font-tommy-medium text-[clamp(22px,3vw,40px)] leading-[1.3] tracking-[-0.02em] text-[#1A1917]"
                 >
                     {study.quote.text}
                 </blockquote>
-                <p data-q className="mt-8 font-tommy-regular text-[13px] uppercase tracking-[2.5px] text-[#6F6A60] dark:text-[#9A968E]">
+                <p data-q className="mt-8 font-tommy-regular text-[13px] uppercase tracking-[2.5px] text-[#6F6A60]">
                     {study.quote.author} — {study.quote.role}
                 </p>
             </div>
@@ -376,10 +376,10 @@ function Related({ slug }: { slug: string }) {
     if (!items.length) return null;
 
     return (
-        <section className="w-full bg-[#EEE8D9] pb-24 transition-colors duration-300 md:pb-32 dark:bg-[#0A0A0A]">
+        <section className="w-full bg-[#EEE8D9] pb-24 transition-colors duration-300 md:pb-32">
             <div className="mx-auto max-w-[1280px] px-6 md:px-12">
-                <div className="flex flex-wrap items-end justify-between gap-6 border-t border-black/10 pt-12 dark:border-white/10">
-                    <h2 className="font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917] dark:text-white">
+                <div className="flex flex-wrap items-end justify-between gap-6 border-t border-black/10 pt-12">
+                    <h2 className="font-tommy-bold text-[clamp(26px,3vw,42px)] leading-[1.05] tracking-[-0.02em] text-[#1A1917]">
                         More work<Dot />
                     </h2>
                     <PrimaryLink href="/projects">All projects</PrimaryLink>
@@ -390,7 +390,7 @@ function Related({ slug }: { slug: string }) {
                         <Link
                             key={c.slug}
                             href={`/projects/${c.slug}`}
-                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#FCD119]/30"
+                            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white/40 transition-colors duration-300 hover:border-[#C8992B]/40"
                         >
                             <div className="relative h-[180px] overflow-hidden">
                                 <Image
@@ -402,16 +402,16 @@ function Related({ slug }: { slug: string }) {
                                 />
                             </div>
                             <div className="flex flex-1 flex-col p-6">
-                                <span className="font-tommy-regular text-[11px] uppercase tracking-[2px] text-[#C8992B] dark:text-[#FCD119]">
+                                <span className="font-tommy-regular text-[11px] uppercase tracking-[2px] text-[#C8992B]">
                                     {c.industry}
                                 </span>
-                                <h3 className="mt-3 font-tommy-bold text-[21px] leading-[1.15] tracking-[-0.02em] text-[#1A1917] dark:text-white">
+                                <h3 className="mt-3 font-tommy-bold text-[21px] leading-[1.15] tracking-[-0.02em] text-[#1A1917]">
                                     {c.brand}
                                 </h3>
-                                <p className="mt-3 font-tommy-regular text-[14.5px] leading-[1.62] text-[#5A554C] dark:text-[#A8A399]">
+                                <p className="mt-3 font-tommy-regular text-[14.5px] leading-[1.62] text-[#5A554C]">
                                     {c.summary}
                                 </p>
-                                <span className="mt-6 inline-flex items-center gap-2 font-tommy-medium text-[12.5px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 group-hover:text-[#C8992B] dark:text-white dark:group-hover:text-[#FCD119]">
+                                <span className="mt-6 inline-flex items-center gap-2 font-tommy-medium text-[12.5px] uppercase tracking-[2px] text-[#1A1917] transition-colors duration-300 group-hover:text-[#C8992B]">
                                     Read case study <ArrowIcon />
                                 </span>
                             </div>
@@ -447,7 +447,7 @@ export default function CaseStudyDetailPage() {
         <>
             <ReadingProgress targetId="cs-article" />
 
-            <main className="w-full bg-[#EEE8D9] transition-colors duration-300 dark:bg-[#0A0A0A]">
+            <main className="w-full bg-[#EEE8D9] transition-colors duration-300">
                 <Hero study={study} />
                 <Facts study={study} />
                 <Article study={study} />
