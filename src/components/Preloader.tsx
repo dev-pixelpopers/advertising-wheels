@@ -214,7 +214,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               className="seq-slot absolute inset-0 flex flex-col items-center justify-center opacity-0"
             >
               <Image
-                src="/assets/images/cta/inc-1.png"
+                src="/assets/images/cta/inc-1.webp"
                 alt={`Inc. 5000 ${year}`}
                 width={256}
                 height={64}
@@ -241,7 +241,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               </span>
             </div>
             <Image
-              src="/assets/images/cta/inc-1.png"
+              src="/assets/images/cta/inc-1.webp"
               alt="Inc. 5000"
               width={256}
               height={64}
