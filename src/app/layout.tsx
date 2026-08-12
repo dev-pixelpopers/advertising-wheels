@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Footer from "@/components/Footer";
@@ -8,16 +7,6 @@ import PreloaderGate from "@/components/PreloaderGate";
 import CookieNotice from "@/components/CookieNotice";
 import { SITE_URL } from "@/lib/siteUrl";
 import { pageMetadata } from "@/lib/seo";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 /**
  * `metadataBase` is the load-bearing line here.
@@ -50,7 +39,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`h-full antialiased`}
     >
       <head>
         {/* Must run before the body paints — see the component. */}

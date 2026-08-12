@@ -29,8 +29,6 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
   --font-tommy-bold: var(--font-tommy-bold);
   --font-tommy-regular: var(--font-tommy-regular);
   --font-tommy-medium: var(--font-tommy-medium);
