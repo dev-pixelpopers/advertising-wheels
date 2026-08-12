@@ -8,6 +8,7 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
+
 const FRAME_COUNT = 155;
 
 /* How much of the photo the CTA scrim is allowed to take away. The client asked
@@ -54,6 +55,16 @@ export default function Hero({ isReady }: HeroProps) {
   // const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollArrowRef = useRef<HTMLDivElement>(null);
+
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      ScrollTrigger.normalizeScroll(true);
+    }
+
+  }, []);
 
   // 1. CANVAS PRELOADING & SCROLL SCRUBBING
   useGSAP(
