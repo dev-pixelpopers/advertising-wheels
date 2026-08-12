@@ -61,26 +61,26 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       return;
     }
 
-    let done = false;
-    const finish = () => {
-      if (done) return;
-      done = true;
-      setIsPageLoaded(true);
-    };
+    // let done = false;
+    // const finish = () => {
+    //   if (done) return;
+    //   done = true;
+    //   setIsPageLoaded(true);
+    // };
 
-    window.addEventListener('load', finish);
-    const cap = window.setTimeout(finish, MAX_WAIT_MS);
+    // window.addEventListener('load', finish);
+    // const cap = window.setTimeout(finish, MAX_WAIT_MS);
 
-    return () => {
-      window.removeEventListener('load', finish);
-      window.clearTimeout(cap);
-    };
+    // return () => {
+    //   window.removeEventListener('load', finish);
+    //   window.clearTimeout(cap);
+    // };
   }, []);
 
   useGSAP(
     () => {
       // Block scrolling while the intro plays
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
 
