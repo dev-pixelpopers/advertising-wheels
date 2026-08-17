@@ -7,19 +7,8 @@ import PreloaderGate from "@/components/PreloaderGate";
 import CookieNotice from "@/components/CookieNotice";
 import { SITE_URL } from "@/lib/siteUrl";
 import { pageMetadata } from "@/lib/seo";
+import ContinueScroll from "@/components/ContinueScroll";
 
-/**
- * `metadataBase` is the load-bearing line here.
- *
- * Open Graph images must be ABSOLUTE URLs — a scraper has no page context to
- * resolve `/assets/...` against. Next resolves relative image paths for us, but
- * only once it knows the origin; without this it falls back to localhost, so
- * the two article routes that already declared `openGraph.images` were emitting
- * `http://localhost:3000/...` and rendering as a bare link everywhere.
- *
- * Everything below is the DEFAULT, inherited by any route that does not set its
- * own. Each route layout overrides it via `pageMetadata`.
- */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   ...pageMetadata({
@@ -52,6 +41,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <CookieNotice />
+          <ContinueScroll />
         </ThemeProvider>
       </body>
     </html>

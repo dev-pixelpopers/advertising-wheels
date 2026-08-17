@@ -54,7 +54,6 @@ export default function Hero({ isReady }: HeroProps) {
   const headingWrapRef = useRef<HTMLDivElement>(null);
   // const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const scrollArrowRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
@@ -199,7 +198,7 @@ export default function Hero({ isReady }: HeroProps) {
         });
 
         // ── PHASE 1 (first stretch of scroll) ──────────────────────────────
-        tl.to(scrollArrowRef.current, { autoAlpha: 0, ease: 'power1.out', duration: 0.15 }, 0);
+        // tl.to(scrollArrowRef.current, { autoAlpha: 0, ease: 'power1.out', duration: 0.15 }, 0);
         tl.to(canvasRef.current, { autoAlpha: 1, ease: 'none', duration: 0.25 }, 0);
         tl.to(canvasRef.current, { scale: 1, filter: `blur(0px) ${CANVAS_GRADE}`, ease: 'none', duration: 1 }, 0);
         tl.to(subRef.current, { xPercent: -260, autoAlpha: 0, ease: 'none', duration: 1 }, 0);
@@ -513,20 +512,8 @@ export default function Hero({ isReady }: HeroProps) {
                 `animate-bounce` used to sit on this wrapper, which moved the
                 word along with the arrow and made the pair look like it was
                 hopping. The animation lives on the arrow alone. */}
-            <div ref={scrollArrowRef} className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 md:gap-3 opacity-90">
-              {/* Mobile — a hand swiping up. Decorative: the page scrolls the
-                  same way whether or not anyone reads this, so it is hidden
-                  from assistive tech rather than narrated.
-
-                  Drawn as a MASK rather than an <img>, so the artwork still
-                  takes its colour from `currentColor` — the same charcoal /
-                  brand-yellow pair as the arrow it replaces. A plain <img>
-                  would be locked to the file's own black and would need a
-                  filter hack to survive dark mode.
-
-                  This needs the PNG to have a TRANSPARENT background; a mask
-                  reads the alpha channel, so a white-backed export would show
-                  as a solid coloured square. Icon exports normally are. */}
+            {/* <div ref={scrollArrowRef} className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 md:gap-3 opacity-90">
+             
               <span
                 aria-hidden="true"
                 className="hero-swipe-hand md:hidden block h-[48px] w-[48px] bg-current text-[#1A1917]"
@@ -542,15 +529,14 @@ export default function Hero({ isReady }: HeroProps) {
                 }}
               />
 
-              {/* Tablet and up — the original label + travelling arrow. */}
-              <span className="hidden md:block text-[#1A1917] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="hero-scroll-arrow hidden md:block text-[#1A1917] md:w-[44px] md:h-[44px]">
-                <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
+            <span className="hidden md:block text-[#1A1917] font-tommy-medium text-[11px] md:text-[14px] uppercase tracking-[3px]">Scroll</span>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="hero-scroll-arrow hidden md:block text-[#1A1917] md:w-[44px] md:h-[44px]">
+              <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div> */}
           </div>
         </div>
-      </section>
+      </section >
     </>
   );
 }
