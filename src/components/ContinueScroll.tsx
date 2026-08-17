@@ -16,6 +16,16 @@ export default function ContinueScroll() {
     useEffect(() => {
         let showTimeout: ReturnType<typeof setTimeout>;
 
+        const isFooterVisible = () => {
+            const footer = document.querySelector("footer");
+
+            if (!footer) return false;
+
+            const rect = footer.getBoundingClientRect();
+
+            return rect.top < window.innerHeight && rect.bottom > 0;
+        };
+
         const handleScrollStart = () => {
             clearTimeout(showTimeout);
             setShowContinueIcon(false);
@@ -25,8 +35,12 @@ export default function ContinueScroll() {
             clearTimeout(showTimeout);
 
             showTimeout = setTimeout(() => {
-                setShowContinueIcon(true);
-            }, 500); // 500ms delay
+                if (!isFooterVisible()) {
+                    setShowContinueIcon(true);
+                } else {
+                    setShowContinueIcon(false);
+                }
+            }, 500);
         };
 
         ScrollTrigger.addEventListener("scrollStart", handleScrollStart);

@@ -539,13 +539,13 @@ export default function TruckExperience() {
                     /* `overflow-hidden`, not `overflow-scroll`: the scrolling has
                        moved to the rail below so this shell can hold the swipe
                        cues still while the cards slide underneath them. */
-                    className="absolute top-[44%] lg:top-0 lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-2 py-4 lg:p-4  pointer-events-auto overflow-hidden"
+                    className="absolute top-[44%] lg:top-auto lg:bottom-[20%] left-1/2 -translate-x-1/2 w-[98%] lg:w-[92%] lg:max-w-[1240px] z-30 bg-white/95 backdrop-blur-md rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-2 py-4 lg:p-4  pointer-events-auto overflow-hidden"
                 >
                     {/* These figures are illustrative, not live fleet data — the
                         counters below drift on a timer. Labelling the panel keeps
                         its campaign-scale truck count from reading as a claim
                         about the size of the fleet. */}
-                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center lg:text-left text-center">
+                    <p className="mb-3 px-2 md:px-5 text-[10px] md:text-[11px] font-tommy-bold tracking-wider text-gray-500 uppercase text-center text-center">
                         Sample campaign dashboard
                     </p>
 
