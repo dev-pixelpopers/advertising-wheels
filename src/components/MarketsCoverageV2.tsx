@@ -520,7 +520,10 @@ function MarketPopup({
     }, { dependencies: [market.id, trucks], scope: overlayRef, revertOnUpdate: false });
 
     return (
-        <div ref={overlayRef} className="absolute inset-0 z-[200] flex items-center justify-center p-4 md:p-8 overflow-scroll md:overflow-hidden">
+        <div
+            ref={overlayRef}
+            className="absolute inset-0 z-[200] flex items-center justify-center p-3 sm:p-4 lg:p-6"
+        >
             <div
                 ref={backdropRef}
                 className="absolute inset-0 bg-black/70 backdrop-blur-md"
@@ -546,7 +549,7 @@ function MarketPopup({
                 role="dialog"
                 aria-modal="true"
                 aria-label={market.name}
-                className="relative z-10 w-full max-w-[1240px] overflow-scroll rounded-[16px] md:rounded-[20px] lg:rounded-[28px] bg-[#E7E0CE] top-[4%] lg:top-[22%] lg:top-[4%] h-[91vh]"
+                className="relative z-10 flex max-h-full w-full max-w-[1240px] flex-col overflow-hidden rounded-[16px] bg-[#E7E0CE] shadow-[0_30px_90px_-25px_rgba(0,0,0,0.6)] md:rounded-[20px] lg:rounded-[28px]"
             >
                 {/* Close sits on the CARD, not the photo — on desktop the photo
                     is only the left half, so anchoring it to the card keeps it
@@ -564,12 +567,13 @@ function MarketPopup({
                 </button>
 
                 {/* Photo left, record right. The photo column has no height of
-                    its own past mobile — it stretches to whatever the content
-                    column settles at, and THAT is what's capped and scrolled.
-                    Sizing it directly instead would either overflow short
-                    viewports or leave the columns mismatched. */}
-                <div className="grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-                    <div className="relative lg:sticky lg:top-0 h-[180px] md:h-[210px] overflow-hidden md:h-[91vh]">
+                    its own past mobile — `md:h-auto` hands it back to the grid's
+                    default stretch, so it fills whatever the record column
+                    settles at. Pinning it to a vh value instead is what left the
+                    dead tan slab under the photo: the two columns were sized
+                    independently and stopped agreeing. */}
+                <div className="grid min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)] md:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] md:grid-rows-[minmax(0,1fr)]">
+                    <div className="relative h-[170px] overflow-hidden sm:h-[210px] md:h-auto">
                         <Image
                             ref={imgRef}
                             src="/assets/images/Blog-Featured.webp"
@@ -610,20 +614,22 @@ function MarketPopup({
                     {/* The floor stops a market with no audience note from
                         collapsing the card into a letterbox — it drives the
                         row height, and the photo column stretches to match.
-                        min() so it can never fight the 86vh cap on a short
+                        min() so it can never fight the card's max-h on a short
                         viewport (min-height would win and overflow). */}
-                    <div className="relative h-full min-h-0 overflow-y-auto md:min-h-[min(430px,74vh)] p-2 md:p-3  lg:p-5 2xl:p-6">
+                    <div className="relative min-h-0 overflow-y-auto p-4 md:min-h-[min(430px,72vh)] md:p-5 lg:p-6 2xl:p-8">
                         {/* The rank, set as a watermark — gives the data column
                             its own piece of typography instead of leaving it a
-                            plain stack of boxes. */}
+                            plain stack of boxes. Seated BELOW the close button
+                            rather than at a negative top: this column scrolls,
+                            so anything above its top edge is simply clipped. */}
                         <span
                             aria-hidden="true"
-                            className="pointer-events-none absolute -top-6 right-2 select-none font-tommy-bold text-[170px] leading-none tracking-[-0.04em] text-black/[0.04]"
+                            className="pointer-events-none absolute right-3 top-7 select-none font-tommy-bold text-[96px] leading-none tracking-[-0.04em] text-black/[0.045] md:top-10 md:text-[140px] 2xl:text-[170px]"
                         >
                             {market.rank}
                         </span>
 
-                        <div className="relative  flex flex-col gap-y-2 md:gap-y-4 2xl:gap-y-6">
+                        <div className="relative flex flex-col gap-3 md:gap-4 2xl:gap-5">
                             <div data-pop-item>
                                 <p
                                     data-count={market.impressions}
@@ -636,7 +642,7 @@ function MarketPopup({
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-1.5 md:gap-2.5 lg:gap-3">
+                            <div className="grid grid-cols-3 gap-2 md:gap-2.5 lg:gap-3">
                                 {(
                                     [
                                         [market.adults, 'num', 'Adults 18+ reached'],
@@ -665,7 +671,7 @@ function MarketPopup({
 
                             {/* Two measures that actually move market to market —
                                 see the note on the derived values above. */}
-                            <div data-pop-item className="flex flex-col gap-y-2 lg:gap-y-3 2xl:gap-y-4">
+                            <div data-pop-item className="flex flex-col gap-y-2.5 2xl:gap-y-3.5">
                                 <div>
                                     <div className="flex items-baseline justify-between">
                                         <span className="font-tommy-regular text-[9.5px] uppercase tracking-[2px] text-[#8A857C]">
@@ -713,7 +719,7 @@ function MarketPopup({
                             {market.audience && (
                                 <p
                                     data-pop-item
-                                    className="mt-6 border-l-2 border-[#C8992B]/40 pl-4 font-tommy-regular text-[13px] leading-[1.65] text-[#5A554C]"
+                                    className="border-l-2 border-[#C8992B]/40 pl-4 font-tommy-regular text-[12px] leading-[1.6] text-[#5A554C] md:text-[13px] md:leading-[1.65]"
                                 >
                                     {market.audience}
                                 </p>
@@ -721,33 +727,44 @@ function MarketPopup({
 
 
                             {/* Build Campaign CTA Form */}
-                            <div data-pop-item className="rounded-[16px] md:rounded-[20px] lg:rounded-[24px] bg-gradient-to-br from-[#1A1917] to-black p-2 lg:p-4 2xl:p-5 border border-black/20 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+                            <div data-pop-item className="relative overflow-hidden rounded-[16px] border border-white/10 bg-gradient-to-br from-[#1A1917] to-black p-3 shadow-[0_8px_30px_rgba(0,0,0,0.18)] md:rounded-[20px] md:p-4 lg:rounded-[24px] lg:p-5">
                                 {/* Background accent */}
-                                <div className="pointer-events-none absolute top-0 right-0 w-64 h-64 bg-[#C8992B]/15 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3" />
+                                <div className="pointer-events-none absolute -top-20 -right-12 h-52 w-52 rounded-full bg-[#C8992B]/15 blur-[60px]" />
 
                                 <div className="relative z-10">
-                                    <h4 className="font-tommy-bold text-white text-[18px] md:text-[22px] tracking-wide mb-1">
+                                    <h4 className="font-tommy-bold text-[16px] tracking-wide text-white md:text-[20px] lg:text-[22px]">
                                         Build your Campaign
                                     </h4>
-                                    <p className="font-tommy-regular text-[11px] md:text-[13px] text-white/60 mb-2 lg:mb-3 2xl:mb-6">
+                                    <p className="mt-0.5 font-tommy-regular text-[11px] leading-[1.5] text-white/60 md:text-[13px]">
                                         Select a target coverage or enter a custom number of trucks.
                                     </p>
 
-                                    {/* 1 Row for Coverage & Trucks */}
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-2 md:gap-5 lg:gap-8 mb-2 md:mb-3 lg:mb-4 2xl:mb-5 pb-2 md:pb-3 lg:pb-4 2xl:pb-5 border-b border-white/10">
-                                        <div className="flex-1 w-full">
-                                            <label className="block font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1 md:mb-2 2xl:mb-3">
+                                    {/* Coverage + trucks.
+                                        A grid, not a flex row: the old `gap-8` between
+                                        two flex children pushed the trucks field to the
+                                        far edge and left the pills to wrap onto a second
+                                        line with "100%" orphaned. Here the pill block
+                                        takes the free column and the field is a fixed
+                                        track beside it. */}
+                                    <div className="mt-3 grid gap-3 border-b border-white/10 pb-3 md:mt-4 md:grid-cols-[minmax(0,1fr)_auto_auto] md:items-end md:gap-4 md:pb-4">
+                                        <div className="min-w-0">
+                                            <label className="mb-1.5 block font-tommy-medium text-[9px] uppercase tracking-[2px] text-white/50 md:text-[10px]">
                                                 Target Coverage
                                             </label>
-                                            <div className="flex flex-wrap gap-1.5 md:gap-2">
+                                            {/* Six fixed columns — every preset stays on
+                                                one row at every width, so the row height
+                                                never changes as the card resizes. */}
+                                            <div className="grid grid-cols-6 gap-1 md:gap-1.5">
                                                 {([10, 15, 25, 50, 75, 100] as ShowingLevel[]).map(level => {
                                                     const levelTrucks = MARKET_SHOWINGS[market.rank]?.[level]?.units || 0;
                                                     const isSelected = trucks === levelTrucks;
                                                     return (
                                                         <button
                                                             key={level}
+                                                            type="button"
+                                                            aria-pressed={isSelected}
                                                             onClick={() => setTrucks(levelTrucks)}
-                                                            className={`rounded-full px-2 md:px-4 py-1 md:py-2 text-[10px] md:text-[14px] font-tommy-medium transition-all duration-300 ${isSelected
+                                                            className={`rounded-full py-1.5 text-center font-tommy-medium text-[11px] transition-all duration-300 md:py-2 md:text-[13px] ${isSelected
                                                                 ? 'bg-[#C8992B] text-black shadow-[0_0_12px_rgba(200,153,43,0.4)]'
                                                                 : 'bg-white/5 text-white hover:bg-white/15'
                                                                 }`}
@@ -759,12 +776,12 @@ function MarketPopup({
                                             </div>
                                         </div>
 
-                                        <div className="hidden sm:block pb-2 font-tommy-regular text-[12px] text-white/30 uppercase tracking-[2px]">
+                                        <div className="hidden pb-2.5 font-tommy-regular text-[11px] uppercase tracking-[2px] text-white/30 md:block">
                                             or
                                         </div>
 
-                                        <div className="w-full sm:w-40 shrink-0">
-                                            <label className="block font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1 md:mb-3">
+                                        <div className="w-full md:w-[132px]">
+                                            <label className="mb-1.5 block font-tommy-medium text-[9px] uppercase tracking-[2px] text-white/50 md:text-[10px]">
                                                 Custom Trucks
                                             </label>
                                             <div className="relative">
@@ -778,9 +795,13 @@ function MarketPopup({
                                                         if (isNaN(val)) setTrucks(0);
                                                         else setTrucks(Math.min(maxTrucks, Math.max(0, val)));
                                                     }}
-                                                    className="w-full bg-black/40 border border-white/10 rounded-lg md:rounded-xl lg:rounded-2xl px-2 md:px-3 lg:px-4 py-1 md:py-2 lg:py-3 font-tommy-bold text-[12px] md:text-[16px] lg:text-[18px] text-white focus:outline-none focus:border-[#C8992B] transition-colors"
+                                                    /* pr-11 reserves the suffix's lane — at the
+                                                       old px-4 a three-digit count ran straight
+                                                       under "/ 98". Spinners off: they sit in
+                                                       the same corner. */
+                                                    className="w-full rounded-lg border border-white/10 bg-black/40 py-2 pl-3 pr-11 font-tommy-bold text-[14px] text-white transition-colors [appearance:textfield] focus:border-[#C8992B] focus:outline-none md:rounded-xl md:py-2.5 md:text-[16px] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                                 />
-                                                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-tommy-regular text-[11px] text-white/30">
+                                                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 font-tommy-regular text-[11px] tabular-nums text-white/30">
                                                     / {maxTrucks}
                                                 </span>
                                             </div>
@@ -788,29 +809,22 @@ function MarketPopup({
                                     </div>
 
                                     {/* Impressions generated & CTA below */}
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 md:gap-4 lg:gap-5 xl:gap-6">
-                                        <div>
-                                            <p className="font-tommy-medium text-[8px] md:text-[10px] uppercase tracking-[2px] text-white/50 mb-1">
+                                    <div className="mt-3 flex flex-wrap items-end justify-between gap-3 md:mt-4 md:gap-4">
+                                        <div className="min-w-0">
+                                            <p className="mb-1 font-tommy-medium text-[9px] uppercase tracking-[2px] text-white/50 md:text-[10px]">
                                                 Estimated Impressions (4-Wk)
                                             </p>
-                                            <div className="flex items-end gap-3 md:gap-4">
-                                                <p
-                                                    ref={dynamicImpsRef}
-                                                    className="font-tommy-bold text-[20px] md:text-[clamp(2rem,2.8vw,3rem)] leading-[0.85] tabular-nums tracking-[-0.03em] text-[#C8992B]"
-                                                >
-                                                    0
-                                                </p>
-                                                {/* <div className="bg-white/10 rounded-full px-2.5 py-1 mb-[3px]">
-                                                    <span className="font-tommy-medium text-[10px] text-white tracking-[1.5px]">
-                                                        <span ref={dynamicShowingRef}>0%</span> COVERAGE
-                                                    </span>
-                                                </div> */}
-                                            </div>
+                                            <p
+                                                ref={dynamicImpsRef}
+                                                className="font-tommy-bold text-[26px] leading-[0.9] tabular-nums tracking-[-0.03em] text-[#C8992B] md:text-[clamp(1.9rem,2.4vw,2.75rem)]"
+                                            >
+                                                0
+                                            </p>
                                         </div>
 
                                         <Link
                                             href="/contact#form"
-                                            className="group w-full sm:w-auto inline-flex items-center justify-center px-4 md:px-6 xl:px-8 py-2 md:py-3 xl:py-4 rounded-full bg-[#C8992B] text-black font-tommy-bold text-[10px] md:text-[clamp(0.75rem,1vw,0.875rem)] uppercase tracking-[2px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] shrink-0"
+                                            className="group inline-flex w-full shrink-0 items-center justify-center rounded-full bg-[#C8992B] px-5 py-2.5 font-tommy-bold text-[10px] uppercase tracking-[2px] text-black shadow-[0_4px_14px_0_rgba(200,153,43,0.3)] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 sm:w-auto md:px-6 md:py-3 md:text-[12px] xl:px-7"
                                         >
                                             Start Campaign
                                             <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
